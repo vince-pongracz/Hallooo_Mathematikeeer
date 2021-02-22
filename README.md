@@ -1,5 +1,5 @@
 # Hallooo_Mathematikeeer
-Softver projekt lab távrepoja
+Szoftver projekt lab távrepoja
 
 planning dir: uml plans, diagrams
 
