@@ -1,7 +1,7 @@
 {
 	"_type": "Project",
 	"_id": "AAAAAAFF+h6SjaM2Hec=",
-	"name": "Untitled",
+	"name": "AsteroidPlans",
 	"ownedElements": [
 		{
 			"_type": "UMLModel",
@@ -9,7 +9,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Model",
+			"name": "ClassDiagram",
 			"ownedElements": [
 				{
 					"_type": "UMLClassDiagram",
@@ -75,9 +75,9 @@
 											"font": "Arial;13;0",
 											"left": -240,
 											"top": 240,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -306,9 +306,9 @@
 											"font": "Arial;13;0",
 											"left": -272,
 											"top": 96,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -554,9 +554,9 @@
 											"font": "Arial;13;0",
 											"left": 48,
 											"top": 16,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -854,9 +854,9 @@
 											"font": "Arial;13;0",
 											"left": -464,
 											"top": 16,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -1157,9 +1157,9 @@
 											"font": "Arial;13;0",
 											"left": 752,
 											"top": 352,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -1457,9 +1457,9 @@
 											"font": "Arial;13;0",
 											"left": 752,
 											"top": -208,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -1790,9 +1790,9 @@
 											"font": "Arial;13;0",
 											"left": -80,
 											"top": -944,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -1967,9 +1967,9 @@
 											"font": "Arial;13;0",
 											"left": 1168,
 											"top": -896,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -2436,9 +2436,9 @@
 											"font": "Arial;13;0",
 											"left": -480,
 											"top": -96,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -3764,9 +3764,9 @@
 											"font": "Arial;13;0",
 											"left": 480,
 											"top": 416,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -4515,9 +4515,9 @@
 											"font": "Arial;13;0",
 											"left": 720,
 											"top": 336,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -5199,9 +5199,9 @@
 											"font": "Arial;13;0",
 											"left": -1216,
 											"top": 480,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -5828,9 +5828,9 @@
 											"font": "Arial;13;0",
 											"left": -640,
 											"top": 64,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -6758,9 +6758,9 @@
 											"font": "Arial;13;0",
 											"left": -160,
 											"top": -64,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -7162,9 +7162,9 @@
 											"font": "Arial;13;0",
 											"left": -304,
 											"top": -80,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -7790,9 +7790,9 @@
 											"font": "Arial;13;0",
 											"left": 224,
 											"top": -128,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -8040,9 +8040,9 @@
 											"font": "Arial;13;0",
 											"left": -416,
 											"top": -352,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -8736,9 +8736,9 @@
 											"font": "Arial;13;0",
 											"left": -16,
 											"top": 16,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -8984,9 +8984,9 @@
 											"font": "Arial;13;0",
 											"left": -16,
 											"top": 192,
-											"width": 73.67724609375,
+											"width": 119.90087890625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from ClassDiagram)"
 										},
 										{
 											"_type": "LabelView",
@@ -12352,7 +12352,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Collaboration1",
+			"name": "Move",
 			"ownedElements": [
 				{
 					"_type": "UMLInteraction",
@@ -14255,7 +14255,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Collaboration2",
+			"name": "Drill",
 			"ownedElements": [
 				{
 					"_type": "UMLInteraction",
@@ -16389,7 +16389,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Collaboration3",
+			"name": "Explode",
 			"ownedElements": [
 				{
 					"_type": "UMLInteraction",
@@ -19182,7 +19182,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Collaboration4",
+			"name": "CreateBot",
 			"ownedElements": [
 				{
 					"_type": "UMLInteraction",
@@ -20454,7 +20454,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Collaboration5",
+			"name": "Start",
 			"ownedElements": [
 				{
 					"_type": "UMLInteraction",
@@ -22022,7 +22022,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Collaboration6",
+			"name": "CreateZone",
 			"ownedElements": [
 				{
 					"_type": "UMLInteraction",
@@ -25015,7 +25015,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Collaboration7",
+			"name": "ListMyNeighbours",
 			"ownedElements": [
 				{
 					"_type": "UMLInteraction",
@@ -27210,7 +27210,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Collaboration8",
+			"name": "CreateGate",
 			"ownedElements": [
 				{
 					"_type": "UMLInteraction",
@@ -29607,7 +29607,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Collaboration9",
+			"name": "BuildGate",
 			"ownedElements": [
 				{
 					"_type": "UMLInteraction",
