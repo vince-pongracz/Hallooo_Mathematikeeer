@@ -1201,7 +1201,7 @@
 											"width": 346.84228515625,
 											"height": 13,
 											"underline": true,
-											"text": "+defOfCloseToSun: int",
+											"text": "+defOfCloseToSun: double",
 											"horizontalAlignment": 0
 										}
 									],
@@ -6835,7 +6835,7 @@
 											"top": 477,
 											"width": 186.04345703125,
 											"height": 13,
-											"text": "+getPosition()",
+											"text": "+getPosition(): Position",
 											"horizontalAlignment": 0
 										}
 									],
@@ -10328,7 +10328,7 @@
 							},
 							"name": "defOfCloseToSun",
 							"isStatic": true,
-							"type": "int"
+							"type": "double"
 						}
 					],
 					"operations": [
@@ -12017,7 +12017,20 @@
 							"_parent": {
 								"$ref": "AAAAAAF3qjmKmKsAdV4="
 							},
-							"name": "getPosition"
+							"name": "getPosition",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF30xWFVsryGsE=",
+									"_parent": {
+										"$ref": "AAAAAAF3xcBdMIkqYBY="
+									},
+									"type": {
+										"$ref": "AAAAAAF3pcSqDMzAHlw="
+									},
+									"direction": "return"
+								}
+							]
 						}
 					],
 					"isAbstract": true
@@ -24507,9 +24520,9 @@
 												"$ref": "AAAAAAF3xbotGYQDKZg="
 											},
 											"font": "Arial;13;0",
-											"left": 262.55908203125,
+											"left": 264.72998046875,
 											"top": 109,
-											"width": 95.61181640625,
+											"width": 100.70263671875,
 											"height": 13,
 											"text": "listMyNeighbours"
 										},
@@ -24522,7 +24535,7 @@
 											"font": "Arial;13;1",
 											"left": 245,
 											"top": 109,
-											"width": 12.55908203125,
+											"width": 14.72998046875,
 											"height": 13,
 											"text": "sd"
 										}
@@ -24788,9 +24801,9 @@
 												"$ref": "AAAAAAF3xbvnaIUWEFc="
 											},
 											"font": "Arial;13;0",
-											"left": 348.3291015625,
+											"left": 351.9599609375,
 											"top": 293,
-											"width": 77.5146484375,
+											"width": 87.00439453125,
 											"height": 13,
 											"text": "iterate on zone"
 										},
@@ -24803,7 +24816,7 @@
 											"font": "Arial;13;1",
 											"left": 325,
 											"top": 293,
-											"width": 18.3291015625,
+											"width": 21.9599609375,
 											"height": 13,
 											"text": "seq"
 										},
@@ -24836,7 +24849,7 @@
 															"font": "Arial;13;0",
 															"left": 340,
 															"top": 326,
-															"width": 31.77001953125,
+															"width": 31.8017578125,
 															"height": 13,
 															"text": "[loop]"
 														}
@@ -25787,9 +25800,9 @@
 												"$ref": "AAAAAAF3xjOrR5AI7VQ="
 											},
 											"font": "Arial;13;0",
-											"left": 372.3291015625,
+											"left": 375.9599609375,
 											"top": 477,
-											"width": 77.15283203125,
+											"width": 86.99169921875,
 											"height": 13,
 											"text": "check distance"
 										},
@@ -25802,7 +25815,7 @@
 											"font": "Arial;13;1",
 											"left": 349,
 											"top": 477,
-											"width": 18.3291015625,
+											"width": 21.9599609375,
 											"height": 13,
 											"text": "seq"
 										},
@@ -25835,9 +25848,9 @@
 															"font": "Arial;13;0",
 															"left": 364,
 															"top": 510,
-															"width": 130.31103515625,
+															"width": 149.58251953125,
 															"height": 13,
-															"text": "[distance is near enough]"
+															"text": "[distance is small enough]"
 														}
 													],
 													"font": "Arial;13;0",
@@ -25868,7 +25881,7 @@
 															"font": "Arial;13;0",
 															"left": 364,
 															"top": 640,
-															"width": 28.869140625,
+															"width": 31.07177734375,
 															"height": 13,
 															"text": "[else]"
 														}
@@ -26598,7 +26611,7 @@
 										"$ref": "AAAAAAF3xjOrRpAGe68="
 									},
 									"name": "Operand1",
-									"guard": "distance is near enough"
+									"guard": "distance is small enough"
 								},
 								{
 									"_type": "UMLInteractionOperand",
