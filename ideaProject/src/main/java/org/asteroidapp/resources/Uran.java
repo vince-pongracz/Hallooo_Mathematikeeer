@@ -1,10 +1,14 @@
-package org.asteroidapp;
+package org.asteroidapp.resources;
+
+import org.asteroidapp.resources.Resource;
 
 /**
  * 
  */
 public class Uran implements Resource {
 
+
+	//TODO log messages
 	/**
 	 * Default constructor
 	 */
@@ -16,16 +20,14 @@ public class Uran implements Resource {
 	 * @return
 	 */
 	public String getName() {
-		// TODO implement here
-		return null;
+		return "Uran";
 	}
 
 	/**
 	 * @return
 	 */
 	public boolean isRadioActive() {
-		// TODO implement here
-		return false;
+		return true;
 	}
 
 }

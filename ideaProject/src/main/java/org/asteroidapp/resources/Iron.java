@@ -1,4 +1,4 @@
-package org.asteroidapp;
+package org.asteroidapp.resources;
 
 /**
  * 

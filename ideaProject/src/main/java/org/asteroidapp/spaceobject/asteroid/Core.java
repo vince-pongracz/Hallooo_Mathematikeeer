@@ -1,4 +1,6 @@
-package org.asteroidapp;
+package org.asteroidapp.spaceobject.asteroid;
+
+import org.asteroidapp.resources.Resource;
 
 import java.util.*;
 
@@ -14,9 +16,10 @@ public class Core {
 		resource = new ArrayList<>();
 		resource.add(initResource);
 	}
-	public Core(int capacity){
+	public Core(int capacity, Resource initResource){
 		this.capacity = capacity;
-		resource = new ArrayList<>();
+		this.resource = new ArrayList<>();
+		this.resource.add(initResource);
 	}
 
 	/**
@@ -34,6 +37,8 @@ public class Core {
 	 * @return
 	 */
 	public List<Resource> getResource() {
+
+
 		List<Resource> returnList = new ArrayList<>();
 		returnList.addAll(resource);
 		resource.clear();

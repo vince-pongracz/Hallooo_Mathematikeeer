@@ -1,16 +1,20 @@
-package org.asteroidapp;
+package org.asteroidapp.spaceobjects;
+
+import org.asteroidapp.entities.Entity;
+import org.asteroidapp.resources.Resource;
 
 import java.util.*;
 
 /**
  * 
  */
-public class Asteroid extends SteppableSpaceObject implements EventObservable {
+public class Gate extends SteppableSpaceObject {
 
 	/**
 	 * Default constructor
 	 */
-	public Asteroid() {
+	public Gate(Position position) {
+		super(position);
 	}
 
 	@Override
@@ -56,44 +60,11 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 	/**
 	 * 
 	 */
-	private String name;
+	private Set<Entity> playersOnMe;
 
 	/**
 	 * 
 	 */
-	private boolean closeToSun;
-
-
-
-	/**
-	 * 
-	 */
-	public Set<Gate> gatesOnMe = null;
-
-	/**
-	 * 
-	 */
-	private Position position;
-
-	/**
-	 * 
-	 */
-	private void explode() {
-		// TODO implement here
-	}
-
-	/**
-	 * 
-	 */
-	public void notifyAboutDanger() {
-		// TODO implement here
-	}
-
-	/**
-	 * 
-	 */
-	public void notifyAboutDieEvent() {
-		// TODO implement here
-	}
+	private Gate gatePair;
 
 }

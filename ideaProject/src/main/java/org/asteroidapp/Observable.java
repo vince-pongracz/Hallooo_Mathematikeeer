@@ -1,6 +1,6 @@
 package org.asteroidapp;
 
-import java.util.*;
+import org.asteroidapp.entities.Entity;
 
 /**
  * 

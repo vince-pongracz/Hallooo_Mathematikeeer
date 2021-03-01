@@ -1,4 +1,9 @@
-package org.asteroidapp;
+package org.asteroidapp.entities;
+
+import org.asteroidapp.spaceobjects.Gate;
+import org.asteroidapp.Player;
+import org.asteroidapp.spaceobjects.SteppableSpaceObject;
+import org.asteroidapp.resources.Resource;
 
 import java.util.*;
 
@@ -10,7 +15,8 @@ public class Settler extends Entity {
 	/**
 	 * Default constructor
 	 */
-	public Settler() {
+	public Settler(String name) {
+		super(name);
 	}
 
 	@Override

@@ -1,14 +1,14 @@
-package org.asteroidapp;
+package org.asteroidapp.resources;
 
 /**
  * 
  */
-public class Coal implements Resource {
+public class Empty implements Resource {
 
 	/**
 	 * Default constructor
 	 */
-	public Coal() {
+	public Empty() {
 	}
 
 	/**
@@ -16,7 +16,7 @@ public class Coal implements Resource {
 	 * @return
 	 */
 	public String getName() {
-		return "Coal";
+		return null;
 	}
 
 	/**

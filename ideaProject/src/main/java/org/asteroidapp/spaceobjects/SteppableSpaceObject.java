@@ -1,4 +1,8 @@
-package org.asteroidapp;
+package org.asteroidapp.spaceobjects;
+
+import org.asteroidapp.Observable;
+import org.asteroidapp.entities.Entity;
+import org.asteroidapp.resources.Resource;
 
 import java.util.*;
 
@@ -10,25 +14,26 @@ public abstract class SteppableSpaceObject implements Observable {
 	/**
 	 * Default constructor
 	 */
-	public SteppableSpaceObject() {
+	public SteppableSpaceObject(Position position) {
+		playersOnMe =new HashSet<>();
+		this.position = position;
 	}
 
 	/**
 	 * 
 	 */
-	private Set<Entity> playersOnMe;
+	protected Set<Entity> playersOnMe;
 
 	/**
 	 * 
 	 */
-	private Position position;
+	protected Position position;
 
 	/**
 	 * @return
 	 */
 	public Position getPosition() {
-		// TODO implement here
-		return null;
+		return position;
 	}
 
 	/**
@@ -76,15 +81,17 @@ public abstract class SteppableSpaceObject implements Observable {
 	/**
 	 * @param leavingEntity
 	 */
+	//TODO check
 	public void checkOut(Entity leavingEntity) {
-		// TODO implement here
+		playersOnMe.remove(leavingEntity);
 	}
 
 	/**
 	 * @param newEntity
 	 */
+	//TODO check
 	public void checkIn(Entity newEntity) {
-		// TODO implement here
+		playersOnMe.add(newEntity);
 	}
 
 }
