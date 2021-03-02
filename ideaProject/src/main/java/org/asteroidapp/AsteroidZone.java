@@ -1,82 +1,134 @@
 package org.asteroidapp;
 
+import org.asteroidapp.resources.Coal;
+import org.asteroidapp.resources.Empty;
+import org.asteroidapp.spaceobjects.*;
+
 import java.util.*;
 
 /**
- * 
+ *
  */
 public class AsteroidZone {
 
-	/**
-	 * Default constructor
-	 */
-	public AsteroidZone() {
-	}
+    /**
+     * Default constructor
+     */
+    private AsteroidZone() {
+        spaceObjects = new HashSet<>();
+    }
 
-	/**
-	 * 
-	 */
-	public static double defOfCloseToSun;
+    private static AsteroidZone instance = null;
 
-	/**
-	 * 
-	 */
-	private Set<SteppableSpaceObject> spaceObjects;
+    public static AsteroidZone getInstance() {
+        if (instance == null) {
+            instance = new AsteroidZone();
+        }
+        return instance;
+    }
 
-	/**
-	 * 
-	 */
-	private Sun sun;
+    /**
+     *
+     */
+    //TODO setter, or preset
+    public static double defOfCloseToSun = 30;
 
-	/**
-	 * 
-	 */
-	private Set<Gate> fullGates;
+    /**
+     *
+     */
+    private Set<SteppableSpaceObject> spaceObjects;
 
-	/**
-	 * 
-	 */
-	public void createZone() {
-		// TODO implement here
-	}
+    /**
+     *
+     */
+    private Sun sun;
 
-	/**
-	 * @param spaceObj
-	 */
-	public void addSpaceObject(SteppableSpaceObject spaceObj) {
-		// TODO implement here
-	}
+    public Sun getSun() {
+        return sun;
+    }
 
-	/**
-	 * @param onPosition
-	 */
-	public void removeSpaceObject(Position onPosition) {
-		// TODO implement here
-	}
+    /**
+     *
+     */
+    public void createZone() {
+        //add home
+        int range = 800;
+        int numOfAsteroids = 45;
 
-	/**
-	 * @return
-	 */
-	public Iterator<SteppableSpaceObject> getIterOnSpaceObjects() {
-		// TODO implement here
-		return spaceObjects.iterator();
-	}
+        HomeAsteroid asteroid = new HomeAsteroid(new Position(0, 0, 10), new Empty());
+        spaceObjects.add(asteroid);
 
-	/**
-	 * @return
-	 */
-	public Position generateRandomPosition() {
-		// TODO implement here
-		return null;
-	}
 
-	/**
-	 * @param toCheckPosition 
-	 * @return
-	 */
-	private boolean checkDistanceAtCreate(Position toCheckPosition) {
-		// TODO implement here
-		return false;
-	}
+        //TODO solve this in non-infinite time
+        boolean sunPositionIsOK = false;
+        while (!sunPositionIsOK) {
+            Position temp = generateRandomPosition(range);
+            if (temp.distanceFrom(asteroid.getPosition()) >= defOfCloseToSun) {
+                sunPositionIsOK = true;
+                sun = new Sun(temp);
+            }
+        }
+
+
+        int i = 0;
+        while (i < numOfAsteroids) {
+            //TODO layer and resource distribution
+            //TODO add minimal, maximal distance logic
+            Position randomPosition = generateRandomPosition(range);
+            if (checkDistanceAtCreate(randomPosition)) {
+                //TODO to radius is it good to have a setter?
+                randomPosition.setRadius(10);
+                //TODO spacenames (namefaker?)
+                spaceObjects.add(new Asteroid("temp" + i, randomPosition, new Coal(), 12));
+                i++;
+            }
+        }
+
+    }
+
+    /**
+     * @param spaceObj
+     */
+    public void addSpaceObject(SteppableSpaceObject spaceObj) {
+        if (spaceObj != null) {
+            spaceObjects.add(spaceObj);
+        } else {
+            //NOP
+        }
+    }
+
+    /**
+     * @param removedSpaceObject
+     */
+    public void removeSpaceObject(SteppableSpaceObject removedSpaceObject) {
+        //TODO nullcheck
+        spaceObjects.remove(removedSpaceObject);
+    }
+
+    /**
+     * @return
+     */
+    public Iterator<SteppableSpaceObject> getIterOnSpaceObjects() {
+        return spaceObjects.iterator();
+    }
+
+    /**
+     * @return
+     */
+    public Position generateRandomPosition(int range) {
+        // TODO implement, and range of generation?
+        Random random = new Random(range);
+        double substitute = range / 2;
+        return new Position(random.nextDouble() - substitute, random.nextDouble() - substitute);
+    }
+
+    /**
+     * @param toCheckPosition
+     * @return
+     */
+    private boolean checkDistanceAtCreate(Position toCheckPosition) {
+        // TODO implement here
+        return false;
+    }
 
 }

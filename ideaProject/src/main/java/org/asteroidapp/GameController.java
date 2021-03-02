@@ -1,141 +1,185 @@
 package org.asteroidapp;
 
+import org.asteroidapp.entities.AIRobot;
+import org.asteroidapp.util.ConsoleUI;
+
 import java.util.*;
 
 /**
- * 
+ *
  */
 public class GameController {
 
-	/**
-	 * Default constructor
-	 */
-	public GameController() {
-	}
+    /**
+     * Default constructor
+     */
+    private GameController() {
 
-	/**
-	 * 
-	 */
-	private boolean gameIsRunning;
+        //default config?
+        //later set in setup
+        gameIsRunning = false;
+        currentRound = 1;
+        playersNum = 1;
+        settlerNum = 1;
 
-	/**
-	 * 
-	 */
-	private int currentRound;
+        robots = new HashSet<>();
+        players = new HashSet<>();
+    }
 
-	/**
-	 * 
-	 */
-	private int playersNum;
+    private static GameController instance = null;
 
-	/**
-	 * 
-	 */
-	private int settlerNum;
+    public static GameController getInstance() {
+        if (instance == null) {
+            instance = new GameController();
+        }
+        return instance;
+    }
 
-	/**
-	 * 
-	 */
-	private Set<AIRobot> robots;
+    /**
+     *
+     */
+    private boolean gameIsRunning;
 
-	/**
-	 * 
-	 */
-	private Set<Player> players;
+    /**
+     *
+     */
+    private int currentRound;
 
-	/**
-	 * 
-	 */
-	private void dropSettlers() {
-		// TODO implement here
-	}
+    /**
+     *
+     */
+    private int playersNum;
 
-	/**
-	 * 
-	 */
-	private void setupGame() {
-		// TODO implement here
-	}
+    /**
+     *
+     */
+    private int settlerNum;
 
-	/**
-	 * @return
-	 */
-	private Iterator<Player> getIterOnPlayers() {
-		// TODO implement here
-		return players.iterator();
-	}
+    /**
+     *
+     */
+    private Set<AIRobot> robots;
 
-	/**
-	 * @param name
-	 */
-	public void removePlayer(String name) {
-		// TODO implement here
-	}
+    /**
+     *
+     */
+    private Set<Player> players;
 
-	/**
-	 * @param palyerLeaving
-	 */
-	public void leaveGame(Player palyerLeaving) {
-		// TODO implement here
-	}
+    /**
+     *
+     */
+    private void dropSettlers() {
+        // TODO implement here
+    }
 
-	/**
-	 * @return
-	 */
-	public int getRound() {
-		// TODO implement here
-		return 0;
-	}
+    /**
+     *
+     */
+    public void setupGame() {
 
-	/**
-	 * 
-	 */
-	public void evaluateRound() {
-		// TODO implement here
-	}
+        ConsoleUI.getInstance().sendMessageToConsole("Setup:");
+        ConsoleUI.getInstance().sendMessageToConsole("#players");
+        playersNum = ConsoleUI.getInstance().readIntFromConsole();
+        ConsoleUI.getInstance().sendMessageToConsole("#settlers/player");
+        settlerNum = ConsoleUI.getInstance().readIntFromConsole();
 
-	/**
-	 * 
-	 */
-	private void evaluateFlair() {
-		// TODO implement here
-	}
+        ConsoleUI.getInstance().sendMessageToConsole("Setup end");
 
-	/**
-	 * @param newPlayer
-	 */
-	public void addPlayer(Player newPlayer) {
-		// TODO implement here
-	}
+        ConsoleUI.getInstance().sendMessageToConsole("Initialize...");
 
-	/**
-	 * 
-	 */
-	public void inGame() {
-		// TODO implement here
-	}
+        AsteroidZone.getInstance().createZone();
+        GameController.getInstance().dropSettlers();
 
-	/**
-	 * 
-	 */
-	private void round() {
-		// TODO implement here
-	}
+        ConsoleUI.getInstance().sendMessageToConsole("END init phase");
 
-	/**
-	 * @param bot 
-	 * @return
-	 */
-	public boolean removeBot(AIRobot bot) {
-		// TODO implement here
-		return false;
-	}
+        ConsoleUI.getInstance().sendMessageToConsole("");
+    }
 
-	/**
-	 * @param bot
-	 */
-	public void addBot(AIRobot bot) {
-		// TODO implement here
-	}
+    /**
+     * @return
+     */
+    public Iterator<Player> getIterOnPlayers() {
+        return players.iterator();
+    }
+
+    /**
+     * @param name
+     */
+    //TODO implement
+    public void removePlayer(String name) {
+    }
+
+    /**
+     * @param palyerLeaving
+     */
+    public void leaveGame(Player palyerLeaving) {
+        // TODO implement here
+    }
+
+    /**
+     * @return
+     */
+    public int getRound() {
+        return currentRound;
+    }
+
+    /**
+     *
+     */
+    public void evaluateRound() {
+        // TODO implement here
+    }
+
+    /**
+     *
+     */
+    private void evaluateFlair() {
+        //TODO logic to flair scheduling
+        if (getRound() % 5 == 0) {
+            AsteroidZone.getInstance().getSun().doSunFlair();
+        } else {
+            //NOP
+        }
+    }
+
+    /**
+     * @param newPlayer
+     */
+    public void addPlayer(Player newPlayer) {
+        players.add(newPlayer);
+    }
+
+    /**
+     *
+     */
+    public void inGame() {
+        boolean quitCondition = false;
+        while (!quitCondition) {
+            round();
+        }
+    }
+
+    /**
+     *
+     */
+    private void round() {
+        currentRound++;
+
+    }
+
+    /**
+     * @param bot
+     * @return
+     */
+    public boolean removeBot(AIRobot bot) {
+        return robots.remove(bot);
+    }
+
+    /**
+     * @param bot
+     */
+    public void addBot(AIRobot bot) {
+        robots.add(bot);
+    }
 
 }
