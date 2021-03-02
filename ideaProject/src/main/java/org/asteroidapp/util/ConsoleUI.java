@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.Buffer;
 import java.util.Scanner;
 
 public class ConsoleUI {
@@ -15,8 +16,11 @@ public class ConsoleUI {
 
     private static ConsoleUI instance = null;
 
+    private Scanner scanner = null;
     private ConsoleUI() {
+        scanner = new Scanner(System.in);
     }
+
 
     public static ConsoleUI getInstance() {
         if (instance == null) {
@@ -32,11 +36,7 @@ public class ConsoleUI {
     public String readLineFromConsole() {
         String ret = "";
 
-        Scanner scanner = new Scanner(System.in);
-        if (scanner.hasNextLine()) {
-            ret = scanner.nextLine();
-        }
-        scanner.close();
+        ret = scanner.nextLine();
         return ret;
     }
 

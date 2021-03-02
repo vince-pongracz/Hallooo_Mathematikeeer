@@ -78,6 +78,7 @@ public class AsteroidZone {
             if (checkDistanceAtCreate(randomPosition)) {
                 //TODO to radius is it good to have a setter?
                 randomPosition.setRadius(10);
+                //TODO spacenames (namefaker?)
                 spaceObjects.add(new Asteroid("temp" + i, randomPosition, new Coal(), 12));
                 i++;
             }
@@ -117,8 +118,8 @@ public class AsteroidZone {
     public Position generateRandomPosition(int range) {
         // TODO implement, and range of generation?
         Random random = new Random(range);
-        double substituate = range / 2;
-        return new Position(random.nextDouble() - substituate, random.nextDouble() - substituate);
+        double substitute = range / 2;
+        return new Position(random.nextDouble() - substitute, random.nextDouble() - substitute);
     }
 
     /**
