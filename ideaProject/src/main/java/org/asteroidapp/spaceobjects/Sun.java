@@ -5,10 +5,14 @@ import org.asteroidapp.GameController;
 import org.asteroidapp.entities.Entity;
 import org.asteroidapp.spaceobjects.Position;
 
+import java.util.Set;
+
 /**
  *
  */
 public class Sun implements EventObservable {
+
+    private Set<Entity> entities;
 
     /**
      * Default constructor

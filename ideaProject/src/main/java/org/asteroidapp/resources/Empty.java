@@ -15,6 +15,7 @@ public class Empty implements Resource {
 	 *
 	 * @return
 	 */
+	//TODO discuss (what else can we do here?)
 	public String getName() {
 		return null;
 	}
