@@ -55,14 +55,15 @@ public class AppController {
 
     private static Logger log = LogManager.getLogger(AppController.class.toString());
 
+    private static boolean quitCondition = false;
+
     private void consoleDemo() {
 
         log.log(Level.INFO, "app started");
         log.log(Level.INFO, "Hello team :)");
-        boolean quitCondition = false;
+
         while (!quitCondition) {
             ConsoleUI.getInstance().sendMessageToConsole("Type start to start!");
-
             String response = ConsoleUI.getInstance().readLineFromConsole();
             if (response != null) {
                 if (response.equals("start")) {
@@ -77,6 +78,7 @@ public class AppController {
                     ConsoleUI.getInstance().sendMessageToConsole("quit --> close app");
                 } else if (response.equals("quit")) {
                     quitCondition = true;
+                    //delete resources
                 } else {
                     //NOP
                 }

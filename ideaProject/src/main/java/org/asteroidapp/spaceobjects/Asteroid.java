@@ -82,6 +82,11 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         return null;
     }
 
+    @Override
+    public String getInfo() {
+        return null;
+    }
+
     /**
      *
      */

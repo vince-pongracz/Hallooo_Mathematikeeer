@@ -13,7 +13,7 @@ public class AIRobot extends Entity {
      * Default constructor
      */
     public AIRobot(String name, SteppableSpaceObject creationPlace) {
-        super(name);
+        super(name, creationPlace);
         if (creationPlace != null) {
             onSpaceObject = creationPlace;
         }
@@ -26,7 +26,7 @@ public class AIRobot extends Entity {
     }
 
     @Override
-    protected void die() {
+    public void die() {
         onSpaceObject.checkOut(this);
         onSpaceObject = null;
         //TODO checkout from Sun

@@ -47,6 +47,8 @@ public class AsteroidZone {
         return sun;
     }
 
+    private SteppableSpaceObject homeAsteroid = null;
+
     /**
      *
      */
@@ -55,15 +57,17 @@ public class AsteroidZone {
         int range = 800;
         int numOfAsteroids = 45;
 
-        HomeAsteroid asteroid = new HomeAsteroid(new Position(0, 0, 10), new Empty());
-        spaceObjects.add(asteroid);
+        homeAsteroid = new HomeAsteroid(new Position(0, 0, 10), new Empty());
+        spaceObjects.add(homeAsteroid);
 
 
+        /*
+        //not working yet
         //TODO solve this in non-infinite time
         boolean sunPositionIsOK = false;
         while (!sunPositionIsOK) {
             Position temp = generateRandomPosition(range);
-            if (temp.distanceFrom(asteroid.getPosition()) >= defOfCloseToSun) {
+            if (temp.distanceFrom(homeAsteroid.getPosition()) >= defOfCloseToSun) {
                 sunPositionIsOK = true;
                 sun = new Sun(temp);
             }
@@ -83,6 +87,7 @@ public class AsteroidZone {
                 i++;
             }
         }
+         */
 
     }
 
@@ -129,6 +134,10 @@ public class AsteroidZone {
     private boolean checkDistanceAtCreate(Position toCheckPosition) {
         // TODO implement here
         return false;
+    }
+
+    public SteppableSpaceObject findHome() {
+        return homeAsteroid;
     }
 
 }

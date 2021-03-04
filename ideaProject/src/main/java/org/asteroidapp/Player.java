@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.entities.Entity;
+import org.asteroidapp.entities.Settler;
 
 import java.util.*;
 
@@ -19,14 +20,14 @@ public class Player {
      */
     //TODO throw an exception, when name is incorrect
     public Player(String name) {
-        log.log(Level.TRACE, "Create Player");
+        log.log(Level.TRACE, "Player constructor called");
 
         this.name = "";
         this.setName(name);
 
         log.log(Level.TRACE, "Player created with name: {}.", this.name);
 
-        this.mySettlers = new ArrayList<Entity>();
+        this.mySettlers = new ArrayList<Settler>();
         log.log(Level.TRACE, "List created for settlers");
 
     }
@@ -46,29 +47,38 @@ public class Player {
     }
 
     /**
+     * Getter on name attribute
+     *
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      *
      */
-    private List<Entity> mySettlers;
+    private List<Settler> mySettlers;
 
     /**
      * @return
      */
-    public Iterator<Entity> getIterOnMyEntities() {
-        log.log(Level.TRACE, "getIterOnMyEntities called");
+    public Iterator<Settler> getIterOnMySettlers() {
+        log.log(Level.TRACE, "getIterOnMySettlers called");
         return mySettlers.iterator();
     }
 
     /**
-     * @param newEntity
+     * @param newSettler
      */
-    public void addEntity(Entity newEntity) {
-        log.log(Level.TRACE, "addEntity called");
-        if (!this.mySettlers.contains(newEntity)) {
-            this.mySettlers.add(newEntity);
-            log.log(Level.TRACE, "newEntity added to player {}.", name);
+    public void addSettler(Settler newSettler) {
+        log.log(Level.TRACE, "addSettler called");
+        if (!this.mySettlers.contains(newSettler)) {
+            this.mySettlers.add(newSettler);
+            log.log(Level.TRACE, "newSettler added to player {}.", name);
         } else {
             //NOP
-            log.log(Level.TRACE, "Player {} already has newEntity", name);
+            log.log(Level.TRACE, "Player {} already has newSettler", name);
         }
     }
 
@@ -76,7 +86,11 @@ public class Player {
      * @param removedEntity
      */
     //TODO refactor to boolean, check
-    public void removeEntity(Entity removedEntity) {
+    public void removeSettler(Settler removedEntity) {
         mySettlers.remove(removedEntity);
+    }
+
+    public void killPlayer(){
+
     }
 }
