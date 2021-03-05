@@ -90,6 +90,7 @@ public class AppController {
     public static void main(String[] args) {
         AppController app = new AppController();
 
+        log.log(Level.TRACE, "empty");
         app.consoleDemo();
     }
 }
