@@ -4,3 +4,4 @@ ideaProject/.idea/sonarlint/
 ideaProject/.gradle/*
 ideaProject/modules/
 ideaProject/logs/
+ideaProject/.idea/codestream.xml
