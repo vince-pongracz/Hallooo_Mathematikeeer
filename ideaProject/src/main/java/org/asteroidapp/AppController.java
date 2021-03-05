@@ -43,7 +43,7 @@ public class AppController {
      *
      */
     public void quitGame() {
-
+        log.log(Level.TRACE, "Game quit");
     }
 
     /*
