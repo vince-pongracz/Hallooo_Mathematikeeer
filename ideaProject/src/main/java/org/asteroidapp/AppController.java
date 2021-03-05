@@ -36,7 +36,7 @@ public class AppController {
     //TODO is it neccessary?
     //questionable method...
     private void startGame() {
-
+        log.log(Level.TRACE, "Heni Logja -  start game");
     }
 
     /*
