@@ -50,7 +50,7 @@ public class AppController {
      *
      */
     public void pauseAndResumeGame() {
-
+        log.log(Level.TRACE, "Game is paused / resumed");
     }
 
     private static Logger log = LogManager.getLogger(AppController.class.toString());
