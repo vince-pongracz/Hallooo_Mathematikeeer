@@ -51,11 +51,12 @@ public class AIRobot extends Entity {
     public void notifyFlairDanger() {
         //TODO AI in Robots... (opt)
         //NOP for Robots...
-        //or some logic required for to make a hole and hide
+        //or some logic required to make a hole and hide
     }
 
     @Override
     public void notifyAsteroidExplosion() {
+
         move();
     }
 }

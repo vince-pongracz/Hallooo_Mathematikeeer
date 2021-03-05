@@ -322,13 +322,33 @@ public class GameController {
      * Implements a round in the game
      */
     private void round() {
+        log.log(Level.TRACE, "round called: {} th round of the game", currentRound);
         currentRound++;
+
         //TODO implement
+        log.log(Level.TRACE, "Iterate on players");
+        for (var player : players) {
+            log.log(Level.TRACE, "player: _{}_ is on move", player.getName());
+            var settlerIter = player.getIterOnMySettlers();
+
+            //choose specified settler (with mouse or at the console with numbers), or iterate on the settlers random?
+
+        }
+
+        if (robots.size() != 0) {
+            log.log(Level.TRACE, "Iterate on robots, they do things:");
+
+            for (var bot : robots) {
+                //TODO what should do a bot in a round?
+            }
+        }
     }
 
     /**
-     * @param bot
-     * @return
+     * Remove AIRobot from game
+     *
+     * @param bot bot to remove
+     * @return boolean was the operation successful
      */
     public boolean removeBot(AIRobot bot) {
         log.log(Level.TRACE, "removeBot called");
@@ -346,7 +366,9 @@ public class GameController {
     }
 
     /**
-     * @param bot
+     * Add an AIRobot to the game
+     *
+     * @param bot robot to add
      */
     public void addBot(AIRobot bot) {
 
