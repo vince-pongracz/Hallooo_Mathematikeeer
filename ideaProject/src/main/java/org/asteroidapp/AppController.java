@@ -36,7 +36,7 @@ public class AppController {
     //TODO is it neccessary?
     //questionable method...
     private void startGame() {
-
+        log.log(Level.TRACE, "Heni Logja -  start game");
     }
 
     /*
@@ -50,7 +50,7 @@ public class AppController {
      *
      */
     public void pauseAndResumeGame() {
-
+        log.log(Level.TRACE, "Game is paused / resumed");
     }
 
     private static Logger log = LogManager.getLogger(AppController.class.toString());
@@ -89,6 +89,9 @@ public class AppController {
 
     public static void main(String[] args) {
         AppController app = new AppController();
+
+        log.log(Level.TRACE, "empty");
+        log.log(Level.TRACE, "empty");
 
         app.consoleDemo();
     }
