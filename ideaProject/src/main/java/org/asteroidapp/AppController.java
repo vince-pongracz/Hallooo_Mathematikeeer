@@ -13,7 +13,7 @@ import org.asteroidapp.util.ConsoleUI;
 //extends Application
 public class AppController {
 
-    //Demo
+    //JavaFX demo
     /*
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -33,7 +33,7 @@ public class AppController {
     /*
      *
      */
-
+    //TODO is it neccessary?
     //questionable method...
     private void startGame() {
 
@@ -55,21 +55,22 @@ public class AppController {
 
     private static Logger log = LogManager.getLogger(AppController.class.toString());
 
+    private static boolean quitCondition = false;
+
     private void consoleDemo() {
 
-        log.log(Level.INFO, "app started");
+        log.log(Level.INFO, "console demo app started");
         log.log(Level.INFO, "Hello team :)");
-        boolean quitCondition = false;
+
         while (!quitCondition) {
             ConsoleUI.getInstance().sendMessageToConsole("Type start to start!");
-
             String response = ConsoleUI.getInstance().readLineFromConsole();
             if (response != null) {
                 if (response.equals("start")) {
                     //startGame();
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
-
+                    //wipe game data to probable restart --- solve this
 
                 } else if (response.equals("help")) {
                     ConsoleUI.getInstance().sendMessageToConsole("help --> help msg");
@@ -77,6 +78,7 @@ public class AppController {
                     ConsoleUI.getInstance().sendMessageToConsole("quit --> close app");
                 } else if (response.equals("quit")) {
                     quitCondition = true;
+                    //delete/free resources
                 } else {
                     //NOP
                 }
@@ -87,6 +89,7 @@ public class AppController {
 
     public static void main(String[] args) {
         AppController app = new AppController();
+
         app.consoleDemo();
     }
 }

@@ -57,6 +57,11 @@ public class Gate extends SteppableSpaceObject {
 		return null;
 	}
 
+	@Override
+	public String getInfo() {
+		return null;
+	}
+
 	/**
 	 * 
 	 */

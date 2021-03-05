@@ -13,15 +13,19 @@ public abstract class Entity implements Observer {
     /**
      * Default constructor
      */
-    public Entity(String name) {
+    public Entity(String name, SteppableSpaceObject droppingPlace) {
         this.name = name;
-        onSpaceObject = null;
+        onSpaceObject = droppingPlace;
     }
 
     /**
      *
      */
     private String name;
+
+    public String getName(){
+        return name;
+    }
 
     /**
      *
@@ -47,7 +51,7 @@ public abstract class Entity implements Observer {
     /**
      *
      */
-    protected abstract void die();
+    public abstract void die();
 
     /**
      * @return
@@ -71,7 +75,7 @@ public abstract class Entity implements Observer {
     /**
      * @return
      */
-    private SteppableSpaceObject getMySpaceObject() {
+    public SteppableSpaceObject getMySpaceObject() {
         return onSpaceObject;
     }
 

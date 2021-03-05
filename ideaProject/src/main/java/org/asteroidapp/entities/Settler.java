@@ -15,8 +15,8 @@ public class Settler extends Entity {
 	/**
 	 * Default constructor
 	 */
-	public Settler(String name) {
-		super(name);
+	public Settler(String name, SteppableSpaceObject initPlace) {
+		super(name, initPlace);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class Settler extends Entity {
 	}
 
 	@Override
-	protected void die() {
+	public void die() {
 
 	}
 
@@ -107,8 +107,9 @@ public class Settler extends Entity {
 	/**
 	 * 
 	 */
-	public void listResources() {
+	public List<Resource> listResources() {
 		// TODO implement here
+		return null;
 	}
 
 	/**
