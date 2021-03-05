@@ -91,6 +91,8 @@ public class AppController {
         AppController app = new AppController();
 
         log.log(Level.TRACE, "empty");
+        log.log(Level.TRACE, "empty");
+
         app.consoleDemo();
     }
 }
