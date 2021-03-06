@@ -98,10 +98,6 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     private boolean closeToSun;
 
 
-    /**
-     *
-     */
-    private Position position;
 
     protected Core core;
     protected Layer layer;
