@@ -1,15 +1,11 @@
 package org.asteroidapp.entities;
 
-<<<<<<< HEAD
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.GameController;
-import org.asteroidapp.Observer;
 import org.asteroidapp.spaceobjects.Position;
-=======
 import org.asteroidapp.interfaces.Observer;
->>>>>>> f904270095fbea7cd17daa56034d920cb1f166cf
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.AsteroidZone;
 
@@ -60,7 +56,7 @@ public abstract class Entity implements Observer {
         onSpaceObject.checkOut(this);
         setMySpaceObject(nextSpaceObject);
         nextSpaceObject.checkIn(this);
-        log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName() );
+        log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
     }
 
     /**
@@ -90,7 +86,7 @@ public abstract class Entity implements Observer {
             temp = iter.next();
             if (temp.getPosition().distanceFrom(onSpaceObject.getPosition()) > Position.getMaximalNeighbourDistance()) {
                 neighbours.add(temp);
-                log.log(Level.TRACE, "Possible neighbour: ", temp.getName() );
+                log.log(Level.TRACE, "Possible neighbour: ", temp.getName());
             }
         }
         return neighbours;
@@ -104,7 +100,7 @@ public abstract class Entity implements Observer {
     protected void setMySpaceObject(SteppableSpaceObject newOnPlace) {
         if (newOnPlace != null) {
             onSpaceObject = newOnPlace;
-            log.log(Level.TRACE, "Space object set to {} ", newOnPlace.getName() );
+            log.log(Level.TRACE, "Space object set to {} ", newOnPlace.getName());
         } else {
             //NOP
         }

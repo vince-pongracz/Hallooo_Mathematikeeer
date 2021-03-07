@@ -340,7 +340,7 @@ public class GameController {
         if (getRound() % 5 == 0) {
             log.log(Level.TRACE, "flair event will be launched");
 
-            AsteroidZone.getInstance().getSun().doSunFlair();
+            AsteroidZone.getInstance().getSun().notifyAboutDieEvent();
         } else if (getRound() % 5 == 2) {
             log.log(Level.TRACE, "flair is coming in the future!");
 
