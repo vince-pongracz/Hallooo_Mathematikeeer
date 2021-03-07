@@ -1,6 +1,6 @@
 package org.asteroidapp.entities;
 
-import org.asteroidapp.Observer;
+import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 
 import java.util.*;
