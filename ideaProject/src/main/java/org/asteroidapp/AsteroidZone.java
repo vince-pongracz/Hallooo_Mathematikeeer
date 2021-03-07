@@ -45,7 +45,7 @@ public class AsteroidZone {
     private Set<SteppableSpaceObject> spaceObjects;
 
     /**
-     * it stores the sun
+     * store the sun
      */
     private Sun sun;
 
@@ -195,5 +195,4 @@ public class AsteroidZone {
     public SteppableSpaceObject findHome() {
         return homeAsteroid;
     }
-
 }
