@@ -40,7 +40,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
         if (result == 0 && core.getResource() != null) {
             var res = core.getResource();
-            if (res.get(0).isRadioActive()) {
+            if (res.isRadioActive()) {
                 explode();
             } else {
 //TODO make it clear
