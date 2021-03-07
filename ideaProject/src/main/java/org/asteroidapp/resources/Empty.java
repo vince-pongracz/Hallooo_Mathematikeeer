@@ -3,7 +3,7 @@ package org.asteroidapp.resources;
 /**
  * 
  */
-public class Empty implements Resource {
+public class Empty extends Resource {
 
 	/**
 	 * Default constructor

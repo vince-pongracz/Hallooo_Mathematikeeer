@@ -1,130 +1,156 @@
 package org.asteroidapp.entities;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.asteroidapp.GameController;
+import org.asteroidapp.resources.*;
 import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
-import org.asteroidapp.resources.Resource;
 
+import java.time.format.ResolverStyle;
 import java.util.*;
 
 /**
- * 
+ *
  */
 public class Settler extends Entity {
 
-	/**
-	 * Default constructor
-	 */
-	public Settler(String name, SteppableSpaceObject initPlace) {
-		super(name, initPlace);
-	}
+    private static final Logger log = LogManager.getLogger(Settler.class.toString());
 
-	@Override
-	public void move() {
+    /**
+     *
+     */
 
-	}
+    private Map<Resource, Integer> resources = new HashMap<>();
 
-	@Override
-	public void drill() {
+    /**
+     * Default constructor
+     */
+    public Settler(String name, SteppableSpaceObject initPlace) {
+        super(name, initPlace);
+        resources.put(new Coal(), 0);
+        resources.put(new Empty(), 0);
+        resources.put(new FrozenWater(), 0);
+        resources.put(new Iron(), 0);
+        resources.put(new Uran(), 0);
+        log.log(Level.TRACE, "Settler created with an empty resource list");
+    }
 
-	}
+    @Override
+    public void drill() {
+        log.log(Level.INFO, "Settler tried to drill an object");
+        onSpaceObject.drillLayer();
+    }
 
-	@Override
-	public void die() {
+    @Override
+    public void die() {
 
-	}
+    }
 
-	@Override
-	protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
-		return null;
-	}
+    @Override
+    protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
+        return null;
+    }
 
-	@Override
-	public void notifyFlairEvent() {
+    @Override
+    public void notifyFlairEvent() {
 
-	}
+    }
 
-	@Override
-	public void notifyFlairDanger() {
+    @Override
+    public void notifyFlairDanger() {
 
-	}
+    }
 
-	@Override
-	public void notifyAsteroidExplosion() {
+    @Override
+    public void notifyAsteroidExplosion() {
 
-	}
+    }
 
-	/**
-	 * 
-	 */
-	private List<Resource> resources;
 
-	/**
-	 * 
-	 */
-	private Gate createdGates = null;
+    /**
+     *
+     */
+    private Gate createdGates = null;
 
-	/**
-	 * 
-	 */
-	private Player owner;
+    /**
+     *
+     */
+    private Player owner;
 
-	/**
-	 * 
-	 */
-	public void createBot() {
-		// TODO implement here
-	}
+    /**
+     *
+     */
+    public void createBot() {
 
-	/**
-	 * 
-	 */
-	public void mine() {
-		// TODO implement here
-	}
+        if (resources.get(new Coal()) >= 1 && resources.get(new Iron()) >= 1 && resources.get(new Uran()) >= 1) {
 
-	/**
-	 * 
-	 */
-	public void createGate() {
-		// TODO implement here
-	}
+            int numOfResource = resources.get(new Coal());
+            resources.put(new Coal(), numOfResource - 1);
+            numOfResource = resources.get(new Iron());
+            resources.put(new Iron(), numOfResource - 1);
+            numOfResource = resources.get(new Uran());
+            resources.put(new Uran(), numOfResource - 1);
 
-	/**
-	 * 
-	 */
-	public void deployResource() {
-		// TODO implement here
-	}
+            AIRobot bot = new AIRobot("Robot", onSpaceObject);
+            GameController.getInstance().addBot(bot);
+            log.log(Level.INFO, "Bot created at {} asteroid", onSpaceObject.getName());
+        } else {
+            log.log(Level.INFO, "Robot can not be created, not enough resources");
+        }
+    }
 
-	/**
-	 * 
-	 */
-	public void buildGate() {
-		// TODO implement here
-	}
+    /**
+     *
+     */
+    public void mine() {
+        // TODO implement here
+    }
 
-	/**
-	 * 
-	 */
-	public List<Resource> listResources() {
-		// TODO implement here
-		return null;
-	}
+    /**
+     *
+     */
+    public void createGate() {
+        // TODO implement here
+    }
 
-	/**
-	 * @return
-	 */
-	public Resource chooseResource() {
-		// TODO implement here
-		return null;
-	}
+    /**
+     *
+     */
+    public void deployResource() {
+        // TODO implement here
+    }
 
-	/**
-	 * @param resource
-	 */
-	private void addResource(Resource resource) {
-		// TODO implement here
-	}
+    /**
+     *
+     */
+    public void buildGate() {
+        // TODO implement here
+    }
+
+    /**
+     *
+     */
+    public List<Resource> listResources() {
+        // TODO implement here
+        return null;
+    }
+
+    /**
+     * @return
+     */
+    public Resource chooseResource() {
+        // TODO implement here
+        return null;
+    }
+
+    /**
+     * @param resource
+     */
+    private void addResource(Resource resource) {
+        // TODO implement here
+    }
 
 }

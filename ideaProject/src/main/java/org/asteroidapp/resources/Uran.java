@@ -5,7 +5,7 @@ import org.asteroidapp.resources.Resource;
 /**
  * 
  */
-public class Uran implements Resource {
+public class Uran extends Resource {
 
 
 	//TODO log messages
@@ -13,6 +13,7 @@ public class Uran implements Resource {
 	 * Default constructor
 	 */
 	public Uran() {
+
 	}
 
 	/**
