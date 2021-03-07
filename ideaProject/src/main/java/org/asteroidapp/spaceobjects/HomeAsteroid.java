@@ -29,7 +29,7 @@ public class HomeAsteroid extends Asteroid {
 
     @Override
     public Resource mineResource() {
-        return core.getResource().get(0);
+        return core.getResource();
     }
 
     @Override
