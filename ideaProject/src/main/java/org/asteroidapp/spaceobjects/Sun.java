@@ -28,6 +28,13 @@ public class Sun implements EventObservable {
     /**
      *
      */
+    public Position getPosition() {
+        return position;
+    }
+
+    /**
+     *
+     */
     public void doSunFlair() {
         notifyAboutDieEvent();
     }
