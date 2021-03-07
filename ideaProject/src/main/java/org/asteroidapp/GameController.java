@@ -387,7 +387,6 @@ public class GameController {
         for (var player : players) {
             log.log(Level.TRACE, "player: _{}_ is on move", player.getName());
             var settlerIter = player.getIterOnMySettlers();
-
             //choose specified settler (with mouse or at the console with numbers), or iterate on the settlers random?
 
         }

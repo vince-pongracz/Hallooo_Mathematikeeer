@@ -1,5 +1,9 @@
 package org.asteroidapp.entities;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
@@ -12,16 +16,13 @@ import java.util.*;
  */
 public class Settler extends Entity {
 
+	private static final Logger log = LogManager.getLogger(Settler.class.toString());
+
 	/**
 	 * Default constructor
 	 */
 	public Settler(String name, SteppableSpaceObject initPlace) {
 		super(name, initPlace);
-	}
-
-	@Override
-	public void move() {
-
 	}
 
 	@Override
@@ -31,7 +32,11 @@ public class Settler extends Entity {
 
 	@Override
 	public void die() {
-
+		log.log(Level.INFO, "Die method of player {}'s settler called",this.owner.getName());
+		AsteroidZone.getInstance().getSun().checkOut(this);
+		onSpaceObject.checkOut(this);
+		onSpaceObject = null;
+		owner.removeSettler(this);
 	}
 
 	@Override
