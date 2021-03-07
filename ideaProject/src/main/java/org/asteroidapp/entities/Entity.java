@@ -140,4 +140,10 @@ public abstract class Entity implements Observer {
      */
     public abstract void notifyAsteroidExplosion();
 
+    /**
+     * for easier handle the entities in GameController
+     * Decision, and interaction wit user about what he/she wnats to do
+     */
+    public abstract void doAction();
+
 }

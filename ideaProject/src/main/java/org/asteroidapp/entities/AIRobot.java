@@ -1,5 +1,8 @@
 package org.asteroidapp.entities;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 
 import java.util.*;
@@ -8,6 +11,8 @@ import java.util.*;
  *
  */
 public class AIRobot extends Entity {
+
+    private static final Logger log = LogManager.getLogger(AIRobot.class.getSimpleName());
 
     /**
      * Default constructor
@@ -59,5 +64,11 @@ public class AIRobot extends Entity {
     public void notifyAsteroidExplosion() {
 
         move();
+    }
+
+    @Override
+    public void doAction() {
+        log.log(Level.INFO, "doAction called");
+        //TODO implement action choose, and decisionmaking
     }
 }

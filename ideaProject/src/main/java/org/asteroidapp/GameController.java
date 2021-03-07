@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class GameController {
 
-    private static final Logger log = LogManager.getLogger(GameController.class.toString());
+    private static final Logger log = LogManager.getLogger(GameController.class.getSimpleName());
 
     /**
      * Default constructor
@@ -31,9 +31,8 @@ public class GameController {
 
         settlerNum = 1;
 
-        //hopefully this works as expected
-        //TODO form it normally
         GsonBuilder gsonBuilder = new GsonBuilder();
+        log.log(Level.TRACE, "jsonBuilder created");
         log.log(Level.INFO, "\nDefault config set:\n{}", gsonBuilder.setPrettyPrinting().create().toJson(this));
 
         robots = new HashSet<>();
@@ -66,7 +65,7 @@ public class GameController {
     private boolean gameIsRunning;
 
     /**
-     * count rounds
+     * roundcounter
      */
     private int currentRound;
 
@@ -92,19 +91,26 @@ public class GameController {
 
     /**
      * Create and place settlers to the HomeAsteroid
+     * this method creates just settlers
      */
     private void dropSettlers() {
         log.log(Level.INFO, "dropSettlers called");
         log.log(Level.TRACE, "iterate on player(s) to create their settler(s)");
 
+        //for every player
         for (var playerItem : players) {
             String playerName = playerItem.getName();
 
             log.log(Level.INFO, "create {}'s settlers", playerName);
 
             for (int i = 0; i < settlerNum; i++) {
+                //settlerName to set
                 String name = playerName + "'s settler" + i;
-                var newSettler = new Settler(name, AsteroidZone.getInstance().findHome());
+
+                //create new Settler (set name, startPlace, and owner), and bind to his/her owner
+                var newSettler = new Settler(name, AsteroidZone.getInstance().findHome(), playerItem);
+
+                //bind player to settler
                 playerItem.addSettler(newSettler);
 
                 log.log(Level.TRACE, "{} created for player: {}", newSettler.getName(), playerName);
@@ -116,24 +122,28 @@ public class GameController {
 
     /**
      * initialize players
+     * create players (but not settlers!)
      */
     private void createAndNamePlayers() {
         log.log(Level.INFO, "createAndNamePlayers called");
 
+        //create so many players, which was given in config
         for (int i = 0; i < playersNum; ) {
+            //Interaction with user(s)
             ConsoleUI.getInstance().sendMessageToConsole("Name of player " + (i + 1));
+            //read the given playerName
             String name = ConsoleUI.getInstance().readLineFromConsole();
 
-            //refactor!!!
+            //check on input
             if (name != null && !name.equals("")) {
+                //add player, if does not exist (collection is a set!)
                 players.add(new Player(name));
 
                 log.log(Level.INFO, "New player({}) added as: {}", i, name);
-
                 i++;
+
             } else {
                 log.log(Level.WARN, "Wrong name try: {}", name);
-
                 ConsoleUI.getInstance().sendMessageToConsole("Wrong name");
             }
         }
@@ -146,6 +156,7 @@ public class GameController {
 
         log.log(Level.INFO, "setupGame called");
 
+        //get number and name of players
         ConsoleUI.getInstance().sendMessageToConsole("Setup...");
         ConsoleUI.getInstance().sendMessageToConsole("#players");
 
@@ -157,9 +168,12 @@ public class GameController {
 
         ConsoleUI.getInstance().sendMessageToConsole("Initialize...");
 
+        //creating zone
         AsteroidZone.getInstance().createZone();
+        //create and place settlers on the Zone
         GameController.getInstance().dropSettlers();
 
+        log.log(Level.TRACE, "jsonBuilder created");
         GsonBuilder gsonBuilder = new GsonBuilder();
         log.log(Level.INFO, "\nCurrent config:\n{}", gsonBuilder.setPrettyPrinting().create().toJson(this));
 
@@ -235,8 +249,7 @@ public class GameController {
      * @return
      */
     public int getRound() {
-        log.log(Level.TRACE, "getRound called");
-        log.log(Level.INFO, "current round: {}", currentRound);
+        log.log(Level.TRACE, "getRound called - current round: {}", currentRound);
         return currentRound;
     }
 
@@ -244,12 +257,12 @@ public class GameController {
      * Check win or lose conditions
      */
     public void evaluateRound() {
-        log.log(Level.TRACE, "evaluateRound called");
+        log.log(Level.INFO, "evaluateRound called");
 
         //eval flair
         evaluateFlair();
 
-        log.log(Level.TRACE, "check win and lose conditions");
+        log.log(Level.INFO, "check win and lose conditions");
 
         //check is there any settler alive
         if (players == null || players.size() == 0) {
@@ -334,7 +347,7 @@ public class GameController {
      * Call and schedule flair events
      */
     private void evaluateFlair() {
-        //TODO logic to flair scheduling
+        //TODO logic to flair scheduling - long task
         log.log(Level.TRACE, "evaluateFlair called");
 
         if (getRound() % 5 == 0) {
@@ -379,23 +392,31 @@ public class GameController {
      * Implements a round in the game
      */
     private void round() {
-        log.log(Level.TRACE, "round called: {} th round of the game", currentRound);
+        log.log(Level.INFO, "round called: {} th round of the game", currentRound);
         currentRound++;
 
-        //TODO implement
-        log.log(Level.TRACE, "Iterate on players");
-        for (var player : players) {
-            log.log(Level.TRACE, "player: _{}_ is on move", player.getName());
-            var settlerIter = player.getIterOnMySettlers();
-            //choose specified settler (with mouse or at the console with numbers), or iterate on the settlers random?
+        log.log(Level.TRACE, "check on players");
+        if (players != null && players.size() != 0) {
+            log.log(Level.INFO, "Iterate on players");
+            for (var player : players) {
 
+                var tempName = player.getName();
+                log.log(Level.INFO, "player: _{}_ is on move", tempName);
+                log.log(Level.TRACE, "iterate on {}'s settlers", tempName);
+
+                var settlerIter = player.getIterOnMySettlers();
+                while (settlerIter.hasNext()) {
+                    settlerIter.next().doAction();
+                }
+            }
         }
 
-        if (robots.size() != 0) {
-            log.log(Level.TRACE, "Iterate on robots, they do things:");
+        log.log(Level.TRACE, "check on robots");
+        if (robots != null && robots.size() != 0) {
+            log.log(Level.INFO, "Iterate on robots, they do things:");
 
             for (var bot : robots) {
-                //TODO what should do a bot in a round?
+                bot.doAction();
             }
         }
     }

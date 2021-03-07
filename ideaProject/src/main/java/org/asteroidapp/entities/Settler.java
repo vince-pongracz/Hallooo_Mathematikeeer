@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class Settler extends Entity {
 
-    private static final Logger log = LogManager.getLogger(Settler.class.toString());
+    private static final Logger log = LogManager.getLogger(Settler.class.getSimpleName());
 
     /**
      *
@@ -28,13 +28,19 @@ public class Settler extends Entity {
     /**
      * Default constructor
      */
-    public Settler(String name, SteppableSpaceObject initPlace) {
+    public Settler(String name, SteppableSpaceObject initPlace, Player owner) {
         super(name, initPlace);
         resources.put(new Coal(), 0);
         resources.put(new Empty(), 0);
         resources.put(new FrozenWater(), 0);
         resources.put(new Iron(), 0);
         resources.put(new Uran(), 0);
+
+        if (owner != null) {
+            this.owner = owner;
+        } else {
+            log.log(Level.FATAL, "owner is null!");
+        }
         log.log(Level.TRACE, "Settler created with an empty resource list");
     }
 
@@ -46,11 +52,11 @@ public class Settler extends Entity {
 
     @Override
     public void die() {
-		log.log(Level.INFO, "Die method of player {}'s settler called",this.owner.getName());
-		AsteroidZone.getInstance().getSun().checkOut(this);
-		onSpaceObject.checkOut(this);
-		onSpaceObject = null;
-		owner.removeSettler(this);
+        log.log(Level.INFO, "Die method of player {}'s settler called", this.owner.getName());
+        AsteroidZone.getInstance().getSun().checkOut(this);
+        onSpaceObject.checkOut(this);
+        onSpaceObject = null;
+        owner.removeSettler(this);
     }
 
     @Override
@@ -71,6 +77,12 @@ public class Settler extends Entity {
     @Override
     public void notifyAsteroidExplosion() {
 
+    }
+
+    @Override
+    public void doAction() {
+        log.log(Level.INFO, "doAction called");
+        //TODO decisionmaking, and communication with user
     }
 
 
