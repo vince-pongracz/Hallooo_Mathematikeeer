@@ -19,6 +19,7 @@ public class AIRobot extends Entity {
         }
     }
 
+
     @Override
     public void drill() {
         //TODO if can't drill?

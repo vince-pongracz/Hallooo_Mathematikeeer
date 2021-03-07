@@ -3,7 +3,6 @@ package org.asteroidapp.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.GameController;
 import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
@@ -19,7 +18,7 @@ import java.util.*;
  */
 public abstract class Entity implements Observer {
 
-    private static final Logger log = LogManager.getLogger(GameController.class.toString());
+    private static final Logger log = LogManager.getLogger(Entity.class.toString());
 
     /**
      * Default constructor for an entity

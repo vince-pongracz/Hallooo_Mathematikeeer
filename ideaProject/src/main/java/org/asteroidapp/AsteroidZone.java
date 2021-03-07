@@ -15,7 +15,7 @@ import java.util.*;
 public class AsteroidZone {
 
     int asteroidSize = 80;
-    private static final Logger log = LogManager.getLogger(GameController.class.toString());
+    private static final Logger log = LogManager.getLogger(AsteroidZone.class.toString());
 
     /**
      * Default constructor

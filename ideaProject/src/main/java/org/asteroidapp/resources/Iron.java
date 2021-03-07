@@ -3,7 +3,7 @@ package org.asteroidapp.resources;
 /**
  * 
  */
-public class Iron implements Resource {
+public class Iron extends Resource {
 
 	/**
 	 * Default constructor
