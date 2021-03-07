@@ -1,6 +1,6 @@
 package org.asteroidapp.spaceobjects;
 
-import org.asteroidapp.EventObservable;
+import org.asteroidapp.interfaces.EventObservable;
 import org.asteroidapp.GameController;
 import org.asteroidapp.entities.Entity;
 

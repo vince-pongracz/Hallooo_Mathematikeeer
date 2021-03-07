@@ -1,6 +1,6 @@
 package org.asteroidapp.spaceobjects;
 
-import org.asteroidapp.EventObservable;
+import org.asteroidapp.interfaces.EventObservable;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.spaceobject.asteroid.Core;
 import org.asteroidapp.spaceobject.asteroid.Layer;
