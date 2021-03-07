@@ -47,7 +47,7 @@ public class AsteroidZone {
     /**
      *it stores the sun
      */
-    private Sun sun;
+    private Sun sun = null;
 
     public Sun getSun() {
         return sun;
