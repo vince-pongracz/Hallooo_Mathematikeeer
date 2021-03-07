@@ -3,7 +3,7 @@ package org.asteroidapp.resources;
 /**
  * 
  */
-public class FrozenWater implements Resource {
+public class FrozenWater extends Resource {
 
 	/**
 	 * Default constructor

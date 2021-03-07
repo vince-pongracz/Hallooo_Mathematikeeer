@@ -1,11 +1,18 @@
 package org.asteroidapp.spaceobject.asteroid;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.asteroidapp.AppController;
+
 import java.util.*;
 
 /**
- *
+ * It depicts the cortex of an asteroid, knows how thick it is and can reduce it.
  */
 public class Layer {
+
+    private static Logger log = LogManager.getLogger(AppController.class.toString());
 
     /**
      * Default constructor
@@ -15,25 +22,27 @@ public class Layer {
     }
 
     /**
-     *
+     * The thickness of the asteroid's crust.
      */
     private int thickness;
 
 
     /**
-     * @return
+     * It's getting thinner. Call DrillLayer.
+     * @return thickness
      */
     public int thinIt() {
         if (thickness > 0) {
             thickness--;
-        }else{
-        	//TODO write log here
-		}
+        } else {
+            log.log(Level.TRACE, "Thickness is already 0");
+        }
         return thickness;
     }
 
     /**
-     * @return
+     * The function returns with the thickness of the crust.
+     * @return thickness
      */
     public int getThickness() {
         return thickness;

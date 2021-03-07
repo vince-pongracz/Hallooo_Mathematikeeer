@@ -5,16 +5,21 @@ import java.util.*;
 /**
  * 
  */
-public interface Resource {
+public abstract class Resource implements Comparable<Resource>{
 
 	/**
 	 * 
 	 */
-	public String getName();
+	public abstract String getName();
 
 	/**
 	 * @return
 	 */
-	public boolean isRadioActive();
+	public abstract boolean isRadioActive();
+
+	@Override
+	public int compareTo(Resource other){
+		return getName().compareTo(other.getName());
+	}
 
 }
