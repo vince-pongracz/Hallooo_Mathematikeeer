@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class Layer {
 
-    private static Logger log = LogManager.getLogger(AppController.class.toString());
+    private static Logger log = LogManager.getLogger(AppController.class.getSimpleName());
 
     /**
      * Default constructor

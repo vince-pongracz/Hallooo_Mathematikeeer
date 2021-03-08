@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class Player {
 
-    private static final Logger log = LogManager.getLogger(Player.class.toString());
+    private static final Logger log = LogManager.getLogger(Player.class.getSimpleName());
 
     /**
      * Default constructor
