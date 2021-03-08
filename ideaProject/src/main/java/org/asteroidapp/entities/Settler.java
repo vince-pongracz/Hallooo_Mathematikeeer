@@ -51,7 +51,7 @@ public class Settler extends Entity {
     }
 
     @Override
-    public void die() {
+    protected void die() {
         log.log(Level.INFO, "Die method of player {}'s settler called", this.owner.getName());
         AsteroidZone.getInstance().getSun().checkOut(this);
         onSpaceObject.checkOut(this);

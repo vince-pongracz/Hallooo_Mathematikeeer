@@ -17,7 +17,7 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * Logger for this class
      */
-    private static final Logger log = LogManager.getLogger(SteppableSpaceObject.class.getTypeName());
+    private static final Logger log = LogManager.getLogger(SteppableSpaceObject.class.getSimpleName());
 
     /**
      * Default constructor

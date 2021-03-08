@@ -68,7 +68,7 @@ public abstract class Entity implements Observer {
      * Abstract function for die event. It will be implemented in AIRobot and Settler.
      * It will kill and remove the specified objects.
      */
-    public abstract void die();
+    protected abstract void die();
 
     /**
      * It returns with a list of the possible neighbours where the entity can move
