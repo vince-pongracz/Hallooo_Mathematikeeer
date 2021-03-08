@@ -12,7 +12,10 @@ import java.util.*;
  */
 public class Layer {
 
-    private static Logger log = LogManager.getLogger(AppController.class.getSimpleName());
+    /**
+     * Logger for Layer
+     */
+    private static Logger log = LogManager.getLogger(Layer.class.getSimpleName());
 
     /**
      * Default constructor

@@ -1,11 +1,19 @@
 package org.asteroidapp.spaceobjects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.asteroidapp.entities.AIRobot;
 import org.asteroidapp.resources.Empty;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.spaceobject.asteroid.Core;
 import org.asteroidapp.spaceobject.asteroid.Layer;
 
 public class HomeAsteroid extends Asteroid {
+
+    /**
+     * logger for HomeAsteroid
+     */
+    private static final Logger log = LogManager.getLogger(HomeAsteroid.class.getSimpleName());
     /**
      * Default constructor
      *

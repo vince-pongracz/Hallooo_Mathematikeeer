@@ -18,6 +18,9 @@ import java.util.*;
  */
 public abstract class Entity implements Observer {
 
+    /**
+     * Logger for Entity
+     */
     private static final Logger log = LogManager.getLogger(Entity.class.getSimpleName());
 
     /**

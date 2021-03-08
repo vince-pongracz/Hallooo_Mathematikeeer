@@ -21,6 +21,9 @@ import java.util.*;
  */
 public class Settler extends Entity {
 
+    /**
+     * Logger for Settler class
+     */
     private static final Logger log = LogManager.getLogger(Settler.class.getSimpleName());
 
     /**
@@ -347,6 +350,8 @@ public class Settler extends Entity {
      */
     private void addResource(Resource resource) {
         log.log(Level.INFO, "addResource called");
+
+        //TODO this can return null.. :/
         int numOfResource = resources.get(resource);
         resources.put(resource, numOfResource + 1);
     }

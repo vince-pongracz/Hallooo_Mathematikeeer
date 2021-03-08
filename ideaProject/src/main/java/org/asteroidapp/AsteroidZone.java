@@ -1,5 +1,6 @@
 package org.asteroidapp;
 
+import org.asteroidapp.entities.AIRobot;
 import org.asteroidapp.resources.*;
 import org.asteroidapp.spaceobjects.*;
 import org.apache.logging.log4j.Level;
@@ -14,7 +15,11 @@ import java.util.*;
  */
 public class AsteroidZone {
 
-    int asteroidSize = 80;
+    private int asteroidSize = 80;
+
+    /**
+     * logger for AsteroidZone
+     */
     private static final Logger log = LogManager.getLogger(AsteroidZone.class.getSimpleName());
 
     /**

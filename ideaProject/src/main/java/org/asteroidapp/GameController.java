@@ -16,6 +16,9 @@ import java.util.*;
  */
 public class GameController {
 
+    /**
+     * Logger for GameController
+     */
     private static final Logger log = LogManager.getLogger(GameController.class.getSimpleName());
 
     /**

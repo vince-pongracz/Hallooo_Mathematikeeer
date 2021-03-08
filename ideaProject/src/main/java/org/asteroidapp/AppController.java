@@ -53,6 +53,9 @@ public class AppController {
         log.log(Level.TRACE, "Game is paused / resumed");
     }
 
+    /**
+     * Logger for AppController
+     */
     private static Logger log = LogManager.getLogger(AppController.class.getSimpleName());
 
     private static boolean quitCondition = false;

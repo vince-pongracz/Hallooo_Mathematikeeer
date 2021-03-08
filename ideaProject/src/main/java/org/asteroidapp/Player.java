@@ -13,6 +13,9 @@ import java.util.*;
  */
 public class Player {
 
+    /**
+     * Logger for Player
+     */
     private static final Logger log = LogManager.getLogger(Player.class.getSimpleName());
 
     /**

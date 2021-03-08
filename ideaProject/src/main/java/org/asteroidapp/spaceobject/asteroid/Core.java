@@ -15,7 +15,10 @@ import java.util.*;
  */
 public class Core {
 
-    private static Logger log = LogManager.getLogger(AppController.class.toString());
+    /**
+     * Logger for Core
+     */
+    private static Logger log = LogManager.getLogger(Core.class.getSimpleName());
 
     /**
      * Default constructor

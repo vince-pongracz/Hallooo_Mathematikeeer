@@ -14,6 +14,9 @@ import java.util.Scanner;
 
 public class ConsoleUI {
 
+    /**
+     * Logger for ConsoleUI
+     */
     private static Logger log = LogManager.getLogger(ConsoleUI.class.getSimpleName());
 
     private static ConsoleUI instance = null;

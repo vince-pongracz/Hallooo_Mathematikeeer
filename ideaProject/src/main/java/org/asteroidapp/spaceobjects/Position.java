@@ -13,6 +13,9 @@ import java.util.*;
  */
 public class Position {
 
+    /**
+     * Logger for Position
+     */
     private static final Logger log = LogManager.getLogger(Position.class.getSimpleName());
 
     /**
