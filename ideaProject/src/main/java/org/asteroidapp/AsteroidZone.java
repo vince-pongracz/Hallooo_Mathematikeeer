@@ -15,7 +15,7 @@ import java.util.*;
 public class AsteroidZone {
 
     int asteroidSize = 80;
-    private static final Logger log = LogManager.getLogger(AsteroidZone.class.toString());
+    private static final Logger log = LogManager.getLogger(AsteroidZone.class.getSimpleName());
 
     /**
      * Default constructor
@@ -37,7 +37,7 @@ public class AsteroidZone {
      * The definition of what is too close to the sun (in pixels)
      */
     //TODO setter, or preset
-    public static double defOfCloseToSun = 30;
+    public static double defOfCloseToSun = 200;
 
     /**
      * It stores the objects e.g. asteroid, home asteroid, portals
@@ -98,10 +98,11 @@ public class AsteroidZone {
      * @param spaceObj The object that is going to added to the list of spaceObjects
      */
     public void addSpaceObject(SteppableSpaceObject spaceObj) {
+        log.log(Level.INFO, "addSpaceObject called");
         if (spaceObj != null) {
             spaceObjects.add(spaceObj);
         } else {
-            //NOP
+            log.log(Level.WARN, "spaceObj is null");
         }
     }
 
@@ -111,8 +112,12 @@ public class AsteroidZone {
      * @param removedSpaceObject The object that is going to removed to the list of spaceObjects
      */
     public void removeSpaceObject(SteppableSpaceObject removedSpaceObject) {
-        //TODO nullcheck
-        spaceObjects.remove(removedSpaceObject);
+        log.log(Level.INFO, "removeSpaceObject called");
+        if (removedSpaceObject != null) {
+            spaceObjects.remove(removedSpaceObject);
+        } else {
+            log.log(Level.WARN, "removedSpaceObject is null");
+        }
     }
 
     /**

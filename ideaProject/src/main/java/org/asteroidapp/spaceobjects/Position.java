@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class Position {
 
-    private static final Logger log = LogManager.getLogger(Position.class.toString());
+    private static final Logger log = LogManager.getLogger(Position.class.getSimpleName());
 
     /**
      * Default constructor

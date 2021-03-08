@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class ConsoleUI {
 
-    private static Logger log = LogManager.getLogger(ConsoleUI.class.toString());
+    private static Logger log = LogManager.getLogger(ConsoleUI.class.getSimpleName());
 
     private static ConsoleUI instance = null;
 
@@ -50,7 +50,7 @@ public class ConsoleUI {
                 returnValue = Integer.parseInt(readLineFromConsole());
                 valueIsOk = true;
             } catch (NumberFormatException e) {
-                System.out.println("Try again, error occours");
+                System.out.println("Try again, an error occours");
             }
         }
         return returnValue;

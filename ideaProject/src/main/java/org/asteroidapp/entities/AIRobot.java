@@ -66,8 +66,8 @@ public class AIRobot extends Entity {
 
     @Override
     protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
-        //TODO solve (OPT): don't choose a spaceObject, which is empty
-        //TODO don't choose an asteroid, where robot came from
+        //TODO (OPT): don't choose a spaceObject, which is empty
+        //TODO (OPT): don't choose an asteroid, where robot came from
 
         log.log(Level.INFO, "chooseNaighbour called");
         //nullcheck
