@@ -52,11 +52,16 @@ public abstract class Entity implements Observer {
     public void move() {
         var neighbours = listMyNeighbours();
         var nextSpaceObject = chooseNeighbour(neighbours);
-        onSpaceObject.checkOut(this);
-        setMySpaceObject(nextSpaceObject);
-        nextSpaceObject.checkIn(this);
-        log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
+
+        if (nextSpaceObject != null) {
+            //TODO solve when it's null
+            onSpaceObject.checkOut(this);
+            setMySpaceObject(nextSpaceObject);
+            nextSpaceObject.checkIn(this);
+            log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
+        }
     }
+
 
     /**
      * Abstract function for drill event. It will be implemented in AIRobot and Settler.

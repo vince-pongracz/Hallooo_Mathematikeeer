@@ -39,12 +39,12 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * set of entities
      */
-    protected Set<Entity> playersOnMe;
+    protected Set<Entity> playersOnMe = null;
 
     /**
      * SpaceObject's position
      */
-    protected Position position;
+    protected Position position = null;
 
     /**
      * Getter on position
@@ -58,16 +58,16 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * Abstract getter method on name
      *
-     * @return name or null, when SteppableSpaceObject has no name (because he/she is Gate)
+     * @return name or null/empty string, when SteppableSpaceObject has no name (because he/she is Gate)
      */
     public abstract String getName();
 
     /**
      * Abstract method for drill
      *
-     * @return
+     * @return actual core thickness, or -1, if it's not interpretable
      */
-    public abstract boolean drillLayer();
+    public abstract int drillLayer();
 
     /**
      * Mining a resource
@@ -77,18 +77,24 @@ public abstract class SteppableSpaceObject implements Observable {
     public abstract Resource mineResource();
 
     /**
-     * @param resource
-     * @return
+     * Add a resource to the core
+     *
+     * @param resource to be added
+     * @return true if successfully added
+     * false if can't add
      */
     public abstract boolean addResourceToCore(Resource resource);
 
     /**
-     * @param newPosition
+     * Sets a new position for object
+     * @param newPosition to be set
      */
     public abstract void setMyPosition(Position newPosition);
 
     /**
-     * @return
+     * State of a SteppableSpaceObject
+     * @return true if SpaceObject is active (can be used)
+     * false if it's not
      */
     public abstract boolean isActive();
 

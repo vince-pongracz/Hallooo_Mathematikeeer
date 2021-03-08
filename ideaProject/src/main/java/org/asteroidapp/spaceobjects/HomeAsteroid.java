@@ -23,8 +23,8 @@ public class HomeAsteroid extends Asteroid {
     }
 
     @Override
-    public boolean drillLayer() {
-        return true;
+    public int drillLayer() {
+        return 0;
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.entities.AIRobot;
 import org.asteroidapp.entities.Settler;
+import org.asteroidapp.resources.*;
 import org.asteroidapp.util.ConsoleUI;
 
 import java.util.*;
@@ -277,15 +278,15 @@ public class GameController {
             //collect the collected resources in a map
             //String - name of the resource
             //Integer - piece of the resource
-            Map<String, Integer> resources = new HashMap<>();
+            Map<Resource, Integer> resources = new HashMap<>();
 
             //init map
             //TODO refactor: add a private collection to this class, and if a reource created,
             //add this resource to this collection --> easier to extend
-            resources.put("Coal", 0);
-            resources.put("FrozenWater", 0);
-            resources.put("Iron", 0);
-            resources.put("Uran", 0);
+            resources.put(new Coal(), 0);
+            resources.put(new Iron(), 0);
+            resources.put(new Uran(), 0);
+            resources.put(new FrozenWater(), 0);
 
             //iterate on players for their resources
             for (var player : players) {
@@ -302,11 +303,11 @@ public class GameController {
                         //is there any collected resource?
                         if (tempList != null) {
                             //if yes, add them to the resources collection, what will be checked
-                            for (var item : tempList) {
-                                if (resources.containsKey(item.getName())) {
-                                    resources.put(item.getName(), resources.get(item.getName()) + 1);
+                            for (Map.Entry<Resource, Integer> item : tempList.entrySet()) {
+                                if (resources.containsKey(item.getKey().getName())) {
+                                    resources.put(item.getKey(), resources.get(item.getKey()) + 1);
                                 } else {
-                                    resources.put(item.getName(), 1);
+                                    resources.put(item.getKey(), 1);
                                 }
                             }
                         }

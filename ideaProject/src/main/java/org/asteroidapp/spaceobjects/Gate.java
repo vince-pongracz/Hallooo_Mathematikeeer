@@ -23,8 +23,8 @@ public class Gate extends SteppableSpaceObject {
 	}
 
 	@Override
-	public boolean drillLayer() {
-		return false;
+	public int drillLayer() {
+		return -1;
 	}
 
 	@Override
