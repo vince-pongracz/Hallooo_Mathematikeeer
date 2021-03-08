@@ -84,7 +84,16 @@ public class Settler extends Entity {
      */
     @Override
     protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
-        return null;
+        log.log(Level.INFO, "ChooseNeighbour called");
+        log.log(Level.INFO, "Choose a Neighbour with the name of the neighbour");
+        SteppableSpaceObject selected = null;
+        String name = ConsoleUI.getInstance().readLineFromConsole();
+
+        for (SteppableSpaceObject elem : neighbours)
+            if(elem.getName().equals(name))
+                selected = elem;
+
+        return selected;
     }
 
     /**
@@ -138,6 +147,7 @@ public class Settler extends Entity {
         options.add("mine");
         options.add("create gate");
         options.add("build gate");
+        options.add("create robot");
         options.add("deploy resource");
         options.add("list neighbours");
         ConsoleUI.getInstance().sendOptionListToConsole(options);
@@ -151,7 +161,8 @@ public class Settler extends Entity {
                     actionOK = true;
                     break;
                 case 1:
-                    actionOK = drill();
+                    drill();
+                    actionOK = true;
                     break;
                 case 2:
                     //TODO refactor, return with boolean
@@ -167,9 +178,13 @@ public class Settler extends Entity {
                     break;
                 case 5:
                     //TODO refactor, return with boolean
-                    deployResource();
+                    createBot();
                     break;
                 case 6:
+                    //TODO refactor, return with boolean
+                    deployResource();
+                    break;
+                case 7:
                     listMyNeighbours();
                     actionOK = true;
                     break;

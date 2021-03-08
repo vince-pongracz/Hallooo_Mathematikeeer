@@ -18,7 +18,7 @@ import java.util.*;
  */
 public abstract class Entity implements Observer {
 
-    private static final Logger log = LogManager.getLogger(Entity.class.toString());
+    private static final Logger log = LogManager.getLogger(Entity.class.getSimpleName());
 
     /**
      * Default constructor for an entity
@@ -85,7 +85,7 @@ public abstract class Entity implements Observer {
             temp = iter.next();
             if (temp.getPosition().distanceFrom(onSpaceObject.getPosition()) > Position.getMaximalNeighbourDistance()) {
                 neighbours.add(temp);
-                log.log(Level.TRACE, "Possible neighbour: ", temp.getName());
+                log.log(Level.TRACE, "Possible neighbour: {}", temp.getName());
             }
         }
         return neighbours;
