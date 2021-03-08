@@ -67,7 +67,7 @@ public abstract class SteppableSpaceObject implements Observable {
      *
      * @return
      */
-    public abstract boolean drillLayer();
+    public abstract int drillLayer();
 
     /**
      * Mining a resource

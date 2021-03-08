@@ -35,7 +35,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     }
 
     @Override
-    public boolean drillLayer() {
+    public int drillLayer() {
+
         int result = layer.thinIt();
 
         if (result == 0 && core.getResource() != null) {
@@ -43,12 +44,10 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
             if (res.isRadioActive()) {
                 explode();
             } else {
-//TODO make it clear
+                //TODO make it clear
             }
-
         }
-
-        return false;
+        return result;
     }
 
     @Override
@@ -96,7 +95,6 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
      *
      */
     private boolean closeToSun;
-
 
 
     protected Core core;

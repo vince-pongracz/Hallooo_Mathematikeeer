@@ -6,22 +6,25 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
 import org.asteroidapp.resources.*;
+import org.asteroidapp.spaceobjects.Asteroid;
 import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
+import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.util.ConsoleUI;
 
 import java.util.*;
 
 /**
- *
+ *Settlers are Entities who can mine, create Robots and Gates
+ * They also can manage their resources.
  */
 public class Settler extends Entity {
 
     private static final Logger log = LogManager.getLogger(Settler.class.getSimpleName());
 
     /**
-     *
+     * It stores the name of the resource and how many does the player possess from that.
      */
     private Map<Resource, Integer> resources = new HashMap<>();
 
@@ -44,12 +47,26 @@ public class Settler extends Entity {
         log.log(Level.TRACE, "Settler created with an empty resource list");
     }
 
+    /**
+     * Overridden function for drill event.
+     * It will thicken the layer of an asteroid if possible
+     */
     @Override
     public boolean drill() {
         log.log(Level.INFO, "Settler tried to drill an object");
-        return onSpaceObject.drillLayer();
+        if (onSpaceObject.drillLayer() > 0) {
+            log.log(Level.INFO, "Drill was successful");
+            return true;
+        } else {
+            log.log(Level.INFO, "Drill was not successful");
+            return false;
+        }
     }
 
+    /**
+     * Overridden function for drill event.
+     * It will kill and remove the specified objects.
+     */
     @Override
     protected void die() {
         log.log(Level.INFO, "Die method of player {}'s settler called", this.owner.getName());
@@ -59,26 +76,57 @@ public class Settler extends Entity {
         owner.removeSettler(this);
     }
 
+    /**
+     * Overridden function for chooseNeighbour. It chooses a neighbour where the player can move to
+     *
+     * @param neighbours the list of neighbours from where the player can choose where to move to
+     * @return the chosen neighbour
+     */
     @Override
     protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
         return null;
     }
 
+    /**
+     * Overridden function for notifyFlairEvent.
+     * It notifies the entity about a flair event is happening
+     */
     @Override
     public void notifyFlairEvent() {
-
+        log.log(Level.INFO, "NotifyFlairEvent called");
+        if (onSpaceObject.drillLayer() == 0 && onSpaceObject.mineResource().equals(new Empty())) {
+            log.log(Level.INFO, "You were hidden in an asteroid during the sunflair so you survived");
+        } else {
+            log.log(Level.INFO, "You were not hidden in an asteroid during the sunflair so you died");
+            die();
+        }
     }
 
+    /**
+     * Overridden function for notifyFlairDanger.
+     * It notifies the entity about a coming flair event
+     */
     @Override
     public void notifyFlairDanger() {
-
+        log.log(Level.INFO, "NotifyFlairDanger called");
+        log.log(Level.INFO, "Be aware, a flair is coming in 2 rounds");
     }
 
+    /**
+     * Overridden function for notifyAsteroidExplosion.
+     * notifies the entity about an asteroid explosion
+     */
     @Override
     public void notifyAsteroidExplosion() {
-
+        log.log(Level.INFO, "NotifyAsteroidExplosion called");
+        die();
     }
 
+    /**
+     * Overridden function for doAction.
+     * For easier handle the entities in GameController
+     * Decision, and interaction wit user about what he/she wants to do
+     */
     @Override
     public void doAction() {
         log.log(Level.INFO, "doAction called");
@@ -133,17 +181,17 @@ public class Settler extends Entity {
 
 
     /**
-     *
+     * It stores the gates that the player created
      */
     private List<Gate> createdGates = null;
 
     /**
-     *
+     * It stores the player where the settler belongs to
      */
     private Player owner;
 
     /**
-     *
+     * This method creates a Robot if it has enough resources
      */
     public void createBot() {
 
@@ -165,53 +213,126 @@ public class Settler extends Entity {
     }
 
     /**
-     *
+     * A settler tries to mine an object and it gives back a resource or a massage why it is not possible
      */
     public void mine() {
-        // TODO implement here
+        Resource res = onSpaceObject.mineResource();
+        if (res != null) {
+            addResource(res);
+            log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
+        } else {
+            log.log(Level.INFO, "Settler could not mine a resource because either it is empty or the layer is not drilled trough");
+        }
     }
 
     /**
-     *
+     * It creates a gatePair if the settler has enough resources and
+     * does not have any gate(s) in its inventory
      */
     public void createGate() {
-        // TODO implement here
+        if (createdGates == null && resources.get(new FrozenWater()) >= 1 && resources.get(new Iron()) >= 2 && resources.get(new Uran()) >= 1) {
+
+            int numOfResource = resources.get(new FrozenWater());
+            resources.put(new FrozenWater(), numOfResource - 1);
+            numOfResource = resources.get(new Iron());
+            resources.put(new Iron(), numOfResource - 2);
+            numOfResource = resources.get(new Uran());
+            resources.put(new Uran(), numOfResource - 1);
+
+            Gate gate1 = new Gate(null);
+            log.log(Level.INFO, "Gate1 created for {}", getName());
+            Gate gate2 = new Gate(null);
+            log.log(Level.INFO, "Gate2 created for {}", getName());
+
+            createdGates.add(gate1);
+            createdGates.add(gate2);
+            gate1.setPair(gate2);
+            gate2.setPair(gate1);
+
+        } else {
+            log.log(Level.INFO, "Gate can not be created. You either have 1 or more gates in your inventory or you do not have enough resources to build them.");
+        }
     }
 
     /**
-     *
+     * It selects a resource from the player and tries to put it in the core of the asteroid
      */
     public void deployResource() {
-        // TODO implement here
+        log.log(Level.INFO, "DeployResource called");
+        listResources();
+        Resource resource = chooseResource();
+        onSpaceObject.addResourceToCore(resource);
+
     }
 
     /**
-     *
+     * If the player has gate(s) then it will build them on a certain position
      */
     public void buildGate() {
-        // TODO implement here
+        log.log(Level.INFO, "BuildGate called");
+
+        if (createdGates != null) {
+            Gate gate = createdGates.remove(0);
+            //TODO position for gate
+            gate.setMyPosition(new Position());
+            AsteroidZone.getInstance().addSpaceObject(gate);
+            log.log(Level.INFO, "Gate placed at x = {}, y = {}", gate.getPosition().getX(), gate.getPosition().getY());
+        } else {
+            log.log(Level.INFO, "You do not have any gates to place");
+        }
     }
 
     /**
+     * It lists the resources and their amount that the player collected
      *
+     * @return a map where the resources and their amount is stored
      */
-    public List<Resource> listResources() {
-        // TODO implement here
-        return null;
+    public Map<Resource, Integer> listResources() {
+        log.log(Level.INFO, "ListResources called");
+        for (Map.Entry<Resource, Integer> entry : resources.entrySet()) {
+            System.out.println(entry.getKey().getName() + ":" + entry.getValue());
+        }
+        return resources;
     }
 
     /**
-     * @return
+     * From the collected Resources the player chooses one
+     *
+     * @return the chosen resource
      */
     public Resource chooseResource() {
-        // TODO implement here
-        return null;
+        log.log(Level.INFO, "chooseResource called");
+        log.log(Level.INFO, "Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran");
+        int resourceNum = ConsoleUI.getInstance().readIntFromConsole();
+        Resource resource = null;
+
+        switch (resourceNum) {
+            case (1):
+                resource = new Coal();
+                break;
+            case (2):
+                resource = new FrozenWater();
+                break;
+            case (3):
+                resource = new Iron();
+                break;
+            case (4):
+                resource = new Uran();
+                break;
+        }
+        log.log(Level.TRACE, "Choosen resource: {}", resource.getName());
+
+        return resource;
     }
 
     /**
-     * @param resource
+     * It ads a resource to the players resources
+     *
+     * @param resource the resource that will be added
      */
     private void addResource(Resource resource) {
-        // TODO implement here
+        log.log(Level.INFO, "addResource called");
+        int numOfResource = resources.get(resource);
+        resources.put(resource, numOfResource + 1);
     }
 }

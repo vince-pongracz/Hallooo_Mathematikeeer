@@ -36,7 +36,7 @@ public class AIRobot extends Entity {
     @Override
     public boolean drill() {
         log.log(Level.INFO, "drill called (AIRobot's drill)");
-        if (onSpaceObject.drillLayer()) {
+        if (onSpaceObject.drillLayer() > 0) {
             log.log(Level.INFO, "drill success!");
             return true;
         } else {
