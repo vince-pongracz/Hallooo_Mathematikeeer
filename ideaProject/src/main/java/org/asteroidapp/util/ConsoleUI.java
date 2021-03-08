@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.Buffer;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ConsoleUI {
@@ -69,4 +70,13 @@ public class ConsoleUI {
         }
     }
 
+    public void sendMap(Map<Object, Object> map) {
+        if (map != null) {
+            map.forEach((K, V) -> {
+                System.out.println(K + " : " + V);
+            });
+        }else{
+            log.log(Level.WARN, "map is null");
+        }
+    }
 }
