@@ -5,14 +5,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.asteroidapp.util.ConsoleUI;
 
+//extends Application
+public class AppController {
 
-public class AppController extends Application{
-
-    public void init(){
-
-    }
-
+    //JavaFX demo
+    /*
     @Override
     public void start(Stage primaryStage) throws Exception {
         Button button1 = new Button("Hi team! :)");
@@ -21,12 +23,74 @@ public class AppController extends Application{
         Scene scene = new Scene(root);
 
         primaryStage.setScene(scene);
+
         primaryStage.setTitle("Asteroids - beta");
         primaryStage.show();
     }
+     */
 
-    public static void main(String[] args){
-        System.out.println("Hello Team! :)");
-        launch(args);
+
+    /*
+     *
+     */
+    //TODO is it neccessary?
+    //questionable method...
+    private void startGame() {
+        log.log(Level.TRACE, "Start game");
+    }
+
+    /*
+     *
+     */
+    public void quitGame() {
+        log.log(Level.TRACE, "Game quit");
+    }
+
+    /*
+     *
+     */
+    public void pauseAndResumeGame() {
+        log.log(Level.TRACE, "Game is paused / resumed");
+    }
+
+    private static Logger log = LogManager.getLogger(AppController.class.getSimpleName());
+
+    private static boolean quitCondition = false;
+
+    private void consoleDemo() {
+
+        log.log(Level.INFO, "console demo started");
+        log.log(Level.INFO, "Hello team :)");
+
+        while (!quitCondition) {
+            ConsoleUI.getInstance().sendMessageToConsole("Type start to start!");
+            String response = ConsoleUI.getInstance().readLineFromConsole();
+            if (response != null) {
+                if (response.equals("start")) {
+                    //startGame();
+                    GameController.getInstance().setupGame();
+                    GameController.getInstance().inGame();
+                    //wipe game data to probable restart --- solve this
+
+                } else if (response.equals("help")) {
+                    ConsoleUI.getInstance().sendMessageToConsole("help --> help msg");
+                    ConsoleUI.getInstance().sendMessageToConsole("start --> start and config game");
+                    ConsoleUI.getInstance().sendMessageToConsole("quit --> close app");
+                } else if (response.equals("quit")) {
+                    quitCondition = true;
+                    //delete/free resources
+                } else {
+                    //NOP
+                }
+            }
+
+        }
+    }
+
+    public static void main(String[] args) {
+        AppController app = new AppController();
+        app.consoleDemo();
+
+
     }
 }

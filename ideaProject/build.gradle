@@ -7,7 +7,7 @@ plugins {
 group 'org.example'
 version '1.0-SNAPSHOT'
 
-//from mavenCentral package repository we can get also packages..
+//from mavenCentral package repository we can also get packages..
 repositories {
     mavenCentral()
 }
@@ -15,11 +15,20 @@ repositories {
 //outer packages, which on this project dependent
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    //log4j
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+
+
 }
 
 javafx {
     version = "15.0.1"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
 mainClassName = 'org.asteroidapp.AppController'
