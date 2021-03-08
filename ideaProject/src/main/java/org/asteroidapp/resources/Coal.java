@@ -3,7 +3,7 @@ package org.asteroidapp.resources;
 /**
  * 
  */
-public class Coal implements Resource {
+public class Coal extends Resource {
 
 	/**
 	 * Default constructor

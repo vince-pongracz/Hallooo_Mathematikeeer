@@ -36,30 +36,30 @@ public class AppController {
     //TODO is it neccessary?
     //questionable method...
     private void startGame() {
-
+        log.log(Level.TRACE, "Start game");
     }
 
     /*
      *
      */
     public void quitGame() {
-
+        log.log(Level.TRACE, "Game quit");
     }
 
     /*
      *
      */
     public void pauseAndResumeGame() {
-
+        log.log(Level.TRACE, "Game is paused / resumed");
     }
 
-    private static Logger log = LogManager.getLogger(AppController.class.toString());
+    private static Logger log = LogManager.getLogger(AppController.class.getSimpleName());
 
     private static boolean quitCondition = false;
 
     private void consoleDemo() {
 
-        log.log(Level.INFO, "console demo app started");
+        log.log(Level.INFO, "console demo started");
         log.log(Level.INFO, "Hello team :)");
 
         while (!quitCondition) {
@@ -89,7 +89,8 @@ public class AppController {
 
     public static void main(String[] args) {
         AppController app = new AppController();
-
         app.consoleDemo();
+
+
     }
 }

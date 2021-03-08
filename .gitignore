@@ -2,4 +2,7 @@ Minden_beadas (1).pdf
 ideaProject/build/
 ideaProject/.idea/sonarlint/
 ideaProject/.gradle/*
+ideaProject/modules/
 ideaProject/logs/
+ideaProject/.idea/codestream.xml
+ideaProject/.idea/misc.xml

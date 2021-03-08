@@ -159,7 +159,7 @@ public class Position {
     /**
      * maximal range of view, when looking for neighbours
      */
-    private static double maxNeighbourDistance = 0;
+    private static double maxNeighbourDistance = 250;
 
     /**
      * Getter on maxNeighbourDistance

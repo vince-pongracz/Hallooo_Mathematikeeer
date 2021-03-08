@@ -1,6 +1,6 @@
 package org.asteroidapp.spaceobjects;
 
-import org.asteroidapp.EventObservable;
+import org.asteroidapp.interfaces.EventObservable;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.spaceobject.asteroid.Core;
 import org.asteroidapp.spaceobject.asteroid.Layer;
@@ -40,7 +40,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
         if (result == 0 && core.getResource() != null) {
             var res = core.getResource();
-            if (res.get(0).isRadioActive()) {
+            if (res.isRadioActive()) {
                 explode();
             } else {
 //TODO make it clear
@@ -98,10 +98,6 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     private boolean closeToSun;
 
 
-    /**
-     *
-     */
-    private Position position;
 
     protected Core core;
     protected Layer layer;
