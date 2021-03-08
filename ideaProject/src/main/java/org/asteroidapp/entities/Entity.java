@@ -62,7 +62,7 @@ public abstract class Entity implements Observer {
      * Abstract function for drill event. It will be implemented in AIRobot and Settler.
      * It will thicken the layer of an asteroid if possible
      */
-    public abstract void drill();
+    public abstract boolean drill();
 
     /**
      * Abstract function for die event. It will be implemented in AIRobot and Settler.

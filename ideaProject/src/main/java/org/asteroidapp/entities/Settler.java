@@ -9,6 +9,7 @@ import org.asteroidapp.resources.*;
 import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
+import org.asteroidapp.util.ConsoleUI;
 
 import java.util.*;
 
@@ -22,7 +23,6 @@ public class Settler extends Entity {
     /**
      *
      */
-
     private Map<Resource, Integer> resources = new HashMap<>();
 
     /**
@@ -45,9 +45,9 @@ public class Settler extends Entity {
     }
 
     @Override
-    public void drill() {
+    public boolean drill() {
         log.log(Level.INFO, "Settler tried to drill an object");
-        onSpaceObject.drillLayer();
+        return onSpaceObject.drillLayer();
     }
 
     @Override
@@ -83,13 +83,59 @@ public class Settler extends Entity {
     public void doAction() {
         log.log(Level.INFO, "doAction called");
         //TODO decisionmaking, and communication with user
+
+        List<String> options = new ArrayList<>();
+        options.add("move");
+        options.add("drill");
+        options.add("mine");
+        options.add("create gate");
+        options.add("build gate");
+        options.add("deploy resource");
+        options.add("list neighbours");
+        ConsoleUI.getInstance().sendOptionListToConsole(options);
+        var answer = ConsoleUI.getInstance().readIntFromConsole();
+
+        boolean actionOK = false;
+        while (!actionOK) {
+            switch (answer) {
+                case 0:
+                    move();
+                    actionOK = true;
+                    break;
+                case 1:
+                    actionOK = drill();
+                    break;
+                case 2:
+                    //TODO refactor, return with boolean
+                    mine();
+                    break;
+                case 3:
+                    //TODO refactor, return with boolean
+                    createGate();
+                    break;
+                case 4:
+                    //TODO refactor, return with boolean
+                    buildGate();
+                    break;
+                case 5:
+                    //TODO refactor, return with boolean
+                    deployResource();
+                    break;
+                case 6:
+                    listMyNeighbours();
+                    actionOK = true;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
 
     /**
      *
      */
-    private Gate createdGates = null;
+    private List<Gate> createdGates = null;
 
     /**
      *

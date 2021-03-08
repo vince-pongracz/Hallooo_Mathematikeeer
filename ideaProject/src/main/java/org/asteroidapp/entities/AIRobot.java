@@ -34,13 +34,15 @@ public class AIRobot extends Entity {
 
 
     @Override
-    public void drill() {
+    public boolean drill() {
         log.log(Level.INFO, "drill called (AIRobot's drill)");
         if (onSpaceObject.drillLayer()) {
             log.log(Level.INFO, "drill success!");
+            return true;
         } else {
             decisionCounterStratOne += 3;
             log.log(Level.INFO, "drill is not successful!");
+            return false;
         }
     }
 
@@ -65,6 +67,7 @@ public class AIRobot extends Entity {
     @Override
     protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
         //TODO solve (OPT): don't choose a spaceObject, which is empty
+        //TODO don't choose an asteroid, where robot came from
 
         log.log(Level.INFO, "chooseNaighbour called");
         //nullcheck
