@@ -295,8 +295,12 @@ public class Settler extends Entity {
         log.log(Level.INFO, "DeployResource called");
         listResources();
         Resource resource = chooseResource();
-        onSpaceObject.addResourceToCore(resource);
-
+        if(resources.get(resource).intValue() > 0) {
+            log.log(Level.INFO, "The selected resource can be chosen");
+            onSpaceObject.addResourceToCore(resource);
+        } else {
+            log.log(Level.INFO, "The selected resource can not be chosen");
+        }
     }
 
     /**
@@ -368,7 +372,7 @@ public class Settler extends Entity {
         log.log(Level.INFO, "addResource called");
 
         //TODO this can return null.. :/
-        int numOfResource = resources.get(resource).intValue();
-        resources.put(resource, numOfResource + 1);
+        //int numOfResource = resources.get(resource).intValue();
+        resources.put(resource, resources.get(resource) + 1);
     }
 }
