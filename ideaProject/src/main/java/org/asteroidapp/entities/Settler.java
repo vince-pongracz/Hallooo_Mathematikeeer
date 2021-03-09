@@ -295,8 +295,12 @@ public class Settler extends Entity {
         log.log(Level.INFO, "DeployResource called");
         listResources();
         Resource resource = chooseResource();
-        onSpaceObject.addResourceToCore(resource);
-
+        if(resources.get(resource).intValue() > 0) {
+            log.log(Level.INFO, "The selected resource can be chosen");
+            onSpaceObject.addResourceToCore(resource);
+        } else {
+            log.log(Level.INFO, "The selected resource can not be chosen");
+        }
     }
 
     /**
