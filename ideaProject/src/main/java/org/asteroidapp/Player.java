@@ -3,7 +3,6 @@ package org.asteroidapp;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.entities.Entity;
 import org.asteroidapp.entities.Settler;
 
 import java.util.*;
@@ -23,7 +22,7 @@ public class Player {
      */
     //TODO throw an exception, when name is incorrect
     public Player(String name) {
-        log.log(Level.TRACE, "Player constructor called");
+        log.log(Level.INFO, "Player constructor called");
 
         this.name = "";
         this.setName(name);
@@ -32,7 +31,6 @@ public class Player {
 
         this.mySettlers = new ArrayList<Settler>();
         log.log(Level.TRACE, "List created for settlers");
-
     }
 
     /**
@@ -94,6 +92,12 @@ public class Player {
     }
 
     public void killPlayer(){
+        log.log(Level.INFO, "killPlayer called");
 
+        GameController.getInstance().removePlayer(this.name);
+        for (var settler: mySettlers) {
+            settler.die();
+        }
+        mySettlers = null;
     }
 }

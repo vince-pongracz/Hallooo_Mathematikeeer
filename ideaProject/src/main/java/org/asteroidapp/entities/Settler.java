@@ -71,7 +71,7 @@ public class Settler extends Entity {
      * It will kill and remove the specified objects.
      */
     @Override
-    protected void die() {
+    public void die() {
         log.log(Level.INFO, "Die method of player {}'s settler called", this.owner.getName());
         AsteroidZone.getInstance().getSun().checkOut(this);
         onSpaceObject.checkOut(this);
