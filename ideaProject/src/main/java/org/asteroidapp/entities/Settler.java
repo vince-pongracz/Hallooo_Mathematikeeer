@@ -6,12 +6,16 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
 import org.asteroidapp.resources.*;
-import org.asteroidapp.spaceobjects.Asteroid;
 import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.util.ConsoleUI;
+import static org.asteroidapp.resources.Coal.coal;
+import static org.asteroidapp.resources.FrozenWater.frozenWater;
+import static org.asteroidapp.resources.Iron.iron;
+import static org.asteroidapp.resources.Empty.empty;
+import static org.asteroidapp.resources.Uran.uran;
 
 import java.util.*;
 
@@ -38,11 +42,11 @@ public class Settler extends Entity {
      */
     public Settler(String name, SteppableSpaceObject initPlace, Player owner) {
         super(name, initPlace);
-        resources.put(new Coal(), 0);
-        resources.put(new Empty(), 0);
-        resources.put(new FrozenWater(), 0);
-        resources.put(new Iron(), 0);
-        resources.put(new Uran(), 0);
+        resources.put(coal, 2);
+        resources.put(empty, 2);
+        resources.put(frozenWater, 2);
+        resources.put(iron, 2);
+        resources.put(uran, 2);
 
         options.add("move");
         options.add("drill");
@@ -67,6 +71,7 @@ public class Settler extends Entity {
      */
     @Override
     public boolean drill() {
+        log.log(Level.INFO, "Drill called");
         log.log(Level.INFO, "Settler tried to drill an object");
         if (onSpaceObject.drillLayer() >= 0) {
             log.log(Level.INFO, "Drill was successful");
@@ -214,15 +219,15 @@ public class Settler extends Entity {
      * This method creates a Robot if it has enough resources
      */
     public boolean createBot() {
+        log.log(Level.INFO, "CreateBot called");
+        if (resources.get(coal) >= 1 && resources.get(iron) >= 1 && resources.get(uran) >= 1) {
 
-        if (resources.get(new Coal()) >= 1 && resources.get(new Iron()) >= 1 && resources.get(new Uran()) >= 1) {
-
-            int numOfResource = resources.get(new Coal());
-            resources.put(new Coal(), numOfResource - 1);
-            numOfResource = resources.get(new Iron());
-            resources.put(new Iron(), numOfResource - 1);
-            numOfResource = resources.get(new Uran());
-            resources.put(new Uran(), numOfResource - 1);
+            int numOfResource = resources.get(coal);
+            resources.put(coal, numOfResource - 1);
+            numOfResource = resources.get(iron);
+            resources.put(iron, numOfResource - 1);
+            numOfResource = resources.get(uran);
+            resources.put(uran, numOfResource - 1);
 
             AIRobot bot = new AIRobot("Robot", onSpaceObject);
             GameController.getInstance().addBot(bot);
@@ -240,6 +245,7 @@ public class Settler extends Entity {
      * @return boolean success
      */
     public boolean mine() {
+        log.log(Level.INFO, "Mine called");
         Resource res = onSpaceObject.mineResource();
 
         //mining is successful
@@ -259,16 +265,17 @@ public class Settler extends Entity {
      * does not have any gate(s) in its inventory
      */
     public boolean createGate() {
+        log.log(Level.INFO, "CreateGate called");
         //TODO nullcheck on resources count, or init all resource with 0 count
         //TODO when createdGates has size() == 0 --> it's also OK
-        if (createdGates == null && resources.get(new FrozenWater()) >= 1 && resources.get(new Iron()) >= 2 && resources.get(new Uran()) >= 1) {
+        if (createdGates == null && resources.get(frozenWater) >= 1 && resources.get(iron) >= 2 && resources.get(uran) >= 1) {
 
-            int numOfResource = resources.get(new FrozenWater());
-            resources.put(new FrozenWater(), numOfResource - 1);
-            numOfResource = resources.get(new Iron());
-            resources.put(new Iron(), numOfResource - 2);
-            numOfResource = resources.get(new Uran());
-            resources.put(new Uran(), numOfResource - 1);
+            int numOfResource = resources.get(frozenWater);
+            resources.put(frozenWater, numOfResource - 1);
+            numOfResource = resources.get(iron);
+            resources.put(iron, numOfResource - 2);
+            numOfResource = resources.get(uran);
+            resources.put(uran, numOfResource - 1);
 
             Gate gate1 = new Gate(null);
             log.log(Level.INFO, "Gate1 created for {}", getName());
@@ -346,16 +353,16 @@ public class Settler extends Entity {
 
         switch (resourceNum) {
             case (1):
-                resource = new Coal();
+                resource = coal;
                 break;
             case (2):
-                resource = new FrozenWater();
+                resource = frozenWater;
                 break;
             case (3):
-                resource = new Iron();
+                resource = iron;
                 break;
             case (4):
-                resource = new Uran();
+                resource = uran;
                 break;
         }
         log.log(Level.TRACE, "Choosen resource: {}", resource.getName());
@@ -372,7 +379,11 @@ public class Settler extends Entity {
         log.log(Level.INFO, "addResource called");
 
         //TODO this can return null.. :/
-        //int numOfResource = resources.get(resource).intValue();
-        resources.put(resource, resources.get(resource) + 1);
+        if(resource != null) {
+            resources.put(resource, resources.get(resource) + 1);
+            log.log(Level.INFO, "{} added to settler successfully", resource.getName());
+        }
+        else
+            log.log(Level.INFO, "Nothing can be added");
     }
 }

@@ -9,6 +9,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
+import static org.asteroidapp.resources.Coal.coal;
+import static org.asteroidapp.resources.FrozenWater.frozenWater;
+import static org.asteroidapp.resources.Iron.iron;
+import static org.asteroidapp.resources.Uran.uran;
+import static org.asteroidapp.resources.Empty.empty;
+
 /**
  * It stores the asteroids, the home asteroid and the sun
  * and it also can create the whole zone
@@ -157,19 +163,19 @@ public class AsteroidZone {
 
         switch (randNum) {
             case (0):
-                result = new Coal();
+                result = coal;
                 break;
             case (1):
-                result = new Uran();
+                result = uran;
                 break;
             case (2):
-                result = new FrozenWater();
+                result = frozenWater;
                 break;
             case (3):
-                result = new Iron();
+                result = iron;
                 break;
             default:
-                result = new Empty();
+                result = empty;
         }
         return result;
     }

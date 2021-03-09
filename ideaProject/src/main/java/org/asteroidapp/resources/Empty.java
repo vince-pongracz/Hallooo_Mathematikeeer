@@ -12,6 +12,9 @@ public class Empty extends Resource {
 	/**
 	 * logger for Empty
 	 */
+
+	public static final Empty empty = new Empty();
+
 	private static final Logger log = LogManager.getLogger(Empty.class.getSimpleName());
 	/**
 	 * Default constructor
