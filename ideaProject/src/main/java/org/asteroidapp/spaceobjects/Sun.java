@@ -7,6 +7,7 @@ import org.asteroidapp.interfaces.EventObservable;
 import org.asteroidapp.GameController;
 import org.asteroidapp.entities.Entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -22,7 +23,7 @@ public class Sun implements EventObservable {
     /**
      * own set from entities, they will be notified
      */
-    private Set<Entity> entities;
+    private Set<Entity> entities = null;
 
     /**
      * Default constructor
@@ -32,6 +33,7 @@ public class Sun implements EventObservable {
 
         if (position != null) {
             this.position = position;
+            this.entities = new HashSet<>();
 
             log.log(Level.TRACE, "Sun created at position: ({};{})", position.getX(), position.getY());
         } else {
@@ -42,7 +44,7 @@ public class Sun implements EventObservable {
     /**
      * Store position if the sun
      */
-    private Position position;
+    private Position position = null;
 
     /**
      * Getter on sun's position

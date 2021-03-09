@@ -52,7 +52,7 @@ public class Core {
      */
     public Resource getResource() {
         Resource returnRessource = resource.get(0);
-        log.log(Level.TRACE, "getResource invited.  Return with the ressource: {}", returnRessource);
+        log.log(Level.TRACE, "getResource called.  Return with the ressource: {}", returnRessource.getClass().getSimpleName());
         return returnRessource;
 
     }
@@ -65,7 +65,7 @@ public class Core {
     //TODO: esetek lefedése
     public void setResource(Resource newResource) {
         resource.add(newResource);
-        log.log(Level.TRACE, "setResource invited. The ressource was set to: {}", newResource);
+        log.log(Level.TRACE, "setResource called. The ressource was set to: {}", newResource.getClass().getSimpleName());
     }
 
 }

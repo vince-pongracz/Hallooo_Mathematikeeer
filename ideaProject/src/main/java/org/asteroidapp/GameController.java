@@ -112,7 +112,13 @@ public class GameController {
                 String name = playerName + "'s settler" + i;
 
                 //create new Settler (set name, startPlace, and owner), and bind to his/her owner
-                var newSettler = new Settler(name, AsteroidZone.getInstance().findHome(), playerItem);
+                var startPlace = AsteroidZone.getInstance().findHome();
+                var newSettler = new Settler(name, startPlace, playerItem);
+
+                //bind settler to his/her asteroid (to get the notifications from his/her SteppableSpaceObject)
+                startPlace.checkIn(newSettler);
+                //bind settler to the sun (to get the notifications from sun)
+                AsteroidZone.getInstance().getSun().checkIn(newSettler);
 
                 //bind player to settler
                 playerItem.addSettler(newSettler);

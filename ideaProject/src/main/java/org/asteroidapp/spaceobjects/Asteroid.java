@@ -91,6 +91,9 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         return result;
     }
 
+    /**
+     * can return with null! --- and it's okay, and good :)
+     */
     @Override
     public Resource mineResource() {
         log.log(Level.INFO, "mineResource called");

@@ -16,7 +16,7 @@ import org.asteroidapp.util.ConsoleUI;
 import java.util.*;
 
 /**
- *Settlers are Entities who can mine, create Robots and Gates
+ * Settlers are Entities who can mine, create Robots and Gates
  * They also can manage their resources.
  */
 public class Settler extends Entity {
@@ -93,7 +93,7 @@ public class Settler extends Entity {
         String name = ConsoleUI.getInstance().readLineFromConsole();
 
         for (SteppableSpaceObject elem : neighbours)
-            if(elem.getName().equals(name))
+            if (elem.getName().equals(name))
                 selected = elem;
 
         return selected;
@@ -153,27 +153,27 @@ public class Settler extends Entity {
         options.add("create robot");
         options.add("deploy resource");
         options.add("list neighbours");
-        ConsoleUI.getInstance().sendOptionListToConsole(options);
-        var answer = ConsoleUI.getInstance().readIntFromConsole();
 
         boolean actionOK = false;
         while (!actionOK) {
+            ConsoleUI.getInstance().sendOptionListToConsole(options);
+            var answer = ConsoleUI.getInstance().readIntFromConsole();
+
             switch (answer) {
                 case 0:
                     move();
                     actionOK = true;
                     break;
                 case 1:
-                    drill();
-                    actionOK = true;
+                    actionOK = drill();
                     break;
                 case 2:
                     //TODO refactor, return with boolean
-                    mine();
+                    actionOK = mine();
                     break;
                 case 3:
                     //TODO refactor, return with boolean
-                    createGate();
+                    actionOK = createGate();
                     break;
                 case 4:
                     //TODO refactor, return with boolean
@@ -181,13 +181,14 @@ public class Settler extends Entity {
                     break;
                 case 5:
                     //TODO refactor, return with boolean
-                    createBot();
+                    actionOK = createBot();
                     break;
                 case 6:
                     //TODO refactor, return with boolean
                     deployResource();
                     break;
                 case 7:
+                    //always have to list the neighbours - no excuse
                     listMyNeighbours();
                     actionOK = true;
                     break;
@@ -211,7 +212,7 @@ public class Settler extends Entity {
     /**
      * This method creates a Robot if it has enough resources
      */
-    public void createBot() {
+    public boolean createBot() {
 
         if (resources.get(new Coal()) >= 1 && resources.get(new Iron()) >= 1 && resources.get(new Uran()) >= 1) {
 
@@ -225,21 +226,30 @@ public class Settler extends Entity {
             AIRobot bot = new AIRobot("Robot", onSpaceObject);
             GameController.getInstance().addBot(bot);
             log.log(Level.INFO, "Bot created at {} asteroid", onSpaceObject.getName());
+            return true;
         } else {
             log.log(Level.INFO, "Robot can not be created, not enough resources");
+            return false;
         }
     }
 
     /**
      * A settler tries to mine an object and it gives back a resource or a massage why it is not possible
+     *
+     * @return boolean success
      */
-    public void mine() {
+    public boolean mine() {
         Resource res = onSpaceObject.mineResource();
+
+        //mining is successful
         if (res != null) {
             addResource(res);
             log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
+            return true;
         } else {
+            //unsuccessful mining
             log.log(Level.INFO, "Settler could not mine a resource because either it is empty or the layer is not drilled trough");
+            return false;
         }
     }
 
@@ -247,7 +257,9 @@ public class Settler extends Entity {
      * It creates a gatePair if the settler has enough resources and
      * does not have any gate(s) in its inventory
      */
-    public void createGate() {
+    public boolean createGate() {
+        //TODO nullcheck on resources count, or init all resource with 0 count
+        //TODO when createdGates has size() == 0 --> it's also OK
         if (createdGates == null && resources.get(new FrozenWater()) >= 1 && resources.get(new Iron()) >= 2 && resources.get(new Uran()) >= 1) {
 
             int numOfResource = resources.get(new FrozenWater());
@@ -267,8 +279,11 @@ public class Settler extends Entity {
             gate1.setPair(gate2);
             gate2.setPair(gate1);
 
+            return true;
+
         } else {
             log.log(Level.INFO, "Gate can not be created. You either have 1 or more gates in your inventory or you do not have enough resources to build them.");
+            return false;
         }
     }
 
