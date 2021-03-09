@@ -372,7 +372,7 @@ public class Settler extends Entity {
         log.log(Level.INFO, "addResource called");
 
         //TODO this can return null.. :/
-        int numOfResource = resources.get(resource).intValue();
-        resources.put(resource, numOfResource + 1);
+        //int numOfResource = resources.get(resource).intValue();
+        resources.put(resource, resources.get(resource) + 1);
     }
 }

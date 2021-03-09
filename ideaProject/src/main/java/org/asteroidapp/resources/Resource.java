@@ -9,25 +9,25 @@ import java.util.*;
 /**
  * 
  */
-public abstract class Resource implements Comparable<Resource>{
+public abstract class Resource implements Comparable<Resource> {
 
 	/**
 	 * logger for Resource
 	 */
 	private static final Logger log = LogManager.getLogger(Resource.class.getSimpleName());
+
 	/**
-	 * 
+	 *
 	 */
 	public abstract String getName();
 
 	/**
 	 * @return
 	 */
-	public abstract boolean isRadioActive();	
+	public abstract boolean isRadioActive();
 
 	@Override
-	public int compareTo(Resource other){
+	public int compareTo(Resource other) {
 		return getName().compareTo(other.getName());
 	}
-
 }
