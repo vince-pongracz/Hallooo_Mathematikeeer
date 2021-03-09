@@ -68,11 +68,11 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         var result = layer.thinIt();
 
         //like pop
-        var resource = core.getResource();
+        var resource = core.popResource();
 
         //like push
         //because of stack behaviour (later come)
-        core.setResource(resource);
+        core.pushResource(resource);
 
         //TODO closeToSun part
         //check explosion conditions
@@ -84,8 +84,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
             //TODO hopefully this condition is enough to sublimate FrozenWater when it's close to sun
 
             //when it is FrozenWater --> drop it, and set empty
-            core.getResource();
-            core.setResource(new Empty());
+            core.popResource();
+            core.pushResource(new Empty());
         }
         //return the actual thickness
         return result;
@@ -100,7 +100,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
         //if no layer --> can be mined
         if (layer.getThickness() == 0) {
-            return core.getResource();
+            return core.popResource();
         } else {
             log.log(Level.INFO, "Resource cannot mined - layer is too big!");
             return null;
@@ -112,8 +112,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         log.log(Level.INFO, "addResourceToCore called");
 
         if (resource != null) {
-            if (layer.getThickness() == 0 && core.getResource().equals(new Empty())) {
-                core.setResource(resource);
+            if (layer.getThickness() == 0 && core.popResource().equals(new Empty())) {
+                core.pushResource(resource);
                 return true;
             } else {
                 log.log(Level.INFO, "Resource cannot mined - layer is too big!");

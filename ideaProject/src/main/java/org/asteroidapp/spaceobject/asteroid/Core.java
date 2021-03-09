@@ -24,14 +24,14 @@ public class Core {
      * Default constructor
      */
     public Core(Resource initResource) {
-        resource = new ArrayList<>();
-        resource.add(initResource);
+        resource = new Stack<Resource>();
+        resource.push(initResource);
     }
 
     public Core(int capacity, Resource initResource) {
         this.capacity = capacity;
-        this.resource = new ArrayList<>();
-        this.resource.add(initResource);
+        this.resource = new Stack<Resource>();
+        this.resource.push(initResource);
     }
 
     /**
@@ -42,18 +42,18 @@ public class Core {
     /**
      *
      */
-    private List<Resource> resource;
-
+    //private List<Resource> resource;
+    Stack<Resource> resource;
 
     /**
      * It returns with the raw material of the seed.
      *
      * @return returnList
      */
-    public Resource getResource() {
-        Resource returnRessource = resource.get(0);
-        log.log(Level.TRACE, "getResource called.  Return with the ressource: {}", returnRessource.getClass().getSimpleName());
-        return returnRessource;
+    public Resource popResource() {
+       // Resource returnRessource = resource.get(0);
+        log.log(Level.TRACE, "popResource called.  Return with the ressource: {}", resource.get(resource.size()).getName());
+        return resource.pop();
 
     }
 
@@ -63,9 +63,10 @@ public class Core {
      * @param newResource
      */
     //TODO: esetek lefedése
-    public void setResource(Resource newResource) {
-        resource.add(newResource);
-        log.log(Level.TRACE, "setResource called. The ressource was set to: {}", newResource.getClass().getSimpleName());
+    public void pushResource(Resource newResource) {
+        //resource.add(newResource);
+        resource.push(newResource);
+        log.log(Level.TRACE, "pushResource called. The ressource was set to: {}", newResource.getName());
     }
 
 }

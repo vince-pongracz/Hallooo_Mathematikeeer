@@ -3765,7 +3765,7 @@
 													"font": "Arial;13;1",
 													"left": 349,
 													"top": 295,
-													"width": 231.5751953125,
+													"width": 242.42333984375,
 													"height": 13,
 													"text": "Core"
 												},
@@ -3800,7 +3800,7 @@
 											"font": "Arial;13;0",
 											"left": 344,
 											"top": 288,
-											"width": 241.5751953125,
+											"width": 252.42333984375,
 											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAF3pL3PPnkPOhs="
@@ -3837,7 +3837,7 @@
 													"font": "Arial;13;0",
 													"left": 349,
 													"top": 318,
-													"width": 231.5751953125,
+													"width": 242.42333984375,
 													"height": 13,
 													"text": "-capacity: int = 1 {readOnly}",
 													"horizontalAlignment": 0
@@ -3846,7 +3846,7 @@
 											"font": "Arial;13;0",
 											"left": 344,
 											"top": 313,
-											"width": 241.5751953125,
+											"width": 252.42333984375,
 											"height": 23
 										},
 										{
@@ -3871,9 +3871,9 @@
 													"font": "Arial;13;0",
 													"left": 349,
 													"top": 341,
-													"width": 231.5751953125,
+													"width": 242.42333984375,
 													"height": 13,
-													"text": "+getResource(): Resource[1..*]",
+													"text": "+popResource(): Resource[1..*]",
 													"horizontalAlignment": 0
 												},
 												{
@@ -3888,16 +3888,16 @@
 													"font": "Arial;13;0",
 													"left": 349,
 													"top": 356,
-													"width": 231.5751953125,
+													"width": 242.42333984375,
 													"height": 13,
-													"text": "+setResource(newResource: Resource)",
+													"text": "+pushResource(newResource: Resource)",
 													"horizontalAlignment": 0
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 344,
 											"top": 336,
-											"width": 241.5751953125,
+											"width": 252.42333984375,
 											"height": 38
 										},
 										{
@@ -3937,7 +3937,7 @@
 									"containerChangeable": true,
 									"left": 344,
 									"top": 288,
-									"width": 241.5751953125,
+									"width": 252.42333984375,
 									"height": 105,
 									"nameCompartment": {
 										"$ref": "AAAAAAF3pL3PPnkOCyE="
@@ -6123,8 +6123,8 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 440,
-											"top": 250,
+											"left": 442,
+											"top": 249,
 											"height": 13,
 											"alpha": 1.5707963267948966,
 											"distance": 15,
@@ -6144,8 +6144,8 @@
 											},
 											"visible": null,
 											"font": "Arial;13;0",
-											"left": 454,
-											"top": 244,
+											"left": 455,
+											"top": 242,
 											"height": 13,
 											"alpha": 1.5707963267948966,
 											"distance": 30,
@@ -6165,8 +6165,8 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 413,
-											"top": 263,
+											"left": 415,
+											"top": 264,
 											"height": 13,
 											"alpha": -1.5707963267948966,
 											"distance": 15,
@@ -6186,8 +6186,8 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 440,
-											"top": 251,
+											"left": 442,
+											"top": 249,
 											"height": 13,
 											"alpha": 0.5235987755982988,
 											"distance": 30,
@@ -6207,8 +6207,8 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 453,
-											"top": 247,
+											"left": 455,
+											"top": 245,
 											"height": 13,
 											"alpha": 0.7853981633974483,
 											"distance": 40,
@@ -6228,7 +6228,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 413,
+											"left": 416,
 											"top": 258,
 											"height": 13,
 											"alpha": -0.5235987755982988,
@@ -6249,7 +6249,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 328,
-											"top": 200,
+											"top": 204,
 											"width": 58.169921875,
 											"height": 13,
 											"alpha": 0.3441374953475709,
@@ -6270,8 +6270,8 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 451,
-											"top": 243,
+											"left": 453,
+											"top": 242,
 											"height": 13,
 											"alpha": -0.7853981633974483,
 											"distance": 40,
@@ -6341,7 +6341,7 @@
 										"$ref": "AAAAAAF4EOKjnpqWFvQ="
 									},
 									"lineStyle": 1,
-									"points": "416:240;438:287",
+									"points": "417:240;442:287",
 									"showVisibility": true,
 									"nameLabel": {
 										"$ref": "AAAAAAF3pMYUPn0CHiw="
@@ -6397,7 +6397,7 @@
 												"$ref": "AAAAAAF3pMZNHX103sk="
 											},
 											"font": "Arial;13;0",
-											"left": 493,
+											"left": 495,
 											"top": 404,
 											"width": 32.880859375,
 											"height": 13,
@@ -6420,7 +6420,7 @@
 											},
 											"visible": null,
 											"font": "Arial;13;0",
-											"left": 522,
+											"left": 524,
 											"top": 407,
 											"height": 13,
 											"alpha": 1.5707963267948966,
@@ -6441,7 +6441,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 479,
+											"left": 481,
 											"top": 423,
 											"height": 13,
 											"alpha": -1.5707963267948966,
@@ -6462,7 +6462,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 505,
+											"left": 508,
 											"top": 406,
 											"height": 13,
 											"alpha": 0.5235987755982988,
@@ -6483,7 +6483,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 519,
+											"left": 521,
 											"top": 404,
 											"height": 13,
 											"alpha": 0.7853981633974483,
@@ -6504,7 +6504,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 478,
+											"left": 481,
 											"top": 411,
 											"height": 13,
 											"alpha": -0.5235987755982988,
@@ -6525,7 +6525,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 510,
+											"left": 512,
 											"top": 419,
 											"height": 13,
 											"alpha": -0.5235987755982988,
@@ -6545,8 +6545,8 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 522,
-											"top": 412,
+											"left": 524,
+											"top": 413,
 											"height": 13,
 											"alpha": -0.7853981633974483,
 											"distance": 40,
@@ -6565,7 +6565,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"left": 485,
+											"left": 488,
 											"top": 432,
 											"height": 13,
 											"alpha": 0.5235987755982988,
@@ -6615,7 +6615,7 @@
 										"$ref": "AAAAAAF3pL3PPnkNlhY="
 									},
 									"lineStyle": 1,
-									"points": "483:393;505:455",
+									"points": "486:393;507:455",
 									"showVisibility": true,
 									"nameLabel": {
 										"$ref": "AAAAAAF3pMZNHX15T/Y="
@@ -14736,7 +14736,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF3pL3PPXkLvaY="
 									},
-									"name": "getResource",
+									"name": "popResource",
 									"parameters": [
 										{
 											"_type": "UMLParameter",
@@ -14744,7 +14744,9 @@
 											"_parent": {
 												"$ref": "AAAAAAF3pMWW7Xybmm4="
 											},
-											"type": "Resource",
+											"type": {
+												"$ref": "AAAAAAF3pL4qEnlfpsc="
+											},
 											"multiplicity": "1..*",
 											"direction": "return"
 										}
@@ -14756,7 +14758,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF3pL3PPXkLvaY="
 									},
-									"name": "setResource",
+									"name": "pushResource",
 									"parameters": [
 										{
 											"_type": "UMLParameter",
@@ -14765,7 +14767,9 @@
 												"$ref": "AAAAAAF3pMXCgXzJXh0="
 											},
 											"name": "newResource",
-											"type": "Resource"
+											"type": {
+												"$ref": "AAAAAAF3pL4qEnlfpsc="
+											}
 										}
 									]
 								}
