@@ -23,7 +23,7 @@ public abstract class Resource implements Comparable<Resource>{
 	/**
 	 * @return
 	 */
-	public abstract boolean isRadioActive();
+	public abstract boolean isRadioActive();	
 
 	@Override
 	public int compareTo(Resource other){
