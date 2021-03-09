@@ -25,7 +25,7 @@ public class Empty extends Resource {
 	 */
 	//TODO discuss (what else can we do here?)
 	public String getName() {
-		return "";
+		return "Empty";
 	}
 
 	/**

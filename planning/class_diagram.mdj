@@ -5678,7 +5678,7 @@
 													"top": 315,
 													"width": 489.27099609375,
 													"height": 13,
-													"text": "#die()",
+													"text": "+die()",
 													"horizontalAlignment": 0
 												},
 												{
@@ -15943,7 +15943,6 @@
 										"$ref": "AAAAAAF3pL+ReXo1+k8="
 									},
 									"name": "die",
-									"visibility": "protected",
 									"isAbstract": true
 								},
 								{
