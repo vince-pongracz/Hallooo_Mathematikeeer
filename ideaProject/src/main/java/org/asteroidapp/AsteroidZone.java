@@ -67,12 +67,12 @@ public class AsteroidZone {
     public void createZone() {
         //add home
         int range = 1000;
-        int numOfAsteroids = 8;
+        int numOfAsteroids = 9;
         Random rand = new Random();
         Resource resource;
         int layer;
 
-        homeAsteroid = new HomeAsteroid(new Position(0, 0, 10), new Empty());
+        homeAsteroid = new HomeAsteroid(new Position(400, 500, 10), new Empty());
         spaceObjects.add(homeAsteroid);
 
         //For now the Sun is in the top-left Corner and has a size of 100 x 100
@@ -86,7 +86,7 @@ public class AsteroidZone {
             if (checkDistanceAtCreate(randomPosition)) {
                 randomPosition.setRadius(30);
                 resource = generateRandomResource();
-                layer = rand.nextInt(5) + 3;
+                layer = rand.nextInt(3) + 3;
                 //Layer is between 3 and 8
                 spaceObjects.add(new Asteroid("temp" + i, randomPosition, resource, layer));
                 log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}",

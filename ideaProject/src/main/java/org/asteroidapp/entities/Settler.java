@@ -21,6 +21,8 @@ import java.util.*;
  */
 public class Settler extends Entity {
 
+    List<String> options = new ArrayList<>();
+
     /**
      * Logger for Settler class
      */
@@ -42,6 +44,15 @@ public class Settler extends Entity {
         resources.put(new Iron(), 0);
         resources.put(new Uran(), 0);
 
+        options.add("move");
+        options.add("drill");
+        options.add("mine");
+        options.add("create gate");
+        options.add("build gate");
+        options.add("create robot");
+        options.add("deploy resource");
+        options.add("list neighbours");
+
         if (owner != null) {
             this.owner = owner;
         } else {
@@ -57,7 +68,7 @@ public class Settler extends Entity {
     @Override
     public boolean drill() {
         log.log(Level.INFO, "Settler tried to drill an object");
-        if (onSpaceObject.drillLayer() > 0) {
+        if (onSpaceObject.drillLayer() >= 0) {
             log.log(Level.INFO, "Drill was successful");
             return true;
         } else {
@@ -143,16 +154,6 @@ public class Settler extends Entity {
     public void doAction() {
         log.log(Level.INFO, "doAction called");
         //TODO decisionmaking, and communication with user
-
-        List<String> options = new ArrayList<>();
-        options.add("move");
-        options.add("drill");
-        options.add("mine");
-        options.add("create gate");
-        options.add("build gate");
-        options.add("create robot");
-        options.add("deploy resource");
-        options.add("list neighbours");
 
         boolean actionOK = false;
         while (!actionOK) {
@@ -367,7 +368,7 @@ public class Settler extends Entity {
         log.log(Level.INFO, "addResource called");
 
         //TODO this can return null.. :/
-        int numOfResource = resources.get(resource);
+        int numOfResource = resources.get(resource).intValue();
         resources.put(resource, numOfResource + 1);
     }
 }

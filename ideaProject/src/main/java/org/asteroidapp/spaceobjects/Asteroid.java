@@ -62,7 +62,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
     @Override
     public int drillLayer() {
-        log.log(Level.INFO, "drillLayer called");
+        log.log(Level.INFO, "drillLayer called, before drill was the layer: {}", layer.getThickness());
 
         //thin layer
         var result = layer.thinIt();

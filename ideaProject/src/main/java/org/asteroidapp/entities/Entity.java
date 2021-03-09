@@ -91,7 +91,8 @@ public abstract class Entity implements Observer {
 
         while (iter.hasNext()) {
             temp = iter.next();
-            if (temp.getPosition().distanceFrom(onSpaceObject.getPosition()) > Position.getMaximalNeighbourDistance()) {
+            double distance = temp.getPosition().distanceFrom(onSpaceObject.getPosition());
+            if (distance < Position.getMaximalNeighbourDistance() && !temp.getName().equals(onSpaceObject.getName())) {
                 neighbours.add(temp);
                 log.log(Level.TRACE, "Possible neighbour: {}", temp.getName());
             }
