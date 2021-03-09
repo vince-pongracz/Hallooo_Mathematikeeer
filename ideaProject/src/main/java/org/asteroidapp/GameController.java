@@ -360,11 +360,11 @@ public class GameController {
         //TODO logic to flair scheduling - long task
         log.log(Level.TRACE, "evaluateFlair called");
 
-        if (getRound() % 5 == 0) {
+        if (getRound() % 10 == 0) {
             log.log(Level.TRACE, "flair event will be launched");
 
             AsteroidZone.getInstance().getSun().notifyAboutDieEvent();
-        } else if (getRound() % 5 == 2) {
+        } else if (getRound() % 10 == 7) {
             log.log(Level.TRACE, "flair is coming in the future!");
 
             AsteroidZone.getInstance().getSun().notifyAboutDanger();
