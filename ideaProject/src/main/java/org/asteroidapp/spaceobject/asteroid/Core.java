@@ -50,9 +50,9 @@ public class Core {
      *
      * @return returnList
      */
-    public Resource getResource() {
+    public Resource popResource() {
        // Resource returnRessource = resource.get(0);
-        log.log(Level.TRACE, "getResource called.  Return with the ressource: {}", resource.get(resource.size()).getName());
+        log.log(Level.TRACE, "popResource called.  Return with the ressource: {}", resource.get(resource.size()).getName());
         return resource.pop();
 
     }
@@ -63,10 +63,10 @@ public class Core {
      * @param newResource
      */
     //TODO: esetek lefedése
-    public void setResource(Resource newResource) {
+    public void pushResource(Resource newResource) {
         //resource.add(newResource);
         resource.push(newResource);
-        log.log(Level.TRACE, "setResource called. The ressource was set to: {}", newResource.getName());
+        log.log(Level.TRACE, "pushResource called. The ressource was set to: {}", newResource.getName());
     }
 
 }
