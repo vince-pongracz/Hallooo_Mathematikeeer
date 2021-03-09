@@ -15,6 +15,7 @@ public abstract class Resource implements Comparable<Resource>{
 	 * logger for Resource
 	 */
 	private static final Logger log = LogManager.getLogger(Resource.class.getSimpleName());
+
 	/**
 	 * 
 	 */
@@ -23,7 +24,7 @@ public abstract class Resource implements Comparable<Resource>{
 	/**
 	 * @return
 	 */
-	public abstract boolean isRadioActive();	
+	public abstract boolean isRadioActive();
 
 	@Override
 	public int compareTo(Resource other){
