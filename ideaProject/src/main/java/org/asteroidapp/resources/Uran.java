@@ -13,6 +13,9 @@ public class Uran extends Resource {
 	/**
 	 * logger for Uran
 	 */
+
+	public static final Uran uran = new Uran();
+
 	private static final Logger log = LogManager.getLogger(Uran.class.getSimpleName());
 
 	/**

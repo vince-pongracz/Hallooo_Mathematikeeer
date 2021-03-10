@@ -111,8 +111,8 @@ public class AppController {
 
     public static void main(String[] args) {
         AppController app = new AppController();
-        //app.consoleDemo();
-        app.containerTest();
+        app.consoleDemo();
+        //app.containerTest();
 
     }
 }
