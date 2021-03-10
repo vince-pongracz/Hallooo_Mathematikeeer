@@ -53,6 +53,8 @@ public abstract class Entity implements Observer {
      * and then it will move to that specified object
      */
     public void move() {
+        log.log(Level.INFO, "move called");
+
         var neighbours = listMyNeighbours();
         var nextSpaceObject = chooseNeighbour(neighbours);
 
@@ -84,17 +86,19 @@ public abstract class Entity implements Observer {
      * @return list of the possible neighbours where the entity can move
      */
     public Set<SteppableSpaceObject> listMyNeighbours() {
+        log.log(Level.INFO, "listMyNeighbours called");
+
         Set<SteppableSpaceObject> neighbours = new HashSet<>();
-        Iterator<SteppableSpaceObject> iter = AsteroidZone.getInstance().getIterOnSpaceObjects();
-        Position sun = AsteroidZone.getInstance().getSun().getPosition();
-        SteppableSpaceObject temp;
+        var iter = AsteroidZone.getInstance().getIterOnSpaceObjects();
+        //Position sun = AsteroidZone.getInstance().getSun().getPosition();
+        SteppableSpaceObject temp = null;
 
         while (iter.hasNext()) {
             temp = iter.next();
             double distance = temp.getPosition().distanceFrom(onSpaceObject.getPosition());
             if (distance < Position.getMaximalNeighbourDistance() && !temp.getName().equals(onSpaceObject.getName())) {
                 neighbours.add(temp);
-                log.log(Level.TRACE, "Possible neighbour: {}", temp.getName());
+                log.log(Level.INFO, "Possible neighbour: {}", temp.getName());
             }
         }
         return neighbours;
@@ -154,5 +158,4 @@ public abstract class Entity implements Observer {
      * Decision, and interaction wit user about what he/she wnats to do
      */
     public abstract void doAction();
-
 }

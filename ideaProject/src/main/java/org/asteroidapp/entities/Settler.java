@@ -13,6 +13,7 @@ import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.util.ConsoleUI;
 
+import java.io.Console;
 import java.util.*;
 
 /**
@@ -38,6 +39,9 @@ public class Settler extends Entity {
      */
     public Settler(String name, SteppableSpaceObject initPlace, Player owner) {
         super(name, initPlace);
+
+        log.log(Level.INFO, "Settler constructor called");
+
         resources.put(new Coal(), 0);
         resources.put(new Empty(), 0);
         resources.put(new FrozenWater(), 0);
@@ -68,9 +72,14 @@ public class Settler extends Entity {
     @Override
     public boolean drill() {
         log.log(Level.INFO, "Settler tried to drill an object");
-        if (onSpaceObject.drillLayer() >= 0) {
+
+        var tempThickness = onSpaceObject.drillLayer();
+        if (tempThickness > 0) {
             log.log(Level.INFO, "Drill was successful");
             return true;
+        } else if (tempThickness == 0) {
+            log.log(Level.INFO, "NO more drill needed, it's ready, you can mine");
+            return false;
         } else {
             log.log(Level.INFO, "Drill was not successful");
             return false;
@@ -84,6 +93,7 @@ public class Settler extends Entity {
     @Override
     public void die() {
         log.log(Level.INFO, "Die method of player {}'s settler called", this.owner.getName());
+
         AsteroidZone.getInstance().getSun().checkOut(this);
         onSpaceObject.checkOut(this);
         onSpaceObject = null;
@@ -100,14 +110,27 @@ public class Settler extends Entity {
     protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
         log.log(Level.INFO, "ChooseNeighbour called");
         log.log(Level.INFO, "Choose a Neighbour with the name of the neighbour");
-        SteppableSpaceObject selected = null;
-        String name = ConsoleUI.getInstance().readLineFromConsole();
 
-        for (SteppableSpaceObject elem : neighbours)
-            if (elem.getName().equals(name))
-                selected = elem;
+        if (neighbours != null) {
 
-        return selected;
+            //refactor this with a single ConsoleUI call.
+            for (var item : neighbours) {
+                ConsoleUI.getInstance().sendMessageToConsole(item.getName());
+            }
+
+            //TODO refactor: what's happening, when a wrong name is typed?
+            SteppableSpaceObject selected = null;
+            String name = ConsoleUI.getInstance().readLineFromConsole();
+
+            for (SteppableSpaceObject element : neighbours)
+                if (element.getName().equals(name)) {
+                    selected = element;
+                    return selected;
+                }
+        } else {
+            log.log(Level.WARN, "neighbours is null, cannot choose form empty neighbour list");
+        }
+        return null;
     }
 
     /**
@@ -116,7 +139,9 @@ public class Settler extends Entity {
      */
     @Override
     public void notifyFlairEvent() {
-        log.log(Level.INFO, "NotifyFlairEvent called");
+        log.log(Level.INFO, "notifyFlairEvent called");
+
+        //TODO refactor: one Asteroid can hide just one entity..
         if (onSpaceObject.drillLayer() == 0 && onSpaceObject.mineResource().equals(new Empty())) {
             log.log(Level.INFO, "You were hidden in an asteroid during the sunflair so you survived");
         } else {
@@ -142,6 +167,7 @@ public class Settler extends Entity {
     @Override
     public void notifyAsteroidExplosion() {
         log.log(Level.INFO, "NotifyAsteroidExplosion called");
+        //so you have to die
         die();
     }
 
@@ -155,6 +181,8 @@ public class Settler extends Entity {
         log.log(Level.INFO, "doAction called");
         //TODO decisionmaking, and communication with user
 
+
+        //choose an action.
         boolean actionOK = false;
         while (!actionOK) {
             ConsoleUI.getInstance().sendOptionListToConsole(options);
@@ -208,7 +236,7 @@ public class Settler extends Entity {
     /**
      * It stores the player where the settler belongs to
      */
-    private Player owner;
+    private Player owner = null;
 
     /**
      * This method creates a Robot if it has enough resources
@@ -294,8 +322,9 @@ public class Settler extends Entity {
     public void deployResource() {
         log.log(Level.INFO, "DeployResource called");
         listResources();
-        Resource resource = chooseResource();
-        if(resources.get(resource).intValue() > 0) {
+        var resource = chooseResource();
+
+        if (resources.get(resource).intValue() > 0) {
             log.log(Level.INFO, "The selected resource can be chosen");
             onSpaceObject.addResourceToCore(resource);
         } else {

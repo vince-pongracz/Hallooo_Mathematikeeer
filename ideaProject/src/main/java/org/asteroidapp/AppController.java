@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.resources.Coal;
+import org.asteroidapp.resources.FrozenWater;
+import org.asteroidapp.resources.ResourceStorage;
+import org.asteroidapp.resources.Uran;
 import org.asteroidapp.util.ConsoleUI;
 
 //extends Application
@@ -90,10 +94,25 @@ public class AppController {
         }
     }
 
+    public void containerTest(){
+        ResourceStorage storage = new ResourceStorage();
+        storage.setAllCapacity(3);
+        storage.pushResource(new FrozenWater());
+        storage.pushMore(2, new Coal());
+        storage.popResource(new Coal());
+        storage.setAllCapacity(6);
+        storage.pushMore(3, new Uran());
+        storage.popMore(2, new Uran());
+        storage.countOf(new Uran());
+        storage.popMore(4, new Uran());
+        storage.setAllCapacity(2);
+        storage.pushResource(new FrozenWater());
+    }
+
     public static void main(String[] args) {
         AppController app = new AppController();
-        app.consoleDemo();
-
+        //app.consoleDemo();
+        app.containerTest();
 
     }
 }

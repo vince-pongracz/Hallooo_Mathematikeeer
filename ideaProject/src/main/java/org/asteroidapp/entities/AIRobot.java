@@ -24,6 +24,7 @@ public class AIRobot extends Entity {
      */
     public AIRobot(String name, SteppableSpaceObject creationPlace) {
         super(name, creationPlace);
+
         log.log(Level.INFO, "AIRobot constructor called");
         if (creationPlace != null && name != null) {
             onSpaceObject = creationPlace;
@@ -36,6 +37,7 @@ public class AIRobot extends Entity {
     @Override
     public boolean drill() {
         log.log(Level.INFO, "drill called (AIRobot's drill)");
+
         if (onSpaceObject.drillLayer() > 0) {
             log.log(Level.INFO, "drill success!");
             return true;
@@ -103,6 +105,7 @@ public class AIRobot extends Entity {
     @Override
     public void notifyAsteroidExplosion() {
         log.log(Level.INFO, "notifyAsteroidExplosion called");
+
         //robot has to move (she/he is protected at the explosion)
         move();
     }
@@ -126,6 +129,7 @@ public class AIRobot extends Entity {
     private void stratOne() {
         //TODO (OPT) create more strategies
         log.log(Level.INFO, "strat_1 called: AIRobot on strat1");
+
         int mod = 4;
         //1 move, than 3 drill
         log.log(Level.TRACE, "make decision");
