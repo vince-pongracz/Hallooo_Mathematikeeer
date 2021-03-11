@@ -53,7 +53,11 @@ public class Core {
     public Resource popResource() {
        // Resource returnRessource = resource.get(0);
         log.log(Level.TRACE, "popResource called.");
-        return resource.pop();
+
+        if(!resource.empty())
+            return resource.pop();
+        else
+            return null;
 
     }
 

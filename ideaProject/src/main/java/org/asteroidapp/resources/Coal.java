@@ -13,8 +13,6 @@ public class Coal extends Resource {
 	 * logger for Coal
 	 */
 
-	public static final Coal coal = new Coal();
-
 	private static final Logger log = LogManager.getLogger(Coal.class.getSimpleName());
 
 	/**

@@ -284,18 +284,7 @@ public class GameController {
         else {
             //TODO implement correctly... it's not easy to find out the way..
 
-            //collect the collected resources in a map
-            //String - name of the resource
-            //Integer - piece of the resource
-            Map<Resource, Integer> resources = new HashMap<>();
-
-            //init map
-            //TODO refactor: add a private collection to this class, and if a reource created,
-            //add this resource to this collection --> easier to extend
-            resources.put(new Coal(), 0);
-            resources.put(new Iron(), 0);
-            resources.put(new Uran(), 0);
-            resources.put(new FrozenWater(), 0);
+            ResourceStorage resources = new ResourceStorage();
 
             //iterate on players for their resources
             for (var player : players) {
@@ -312,12 +301,8 @@ public class GameController {
                         //is there any collected resource?
                         if (tempList != null) {
                             //if yes, add them to the resources collection, what will be checked
-                            for (Map.Entry<Resource, Integer> item : tempList.entrySet()) {
-                                if (resources.containsKey(item.getKey().getName())) {
-                                    resources.put(item.getKey(), resources.get(item.getKey()) + 1);
-                                } else {
-                                    resources.put(item.getKey(), 1);
-                                }
+                            for (Resource item : tempList) {
+                                resources.pushResource(item);
                             }
                         }
                         //if no resource, send a log message... (not so important)
@@ -339,9 +324,19 @@ public class GameController {
             //check win:
             //if all resource in resources are more than 3 --> WIN
             //otherwise not
+            //TODO ha csak pl szen és uranbol van 3-3 akkor is valszeg igazzal ter vissza mivel nem Map
             boolean win = true;
-            for (var item : resources.values()) {
-                if (item.intValue() < 3) {
+
+            //It's not a map anymore therefore it doesn't know all the possible resources so
+            //if it has zero resources it returns true or if it has just 3 irons it would also return true
+            List<Resource> allResources = new ArrayList<>();
+            allResources.add(new Coal());
+            allResources.add(new Iron());
+            allResources.add(new FrozenWater());
+            allResources.add(new Uran());
+
+            for (var item : allResources) {
+                if (resources.countOf(item) < 3) {
                     win = false;
                 }
             }

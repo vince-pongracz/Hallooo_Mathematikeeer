@@ -51,7 +51,7 @@ public class ResourceStorage {
         }
     }
 
-    private List<Resource> getResourceList() {
+    public List<Resource> getResourceList() {
         return resourceList;
     }
 

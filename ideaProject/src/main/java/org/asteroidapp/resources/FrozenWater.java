@@ -13,8 +13,6 @@ public class FrozenWater extends Resource {
 	 * logger for FrozenWater
 	 */
 
-	public static final FrozenWater frozenWater = new FrozenWater();
-
 	private static final Logger log = LogManager.getLogger(FrozenWater.class.getSimpleName());
 
 	/**

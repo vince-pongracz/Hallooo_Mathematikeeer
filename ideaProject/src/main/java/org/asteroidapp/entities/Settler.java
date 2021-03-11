@@ -11,13 +11,7 @@ import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.util.ConsoleUI;
-import static org.asteroidapp.resources.Coal.coal;
-import static org.asteroidapp.resources.FrozenWater.frozenWater;
-import static org.asteroidapp.resources.Iron.iron;
-import static org.asteroidapp.resources.Empty.empty;
-import static org.asteroidapp.resources.Uran.uran;
 
-import java.io.Console;
 import java.util.*;
 
 /**
@@ -36,7 +30,7 @@ public class Settler extends Entity {
     /**
      * It stores the name of the resource and how many does the player possess from that.
      */
-    private Map<Resource, Integer> resources = new HashMap<>();
+    private ResourceStorage resources = new ResourceStorage();
 
     /**
      * Default constructor
@@ -45,12 +39,6 @@ public class Settler extends Entity {
         super(name, initPlace);
 
         log.log(Level.INFO, "Settler constructor called");
-
-        resources.put(coal, 2);
-        resources.put(empty, 2);
-        resources.put(frozenWater, 2);
-        resources.put(iron, 2);
-        resources.put(uran, 2);
 
         options.add("move");
         options.add("drill");
@@ -248,19 +236,17 @@ public class Settler extends Entity {
      */
     public boolean createBot() {
         log.log(Level.INFO, "CreateBot called");
-        if (resources.get(coal) >= 1 && resources.get(iron) >= 1 && resources.get(uran) >= 1) {
+        if (resources.countOf(new Coal()) >= 1 && resources.countOf(new Iron()) >= 1 && resources.countOf(new Uran()) >= 1) {
 
-            int numOfResource = resources.get(coal);
-            resources.put(coal, numOfResource - 1);
-            numOfResource = resources.get(iron);
-            resources.put(iron, numOfResource - 1);
-            numOfResource = resources.get(uran);
-            resources.put(uran, numOfResource - 1);
+            resources.popResource(new Coal());
+            resources.popResource(new Iron());
+            resources.popResource(new Uran());
 
             AIRobot bot = new AIRobot("Robot", onSpaceObject);
             GameController.getInstance().addBot(bot);
             log.log(Level.INFO, "Bot created at {} asteroid", onSpaceObject.getName());
             return true;
+
         } else {
             log.log(Level.INFO, "Robot can not be created, not enough resources");
             return false;
@@ -296,14 +282,12 @@ public class Settler extends Entity {
         log.log(Level.INFO, "CreateGate called");
         //TODO nullcheck on resources count, or init all resource with 0 count
         //TODO when createdGates has size() == 0 --> it's also OK
-        if (createdGates == null && resources.get(frozenWater) >= 1 && resources.get(iron) >= 2 && resources.get(uran) >= 1) {
+        if (createdGates == null && resources.countOf(new FrozenWater()) >= 1 && resources.countOf(new Iron()) >= 2 && resources.countOf(new Uran()) >= 1) {
 
-            int numOfResource = resources.get(frozenWater);
-            resources.put(frozenWater, numOfResource - 1);
-            numOfResource = resources.get(iron);
-            resources.put(iron, numOfResource - 2);
-            numOfResource = resources.get(uran);
-            resources.put(uran, numOfResource - 1);
+            resources.popResource(new FrozenWater());
+            resources.popResource(new Iron());
+            resources.popResource(new Iron());
+            resources.popResource(new Uran());
 
             Gate gate1 = new Gate(null);
             log.log(Level.INFO, "Gate1 created for {}", getName());
@@ -331,7 +315,7 @@ public class Settler extends Entity {
         listResources();
         var resource = chooseResource();
 
-        if (resources.get(resource).intValue() > 0) {
+        if (resources.countOf(resource) > 0) {
             log.log(Level.INFO, "The selected resource can be chosen");
             onSpaceObject.addResourceToCore(resource);
         } else {
@@ -361,12 +345,10 @@ public class Settler extends Entity {
      *
      * @return a map where the resources and their amount is stored
      */
-    public Map<Resource, Integer> listResources() {
+    public List<Resource> listResources() {
         log.log(Level.INFO, "ListResources called");
-        for (Map.Entry<Resource, Integer> entry : resources.entrySet()) {
-            System.out.println(entry.getKey().getName() + ":" + entry.getValue());
-        }
-        return resources;
+        resources.getResourceList().forEach((temp) -> System.out.println(temp.getName()));
+        return resources.getResourceList();
     }
 
     /**
@@ -382,16 +364,16 @@ public class Settler extends Entity {
 
         switch (resourceNum) {
             case (1):
-                resource = coal;
+                resource = new Coal();
                 break;
             case (2):
-                resource = frozenWater;
+                resource = new FrozenWater();
                 break;
             case (3):
-                resource = iron;
+                resource = new Iron();
                 break;
             case (4):
-                resource = uran;
+                resource = new Uran();
                 break;
         }
         log.log(Level.TRACE, "Choosen resource: {}", resource.getName());
@@ -409,7 +391,7 @@ public class Settler extends Entity {
 
         //TODO this can return null.. :/
         if(resource != null) {
-            resources.put(resource, resources.get(resource) + 1);
+            resources.pushResource(resource);
             log.log(Level.INFO, "{} added to settler successfully", resource.getName());
         }
         else
