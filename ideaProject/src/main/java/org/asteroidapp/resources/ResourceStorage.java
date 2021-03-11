@@ -16,7 +16,8 @@ public class ResourceStorage {
         this.allCapacity = Math.abs(allCapacity);
     }
 
-    private int allCapacity = 0;
+    //It should be set before, because otherwise the pushMore() function won't work properly
+    private int allCapacity = 10;
 
     private boolean storageIsFull() {
         if (allCapacity == resourceList.size()) {

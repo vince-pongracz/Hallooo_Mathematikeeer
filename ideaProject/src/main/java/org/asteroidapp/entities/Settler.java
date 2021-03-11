@@ -32,6 +32,7 @@ public class Settler extends Entity {
      */
     private ResourceStorage resources = new ResourceStorage();
 
+
     /**
      * Default constructor
      */
@@ -55,6 +56,12 @@ public class Settler extends Entity {
             log.log(Level.FATAL, "owner is null!");
         }
         log.log(Level.TRACE, "Settler created with an empty resource list");
+
+        //Fot the testing the create bot and portal functions
+        resources.pushMore(3, new Coal());
+        resources.pushMore(3, new Uran());
+        resources.pushMore(3, new FrozenWater());
+        resources.pushMore(3, new Iron());
     }
 
     /**

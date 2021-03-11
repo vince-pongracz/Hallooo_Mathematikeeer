@@ -112,7 +112,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         log.log(Level.INFO, "addResourceToCore called");
 
         if (resource != null) {
-            if (layer.getThickness() == 0 && core.popResource().equals(new Empty())) {
+            if (layer.getThickness() == 0 && core.popResource() == null) {
                 core.pushResource(resource);
                 return true;
             } else {
