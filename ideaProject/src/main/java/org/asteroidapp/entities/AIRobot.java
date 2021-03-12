@@ -78,7 +78,7 @@ public class AIRobot extends Entity {
             var neighbourListToShuffle = new ArrayList<SteppableSpaceObject>(neighbours);
             Collections.shuffle(neighbourListToShuffle);
             //generate random to decision
-            var randomNumber = new Random(neighbourListToShuffle.size()).nextInt();
+            var randomNumber = new Random().nextInt(neighbourListToShuffle.size());
             return neighbourListToShuffle.get(randomNumber);
         } else {
             log.log(Level.FATAL, "Given collection in parameter is null!");
