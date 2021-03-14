@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.entities.AIRobot;
 import org.asteroidapp.entities.Settler;
 import org.asteroidapp.resources.*;
+import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
 import java.util.*;
@@ -20,12 +21,14 @@ public class GameController {
      * Logger for GameController
      */
     private static final Logger log = LogManager.getLogger(GameController.class.getSimpleName());
+    private static Logger callStack = LogManager.getLogger("callStack");
 
     /**
      * Default constructor
      */
     private GameController() {
         log.log(Level.INFO, "GameController constructor called");
+        callStack.log(Level.TRACE,"{}GameController constructor called",CallStackViewer.getInstance().printIntend());
 
         //default config?
         //later set in setup
@@ -45,6 +48,7 @@ public class GameController {
         log.log(Level.TRACE, "robots has their collection");
         log.log(Level.TRACE, "players has their collection");
 
+        CallStackViewer.getInstance().methodReturns();
     }
 
     private static GameController instance = null;
@@ -99,6 +103,7 @@ public class GameController {
      */
     private void dropSettlers() {
         log.log(Level.INFO, "dropSettlers called");
+        callStack.log(Level.TRACE, "{}dropSettlers called", CallStackViewer.getInstance().printIntend());
         log.log(Level.TRACE, "iterate on player(s) to create their settler(s)");
 
         //for every player
@@ -128,6 +133,8 @@ public class GameController {
 
             log.log(Level.INFO, "Player {}'s settler(s): done", playerName);
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -136,6 +143,7 @@ public class GameController {
      */
     private void createAndNamePlayers() {
         log.log(Level.INFO, "createAndNamePlayers called");
+        callStack.log(Level.TRACE, "{}createAndNamePlayers called", CallStackViewer.getInstance().printIntend());
 
         //create so many players, which was given in config
         for (int i = 0; i < playersNum; ) {
@@ -157,6 +165,8 @@ public class GameController {
                 ConsoleUI.getInstance().sendMessageToConsole("Wrong name");
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -165,6 +175,7 @@ public class GameController {
     public void setupGame() {
 
         log.log(Level.INFO, "setupGame called");
+        callStack.log(Level.TRACE, "{}setupGame called", CallStackViewer.getInstance().printIntend());
 
         //get number and name of players
         ConsoleUI.getInstance().sendMessageToConsole("Setup...");
@@ -190,6 +201,8 @@ public class GameController {
         ConsoleUI.getInstance().sendMessageToConsole("");
         ConsoleUI.getInstance().sendMessageToConsole("Setup ended");
         log.log(Level.INFO, "setup ended");
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -268,6 +281,7 @@ public class GameController {
      */
     public void evaluateRound() {
         log.log(Level.INFO, "evaluateRound called");
+        callStack.log(Level.TRACE, "{}evaluateRound called", CallStackViewer.getInstance().printIntend());
 
         //eval flair
         evaluateFlair();
@@ -346,6 +360,8 @@ public class GameController {
                 gameIsRunning = false;
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**

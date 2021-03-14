@@ -1,10 +1,5 @@
 package org.asteroidapp;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +7,7 @@ import org.asteroidapp.resources.Coal;
 import org.asteroidapp.resources.FrozenWater;
 import org.asteroidapp.resources.ResourceStorage;
 import org.asteroidapp.resources.Uran;
+import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
 //extends Application
@@ -37,7 +33,7 @@ public class AppController {
     /*
      *
      */
-    //TODO is it neccessary?
+    //TODO is it necessary?
     //questionable method...
     private void startGame() {
         log.log(Level.TRACE, "Start game");
@@ -61,6 +57,7 @@ public class AppController {
      * Logger for AppController
      */
     private static Logger log = LogManager.getLogger(AppController.class.getSimpleName());
+    private static Logger callStack = LogManager.getLogger("callStack");
 
     private static boolean quitCondition = false;
 
@@ -110,9 +107,11 @@ public class AppController {
     }
 
     public static void main(String[] args) {
+        callStack.log(Level.TRACE, "Call Stack:");
+
         AppController app = new AppController();
         app.consoleDemo();
-        //app.containerTest();
+
 
     }
 }

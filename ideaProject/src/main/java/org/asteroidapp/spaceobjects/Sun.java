@@ -64,7 +64,12 @@ public class Sun implements EventObservable {
         while (playerIterator.hasNext()) {
             var settlerIterator = playerIterator.next().getIterOnMySettlers();
             while (settlerIterator.hasNext()) {
-                settlerIterator.next().notifyFlairEvent();
+                //TODO this code throws concurrentModificationException at notifyAboutDieEvent
+                //vszinu nem szereti ha modositjak az iterator felett az objectet
+                //sansz hogy az nem tetszik, hogy a playert is elteszik felole...
+
+                var settlerItem = settlerIterator.next();
+                settlerItem.notifyFlairEvent();
             }
         }
     }

@@ -2,22 +2,30 @@
 <Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
     <Properties>
         <Property name="basePath">../ideaProject/logs</Property>
+        <Property name="callStackPath">../ideaProject/callStacks</Property>
     </Properties>
     <Appenders>
         <!-- File Appender -->
         <File name="FILE" fileName="${basePath}/logfile_${date:yyyyMMdd_HHmmss}.log" append="true">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-6level %logger - %m%n" />
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-6level %logger - %m%n"/>
         </File>
         <!-- Console Appender -->
         <Console name="STDOUT" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-6level %logger - %m%n" />
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-6level %logger - %m%n"/>
         </Console>
+
+        <File name="FILE2" fileName="${callStackPath}/callStack_${date:yyyyMMdd_HHmmss}.log" append="true">
+            <PatternLayout pattern="%m - %d{yyyy-MM-dd HH:mm:ss} [%t] %-6level %logger%n"/>
+        </File>
     </Appenders>
     <Loggers>
-        <Logger name="com.jcg" level="trace" />
+        <Logger name="callStack" level="trace">
+            <AppenderRef ref="FILE2"/>
+        </Logger>
+
         <Root level="trace">
-            <AppenderRef ref="STDOUT" />
-            <AppenderRef ref="FILE" />
+            <AppenderRef ref="STDOUT" level="info"/>
+            <AppenderRef ref="FILE"/>
         </Root>
     </Loggers>
 </Configuration>

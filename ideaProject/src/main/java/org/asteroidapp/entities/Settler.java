@@ -87,10 +87,10 @@ public class Settler extends Entity {
     public void die() {
         log.log(Level.INFO, "Die method of player {}'s settler called", this.owner.getName());
 
-        AsteroidZone.getInstance().getSun().checkOut(this);
         onSpaceObject.checkOut(this);
         onSpaceObject = null;
         owner.removeSettler(this);
+        AsteroidZone.getInstance().getSun().checkOut(this);
     }
 
     /**
@@ -264,12 +264,18 @@ public class Settler extends Entity {
 
         //mining is successful
         if (res != null) {
-            addResource(res);
-            log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
-            return true;
+            if (!res.equals(new Empty())) {
+                addResource(res);
+                log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
+                return true;
+            } else {
+                //but can't mine "Empty", so it will be denied
+                log.log(Level.INFO, "Settler could not mine a resource because it is empty");
+                return false;
+            }
         } else {
             //unsuccessful mining
-            log.log(Level.INFO, "Settler could not mine a resource because either it is empty or the layer is not drilled trough");
+            log.log(Level.INFO, "Settler could not mine a resource because the layer is not drilled trough");
             return false;
         }
     }
@@ -390,11 +396,10 @@ public class Settler extends Entity {
         log.log(Level.INFO, "addResource called");
 
         //TODO this can return null.. :/
-        if(resource != null) {
+        if (resource != null) {
             resources.pushResource(resource);
             log.log(Level.INFO, "{} added to settler successfully", resource.getName());
-        }
-        else
+        } else
             log.log(Level.INFO, "Nothing can be added");
     }
 }
