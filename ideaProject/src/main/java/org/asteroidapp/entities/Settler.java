@@ -32,6 +32,7 @@ public class Settler extends Entity {
      */
     private ResourceStorage resources = new ResourceStorage();
 
+
     /**
      * Default constructor
      */
@@ -55,6 +56,12 @@ public class Settler extends Entity {
             log.log(Level.FATAL, "owner is null!");
         }
         log.log(Level.TRACE, "Settler created with an empty resource list");
+
+        //Fot the testing the create bot and portal functions
+        resources.pushMore(2, new Coal());
+        resources.pushMore(2, new Uran());
+        resources.pushMore(1, new FrozenWater());
+        resources.pushMore(3, new Iron());
     }
 
     /**
@@ -291,19 +298,20 @@ public class Settler extends Entity {
         if (createdGates == null && resources.countOf(new FrozenWater()) >= 1 && resources.countOf(new Iron()) >= 2 && resources.countOf(new Uran()) >= 1) {
 
             resources.popResource(new FrozenWater());
-            resources.popResource(new Iron());
-            resources.popResource(new Iron());
+            resources.popMore(2, new Iron());
             resources.popResource(new Uran());
 
-            Gate gate1 = new Gate(null);
+            Gate gate1 = new Gate(new Position(400, 500));
             log.log(Level.INFO, "Gate1 created for {}", getName());
-            Gate gate2 = new Gate(null);
+            Gate gate2 = new Gate(new Position(700,700));
             log.log(Level.INFO, "Gate2 created for {}", getName());
 
-            createdGates.add(gate1);
+
+            //TODO Gate class is not ready
+            /*createdGates.add(gate1);
             createdGates.add(gate2);
             gate1.setPair(gate2);
-            gate2.setPair(gate1);
+            gate2.setPair(gate1);*/
 
             return true;
 
