@@ -28,7 +28,7 @@ public class GameController {
      */
     private GameController() {
         log.log(Level.INFO, "GameController constructor called");
-        callStack.log(Level.TRACE,"{}GameController constructor called",CallStackViewer.getInstance().printIntend());
+        callStack.log(Level.TRACE, "{}GameController constructor called", CallStackViewer.getInstance().printIntend());
 
         //default config?
         //later set in setup
@@ -214,7 +214,11 @@ public class GameController {
         log.log(Level.INFO, "getIterOnPlayers called");
         log.log(Level.TRACE, "return iterator on players collection");
 
-        return players.iterator();
+        if (players == null || players.size() == 0) {
+            return Collections.emptyIterator();
+        } else {
+            return players.iterator();
+        }
     }
 
     /**
@@ -226,23 +230,18 @@ public class GameController {
     public void removePlayer(String name) {
         log.log(Level.INFO, "removePlayer called");
 
-        log.log(Level.TRACE, "check param");
-
         if (name != null && !name.equals("")) {
             log.log(Level.INFO, "Search player with name: {}", name);
 
             for (var player : players) {
                 if (player.getName().equals(name)) {
-
-                    log.log(Level.TRACE, "Player found");
-                    log.log(Level.INFO, "Kill player...");
-                    player.killPlayer();
-
                     log.log(Level.INFO, "Remove player from players collection");
                     players.remove(player);
                     return;
                 }
             }
+        } else {
+            log.log(Level.INFO, "No player found with name: {}", name);
         }
     }
 
@@ -258,9 +257,7 @@ public class GameController {
         if (playerLeaving != null) {
             log.log(Level.TRACE, "kill and remove player: {}", playerLeaving.getName());
 
-            playerLeaving.killPlayer();
             players.remove(playerLeaving);
-
         } else {
             //NOP
         }
@@ -369,7 +366,7 @@ public class GameController {
      */
     private void evaluateFlair() {
         //TODO logic to flair scheduling - long task
-        log.log(Level.TRACE, "evaluateFlair called");
+        log.log(Level.INFO, "evaluateFlair called");
 
         if (getRound() % 10 == 0) {
             log.log(Level.TRACE, "flair event will be launched");
@@ -398,11 +395,11 @@ public class GameController {
      * Game loop
      */
     public void inGame() {
-        log.log(Level.TRACE, "inGame called - this is the game loop");
+        log.log(Level.INFO, "inGame called - this is the game loop");
         gameIsRunning = true;
         log.log(Level.TRACE, "game is running: {}", ((Boolean) gameIsRunning).toString());
 
-        while (gameIsRunning && getRound() < 12) {
+        while (gameIsRunning && getRound() < 22) {
             log.log(Level.TRACE, "new round started: {}", getRound());
             round();
             evaluateRound();

@@ -66,7 +66,11 @@ public class Player {
      */
     public Iterator<Settler> getIterOnMySettlers() {
         log.log(Level.TRACE, "getIterOnMySettlers called");
-        return mySettlers.iterator();
+        if (mySettlers.size() == 0) {
+            return Collections.emptyIterator();
+        } else {
+            return mySettlers.iterator();
+        }
     }
 
     /**
@@ -91,11 +95,11 @@ public class Player {
         mySettlers.remove(removedEntity);
     }
 
-    public void killPlayer(){
+    public void killPlayer() {
         log.log(Level.INFO, "killPlayer called");
 
         GameController.getInstance().removePlayer(this.name);
-        for (var settler: mySettlers) {
+        for (var settler : mySettlers) {
             settler.die();
         }
         mySettlers = null;

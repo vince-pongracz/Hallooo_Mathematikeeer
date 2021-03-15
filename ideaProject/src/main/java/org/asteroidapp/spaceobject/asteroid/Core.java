@@ -5,10 +5,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AppController;
 import org.asteroidapp.resources.Resource;
+import org.asteroidapp.resources.ResourceStorage;
 
 import java.util.*;
 
-//TODO stack -esre kéne megcsinálni
 
 /**
  * Its job is to store the raw materials inside the asteroid
@@ -24,26 +24,27 @@ public class Core {
      * Default constructor
      */
     public Core(Resource initResource) {
-        resource = new Stack<Resource>();
-        resource.push(initResource);
-    }
-
-    public Core(int capacity, Resource initResource) {
-        this.capacity = capacity;
-        this.resource = new Stack<Resource>();
-        this.resource.push(initResource);
+        resource = new ResourceStorage();
+        resource.setAllCapacity(Math.abs(1));
+        resource.pushResource(initResource);
     }
 
     /**
-     * Indicates how many raw materials can be in the core.
-     */
-    private int capacity = 1;
-
-    /**
+     * Create Core with not default capacity and an initial resource
      *
+     * @param capacity
+     * @param initResource
      */
-    //private List<Resource> resource;
-    Stack<Resource> resource;
+    public Core(int capacity, Resource initResource) {
+        resource = new ResourceStorage();
+        resource.setAllCapacity(Math.abs(capacity));
+        resource.pushResource(initResource);
+    }
+
+    /**
+     * Resource storage of core
+     */
+    ResourceStorage resource = null;
 
     /**
      * It returns with the raw material of the seed.
@@ -51,14 +52,8 @@ public class Core {
      * @return returnList
      */
     public Resource popResource() {
-       // Resource returnRessource = resource.get(0);
         log.log(Level.TRACE, "popResource called.");
-
-        if(!resource.empty())
-            return resource.pop();
-        else
-            return null;
-
+        return resource.popRandomResource();
     }
 
     /**
@@ -68,8 +63,7 @@ public class Core {
      */
     //TODO: esetek lefedése
     public void pushResource(Resource newResource) {
-        //resource.add(newResource);
-        resource.push(newResource);
+        resource.pushResource(newResource);
         log.log(Level.TRACE, "pushResource called. The ressource was set to: {}", newResource.getName());
     }
 

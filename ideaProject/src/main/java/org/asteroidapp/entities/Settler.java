@@ -123,11 +123,12 @@ public class Settler extends Entity {
             SteppableSpaceObject selected = null;
             String name = ConsoleUI.getInstance().readLineFromConsole();
 
-            for (SteppableSpaceObject element : neighbours)
+            for (SteppableSpaceObject element : neighbours) {
                 if (element.getName().equals(name)) {
                     selected = element;
                     return selected;
                 }
+            }
         } else {
             log.log(Level.WARN, "neighbours is null, cannot choose form empty neighbour list");
         }
@@ -143,7 +144,7 @@ public class Settler extends Entity {
         log.log(Level.INFO, "notifyFlairEvent called");
 
         //TODO refactor: one Asteroid can hide just one entity..
-        if (onSpaceObject.drillLayer() == 0 && onSpaceObject.mineResource().equals(new Empty())) {
+        if (onSpaceObject.getLayerThickness() == 0 && onSpaceObject.mineResource().equals(new Empty())) {
             log.log(Level.INFO, "You were hidden in an asteroid during the sunflair so you survived");
         } else {
             log.log(Level.INFO, "You were not hidden in an asteroid during the sunflair so you died");

@@ -7,6 +7,7 @@ import org.asteroidapp.interfaces.EventObservable;
 import org.asteroidapp.GameController;
 import org.asteroidapp.entities.Entity;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -62,14 +63,27 @@ public class Sun implements EventObservable {
 
         var playerIterator = GameController.getInstance().getIterOnPlayers();
         while (playerIterator.hasNext()) {
-            var settlerIterator = playerIterator.next().getIterOnMySettlers();
+
+            var playerOn = playerIterator.next();
+            var settlerIterator = playerOn.getIterOnMySettlers();
+
             while (settlerIterator.hasNext()) {
-                //TODO this code throws concurrentModificationException at notifyAboutDieEvent
-                //vszinu nem szereti ha modositjak az iterator felett az objectet
-                //sansz hogy az nem tetszik, hogy a playert is elteszik felole...
 
                 var settlerItem = settlerIterator.next();
+                settlerIterator.remove();
                 settlerItem.notifyFlairEvent();
+            }
+
+            //if playerOn has empty collection
+            //-> returns an emptyIterator, which has not next element
+            //-> hasNext() returns 'false'
+            if(!playerOn.getIterOnMySettlers().hasNext()){
+                //remove playerIterator - won't throw ConcurrentModificationException
+                playerIterator.remove();
+
+                //if player has no settlers -> the player must die
+                //so kill him/her
+                playerOn.killPlayer();
             }
         }
     }
