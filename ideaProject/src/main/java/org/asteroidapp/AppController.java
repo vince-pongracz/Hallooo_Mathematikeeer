@@ -7,8 +7,11 @@ import org.asteroidapp.resources.Coal;
 import org.asteroidapp.resources.FrozenWater;
 import org.asteroidapp.resources.ResourceStorage;
 import org.asteroidapp.resources.Uran;
-import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
+
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 
 //extends Application
 public class AppController {
@@ -67,7 +70,8 @@ public class AppController {
         log.log(Level.INFO, "Hello team :)");
 
         while (!quitCondition) {
-            ConsoleUI.getInstance().sendMessageToConsole("Type start to start!");
+            ConsoleUI.getInstance().sendMessageToConsole("Type start to start," +
+                    " help to show options, or quit to close application!");
             String response = ConsoleUI.getInstance().readLineFromConsole();
             if (response != null) {
                 if (response.equals("start")) {
@@ -83,6 +87,15 @@ public class AppController {
                 } else if (response.equals("quit")) {
                     quitCondition = true;
                     //delete/free resources
+                } else if (response.equals("test1")) {
+                    Queue<String> autoCommands= new ArrayDeque<String>();
+                    autoCommands.add("2");
+                    autoCommands.add("d");
+                    autoCommands.add("h");
+                    autoCommands.add("3");
+                    ConsoleUI.getInstance().setAutoCommands(autoCommands);
+                    GameController.getInstance().setupGame();
+                    GameController.getInstance().inGame();
                 } else {
                     //NOP
                 }
@@ -111,7 +124,5 @@ public class AppController {
 
         AppController app = new AppController();
         app.consoleDemo();
-
-
     }
 }

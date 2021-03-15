@@ -34,9 +34,10 @@ public class GameController {
         //later set in setup
         gameIsRunning = false;
         currentRound = 1;
-        playersNum = 1;
-
+        playersNum = 0;
         settlerNum = 1;
+
+
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         log.log(Level.TRACE, "jsonBuilder created");
@@ -178,16 +179,16 @@ public class GameController {
         callStack.log(Level.TRACE, "{}setupGame called", CallStackViewer.getInstance().printIntend());
 
         //get number and name of players
-        ConsoleUI.getInstance().sendMessageToConsole("Setup...");
-        ConsoleUI.getInstance().sendMessageToConsole("#players");
+        log.log(Level.TRACE,"Setup...");
+        ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired players");
 
         playersNum = ConsoleUI.getInstance().readIntFromConsole();
         createAndNamePlayers();
 
-        ConsoleUI.getInstance().sendMessageToConsole("#settlers/player");
+        ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired settlers for each player");
         settlerNum = ConsoleUI.getInstance().readIntFromConsole();
 
-        ConsoleUI.getInstance().sendMessageToConsole("Initialize...");
+        log.log(Level.TRACE,"Initialize...");
 
         //creating zone
         AsteroidZone.getInstance().createZone();
