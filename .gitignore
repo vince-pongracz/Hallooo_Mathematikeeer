@@ -8,3 +8,10 @@ ideaProject/.idea/codestream.xml
 ideaProject/.idea/misc.xml
 ideaProject/.idea/sonarlint/issuestore/index.pb
 ideaProject/callStacks/
+.DS_Store
+ideaProject/.DS_Store
+ideaProject/src/.DS_Store
+ideaProject/src/main/.DS_Store
+ideaProject/src/main/java/.DS_Store
+ideaProject/src/main/java/org/.DS_Store
+ideaProject/src/main/java/org/asteroidapp/.DS_Store
