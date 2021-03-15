@@ -92,6 +92,16 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     }
 
     /**
+     * Overridden method to get layerThickness
+     *
+     * @return actual layer thickness, or -1, if it's not interpretable
+     */
+    @Override
+    public int getLayerThickness() {
+        return layer.getThickness();
+    }
+
+    /**
      * can return with null! --- and it's okay, and good :)
      */
     @Override

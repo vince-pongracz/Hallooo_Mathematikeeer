@@ -35,6 +35,16 @@ public class Gate extends SteppableSpaceObject {
         return -1;
     }
 
+    /**
+     * Overridden method to get layerThickness
+     *
+     * @return actual layer thickness, or -1, if it's not interpretable, it is not an asteroid so it is -1
+     */
+    @Override
+    public int getLayerThickness() {
+        return -1;
+    }
+
     @Override
     public Resource mineResource() {
         return null;

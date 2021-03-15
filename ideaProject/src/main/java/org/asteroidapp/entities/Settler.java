@@ -72,12 +72,13 @@ public class Settler extends Entity {
     public boolean drill() {
         log.log(Level.INFO, "Drill called");
         log.log(Level.INFO, "Settler tried to drill an object");
+        int oldThickness = onSpaceObject.getLayerThickness();
+        int newThickness = onSpaceObject.drillLayer();
 
-        var tempThickness = onSpaceObject.drillLayer();
-        if (tempThickness > 0) {
+        if (newThickness > 0 || (oldThickness == 1 && newThickness == 0)) {
             log.log(Level.INFO, "Drill was successful");
             return true;
-        } else if (tempThickness == 0) {
+        } else if (newThickness == 0) {
             log.log(Level.INFO, "NO more drill needed, it's ready, you can mine");
             return false;
         } else {
@@ -303,7 +304,7 @@ public class Settler extends Entity {
 
             Gate gate1 = new Gate(new Position(400, 500));
             log.log(Level.INFO, "Gate1 created for {}", getName());
-            Gate gate2 = new Gate(new Position(700,700));
+            Gate gate2 = new Gate(new Position(700, 700));
             log.log(Level.INFO, "Gate2 created for {}", getName());
 
 
