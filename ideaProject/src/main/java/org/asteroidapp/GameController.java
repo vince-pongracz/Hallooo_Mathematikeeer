@@ -38,7 +38,6 @@ public class GameController {
         settlerNum = 1;
 
 
-
         GsonBuilder gsonBuilder = new GsonBuilder();
         log.log(Level.TRACE, "jsonBuilder created");
         log.log(Level.INFO, "\nDefault config set:\n{}", gsonBuilder.setPrettyPrinting().create().toJson(this));

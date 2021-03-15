@@ -84,6 +84,7 @@ public class AppController {
                     ConsoleUI.getInstance().sendMessageToConsole("help --> help msg");
                     ConsoleUI.getInstance().sendMessageToConsole("start --> start and config game");
                     ConsoleUI.getInstance().sendMessageToConsole("quit --> close app");
+                    ConsoleUI.getInstance().sendMessageToConsole("test1 --> run pre-defined config test1");
                 } else if (response.equals("quit")) {
                     quitCondition = true;
                     //delete/free resources
