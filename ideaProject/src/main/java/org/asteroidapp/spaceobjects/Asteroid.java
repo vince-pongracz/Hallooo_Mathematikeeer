@@ -135,13 +135,13 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         CallStackViewer.getInstance().logCall("addResourceToCore() called (Asteroid)");
 
         if (resource != null) {
-            if (layer.getThickness() == 0 && core.popResource() == null) {
+            if (layer.getThickness() == 0 && core.popResource().equals(new Empty())) {
                 core.pushResource(resource);
 
                 CallStackViewer.getInstance().methodReturns();
                 return true;
             } else {
-                log.log(Level.INFO, "Resource cannot mined - layer is too big!");
+                log.log(Level.INFO, "Resource cannot mined - layer is too big or the core is not mined!");
             }
         }
 
