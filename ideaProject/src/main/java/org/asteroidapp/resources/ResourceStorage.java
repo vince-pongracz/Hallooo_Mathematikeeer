@@ -1,12 +1,14 @@
 package org.asteroidapp.resources;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ResourceStorage {
     private List<Resource> resourceList = new ArrayList<>();
 
-    public ResourceStorage() { }
+    public ResourceStorage() {
+    }
 
     public int getAllCapacity() {
         return allCapacity;
@@ -42,6 +44,15 @@ public class ResourceStorage {
             }
         }
         return null;
+    }
+
+    public Resource popRandomResource() {
+        if (resourceList == null || resourceList.size() == 0) {
+            return new Empty();
+        } else {
+            Collections.shuffle(resourceList);
+            return resourceList.remove(0);
+        }
     }
 
     public void pushResource(Resource whatYouWant) {

@@ -73,12 +73,13 @@ public class Settler extends Entity {
     public boolean drill() {
         log.log(Level.INFO, "Drill called");
         log.log(Level.INFO, "Settler tried to drill an object");
+        int oldThickness = onSpaceObject.getLayerThickness();
+        int newThickness = onSpaceObject.drillLayer();
 
-        var tempThickness = onSpaceObject.drillLayer();
-        if (tempThickness > 0) {
+        if (newThickness > 0 || (oldThickness == 1 && newThickness == 0)) {
             log.log(Level.INFO, "Drill was successful");
             return true;
-        } else if (tempThickness == 0) {
+        } else if (newThickness == 0) {
             log.log(Level.INFO, "NO more drill needed, it's ready, you can mine");
             return false;
         } else {
@@ -95,10 +96,10 @@ public class Settler extends Entity {
     public void die() {
         log.log(Level.INFO, "Die method of player {}'s settler called", this.owner.getName());
 
-        AsteroidZone.getInstance().getSun().checkOut(this);
         onSpaceObject.checkOut(this);
         onSpaceObject = null;
         owner.removeSettler(this);
+        AsteroidZone.getInstance().getSun().checkOut(this);
     }
 
     /**
@@ -123,11 +124,12 @@ public class Settler extends Entity {
             SteppableSpaceObject selected = null;
             String name = ConsoleUI.getInstance().readLineFromConsole();
 
-            for (SteppableSpaceObject element : neighbours)
+            for (SteppableSpaceObject element : neighbours) {
                 if (element.getName().equals(name)) {
                     selected = element;
                     return selected;
                 }
+            }
         } else {
             log.log(Level.WARN, "neighbours is null, cannot choose form empty neighbour list");
         }
@@ -143,7 +145,7 @@ public class Settler extends Entity {
         log.log(Level.INFO, "notifyFlairEvent called");
 
         //TODO refactor: one Asteroid can hide just one entity..
-        if (onSpaceObject.drillLayer() == 0 && onSpaceObject.mineResource().equals(new Empty())) {
+        if (onSpaceObject.getLayerThickness() == 0 && onSpaceObject.mineResource().equals(new Empty())) {
             log.log(Level.INFO, "You were hidden in an asteroid during the sunflair so you survived");
         } else {
             log.log(Level.INFO, "You were not hidden in an asteroid during the sunflair so you died");
@@ -272,12 +274,18 @@ public class Settler extends Entity {
 
         //mining is successful
         if (res != null) {
-            addResource(res);
-            log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
-            return true;
+            if (!res.equals(new Empty())) {
+                addResource(res);
+                log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
+                return true;
+            } else {
+                //but can't mine "Empty", so it will be denied
+                log.log(Level.INFO, "Settler could not mine a resource because it is empty");
+                return false;
+            }
         } else {
             //unsuccessful mining
-            log.log(Level.INFO, "Settler could not mine a resource because either it is empty or the layer is not drilled trough");
+            log.log(Level.INFO, "Settler could not mine a resource because the layer is not drilled trough");
             return false;
         }
     }

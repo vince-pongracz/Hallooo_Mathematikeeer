@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.entities.AIRobot;
 import org.asteroidapp.entities.Settler;
 import org.asteroidapp.resources.*;
+import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
 import java.util.*;
@@ -20,20 +21,22 @@ public class GameController {
      * Logger for GameController
      */
     private static final Logger log = LogManager.getLogger(GameController.class.getSimpleName());
+    private static Logger callStack = LogManager.getLogger("callStack");
 
     /**
      * Default constructor
      */
     private GameController() {
         log.log(Level.INFO, "GameController constructor called");
+        callStack.log(Level.TRACE, "{}GameController constructor called", CallStackViewer.getInstance().printIntend());
 
         //default config?
         //later set in setup
         gameIsRunning = false;
         currentRound = 1;
-        playersNum = 1;
-
+        playersNum = 0;
         settlerNum = 1;
+
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         log.log(Level.TRACE, "jsonBuilder created");
@@ -45,6 +48,7 @@ public class GameController {
         log.log(Level.TRACE, "robots has their collection");
         log.log(Level.TRACE, "players has their collection");
 
+        CallStackViewer.getInstance().methodReturns();
     }
 
     private static GameController instance = null;
@@ -99,6 +103,7 @@ public class GameController {
      */
     private void dropSettlers() {
         log.log(Level.INFO, "dropSettlers called");
+        callStack.log(Level.TRACE, "{}dropSettlers called", CallStackViewer.getInstance().printIntend());
         log.log(Level.TRACE, "iterate on player(s) to create their settler(s)");
 
         //for every player
@@ -128,6 +133,8 @@ public class GameController {
 
             log.log(Level.INFO, "Player {}'s settler(s): done", playerName);
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -136,6 +143,7 @@ public class GameController {
      */
     private void createAndNamePlayers() {
         log.log(Level.INFO, "createAndNamePlayers called");
+        callStack.log(Level.TRACE, "{}createAndNamePlayers called", CallStackViewer.getInstance().printIntend());
 
         //create so many players, which was given in config
         for (int i = 0; i < playersNum; ) {
@@ -157,6 +165,8 @@ public class GameController {
                 ConsoleUI.getInstance().sendMessageToConsole("Wrong name");
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -165,18 +175,19 @@ public class GameController {
     public void setupGame() {
 
         log.log(Level.INFO, "setupGame called");
+        callStack.log(Level.TRACE, "{}setupGame called", CallStackViewer.getInstance().printIntend());
 
         //get number and name of players
-        ConsoleUI.getInstance().sendMessageToConsole("Setup...");
-        ConsoleUI.getInstance().sendMessageToConsole("#players");
+        log.log(Level.TRACE,"Setup...");
+        ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired players");
 
         playersNum = ConsoleUI.getInstance().readIntFromConsole();
         createAndNamePlayers();
 
-        ConsoleUI.getInstance().sendMessageToConsole("#settlers/player");
+        ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired settlers for each player");
         settlerNum = ConsoleUI.getInstance().readIntFromConsole();
 
-        ConsoleUI.getInstance().sendMessageToConsole("Initialize...");
+        log.log(Level.TRACE,"Initialize...");
 
         //creating zone
         AsteroidZone.getInstance().createZone();
@@ -190,6 +201,8 @@ public class GameController {
         ConsoleUI.getInstance().sendMessageToConsole("");
         ConsoleUI.getInstance().sendMessageToConsole("Setup ended");
         log.log(Level.INFO, "setup ended");
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -201,7 +214,11 @@ public class GameController {
         log.log(Level.INFO, "getIterOnPlayers called");
         log.log(Level.TRACE, "return iterator on players collection");
 
-        return players.iterator();
+        if (players == null || players.size() == 0) {
+            return Collections.emptyIterator();
+        } else {
+            return players.iterator();
+        }
     }
 
     /**
@@ -213,23 +230,18 @@ public class GameController {
     public void removePlayer(String name) {
         log.log(Level.INFO, "removePlayer called");
 
-        log.log(Level.TRACE, "check param");
-
         if (name != null && !name.equals("")) {
             log.log(Level.INFO, "Search player with name: {}", name);
 
             for (var player : players) {
                 if (player.getName().equals(name)) {
-
-                    log.log(Level.TRACE, "Player found");
-                    log.log(Level.INFO, "Kill player...");
-                    player.killPlayer();
-
                     log.log(Level.INFO, "Remove player from players collection");
                     players.remove(player);
                     return;
                 }
             }
+        } else {
+            log.log(Level.INFO, "No player found with name: {}", name);
         }
     }
 
@@ -245,9 +257,7 @@ public class GameController {
         if (playerLeaving != null) {
             log.log(Level.TRACE, "kill and remove player: {}", playerLeaving.getName());
 
-            playerLeaving.killPlayer();
             players.remove(playerLeaving);
-
         } else {
             //NOP
         }
@@ -268,6 +278,7 @@ public class GameController {
      */
     public void evaluateRound() {
         log.log(Level.INFO, "evaluateRound called");
+        callStack.log(Level.TRACE, "{}evaluateRound called", CallStackViewer.getInstance().printIntend());
 
         //eval flair
         evaluateFlair();
@@ -346,6 +357,8 @@ public class GameController {
                 gameIsRunning = false;
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -353,7 +366,7 @@ public class GameController {
      */
     private void evaluateFlair() {
         //TODO logic to flair scheduling - long task
-        log.log(Level.TRACE, "evaluateFlair called");
+        log.log(Level.INFO, "evaluateFlair called");
 
         if (getRound() % 10 == 0) {
             log.log(Level.TRACE, "flair event will be launched");
@@ -382,11 +395,11 @@ public class GameController {
      * Game loop
      */
     public void inGame() {
-        log.log(Level.TRACE, "inGame called - this is the game loop");
+        log.log(Level.INFO, "inGame called - this is the game loop");
         gameIsRunning = true;
         log.log(Level.TRACE, "game is running: {}", ((Boolean) gameIsRunning).toString());
 
-        while (gameIsRunning && getRound() < 12) {
+        while (gameIsRunning && getRound() < 22) {
             log.log(Level.TRACE, "new round started: {}", getRound());
             round();
             evaluateRound();
