@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.interfaces.Observable;
 import org.asteroidapp.resources.Resource;
+import org.asteroidapp.util.CallStackViewer;
 
 /**
  * Class for teleport gates.
@@ -26,8 +27,12 @@ public class Gate extends SteppableSpaceObject implements Observable {
      */
     public Gate(Position position) {
         super(position);
+        CallStackViewer.getInstance().logCall("Gate constructor called");
+
         log.log(Level.TRACE, "Gate constructor called.");
         log.log(Level.INFO, "New gate created.");
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     @Override
@@ -73,27 +78,43 @@ public class Gate extends SteppableSpaceObject implements Observable {
     @Override
     public boolean isActive() {
         log.log(Level.TRACE, "Gate's isActive called");
+        CallStackViewer.getInstance().logCall("isActive() called");
+
+        boolean ret = false;
         if (this.position != null && gatePair.position != null) {
             log.log(Level.INFO, "This gate is active, you can teleport");
-            return true;
+            ret = true;
         } else {
             log.log(Level.INFO, "This gate is inactive, its pair is yet to be placed");
-            return false;
+            ret = false;
         }
+        CallStackViewer.getInstance().methodReturns();
+        return ret;
     }
 
     @Override
     public boolean setPair(Gate pairGate) {
         log.log(Level.TRACE, "Gate's setPair called");
+        CallStackViewer.getInstance().logCall("setPair() called (Gate)");
+
+        boolean ret = false;
         if (pairGate != null) {
             this.gatePair = pairGate;
-            return true;
-        } else return false;
+            ret = true;
+        } else {
+            ret = false;
+        }
+
+        CallStackViewer.getInstance().methodReturns();
+        return ret;
     }
 
     @Override
     public SteppableSpaceObject getPair() {
         log.log(Level.TRACE, "Gate's getPair called");
+        CallStackViewer.getInstance().logCall("getPair() called (Gate)");
+        CallStackViewer.getInstance().methodReturns();
+        
         return gatePair;
     }
 

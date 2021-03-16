@@ -90,10 +90,9 @@ public class AppController {
                     //delete/free resources
                 } else if (response.equals("test1")) {
                     Queue<String> autoCommands= new ArrayDeque<String>();
-                    autoCommands.add("2");
-                    autoCommands.add("d");
-                    autoCommands.add("h");
-                    autoCommands.add("3");
+                    autoCommands.add("1");
+                    autoCommands.add("test1");
+                    autoCommands.add("1");
                     ConsoleUI.getInstance().setAutoCommands(autoCommands);
 
                     GameController.getInstance().setupGame();
