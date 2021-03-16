@@ -1,5 +1,9 @@
 package org.asteroidapp.util;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Singleton class for handle intendation
  * <p>
@@ -7,11 +11,10 @@ package org.asteroidapp.util;
  * <p>
  * - At the start of method, put a callStack log (in GameController there are some example)
  * Something like this:
- * callStack.log(Level.TRACE, "{}_methodName_ called", CallStackViewer.getInstance().printIntend());
- * You have to make a callStack log (if doesn't exist), like this:
- * private static Logger callStack = LogManager.getLogger("callStack");
- * <p>
- * - At the end of a method: call CallStackViewer.getInstance().methodReturns();
+ * CallStackViewer.getInstance().logCall(String logMessage);
+ *
+ * - At the end of a method:
+ * call CallStackViewer.getInstance().methodReturns();
  * <p>
  * This will log the method calls in a callStack_date_.log file into ../callStacks/
  * This can't print messages to console, but when it's necessary, we can create a new Appender to the console at log4j2.xml
@@ -45,12 +48,22 @@ public class CallStackViewer {
         return instance;
     }
 
+    private static Logger callStackLog = LogManager.getLogger("callStack");
+
     /**
-     * Prints intendation
-     *
-     * @return String intendation
+     * Create and format a callStack log message
+     * @param logMessage
      */
-    public String printIntend() {
+    public void logCall(String logMessage){
+        callStackLog.log(Level.TRACE, "{}{}", printIndentation(), logMessage);
+    }
+
+    /**
+     * Prints indentation
+     *
+     * @return String indentation
+     */
+    private String printIndentation() {
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < intendWith; i++) {
@@ -62,7 +75,7 @@ public class CallStackViewer {
     }
 
     /**
-     * Handle intendations, pull them back
+     * Handle indentations, pull them back
      */
     public void methodReturns() {
         intendWith--;

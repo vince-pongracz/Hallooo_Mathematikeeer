@@ -28,7 +28,7 @@ public class GameController {
      */
     private GameController() {
         log.log(Level.INFO, "GameController constructor called");
-        callStack.log(Level.TRACE, "{}GameController constructor called", CallStackViewer.getInstance().printIntend());
+        CallStackViewer.getInstance().logCall("GameController constructor called");
 
         //default config?
         //later set in setup
@@ -103,7 +103,7 @@ public class GameController {
      */
     private void dropSettlers() {
         log.log(Level.INFO, "dropSettlers called");
-        callStack.log(Level.TRACE, "{}dropSettlers called", CallStackViewer.getInstance().printIntend());
+        CallStackViewer.getInstance().logCall("dropSettlers() called");
         log.log(Level.TRACE, "iterate on player(s) to create their settler(s)");
 
         //for every player
@@ -143,7 +143,7 @@ public class GameController {
      */
     private void createAndNamePlayers() {
         log.log(Level.INFO, "createAndNamePlayers called");
-        callStack.log(Level.TRACE, "{}createAndNamePlayers called", CallStackViewer.getInstance().printIntend());
+        CallStackViewer.getInstance().logCall("createAndNamePlayers() called");
 
         //create so many players, which was given in config
         for (int i = 0; i < playersNum; ) {
@@ -175,10 +175,10 @@ public class GameController {
     public void setupGame() {
 
         log.log(Level.INFO, "setupGame called");
-        callStack.log(Level.TRACE, "{}setupGame called", CallStackViewer.getInstance().printIntend());
+        CallStackViewer.getInstance().logCall("setupGame() called");
 
         //get number and name of players
-        log.log(Level.TRACE,"Setup...");
+        log.log(Level.TRACE, "Setup...");
         ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired players");
 
         playersNum = ConsoleUI.getInstance().readIntFromConsole();
@@ -187,7 +187,7 @@ public class GameController {
         ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired settlers for each player");
         settlerNum = ConsoleUI.getInstance().readIntFromConsole();
 
-        log.log(Level.TRACE,"Initialize...");
+        log.log(Level.TRACE, "Initialize...");
 
         //creating zone
         AsteroidZone.getInstance().createZone();
@@ -278,7 +278,7 @@ public class GameController {
      */
     public void evaluateRound() {
         log.log(Level.INFO, "evaluateRound called");
-        callStack.log(Level.TRACE, "{}evaluateRound called", CallStackViewer.getInstance().printIntend());
+        CallStackViewer.getInstance().logCall("evaluateRound() called");
 
         //eval flair
         evaluateFlair();
@@ -367,6 +367,7 @@ public class GameController {
     private void evaluateFlair() {
         //TODO logic to flair scheduling - long task
         log.log(Level.INFO, "evaluateFlair called");
+        CallStackViewer.getInstance().logCall("evaluateFlair() called");
 
         if (getRound() % 10 == 0) {
             log.log(Level.TRACE, "flair event will be launched");
@@ -380,6 +381,8 @@ public class GameController {
             log.log(Level.TRACE, "no flair event in this round");
             //NOP
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -396,6 +399,7 @@ public class GameController {
      */
     public void inGame() {
         log.log(Level.INFO, "inGame called - this is the game loop");
+        CallStackViewer.getInstance().logCall("inGame()");
         gameIsRunning = true;
         log.log(Level.TRACE, "game is running: {}", ((Boolean) gameIsRunning).toString());
 
@@ -404,6 +408,8 @@ public class GameController {
             round();
             evaluateRound();
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -411,6 +417,8 @@ public class GameController {
      */
     private void round() {
         log.log(Level.INFO, "round called: {} th round of the game", currentRound);
+        CallStackViewer.getInstance().logCall("round: " + currentRound);
+
         currentRound++;
 
         log.log(Level.TRACE, "check on players");
@@ -437,6 +445,8 @@ public class GameController {
                 bot.doAction();
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**

@@ -3,6 +3,7 @@ package org.asteroidapp.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.AppController;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
 import org.asteroidapp.resources.*;
@@ -10,6 +11,7 @@ import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
+import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
 import java.util.*;
@@ -40,6 +42,7 @@ public class Settler extends Entity {
         super(name, initPlace);
 
         log.log(Level.INFO, "Settler constructor called");
+        CallStackViewer.getInstance().logCall("Settler constructor called");
 
         options.add("move");
         options.add("drill");
@@ -62,6 +65,8 @@ public class Settler extends Entity {
         resources.pushMore(2, new Uran());
         resources.pushMore(1, new FrozenWater());
         resources.pushMore(3, new Iron());
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -71,20 +76,26 @@ public class Settler extends Entity {
     @Override
     public boolean drill() {
         log.log(Level.INFO, "Drill called");
+        CallStackViewer.getInstance().logCall("drill() called (Settler)");
         log.log(Level.INFO, "Settler tried to drill an object");
+
         int oldThickness = onSpaceObject.getLayerThickness();
         int newThickness = onSpaceObject.drillLayer();
+        boolean ret = false;
 
         if (newThickness > 0 || (oldThickness == 1 && newThickness == 0)) {
             log.log(Level.INFO, "Drill was successful");
-            return true;
+            ret = true;
         } else if (newThickness == 0) {
             log.log(Level.INFO, "NO more drill needed, it's ready, you can mine");
-            return false;
+            ret = false;
         } else {
             log.log(Level.INFO, "Drill was not successful");
-            return false;
+            ret = false;
         }
+
+        CallStackViewer.getInstance().methodReturns();
+        return ret;
     }
 
     /**
@@ -94,11 +105,14 @@ public class Settler extends Entity {
     @Override
     public void die() {
         log.log(Level.INFO, "Die method of player {}'s settler called", this.owner.getName());
+        CallStackViewer.getInstance().logCall("die() called (Settler)");
 
         onSpaceObject.checkOut(this);
         onSpaceObject = null;
         owner.removeSettler(this);
         AsteroidZone.getInstance().getSun().checkOut(this);
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -110,6 +124,7 @@ public class Settler extends Entity {
     @Override
     protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
         log.log(Level.INFO, "ChooseNeighbour called");
+        CallStackViewer.getInstance().logCall("chooseNeighbour() called (Settler)");
         log.log(Level.INFO, "Choose a Neighbour with the name of the neighbour");
 
         if (neighbours != null) {
@@ -126,12 +141,18 @@ public class Settler extends Entity {
             for (SteppableSpaceObject element : neighbours) {
                 if (element.getName().equals(name)) {
                     selected = element;
+
+                    //returns here
+                    CallStackViewer.getInstance().methodReturns();
                     return selected;
                 }
             }
         } else {
             log.log(Level.WARN, "neighbours is null, cannot choose form empty neighbour list");
         }
+
+        //or return here
+        CallStackViewer.getInstance().methodReturns();
         return null;
     }
 
@@ -142,6 +163,7 @@ public class Settler extends Entity {
     @Override
     public void notifyFlairEvent() {
         log.log(Level.INFO, "notifyFlairEvent called");
+        CallStackViewer.getInstance().logCall( "notifyFlairEvent() called (Settler)");
 
         //TODO refactor: one Asteroid can hide just one entity..
         if (onSpaceObject.getLayerThickness() == 0 && onSpaceObject.mineResource().equals(new Empty())) {
@@ -150,6 +172,8 @@ public class Settler extends Entity {
             log.log(Level.INFO, "You were not hidden in an asteroid during the sunflair so you died");
             die();
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -159,7 +183,11 @@ public class Settler extends Entity {
     @Override
     public void notifyFlairDanger() {
         log.log(Level.INFO, "NotifyFlairDanger called");
+        CallStackViewer.getInstance().logCall( "notifyFlairDanger() called (Settler)");
+
         log.log(Level.INFO, "Be aware, a flair is coming in 2 rounds");
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -169,8 +197,11 @@ public class Settler extends Entity {
     @Override
     public void notifyAsteroidExplosion() {
         log.log(Level.INFO, "NotifyAsteroidExplosion called");
+        CallStackViewer.getInstance().logCall("notifyAsteroidExplosion() called (Settler)");
+
         //so you have to die
         die();
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -181,8 +212,7 @@ public class Settler extends Entity {
     @Override
     public void doAction() {
         log.log(Level.INFO, "doAction called");
-        //TODO decisionmaking, and communication with user
-
+        //TODO kell ide callStack log?
 
         //choose an action.
         boolean actionOK = false;
@@ -199,11 +229,9 @@ public class Settler extends Entity {
                     actionOK = drill();
                     break;
                 case 2:
-                    //TODO refactor, return with boolean
                     actionOK = mine();
                     break;
                 case 3:
-                    //TODO refactor, return with boolean
                     actionOK = createGate();
                     break;
                 case 4:
@@ -211,7 +239,6 @@ public class Settler extends Entity {
                     buildGate();
                     break;
                 case 5:
-                    //TODO refactor, return with boolean
                     actionOK = createBot();
                     break;
                 case 6:
@@ -242,9 +269,12 @@ public class Settler extends Entity {
 
     /**
      * This method creates a Robot if it has enough resources
+     * @warn 2 return point
      */
     public boolean createBot() {
         log.log(Level.INFO, "CreateBot called");
+        CallStackViewer.getInstance().logCall("createBot() called (Settler)");
+
         if (resources.countOf(new Coal()) >= 1 && resources.countOf(new Iron()) >= 1 && resources.countOf(new Uran()) >= 1) {
 
             resources.popResource(new Coal());
@@ -254,10 +284,14 @@ public class Settler extends Entity {
             AIRobot bot = new AIRobot("Robot", onSpaceObject);
             GameController.getInstance().addBot(bot);
             log.log(Level.INFO, "Bot created at {} asteroid", onSpaceObject.getName());
+
+            CallStackViewer.getInstance().methodReturns();
             return true;
 
         } else {
             log.log(Level.INFO, "Robot can not be created, not enough resources");
+
+            CallStackViewer.getInstance().methodReturns();
             return false;
         }
     }
@@ -269,24 +303,30 @@ public class Settler extends Entity {
      */
     public boolean mine() {
         log.log(Level.INFO, "Mine called");
+        CallStackViewer.getInstance().logCall("mine() called (Settler)");
+
         Resource res = onSpaceObject.mineResource();
+        boolean mineSuccess = false;
 
         //mining is successful
         if (res != null) {
             if (!res.equals(new Empty())) {
                 addResource(res);
                 log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
-                return true;
+                mineSuccess = true;
             } else {
                 //but can't mine "Empty", so it will be denied
                 log.log(Level.INFO, "Settler could not mine a resource because it is empty");
-                return false;
+                mineSuccess = false;
             }
         } else {
             //unsuccessful mining
             log.log(Level.INFO, "Settler could not mine a resource because the layer is not drilled trough");
-            return false;
+            mineSuccess = false;
         }
+
+        CallStackViewer.getInstance().methodReturns();
+        return mineSuccess;
     }
 
     /**
@@ -295,6 +335,9 @@ public class Settler extends Entity {
      */
     public boolean createGate() {
         log.log(Level.INFO, "CreateGate called");
+        CallStackViewer.getInstance().logCall("createGate() called (Settler)");
+
+        boolean createSuccess = false;
         //TODO nullcheck on resources count, or init all resource with 0 count
         //TODO when createdGates has size() == 0 --> it's also OK
         if (createdGates == null && resources.countOf(new FrozenWater()) >= 1 && resources.countOf(new Iron()) >= 2 && resources.countOf(new Uran()) >= 1) {
@@ -315,12 +358,14 @@ public class Settler extends Entity {
             gate1.setPair(gate2);
             gate2.setPair(gate1);*/
 
-            return true;
-
+            createSuccess = true;
         } else {
             log.log(Level.INFO, "Gate can not be created. You either have 1 or more gates in your inventory or you do not have enough resources to build them.");
-            return false;
+            createSuccess = false;
         }
+
+        CallStackViewer.getInstance().methodReturns();
+        return createSuccess;
     }
 
     /**
@@ -328,6 +373,8 @@ public class Settler extends Entity {
      */
     public void deployResource() {
         log.log(Level.INFO, "DeployResource called");
+        CallStackViewer.getInstance().logCall("deployResource() called (Settler)");
+
         listResources();
         var resource = chooseResource();
 
@@ -337,6 +384,8 @@ public class Settler extends Entity {
         } else {
             log.log(Level.INFO, "The selected resource can not be chosen");
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -344,6 +393,7 @@ public class Settler extends Entity {
      */
     public void buildGate() {
         log.log(Level.INFO, "BuildGate called");
+        CallStackViewer.getInstance().logCall("buildGate() called (Settler)");
 
         if (createdGates != null) {
             Gate gate = createdGates.remove(0);
@@ -354,6 +404,8 @@ public class Settler extends Entity {
         } else {
             log.log(Level.INFO, "You do not have any gates to place");
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -363,7 +415,11 @@ public class Settler extends Entity {
      */
     public List<Resource> listResources() {
         log.log(Level.INFO, "ListResources called");
+        CallStackViewer.getInstance().logCall("listResources() called (Settler)");
+
         resources.getResourceList().forEach((temp) -> System.out.println(temp.getName()));
+
+        CallStackViewer.getInstance().methodReturns();
         return resources.getResourceList();
     }
 
@@ -374,7 +430,9 @@ public class Settler extends Entity {
      */
     public Resource chooseResource() {
         log.log(Level.INFO, "chooseResource called");
+        CallStackViewer.getInstance().logCall("chooseResource() called (Settler)");
         log.log(Level.INFO, "Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran");
+
         int resourceNum = ConsoleUI.getInstance().readIntFromConsole();
         Resource resource = null;
 
@@ -394,6 +452,7 @@ public class Settler extends Entity {
         }
         log.log(Level.TRACE, "Choosen resource: {}", resource.getName());
 
+        CallStackViewer.getInstance().methodReturns();
         return resource;
     }
 
@@ -409,7 +468,8 @@ public class Settler extends Entity {
         if (resource != null) {
             resources.pushResource(resource);
             log.log(Level.INFO, "{} added to settler successfully", resource.getName());
-        } else
+        } else {
             log.log(Level.INFO, "Nothing can be added");
+        }
     }
 }

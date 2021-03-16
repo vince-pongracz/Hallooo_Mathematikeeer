@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.entities.Settler;
+import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
 
@@ -27,7 +28,7 @@ public class Player {
         this.name = "";
         this.setName(name);
 
-        log.log(Level.TRACE, "Player created with name: {}.", this.name);
+        log.log(Level.TRACE, "Player created with name: {}", this.name);
 
         this.mySettlers = new ArrayList<Settler>();
         log.log(Level.TRACE, "List created for settlers");
@@ -97,11 +98,14 @@ public class Player {
 
     public void killPlayer() {
         log.log(Level.INFO, "killPlayer called");
+        CallStackViewer.getInstance().logCall("killPlayer() called");
 
         GameController.getInstance().removePlayer(this.name);
         for (var settler : mySettlers) {
             settler.die();
         }
         mySettlers = null;
+
+        CallStackViewer.getInstance().methodReturns();
     }
 }

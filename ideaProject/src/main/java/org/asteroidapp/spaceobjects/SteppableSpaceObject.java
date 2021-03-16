@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.interfaces.Observable;
 import org.asteroidapp.entities.Entity;
 import org.asteroidapp.resources.Resource;
+import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
 
@@ -94,12 +95,14 @@ public abstract class SteppableSpaceObject implements Observable {
 
     /**
      * Sets a new position for object
+     *
      * @param newPosition to be set
      */
     public abstract void setMyPosition(Position newPosition);
 
     /**
      * State of a SteppableSpaceObject
+     *
      * @return true if SpaceObject is active (can be used)
      * false if it's not
      */
@@ -124,6 +127,7 @@ public abstract class SteppableSpaceObject implements Observable {
     //TODO check
     public void checkOut(Entity leavingEntity) {
         log.log(Level.INFO, "checkOut called");
+        CallStackViewer.getInstance().logCall("checkOut() called");
 
         if (leavingEntity != null) {
             Boolean temp = playersOnMe.remove(leavingEntity);
@@ -131,6 +135,8 @@ public abstract class SteppableSpaceObject implements Observable {
         } else {
             //NOP
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -141,6 +147,7 @@ public abstract class SteppableSpaceObject implements Observable {
     //TODO check
     public void checkIn(Entity newEntity) {
         log.log(Level.INFO, "checkIn called");
+        CallStackViewer.getInstance().logCall("checkIn() called");
 
         if (newEntity != null) {
             Boolean temp = playersOnMe.add(newEntity);
@@ -149,6 +156,7 @@ public abstract class SteppableSpaceObject implements Observable {
             //NOP
         }
 
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**

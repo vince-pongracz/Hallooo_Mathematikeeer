@@ -6,6 +6,7 @@ import org.asteroidapp.spaceobjects.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
 
@@ -65,6 +66,8 @@ public class AsteroidZone {
      * the home asteroid and the sun.
      */
     public void createZone() {
+        CallStackViewer.getInstance().logCall("createZone() called");
+
         //add home
         int range = 1000;
         int numOfAsteroids = 9;
@@ -95,6 +98,7 @@ public class AsteroidZone {
             }
         }
 
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**

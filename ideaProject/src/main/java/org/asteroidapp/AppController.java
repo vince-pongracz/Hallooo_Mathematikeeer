@@ -7,6 +7,7 @@ import org.asteroidapp.resources.Coal;
 import org.asteroidapp.resources.FrozenWater;
 import org.asteroidapp.resources.ResourceStorage;
 import org.asteroidapp.resources.Uran;
+import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
 import java.util.ArrayDeque;
@@ -60,7 +61,6 @@ public class AppController {
      * Logger for AppController
      */
     private static Logger log = LogManager.getLogger(AppController.class.getSimpleName());
-    private static Logger callStack = LogManager.getLogger("callStack");
 
     private static boolean quitCondition = false;
 
@@ -78,13 +78,13 @@ public class AppController {
                     //startGame();
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
-                    //wipe game data to probable restart --- solve this
+                    //TODO wipe game data to probable restart, or rerun with current config --- solve this
 
                 } else if (response.equals("help")) {
                     ConsoleUI.getInstance().sendMessageToConsole("help --> help msg");
                     ConsoleUI.getInstance().sendMessageToConsole("start --> start and config game");
                     ConsoleUI.getInstance().sendMessageToConsole("quit --> close app");
-                    ConsoleUI.getInstance().sendMessageToConsole("test1 --> run pre-defined config test1");
+                    ConsoleUI.getInstance().sendMessageToConsole("test1 --> run pre-defined config: test1");
                 } else if (response.equals("quit")) {
                     quitCondition = true;
                     //delete/free resources
@@ -95,6 +95,7 @@ public class AppController {
                     autoCommands.add("h");
                     autoCommands.add("3");
                     ConsoleUI.getInstance().setAutoCommands(autoCommands);
+
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
                 } else {
@@ -121,9 +122,11 @@ public class AppController {
     }
 
     public static void main(String[] args) {
-        callStack.log(Level.TRACE, "Call Stack:");
+        CallStackViewer.getInstance().logCall("___CALLSTACK:___");
 
         AppController app = new AppController();
         app.consoleDemo();
+
+        CallStackViewer.getInstance().methodReturns();
     }
 }

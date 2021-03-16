@@ -3,9 +3,11 @@ package org.asteroidapp.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.AppController;
 import org.asteroidapp.interfaces.EventObservable;
 import org.asteroidapp.GameController;
 import org.asteroidapp.entities.Entity;
+import org.asteroidapp.util.CallStackViewer;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -60,6 +62,7 @@ public class Sun implements EventObservable {
      */
     private void doSunFlair() {
         log.log(Level.INFO, "doSunFlair called");
+        CallStackViewer.getInstance().logCall("doSunFlair() called (Sun)");
 
         var playerIterator = GameController.getInstance().getIterOnPlayers();
         while (playerIterator.hasNext()) {
@@ -86,6 +89,8 @@ public class Sun implements EventObservable {
                 playerOn.killPlayer();
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -93,6 +98,7 @@ public class Sun implements EventObservable {
      */
     public void notifyAboutDanger() {
         log.log(Level.INFO, "notifyAboutDanger called");
+        CallStackViewer.getInstance().logCall("notifyAboutDanger() called (Sun)");
 
         log.log(Level.TRACE, "Iterate on players, and his/her settlers");
         var playerIterator = GameController.getInstance().getIterOnPlayers();
@@ -102,6 +108,8 @@ public class Sun implements EventObservable {
                 settlerIterator.next().notifyFlairDanger();
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -110,26 +118,38 @@ public class Sun implements EventObservable {
      */
     public void notifyAboutDieEvent() {
         log.log(Level.INFO, "notifyAboutDieEvent called");
+        CallStackViewer.getInstance().logCall("notifyAboutDieEvent() called (Sun)");
+
         doSunFlair();
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     @Override
     public void checkOut(Entity leavingEntity) {
         log.log(Level.INFO, "checkOut called");
+        CallStackViewer.getInstance().logCall("checkOut() called (Sun)");
+
         if (leavingEntity != null) {
             this.entities.remove(leavingEntity);
         } else {
             log.log(Level.FATAL, "leavingEntity is null");
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     @Override
     public void checkIn(Entity newEntity) {
         log.log(Level.INFO, "checkIn called");
+        CallStackViewer.getInstance().logCall("checkIn() called (Sun)");
+
         if (newEntity != null) {
             this.entities.add(newEntity);
         } else {
             log.log(Level.FATAL, "newEntity is null");
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 }

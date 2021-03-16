@@ -10,6 +10,7 @@ import org.asteroidapp.resources.FrozenWater;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.spaceobject.asteroid.Core;
 import org.asteroidapp.spaceobject.asteroid.Layer;
+import org.asteroidapp.util.CallStackViewer;
 
 /**
  * class for Asteroid
@@ -28,6 +29,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         super(position);
 
         log.log(Level.INFO, "Asteroid constructor called");
+        CallStackViewer.getInstance().logCall("Asteroid constructor called");
 
         this.name = "";
         setName(name);
@@ -36,6 +38,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         this.layer = new Layer(layer);
 
         log.log(Level.TRACE, "new Asteroid created");
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -63,6 +66,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     @Override
     public int drillLayer() {
         log.log(Level.INFO, "drillLayer called, before drill was the layer: {}", layer.getThickness());
+        CallStackViewer.getInstance().logCall("drillLayer() called (Asteroid)");
 
         //thin layer
         var result = layer.thinIt();
@@ -87,6 +91,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
             core.popResource();
             core.pushResource(new Empty());
         }
+
+        CallStackViewer.getInstance().methodReturns();
         //return the actual thickness
         return result;
     }
@@ -107,28 +113,39 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     @Override
     public Resource mineResource() {
         log.log(Level.INFO, "mineResource called");
+        CallStackViewer.getInstance().logCall("mineResource() called (Asteroid)");
 
+        Resource ret = null;
         //if no layer --> can be mined
         if (layer.getThickness() == 0) {
-            return core.popResource();
+            CallStackViewer.getInstance().methodReturns();
+            ret = core.popResource();
         } else {
             log.log(Level.INFO, "Resource cannot mined - layer is too big!");
-            return null;
+            ret = null;
         }
+
+        CallStackViewer.getInstance().methodReturns();
+        return ret;
     }
 
     @Override
     public boolean addResourceToCore(Resource resource) {
         log.log(Level.INFO, "addResourceToCore called");
+        CallStackViewer.getInstance().logCall("addResourceToCore() called (Asteroid)");
 
         if (resource != null) {
             if (layer.getThickness() == 0 && core.popResource() == null) {
                 core.pushResource(resource);
+
+                CallStackViewer.getInstance().methodReturns();
                 return true;
             } else {
                 log.log(Level.INFO, "Resource cannot mined - layer is too big!");
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
         return false;
     }
 
@@ -184,6 +201,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
      */
     protected void explode() {
         log.log(Level.INFO, "explode called");
+        CallStackViewer.getInstance().logCall("explode() called (Asteroid)");
 
         //let these resources go
         core = null;
@@ -198,6 +216,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         //remove from world
         AsteroidZone.getInstance().removeSpaceObject(this);
 
+        CallStackViewer.getInstance().methodReturns();
         //gc eats this object sooner or later
     }
 
@@ -213,6 +232,10 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
      * Notify observers, they have to die or handle this event
      */
     public void notifyAboutDieEvent() {
+        CallStackViewer.getInstance().logCall("notifyAboutDieEvent() called (Asteroid)");
+
         explode();
+
+        CallStackViewer.getInstance().methodReturns();
     }
 }

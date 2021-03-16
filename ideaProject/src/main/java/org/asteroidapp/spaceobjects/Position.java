@@ -170,7 +170,7 @@ public class Position {
      * @return maxNeighbourDistance
      */
     public static double getMaximalNeighbourDistance() {
-        log.log(Level.TRACE, "getMaximalNeighbourDistance function called ({}.)", maxNeighbourDistance);
+        log.log(Level.TRACE, "getMaximalNeighbourDistance function called ({})", maxNeighbourDistance);
         return maxNeighbourDistance;
     }
 
@@ -181,7 +181,7 @@ public class Position {
      */
     public static void setMaximalNeighbourDistance(double maxDistance) {
         log.log(Level.TRACE, "setMaximalNeighbourDistance function called");
-        log.log(Level.TRACE, "new value of maxNeighbourDistance: ({}.)", maxNeighbourDistance);
+        log.log(Level.TRACE, "new value of maxNeighbourDistance: ({})", maxNeighbourDistance);
         maxNeighbourDistance = Math.abs(maxDistance);
     }
 

@@ -6,7 +6,9 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AppController;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.resources.ResourceStorage;
+import org.asteroidapp.util.CallStackViewer;
 
+import java.lang.invoke.CallSite;
 import java.util.*;
 
 
@@ -24,8 +26,9 @@ public class Core {
      * Default constructor
      */
     public Core(Resource initResource) {
+
         resource = new ResourceStorage();
-        resource.setAllCapacity(Math.abs(1));
+        resource.setAllCapacity(1);
         resource.pushResource(initResource);
     }
 
@@ -53,6 +56,8 @@ public class Core {
      */
     public Resource popResource() {
         log.log(Level.TRACE, "popResource called.");
+        CallStackViewer.getInstance().logCall("popResource() called (Core)");
+        CallStackViewer.getInstance().methodReturns();
         return resource.popRandomResource();
     }
 
@@ -63,8 +68,12 @@ public class Core {
      */
     //TODO: esetek lefedése
     public void pushResource(Resource newResource) {
+        CallStackViewer.getInstance().logCall("pushResource() called (Core)");
+
         resource.pushResource(newResource);
         log.log(Level.TRACE, "pushResource called. The ressource was set to: {}", newResource.getName());
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
 }
