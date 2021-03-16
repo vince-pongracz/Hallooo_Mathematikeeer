@@ -55,6 +55,7 @@ public class Settler extends Entity {
 
         if (owner != null) {
             this.owner = owner;
+            createdGates = new ArrayList<Gate>();     ////// INITIALIZED GATE INVENTORY
         } else {
             log.log(Level.FATAL, "owner is null!");
         }
@@ -340,7 +341,7 @@ public class Settler extends Entity {
         boolean createSuccess = false;
         //TODO nullcheck on resources count, or init all resource with 0 count
         //TODO when createdGates has size() == 0 --> it's also OK
-        if (createdGates == null && resources.countOf(new FrozenWater()) >= 1 && resources.countOf(new Iron()) >= 2 && resources.countOf(new Uran()) >= 1) {
+        if (createdGates.size() == 0 && resources.countOf(new FrozenWater()) >= 1 && resources.countOf(new Iron()) >= 2 && resources.countOf(new Uran()) >= 1) { ////CHANGED CREATEDGATES NULLCHECK  TO SIZE == 0
 
             resources.popResource(new FrozenWater());
             resources.popMore(2, new Iron());
@@ -352,11 +353,11 @@ public class Settler extends Entity {
             log.log(Level.INFO, "Gate2 created for {}", getName());
 
 
-            //TODO Gate class is not ready
-            /*createdGates.add(gate1);
+            //TODO Gate class is not ready          This looks OK now -Abel
+            createdGates.add(gate1);
             createdGates.add(gate2);
             gate1.setPair(gate2);
-            gate2.setPair(gate1);*/
+            gate2.setPair(gate1);
 
             createSuccess = true;
         } else {
@@ -395,10 +396,10 @@ public class Settler extends Entity {
         log.log(Level.INFO, "BuildGate called");
         CallStackViewer.getInstance().logCall("buildGate() called (Settler)");
 
-        if (createdGates != null) {
+        if (createdGates.size() != 0) {     /////////////// SIZE CHECK INSTEAD OF NULL CHECK
             Gate gate = createdGates.remove(0);
             //TODO position for gate
-            gate.setMyPosition(new Position());
+            gate.setMyPosition(this.onSpaceObject.getPosition());  ////////ALTERED EMPTY POSITION TO SETTLERS (ASTEROIDS) POSITION FOR TESTING, SHOULD BE SOMEWHERE AROUND THE SETTLER
             AsteroidZone.getInstance().addSpaceObject(gate);
             log.log(Level.INFO, "Gate placed at x = {}, y = {}", gate.getPosition().getX(), gate.getPosition().getY());
         } else {
