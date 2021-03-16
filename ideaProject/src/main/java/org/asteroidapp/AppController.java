@@ -98,6 +98,16 @@ public class AppController {
 
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
+                } else if (response.equals("test_move")) {
+                    Queue<String> autoCommands= new ArrayDeque<String>();
+                    autoCommands.add("1");
+                    autoCommands.add("x");
+                    autoCommands.add("1");
+                    autoCommands.add("0");
+                    ConsoleUI.getInstance().setAutoCommands(autoCommands);
+
+                    GameController.getInstance().setupGame();
+                    GameController.getInstance().inGame();
                 } else {
                     //NOP
                 }
