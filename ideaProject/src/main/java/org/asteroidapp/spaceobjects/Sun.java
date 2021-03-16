@@ -33,6 +33,7 @@ public class Sun implements EventObservable {
      */
     public Sun(Position position) {
         log.log(Level.INFO, "Sun constructor called");
+        CallStackViewer.getInstance().logCall("Sun constructor called");
 
         if (position != null) {
             this.position = position;
@@ -42,6 +43,8 @@ public class Sun implements EventObservable {
         } else {
             log.log(Level.FATAL, "Wrong position! (position is null)");
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**

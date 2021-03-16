@@ -108,11 +108,15 @@ public class AsteroidZone {
      */
     public void addSpaceObject(SteppableSpaceObject spaceObj) {
         log.log(Level.INFO, "addSpaceObject called");
+        CallStackViewer.getInstance().logCall("addSpaceObject() called");
+
         if (spaceObj != null) {
             spaceObjects.add(spaceObj);
         } else {
             log.log(Level.WARN, "spaceObj is null");
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -122,11 +126,15 @@ public class AsteroidZone {
      */
     public void removeSpaceObject(SteppableSpaceObject removedSpaceObject) {
         log.log(Level.INFO, "removeSpaceObject called");
+        CallStackViewer.getInstance().logCall("removeSpaceObject() called");
+
         if (removedSpaceObject != null) {
             spaceObjects.remove(removedSpaceObject);
         } else {
             log.log(Level.WARN, "removedSpaceObject is null");
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
