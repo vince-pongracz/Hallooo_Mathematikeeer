@@ -27,7 +27,7 @@ public class Gate extends SteppableSpaceObject implements Observable {
      */
     public Gate(Position position) {
         super(position);
-        CallStackViewer.getInstance().logCall("Gate constructor called");
+        CallStackViewer.getInstance().methodStartsLogCall("Gate constructor called");
 
         log.log(Level.TRACE, "Gate constructor called.");
         log.log(Level.INFO, "New gate created.");
@@ -78,7 +78,7 @@ public class Gate extends SteppableSpaceObject implements Observable {
     @Override
     public boolean isActive() {
         log.log(Level.TRACE, "Gate's isActive called");
-        CallStackViewer.getInstance().logCall("isActive() called");
+        CallStackViewer.getInstance().methodStartsLogCall("isActive() called");
 
         boolean ret = false;
         if (this.position != null && gatePair.position != null) {
@@ -95,7 +95,7 @@ public class Gate extends SteppableSpaceObject implements Observable {
     @Override
     public boolean setPair(Gate pairGate) {
         log.log(Level.TRACE, "Gate's setPair called");
-        CallStackViewer.getInstance().logCall("setPair() called (Gate)");
+        CallStackViewer.getInstance().methodStartsLogCall("setPair() called (Gate)");
 
         boolean ret = false;
         if (pairGate != null) {
@@ -112,7 +112,7 @@ public class Gate extends SteppableSpaceObject implements Observable {
     @Override
     public SteppableSpaceObject getPair() {
         log.log(Level.TRACE, "Gate's getPair called");
-        CallStackViewer.getInstance().logCall("getPair() called (Gate)");
+        CallStackViewer.getInstance().methodStartsLogCall("getPair() called (Gate)");
         CallStackViewer.getInstance().methodReturns();
         
         return gatePair;

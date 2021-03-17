@@ -127,7 +127,7 @@ public abstract class SteppableSpaceObject implements Observable {
     //TODO check
     public void checkOut(Entity leavingEntity) {
         log.log(Level.INFO, "checkOut called");
-        CallStackViewer.getInstance().logCall("checkOut() called");
+        CallStackViewer.getInstance().methodStartsLogCall("checkOut() called");
 
         if (leavingEntity != null) {
             Boolean temp = playersOnMe.remove(leavingEntity);
@@ -147,7 +147,7 @@ public abstract class SteppableSpaceObject implements Observable {
     //TODO check
     public void checkIn(Entity newEntity) {
         log.log(Level.INFO, "checkIn called");
-        CallStackViewer.getInstance().logCall("checkIn() called");
+        CallStackViewer.getInstance().methodStartsLogCall("checkIn() called");
 
         if (newEntity != null) {
             Boolean temp = playersOnMe.add(newEntity);

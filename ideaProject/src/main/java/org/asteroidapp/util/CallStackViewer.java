@@ -5,13 +5,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Singleton class for handle intendation
+ * Singleton class for handle indentation
  * <p>
  * Behaviour:
  * <p>
  * - At the start of method, put a callStack log (in GameController there are some example)
  * Something like this:
- * CallStackViewer.getInstance().logCall(String logMessage);
+ * CallStackViewer.getInstance().methodStartsLogCall(String logMessage);
+ *
+ * - If you want a logMessage inside the method, and it's NOT a new method call, you can call this:
+ * CallStackViewer.getInstance().innerMethodLogCall(String logMessage);
  *
  * - At the end of a method:
  * call CallStackViewer.getInstance().methodReturns();
@@ -51,10 +54,21 @@ public class CallStackViewer {
     private static Logger callStackLog = LogManager.getLogger("callStack");
 
     /**
-     * Create and format a callStack log message
+     * Create and format a callStack log message at the START of the method
      * @param logMessage
      */
-    public void logCall(String logMessage){
+    public void methodStartsLogCall(String logMessage){
+        intendWith++;
+        callStackLog.log(Level.TRACE, "{}{}", printIndentation(), logMessage);
+    }
+
+    /**
+     * Create and format a callStack log message inside a method
+     * @note no indentation
+     *
+     * @param logMessage
+     */
+    public void innerMethodCall(String logMessage){
         callStackLog.log(Level.TRACE, "{}{}", printIndentation(), logMessage);
     }
 
@@ -69,7 +83,6 @@ public class CallStackViewer {
         for (int i = 0; i < intendWith; i++) {
             builder.append("   ");
         }
-        intendWith++;
 
         return builder.toString();
     }

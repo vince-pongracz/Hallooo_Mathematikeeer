@@ -3,13 +3,11 @@ package org.asteroidapp.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.AppController;
 import org.asteroidapp.interfaces.EventObservable;
 import org.asteroidapp.GameController;
 import org.asteroidapp.entities.Entity;
 import org.asteroidapp.util.CallStackViewer;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,7 +31,7 @@ public class Sun implements EventObservable {
      */
     public Sun(Position position) {
         log.log(Level.INFO, "Sun constructor called");
-        CallStackViewer.getInstance().logCall("Sun constructor called");
+        CallStackViewer.getInstance().methodStartsLogCall("Sun constructor called");
 
         if (position != null) {
             this.position = position;
@@ -65,7 +63,7 @@ public class Sun implements EventObservable {
      */
     private void doSunFlair() {
         log.log(Level.INFO, "doSunFlair called");
-        CallStackViewer.getInstance().logCall("doSunFlair() called (Sun)");
+        CallStackViewer.getInstance().methodStartsLogCall("doSunFlair() called (Sun)");
 
         var playerIterator = GameController.getInstance().getIterOnPlayers();
         while (playerIterator.hasNext()) {
@@ -101,7 +99,7 @@ public class Sun implements EventObservable {
      */
     public void notifyAboutDanger() {
         log.log(Level.INFO, "notifyAboutDanger called");
-        CallStackViewer.getInstance().logCall("notifyAboutDanger() called (Sun)");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyAboutDanger() called (Sun)");
 
         log.log(Level.TRACE, "Iterate on players, and his/her settlers");
         var playerIterator = GameController.getInstance().getIterOnPlayers();
@@ -121,7 +119,7 @@ public class Sun implements EventObservable {
      */
     public void notifyAboutDieEvent() {
         log.log(Level.INFO, "notifyAboutDieEvent called");
-        CallStackViewer.getInstance().logCall("notifyAboutDieEvent() called (Sun)");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyAboutDieEvent() called (Sun)");
 
         doSunFlair();
 
@@ -131,7 +129,7 @@ public class Sun implements EventObservable {
     @Override
     public void checkOut(Entity leavingEntity) {
         log.log(Level.INFO, "checkOut called");
-        CallStackViewer.getInstance().logCall("checkOut() called (Sun)");
+        CallStackViewer.getInstance().methodStartsLogCall("checkOut() called (Sun)");
 
         if (leavingEntity != null) {
             this.entities.remove(leavingEntity);
@@ -145,7 +143,7 @@ public class Sun implements EventObservable {
     @Override
     public void checkIn(Entity newEntity) {
         log.log(Level.INFO, "checkIn called");
-        CallStackViewer.getInstance().logCall("checkIn() called (Sun)");
+        CallStackViewer.getInstance().methodStartsLogCall("checkIn() called (Sun)");
 
         if (newEntity != null) {
             this.entities.add(newEntity);

@@ -3,7 +3,6 @@ package org.asteroidapp.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.AppController;
 import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
@@ -56,7 +55,7 @@ public abstract class Entity implements Observer {
      */
     public void move() {
         log.log(Level.INFO, "move called");
-        CallStackViewer.getInstance().logCall( "move() called (Entity)");
+        CallStackViewer.getInstance().methodStartsLogCall( "move() called (Entity)");
 
         var neighbours = listMyNeighbours();
         var nextSpaceObject = chooseNeighbour(neighbours);
@@ -92,7 +91,7 @@ public abstract class Entity implements Observer {
      */
     public Set<SteppableSpaceObject> listMyNeighbours() {
         log.log(Level.INFO, "listMyNeighbours called");
-        CallStackViewer.getInstance().logCall("listMyNeighbours() called (Entity)");
+        CallStackViewer.getInstance().methodStartsLogCall("listMyNeighbours() called (Entity)");
 
         Set<SteppableSpaceObject> neighbours = new HashSet<>();
         var iter = AsteroidZone.getInstance().getIterOnSpaceObjects();

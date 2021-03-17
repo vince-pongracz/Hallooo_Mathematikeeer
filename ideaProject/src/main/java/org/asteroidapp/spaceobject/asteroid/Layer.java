@@ -3,10 +3,7 @@ package org.asteroidapp.spaceobject.asteroid;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.AppController;
 import org.asteroidapp.util.CallStackViewer;
-
-import java.util.*;
 
 /**
  * It depicts the cortex of an asteroid, knows how thick it is and can reduce it.
@@ -36,7 +33,7 @@ public class Layer {
      * @return thickness
      */
     public int thinIt() {
-        CallStackViewer.getInstance().logCall("thinIt() called (Layer)");
+        CallStackViewer.getInstance().methodStartsLogCall("thinIt() called (Layer)");
 
         if (thickness > 0) {
             thickness--;

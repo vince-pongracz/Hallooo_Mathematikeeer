@@ -121,7 +121,7 @@ public class AppController {
     }
 
     public static void main(String[] args) {
-        CallStackViewer.getInstance().logCall("___CALLSTACK:___");
+        CallStackViewer.getInstance().methodStartsLogCall("___CALLSTACK:___");
 
         AppController app = new AppController();
         app.consoleDemo();

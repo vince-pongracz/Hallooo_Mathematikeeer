@@ -1,6 +1,5 @@
 package org.asteroidapp;
 
-import org.asteroidapp.entities.AIRobot;
 import org.asteroidapp.resources.*;
 import org.asteroidapp.spaceobjects.*;
 import org.apache.logging.log4j.Level;
@@ -66,7 +65,7 @@ public class AsteroidZone {
      * the home asteroid and the sun.
      */
     public void createZone() {
-        CallStackViewer.getInstance().logCall("createZone() called");
+        CallStackViewer.getInstance().methodStartsLogCall("createZone() called");
 
         //add home
         int range = 1000;
@@ -108,7 +107,7 @@ public class AsteroidZone {
      */
     public void addSpaceObject(SteppableSpaceObject spaceObj) {
         log.log(Level.INFO, "addSpaceObject called");
-        CallStackViewer.getInstance().logCall("addSpaceObject() called");
+        CallStackViewer.getInstance().methodStartsLogCall("addSpaceObject() called");
 
         if (spaceObj != null) {
             spaceObjects.add(spaceObj);
@@ -126,7 +125,7 @@ public class AsteroidZone {
      */
     public void removeSpaceObject(SteppableSpaceObject removedSpaceObject) {
         log.log(Level.INFO, "removeSpaceObject called");
-        CallStackViewer.getInstance().logCall("removeSpaceObject() called");
+        CallStackViewer.getInstance().methodStartsLogCall("removeSpaceObject() called");
 
         if (removedSpaceObject != null) {
             spaceObjects.remove(removedSpaceObject);

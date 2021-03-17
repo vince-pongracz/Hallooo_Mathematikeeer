@@ -24,7 +24,7 @@ public class HomeAsteroid extends Asteroid {
     public HomeAsteroid(Position position, Resource initResource) {
         super("Home", position, initResource, 0);
 
-        CallStackViewer.getInstance().logCall("HomeAsteroid constructor called");
+        CallStackViewer.getInstance().methodStartsLogCall("HomeAsteroid constructor called");
 
         //to override Asteroid core, layer constructions
         core = null;
@@ -37,14 +37,14 @@ public class HomeAsteroid extends Asteroid {
 
     @Override
     public int drillLayer() {
-        CallStackViewer.getInstance().logCall("drillLayer() called (HomeAsteroid)");
+        CallStackViewer.getInstance().methodStartsLogCall("drillLayer() called (HomeAsteroid)");
         CallStackViewer.getInstance().methodReturns();
         return 0;
     }
 
     @Override
     public Resource mineResource() {
-        CallStackViewer.getInstance().logCall("mineResource() called (HomeAsteroid)");
+        CallStackViewer.getInstance().methodStartsLogCall("mineResource() called (HomeAsteroid)");
 
         Resource temp = core.popResource();
 
