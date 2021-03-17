@@ -72,4 +72,8 @@ public class Core {
         CallStackViewer.getInstance().methodReturns();
     }
 
+    public String getCoreInfo(){
+        return resource.getResourceList().get(0).getName();
+    }
+
 }

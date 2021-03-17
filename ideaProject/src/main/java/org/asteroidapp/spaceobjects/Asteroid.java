@@ -37,6 +37,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         this.core = new Core(initResource);
         this.layer = new Layer(layer);
 
+        closeToSun = position.distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) < AsteroidZone.defOfCloseToSun;
+
         log.log(Level.TRACE, "new Asteroid created");
         CallStackViewer.getInstance().methodReturns();
     }
@@ -174,6 +176,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     @Override
     public String getInfo() {
         //TODO write some valuable information here
+        System.out.println("name: " + name + ", layer: " + layer.getThickness() + ", core: " + core.getCoreInfo() + ", isCloseToSun: " + closeToSun +
+                ", position: x=" + position.getX() + " y=" + position.getY());
         return "exampleInfo";
     }
 

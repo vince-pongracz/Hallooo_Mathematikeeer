@@ -17,6 +17,10 @@ public class AsteroidZone {
 
     private int asteroidSize = 80;
 
+    //only one random per class should exist otherwise it would give the same result (Position, Resource) for every asteroid
+    private Random random = new Random(999); //seed: 999 is good for testing uran explosion
+
+
     /**
      * logger for AsteroidZone
      */
@@ -42,7 +46,7 @@ public class AsteroidZone {
      * The definition of what is too close to the sun (in pixels)
      */
     //TODO setter, or preset
-    public static double defOfCloseToSun = 200;
+    public static double defOfCloseToSun = 500;
 
     /**
      * It stores the objects e.g. asteroid, home asteroid, portals
@@ -70,16 +74,16 @@ public class AsteroidZone {
         //add home
         int range = 1000;
         int numOfAsteroids = 9;
-        Random rand = new Random();
+
         Resource resource;
         int layer;
 
+        //For now the Sun is in the top-left Corner and has a size of 100 x 100
+        sun = new Sun(new Position(150, 150, 50));
+        log.log(Level.TRACE, "Sun has been created in the top-left corner");
+
         homeAsteroid = new HomeAsteroid(new Position(400, 500, 10), new Empty());
         spaceObjects.add(homeAsteroid);
-
-        //For now the Sun is in the top-left Corner and has a size of 100 x 100
-        sun = new Sun(new Position(0, 100, 50));
-        log.log(Level.TRACE, "Sun has been created in the top-left corner");
 
         int i = 0;
         while (i < numOfAsteroids) {
@@ -88,7 +92,7 @@ public class AsteroidZone {
             if (checkDistanceAtCreate(randomPosition)) {
                 randomPosition.setRadius(30);
                 resource = generateRandomResource();
-                layer = rand.nextInt(3) + 3;
+                layer = random.nextInt(3) + 3;
                 //Layer is between 3 and 8
                 spaceObjects.add(new Asteroid("temp" + i, randomPosition, resource, layer));
                 log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}",
@@ -151,7 +155,6 @@ public class AsteroidZone {
      * @return A random position that an object owns on the screen
      */
     public Position generateRandomPosition(int range) {
-        Random random = new Random();
         return new Position(random.nextInt(range - asteroidSize), random.nextInt(range - asteroidSize) + asteroidSize);
     }
 
@@ -162,7 +165,6 @@ public class AsteroidZone {
      */
     public Resource generateRandomResource() {
         //TODO solve: 5 of each Resources should not be near to the sun
-        Random random = new Random();
         int randNum = random.nextInt(5);
         Resource result;
 

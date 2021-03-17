@@ -419,6 +419,7 @@ public class Settler extends Entity {
         CallStackViewer.getInstance().methodStartsLogCall("listResources() called (Settler)");
 
         resources.getResourceList().forEach((temp) -> System.out.println(temp.getName()));
+        resources.getResourceList().forEach((temp) -> System.out.println(temp.getName()));
 
         CallStackViewer.getInstance().methodReturns();
         return resources.getResourceList();
