@@ -26,7 +26,7 @@ public abstract class SteppableSpaceObject implements Observable {
     public SteppableSpaceObject(Position position) {
         log.log(Level.INFO, "SteppableSpaceObject constructor called");
 
-        playersOnMe = new HashSet<>();
+        entitiesOnMe = new HashSet<>();
 
         if (position != null) {
             this.position = position;
@@ -40,7 +40,7 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * set of entities
      */
-    protected Set<Entity> playersOnMe = null;
+    protected Set<Entity> entitiesOnMe = null;
 
     /**
      * SpaceObject's position
@@ -130,7 +130,7 @@ public abstract class SteppableSpaceObject implements Observable {
         CallStackViewer.getInstance().methodStartsLogCall("checkOut() called");
 
         if (leavingEntity != null) {
-            Boolean temp = playersOnMe.remove(leavingEntity);
+            Boolean temp = entitiesOnMe.remove(leavingEntity);
             log.log(Level.TRACE, "Entity removed: {}", temp.toString());
         } else {
             //NOP
@@ -150,7 +150,7 @@ public abstract class SteppableSpaceObject implements Observable {
         CallStackViewer.getInstance().methodStartsLogCall("checkIn() called");
 
         if (newEntity != null) {
-            Boolean temp = playersOnMe.add(newEntity);
+            Boolean temp = entitiesOnMe.add(newEntity);
             log.log(Level.TRACE, "Entity added: {}", temp.toString());
         } else {
             //NOP

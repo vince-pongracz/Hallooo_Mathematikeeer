@@ -11,6 +11,7 @@ import org.asteroidapp.resources.Resource;
 import org.asteroidapp.spaceobject.asteroid.Core;
 import org.asteroidapp.spaceobject.asteroid.Layer;
 import org.asteroidapp.util.CallStackViewer;
+import org.asteroidapp.util.ConsoleUI;
 
 /**
  * class for Asteroid
@@ -176,7 +177,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     @Override
     public String getInfo() {
         //TODO write some valuable information here
-        System.out.println("name: " + name + ", layer: " + layer.getThickness() + ", core: " + core.getCoreInfo() + ", isCloseToSun: " + closeToSun +
+        ConsoleUI.getInstance().sendMessageToConsole("name: " + name + ", layer: " + layer.getThickness() + ", core: " + core.getCoreInfo() + ", isCloseToSun: " + closeToSun +
                 ", position: x=" + position.getX() + " y=" + position.getY());
         return "exampleInfo";
     }
@@ -216,11 +217,11 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         //for (var item : playersOnMe) {
           //  item.notifyAsteroidExplosion();
         //}
-        var iter = playersOnMe.iterator();
+        var iter = entitiesOnMe.iterator();
         while(iter.hasNext()){
             var entityItem = iter.next();
-            entityItem.notifyAsteroidExplosion();
             iter.remove();
+            entityItem.notifyAsteroidExplosion();
         }
 
         //remove from world

@@ -30,7 +30,7 @@ public class AsteroidZone {
      * Default constructor
      */
     private AsteroidZone() {
-        spaceObjects = new HashSet<>();
+        spaceObjects = Collections.synchronizedSet(new HashSet<>());
     }
 
     private static AsteroidZone instance = null;
@@ -51,7 +51,7 @@ public class AsteroidZone {
     /**
      * It stores the objects e.g. asteroid, home asteroid, portals
      */
-    private Set<SteppableSpaceObject> spaceObjects;
+    private Set<SteppableSpaceObject> spaceObjects = null;
 
     /**
      * store the sun

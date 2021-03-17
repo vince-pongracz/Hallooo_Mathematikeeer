@@ -110,6 +110,13 @@ public class Settler extends Entity {
         onSpaceObject.checkOut(this);
         onSpaceObject = null;
         owner.removeSettler(this);
+
+        //if this settler is the owner's last
+        //kill the owner, because he won't play anymore (all his/her settlers are died)
+        if(!owner.getIterOnMySettlers().hasNext()){
+            owner.killPlayer();
+        }
+
         AsteroidZone.getInstance().getSun().checkOut(this);
 
         CallStackViewer.getInstance().methodReturns();

@@ -7,6 +7,7 @@ import org.asteroidapp.entities.Settler;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -30,7 +31,7 @@ public class Player {
 
         log.log(Level.TRACE, "Player created with name: {}", this.name);
 
-        this.mySettlers = new ArrayList<Settler>();
+        this.mySettlers = new CopyOnWriteArrayList<Settler>();
         log.log(Level.TRACE, "List created for settlers");
     }
 
@@ -60,7 +61,7 @@ public class Player {
     /**
      *
      */
-    private List<Settler> mySettlers;
+    private List<Settler> mySettlers = null;
 
     /**
      * @return

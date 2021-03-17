@@ -424,6 +424,7 @@ public class GameController {
         log.log(Level.TRACE, "check on players");
         if (players != null && players.size() != 0) {
             log.log(Level.INFO, "Iterate on players");
+
             for (var player : players) {
 
                 var tempName = player.getName();
@@ -431,8 +432,10 @@ public class GameController {
                 log.log(Level.TRACE, "iterate on {}'s settlers", tempName);
 
                 var settlerIter = player.getIterOnMySettlers();
+
                 while (settlerIter.hasNext()) {
-                    settlerIter.next().doAction();
+                    var settlerItem = settlerIter.next();
+                    settlerItem.doAction();
                 }
             }
         }
