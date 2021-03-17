@@ -41,6 +41,7 @@ public class Layer {
             log.log(Level.TRACE, "Thickness is already 0");
         }
 
+        CallStackViewer.getInstance().logCall("The layer thickness is after the drilling: " + thickness);
         CallStackViewer.getInstance().methodReturns();
         return thickness;
     }
