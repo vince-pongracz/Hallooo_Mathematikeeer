@@ -355,7 +355,7 @@ public class Settler extends Entity {
             //TODO Gate class is not ready          This looks OK now -Abel
             createdGates.add(gate1);
             createdGates.add(gate2);
-            CallStackViewer.getInstance().logCall("The 2 gates were added to the player");
+            CallStackViewer.getInstance().innerMethodCall("The 2 gates were added to the player");
             gate1.setPair(gate2);
             gate2.setPair(gate1);
 
@@ -464,7 +464,7 @@ public class Settler extends Entity {
      */
     private void addResource(Resource resource) {
         log.log(Level.INFO, "addResource called");
-        CallStackViewer.getInstance().logCall("addResource called");
+        CallStackViewer.getInstance().methodStartsLogCall("addResource called");
         //TODO this can return null.. :/
         if (resource != null) {
             resources.pushResource(resource);

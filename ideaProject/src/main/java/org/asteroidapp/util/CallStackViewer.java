@@ -58,7 +58,6 @@ public class CallStackViewer {
      * @param logMessage
      */
     public void methodStartsLogCall(String logMessage){
-        intendWith++;
         callStackLog.log(Level.TRACE, "{}{}", printIndentation(), logMessage);
     }
 
@@ -69,7 +68,8 @@ public class CallStackViewer {
      * @param logMessage
      */
     public void innerMethodCall(String logMessage){
-        callStackLog.log(Level.TRACE, "{}{}", printIndentation(), logMessage);
+        this.methodStartsLogCall(logMessage);
+        this.methodReturns();
     }
 
     /**
@@ -83,6 +83,7 @@ public class CallStackViewer {
         for (int i = 0; i < intendWith; i++) {
             builder.append("   ");
         }
+        intendWith++;
 
         return builder.toString();
     }
