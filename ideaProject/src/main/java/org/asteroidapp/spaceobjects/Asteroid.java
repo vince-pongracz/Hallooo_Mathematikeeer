@@ -209,8 +209,14 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
         //DO NOT handle the checkIn, checkOut here!
         //this is the entity's responsibility
-        for (var item : playersOnMe) {
-            item.notifyAsteroidExplosion();
+        //for (var item : playersOnMe) {
+          //  item.notifyAsteroidExplosion();
+        //}
+        var iter = playersOnMe.iterator();
+        while(iter.hasNext()){
+            var entityItem = iter.next();
+            entityItem.notifyAsteroidExplosion();
+            iter.remove();
         }
 
         //remove from world

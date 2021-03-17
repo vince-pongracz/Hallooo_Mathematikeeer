@@ -125,35 +125,38 @@ public class Settler extends Entity {
     protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
         log.log(Level.INFO, "ChooseNeighbour called");
         CallStackViewer.getInstance().methodStartsLogCall("chooseNeighbour() called (Settler)");
-        log.log(Level.INFO, "Choose a Neighbour with the name of the neighbour");
+
+        SteppableSpaceObject selected = null;
 
         if (neighbours != null) {
+            boolean found = false;
 
-            //refactor this with a single ConsoleUI call.
-            for (var item : neighbours) {
-                ConsoleUI.getInstance().sendMessageToConsole(item.getName());
-            }
+            while (!found) {
+                ConsoleUI.getInstance().sendMessageToConsole("Choose destination:");
 
-            //TODO refactor: what's happening, when a wrong name is typed?
-            SteppableSpaceObject selected = null;
-            String name = ConsoleUI.getInstance().readLineFromConsole();
+                //refactor this with a single ConsoleUI call.
+                for (var item : neighbours) {
+                    ConsoleUI.getInstance().sendMessageToConsole(item.getName());
+                }
 
-            for (SteppableSpaceObject element : neighbours) {
-                if (element.getName().equals(name)) {
-                    selected = element;
-
-                    //returns here
-                    CallStackViewer.getInstance().methodReturns();
-                    return selected;
+                String name = ConsoleUI.getInstance().readLineFromConsole();
+                for (var temp : neighbours) {
+                    if (temp.getName().equals(name)) {
+                        selected = temp;
+                        found = true;
+                        continue;
+                    }
+                }
+                if(!found){
+                    ConsoleUI.getInstance().sendMessageToConsole("Wrong name");
                 }
             }
         } else {
-            log.log(Level.WARN, "neighbours is null, cannot choose form empty neighbour list");
+            log.log(Level.WARN, "neighbours is null, cannot choose from empty neighbour list");
         }
 
-        //or return here
         CallStackViewer.getInstance().methodReturns();
-        return null;
+        return selected;
     }
 
     /**
@@ -163,7 +166,7 @@ public class Settler extends Entity {
     @Override
     public void notifyFlairEvent() {
         log.log(Level.INFO, "notifyFlairEvent called");
-        CallStackViewer.getInstance().methodStartsLogCall( "notifyFlairEvent() called (Settler)");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyFlairEvent() called (Settler)");
 
         //TODO refactor: one Asteroid can hide just one entity..
         if (onSpaceObject.getLayerThickness() == 0 && onSpaceObject.mineResource().equals(new Empty())) {
@@ -183,7 +186,7 @@ public class Settler extends Entity {
     @Override
     public void notifyFlairDanger() {
         log.log(Level.INFO, "NotifyFlairDanger called");
-        CallStackViewer.getInstance().methodStartsLogCall( "notifyFlairDanger() called (Settler)");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyFlairDanger() called (Settler)");
 
         log.log(Level.INFO, "Be aware, a flair is coming in 2 rounds");
 
@@ -201,6 +204,7 @@ public class Settler extends Entity {
 
         //so you have to die
         die();
+
         CallStackViewer.getInstance().methodReturns();
     }
 
@@ -269,6 +273,7 @@ public class Settler extends Entity {
 
     /**
      * This method creates a Robot if it has enough resources
+     *
      * @warn 2 return point
      */
     public boolean createBot() {
