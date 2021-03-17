@@ -103,7 +103,7 @@ public abstract class Entity implements Observer {
             double distance = temp.getPosition().distanceFrom(onSpaceObject.getPosition());
             if (distance < Position.getMaximalNeighbourDistance() && !temp.getName().equals(onSpaceObject.getName())) {
                 neighbours.add(temp);
-                log.log(Level.INFO, "Possible neighbour: {}", temp.getName());
+                log.log(Level.INFO, "Possible neighbour: {}", temp.getInfo());
             }
         }
 
