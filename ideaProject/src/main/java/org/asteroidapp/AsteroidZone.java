@@ -73,7 +73,7 @@ public class AsteroidZone {
 
         //add home
         int range = 1000;
-        int numOfAsteroids = 9;
+        int numOfAsteroids = 25;
 
         Resource resource;
         int layer;
@@ -82,23 +82,27 @@ public class AsteroidZone {
         sun = new Sun(new Position(150, 150, 50));
         log.log(Level.TRACE, "Sun has been created in the top-left corner");
 
-        homeAsteroid = new HomeAsteroid(new Position(400, 500, 10), new Empty());
+        homeAsteroid = new HomeAsteroid(new Position(400, 500, 5), new Empty());
         spaceObjects.add(homeAsteroid);
 
-        int i = 0;
-        while (i < numOfAsteroids) {
+        int numOfPlacedAsteroids = 0;
+        while (numOfPlacedAsteroids < numOfAsteroids || numOfAsteroids <= 20) {
             //TODO add minimal, maximal distance logic, namefaker for spacenames
             Position randomPosition = generateRandomPosition(range);
+
             if (checkDistanceAtCreate(randomPosition)) {
-                randomPosition.setRadius(30);
+                randomPosition.setRadius(5);
                 resource = generateRandomResource();
+
+                //Layer is between 3 and 6
                 layer = random.nextInt(3) + 3;
-                //Layer is between 3 and 8
-                spaceObjects.add(new Asteroid("temp" + i, randomPosition, resource, layer));
+
+                spaceObjects.add(new Asteroid("temp" + numOfPlacedAsteroids, randomPosition, resource, layer));
                 log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}",
                         (int) randomPosition.getX(), (int) randomPosition.getY(), resource.getName(), layer);
-                i++;
+                numOfPlacedAsteroids++;
             }
+
         }
 
         CallStackViewer.getInstance().methodReturns();
@@ -155,7 +159,10 @@ public class AsteroidZone {
      * @return A random position that an object owns on the screen
      */
     public Position generateRandomPosition(int range) {
-        return new Position(random.nextInt(range - asteroidSize), random.nextInt(range - asteroidSize) + asteroidSize);
+        //Round to the nearest number that can be divided by 5 for less possible Positions
+        int x = random.nextInt(range - asteroidSize);
+        int y = random.nextInt(range - asteroidSize) + asteroidSize;
+        return new Position(x, y);
     }
 
     /**

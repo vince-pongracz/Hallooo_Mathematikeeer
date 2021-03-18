@@ -30,7 +30,7 @@
             <AppenderRef ref="STDOUT_CALLSTACK"></AppenderRef>
         </Logger>
 
-        <Root level="trace">
+        <Root level="info">
             <!--- <AppenderRef ref="STDOUT" level="info"/> -->
             <AppenderRef ref="FILE"/>
         </Root>
