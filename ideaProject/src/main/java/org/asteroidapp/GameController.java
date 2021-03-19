@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.entities.AIRobot;
 import org.asteroidapp.entities.Settler;
+import org.asteroidapp.resources.*;
+import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
 import java.util.*;
@@ -15,6 +17,9 @@ import java.util.*;
  */
 public class GameController {
 
+    /**
+     * Logger for GameController
+     */
     private static final Logger log = LogManager.getLogger(GameController.class.getSimpleName());
 
     /**
@@ -22,14 +27,15 @@ public class GameController {
      */
     private GameController() {
         log.log(Level.INFO, "GameController constructor called");
+        CallStackViewer.getInstance().methodStartsLogCall("GameController constructor called");
 
         //default config?
         //later set in setup
         gameIsRunning = false;
         currentRound = 1;
-        playersNum = 1;
-
+        playersNum = 0;
         settlerNum = 1;
+
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         log.log(Level.TRACE, "jsonBuilder created");
@@ -41,6 +47,7 @@ public class GameController {
         log.log(Level.TRACE, "robots has their collection");
         log.log(Level.TRACE, "players has their collection");
 
+        CallStackViewer.getInstance().methodReturns();
     }
 
     private static GameController instance = null;
@@ -95,6 +102,7 @@ public class GameController {
      */
     private void dropSettlers() {
         log.log(Level.INFO, "dropSettlers called");
+        CallStackViewer.getInstance().methodStartsLogCall("dropSettlers() called");
         log.log(Level.TRACE, "iterate on player(s) to create their settler(s)");
 
         //for every player
@@ -108,7 +116,13 @@ public class GameController {
                 String name = playerName + "'s settler" + i;
 
                 //create new Settler (set name, startPlace, and owner), and bind to his/her owner
-                var newSettler = new Settler(name, AsteroidZone.getInstance().findHome(), playerItem);
+                var startPlace = AsteroidZone.getInstance().findHome();
+                var newSettler = new Settler(name, startPlace, playerItem);
+
+                //bind settler to his/her asteroid (to get the notifications from his/her SteppableSpaceObject)
+                startPlace.checkIn(newSettler);
+                //bind settler to the sun (to get the notifications from sun)
+                AsteroidZone.getInstance().getSun().checkIn(newSettler);
 
                 //bind player to settler
                 playerItem.addSettler(newSettler);
@@ -118,6 +132,8 @@ public class GameController {
 
             log.log(Level.INFO, "Player {}'s settler(s): done", playerName);
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -126,6 +142,7 @@ public class GameController {
      */
     private void createAndNamePlayers() {
         log.log(Level.INFO, "createAndNamePlayers called");
+        CallStackViewer.getInstance().methodStartsLogCall("createAndNamePlayers() called");
 
         //create so many players, which was given in config
         for (int i = 0; i < playersNum; ) {
@@ -147,6 +164,8 @@ public class GameController {
                 ConsoleUI.getInstance().sendMessageToConsole("Wrong name");
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -155,18 +174,19 @@ public class GameController {
     public void setupGame() {
 
         log.log(Level.INFO, "setupGame called");
+        CallStackViewer.getInstance().methodStartsLogCall("setupGame() called");
 
         //get number and name of players
-        ConsoleUI.getInstance().sendMessageToConsole("Setup...");
-        ConsoleUI.getInstance().sendMessageToConsole("#players");
+        log.log(Level.TRACE, "Setup...");
+        ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired players");
 
         playersNum = ConsoleUI.getInstance().readIntFromConsole();
         createAndNamePlayers();
 
-        ConsoleUI.getInstance().sendMessageToConsole("#settlers/player");
+        ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired settlers for each player");
         settlerNum = ConsoleUI.getInstance().readIntFromConsole();
 
-        ConsoleUI.getInstance().sendMessageToConsole("Initialize...");
+        log.log(Level.TRACE, "Initialize...");
 
         //creating zone
         AsteroidZone.getInstance().createZone();
@@ -180,6 +200,8 @@ public class GameController {
         ConsoleUI.getInstance().sendMessageToConsole("");
         ConsoleUI.getInstance().sendMessageToConsole("Setup ended");
         log.log(Level.INFO, "setup ended");
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -191,7 +213,11 @@ public class GameController {
         log.log(Level.INFO, "getIterOnPlayers called");
         log.log(Level.TRACE, "return iterator on players collection");
 
-        return players.iterator();
+        if (players == null || players.size() == 0) {
+            return Collections.emptyIterator();
+        } else {
+            return players.iterator();
+        }
     }
 
     /**
@@ -200,26 +226,21 @@ public class GameController {
      * @param name player's ame, which will be removed, if it's find in players collection
      */
     //TODO refactor (what's the goal of this method..?)
-    public void removePlayer(String name) {
+    private void removePlayer(String name) {
         log.log(Level.INFO, "removePlayer called");
-
-        log.log(Level.TRACE, "check param");
 
         if (name != null && !name.equals("")) {
             log.log(Level.INFO, "Search player with name: {}", name);
 
             for (var player : players) {
                 if (player.getName().equals(name)) {
-
-                    log.log(Level.TRACE, "Player found");
-                    log.log(Level.INFO, "Kill player...");
-                    player.killPlayer();
-
                     log.log(Level.INFO, "Remove player from players collection");
                     players.remove(player);
                     return;
                 }
             }
+        } else {
+            log.log(Level.INFO, "No player found with name: {}", name);
         }
     }
 
@@ -235,9 +256,7 @@ public class GameController {
         if (playerLeaving != null) {
             log.log(Level.TRACE, "kill and remove player: {}", playerLeaving.getName());
 
-            playerLeaving.killPlayer();
             players.remove(playerLeaving);
-
         } else {
             //NOP
         }
@@ -258,6 +277,7 @@ public class GameController {
      */
     public void evaluateRound() {
         log.log(Level.INFO, "evaluateRound called");
+        CallStackViewer.getInstance().methodStartsLogCall("evaluateRound() called");
 
         //eval flair
         evaluateFlair();
@@ -274,18 +294,7 @@ public class GameController {
         else {
             //TODO implement correctly... it's not easy to find out the way..
 
-            //collect the collected resources in a map
-            //String - name of the resource
-            //Integer - piece of the resource
-            Map<String, Integer> resources = new HashMap<>();
-
-            //init map
-            //TODO refactor: add a private collection to this class, and if a reource created,
-            //add this resource to this collection --> easier to extend
-            resources.put("Coal", 0);
-            resources.put("FrozenWater", 0);
-            resources.put("Iron", 0);
-            resources.put("Uran", 0);
+            ResourceStorage resources = new ResourceStorage();
 
             //iterate on players for their resources
             for (var player : players) {
@@ -302,12 +311,8 @@ public class GameController {
                         //is there any collected resource?
                         if (tempList != null) {
                             //if yes, add them to the resources collection, what will be checked
-                            for (var item : tempList) {
-                                if (resources.containsKey(item.getName())) {
-                                    resources.put(item.getName(), resources.get(item.getName()) + 1);
-                                } else {
-                                    resources.put(item.getName(), 1);
-                                }
+                            for (Resource item : tempList) {
+                                resources.pushResource(item);
                             }
                         }
                         //if no resource, send a log message... (not so important)
@@ -329,9 +334,19 @@ public class GameController {
             //check win:
             //if all resource in resources are more than 3 --> WIN
             //otherwise not
+            //TODO ha csak pl szen és uranbol van 3-3 akkor is valszeg igazzal ter vissza mivel nem Map
             boolean win = true;
-            for (var item : resources.values()) {
-                if (item.intValue() < 3) {
+
+            //It's not a map anymore therefore it doesn't know all the possible resources so
+            //if it has zero resources it returns true or if it has just 3 irons it would also return true
+            List<Resource> allResources = new ArrayList<>();
+            allResources.add(new Coal());
+            allResources.add(new Iron());
+            allResources.add(new FrozenWater());
+            allResources.add(new Uran());
+
+            for (var item : allResources) {
+                if (resources.countOf(item) < 3) {
                     win = false;
                 }
             }
@@ -341,6 +356,8 @@ public class GameController {
                 gameIsRunning = false;
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -348,13 +365,14 @@ public class GameController {
      */
     private void evaluateFlair() {
         //TODO logic to flair scheduling - long task
-        log.log(Level.TRACE, "evaluateFlair called");
+        log.log(Level.INFO, "evaluateFlair called");
+        CallStackViewer.getInstance().methodStartsLogCall("evaluateFlair() called");
 
-        if (getRound() % 5 == 0) {
+        if (getRound() % 10 == 0) {
             log.log(Level.TRACE, "flair event will be launched");
 
             AsteroidZone.getInstance().getSun().notifyAboutDieEvent();
-        } else if (getRound() % 5 == 2) {
+        } else if (getRound() % 10 == 7) {
             log.log(Level.TRACE, "flair is coming in the future!");
 
             AsteroidZone.getInstance().getSun().notifyAboutDanger();
@@ -362,6 +380,8 @@ public class GameController {
             log.log(Level.TRACE, "no flair event in this round");
             //NOP
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -377,15 +397,18 @@ public class GameController {
      * Game loop
      */
     public void inGame() {
-        log.log(Level.TRACE, "inGame called - this is the game loop");
+        log.log(Level.INFO, "inGame called - this is the game loop");
+        CallStackViewer.getInstance().methodStartsLogCall("inGame()");
         gameIsRunning = true;
         log.log(Level.TRACE, "game is running: {}", ((Boolean) gameIsRunning).toString());
 
-        while (gameIsRunning && getRound() < 12) {
+        while (gameIsRunning && getRound() < 22) {
             log.log(Level.TRACE, "new round started: {}", getRound());
             round();
             evaluateRound();
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -393,11 +416,14 @@ public class GameController {
      */
     private void round() {
         log.log(Level.INFO, "round called: {} th round of the game", currentRound);
+        CallStackViewer.getInstance().methodStartsLogCall("round: " + currentRound);
+
         currentRound++;
 
         log.log(Level.TRACE, "check on players");
         if (players != null && players.size() != 0) {
             log.log(Level.INFO, "Iterate on players");
+
             for (var player : players) {
 
                 var tempName = player.getName();
@@ -405,8 +431,10 @@ public class GameController {
                 log.log(Level.TRACE, "iterate on {}'s settlers", tempName);
 
                 var settlerIter = player.getIterOnMySettlers();
+
                 while (settlerIter.hasNext()) {
-                    settlerIter.next().doAction();
+                    var settlerItem = settlerIter.next();
+                    settlerItem.doAction();
                 }
             }
         }
@@ -419,6 +447,8 @@ public class GameController {
                 bot.doAction();
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**

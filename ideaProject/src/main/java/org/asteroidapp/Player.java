@@ -3,33 +3,36 @@ package org.asteroidapp;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.entities.Entity;
 import org.asteroidapp.entities.Settler;
+import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
  */
 public class Player {
 
-    private static final Logger log = LogManager.getLogger(Player.class.toString());
+    /**
+     * Logger for Player
+     */
+    private static final Logger log = LogManager.getLogger(Player.class.getSimpleName());
 
     /**
      * Default constructor
      */
     //TODO throw an exception, when name is incorrect
     public Player(String name) {
-        log.log(Level.TRACE, "Player constructor called");
+        log.log(Level.INFO, "Player constructor called");
 
         this.name = "";
         this.setName(name);
 
-        log.log(Level.TRACE, "Player created with name: {}.", this.name);
+        log.log(Level.TRACE, "Player created with name: {}", this.name);
 
-        this.mySettlers = new ArrayList<Settler>();
+        this.mySettlers = new CopyOnWriteArrayList<Settler>();
         log.log(Level.TRACE, "List created for settlers");
-
     }
 
     /**
@@ -58,14 +61,18 @@ public class Player {
     /**
      *
      */
-    private List<Settler> mySettlers;
+    private List<Settler> mySettlers = null;
 
     /**
      * @return
      */
     public Iterator<Settler> getIterOnMySettlers() {
         log.log(Level.TRACE, "getIterOnMySettlers called");
-        return mySettlers.iterator();
+        if (mySettlers == null || mySettlers.size() == 0) {
+            return Collections.emptyIterator();
+        } else {
+            return mySettlers.iterator();
+        }
     }
 
     /**
@@ -90,7 +97,15 @@ public class Player {
         mySettlers.remove(removedEntity);
     }
 
-    public void killPlayer(){
+    public void killPlayer() {
+        log.log(Level.INFO, "killPlayer called");
+        CallStackViewer.getInstance().methodStartsLogCall("killPlayer() called");
 
+        GameController.getInstance().leaveGame(this);
+        for (var settler : mySettlers) {
+            settler.die();
+        }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 }

@@ -3,55 +3,58 @@ package org.asteroidapp.spaceobject.asteroid;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.AppController;
 import org.asteroidapp.resources.Resource;
+import org.asteroidapp.resources.ResourceStorage;
+import org.asteroidapp.util.CallStackViewer;
 
-import java.util.*;
-
-//TODO stack -esre kéne megcsinálni
 
 /**
  * Its job is to store the raw materials inside the asteroid
  */
 public class Core {
 
-    private static Logger log = LogManager.getLogger(AppController.class.toString());
+    /**
+     * Logger for Core
+     */
+    private static Logger log = LogManager.getLogger(Core.class.getSimpleName());
 
     /**
      * Default constructor
      */
     public Core(Resource initResource) {
-        resource = new ArrayList<>();
-        resource.add(initResource);
-    }
 
-    public Core(int capacity, Resource initResource) {
-        this.capacity = capacity;
-        this.resource = new ArrayList<>();
-        this.resource.add(initResource);
+        resources = new ResourceStorage();
+        resources.setAllCapacity(1);
+        resources.pushResource(initResource);
     }
 
     /**
-     * Indicates how many raw materials can be in the core.
-     */
-    private int capacity = 1;
-
-    /**
+     * Create Core with not default capacity and an initial resource
      *
+     * @param capacity
+     * @param initResource
      */
-    private List<Resource> resource;
+    public Core(int capacity, Resource initResource) {
+        resources = new ResourceStorage();
+        resources.setAllCapacity(Math.abs(capacity));
+        resources.pushResource(initResource);
+    }
 
+    /**
+     * Resource storage of core
+     */
+    ResourceStorage resources = null;
 
     /**
      * It returns with the raw material of the seed.
      *
      * @return returnList
      */
-    public Resource getResource() {
-        Resource returnRessource = resource.get(0);
-        log.log(Level.TRACE, "getResource invited.  Return with the ressource: {}", returnRessource);
-        return returnRessource;
-
+    public Resource popResource() {
+        log.log(Level.TRACE, "popResource called.");
+        CallStackViewer.getInstance().methodStartsLogCall("popResource() called (Core)");
+        CallStackViewer.getInstance().methodReturns();
+        return resources.popRandomResource();
     }
 
     /**
@@ -60,9 +63,17 @@ public class Core {
      * @param newResource
      */
     //TODO: esetek lefedése
-    public void setResource(Resource newResource) {
-        resource.add(newResource);
-        log.log(Level.TRACE, "setResource invited. The ressource was set to: {}", newResource);
+    public void pushResource(Resource newResource) {
+        CallStackViewer.getInstance().methodStartsLogCall("pushResource() called (Core)");
+
+        resources.pushResource(newResource);
+        log.log(Level.TRACE, "pushResource called. The ressource was set to: {}", newResource.getName());
+
+        CallStackViewer.getInstance().methodReturns();
+    }
+
+    public String getCoreInfo(){
+        return resources.getResourceList().get(0).getName();
     }
 
 }
