@@ -101,7 +101,7 @@ public class Player {
         log.log(Level.INFO, "killPlayer called");
         CallStackViewer.getInstance().methodStartsLogCall("killPlayer() called");
 
-        GameController.getInstance().removePlayer(this.name);
+        GameController.getInstance().leaveGame(this);
         for (var settler : mySettlers) {
             settler.die();
         }

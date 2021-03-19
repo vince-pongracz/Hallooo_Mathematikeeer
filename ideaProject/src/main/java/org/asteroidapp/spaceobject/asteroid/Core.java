@@ -23,9 +23,9 @@ public class Core {
      */
     public Core(Resource initResource) {
 
-        resource = new ResourceStorage();
-        resource.setAllCapacity(1);
-        resource.pushResource(initResource);
+        resources = new ResourceStorage();
+        resources.setAllCapacity(1);
+        resources.pushResource(initResource);
     }
 
     /**
@@ -35,15 +35,15 @@ public class Core {
      * @param initResource
      */
     public Core(int capacity, Resource initResource) {
-        resource = new ResourceStorage();
-        resource.setAllCapacity(Math.abs(capacity));
-        resource.pushResource(initResource);
+        resources = new ResourceStorage();
+        resources.setAllCapacity(Math.abs(capacity));
+        resources.pushResource(initResource);
     }
 
     /**
      * Resource storage of core
      */
-    ResourceStorage resource = null;
+    ResourceStorage resources = null;
 
     /**
      * It returns with the raw material of the seed.
@@ -54,7 +54,7 @@ public class Core {
         log.log(Level.TRACE, "popResource called.");
         CallStackViewer.getInstance().methodStartsLogCall("popResource() called (Core)");
         CallStackViewer.getInstance().methodReturns();
-        return resource.popRandomResource();
+        return resources.popRandomResource();
     }
 
     /**
@@ -66,14 +66,14 @@ public class Core {
     public void pushResource(Resource newResource) {
         CallStackViewer.getInstance().methodStartsLogCall("pushResource() called (Core)");
 
-        resource.pushResource(newResource);
+        resources.pushResource(newResource);
         log.log(Level.TRACE, "pushResource called. The ressource was set to: {}", newResource.getName());
 
         CallStackViewer.getInstance().methodReturns();
     }
 
     public String getCoreInfo(){
-        return resource.getResourceList().get(0).getName();
+        return resources.getResourceList().get(0).getName();
     }
 
 }

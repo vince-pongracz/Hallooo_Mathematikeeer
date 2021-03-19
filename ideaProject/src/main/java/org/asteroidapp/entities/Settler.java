@@ -113,7 +113,7 @@ public class Settler extends Entity {
 
         //if this settler is the owner's last
         //kill the owner, because he won't play anymore (all his/her settlers are died)
-        if(!owner.getIterOnMySettlers().hasNext()){
+        if (!owner.getIterOnMySettlers().hasNext()) {
             owner.killPlayer();
         }
 
@@ -154,7 +154,7 @@ public class Settler extends Entity {
                         continue;
                     }
                 }
-                if(!found){
+                if (!found) {
                     ConsoleUI.getInstance().sendMessageToConsole("Wrong name");
                 }
             }
@@ -442,6 +442,8 @@ public class Settler extends Entity {
      * @return the chosen resource
      */
     public Resource chooseResource() {
+
+        //TODO refactor --- choose from storage, not from nothing!
         log.log(Level.INFO, "chooseResource called");
         CallStackViewer.getInstance().methodStartsLogCall("chooseResource() called (Settler)");
         log.log(Level.INFO, "Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran");

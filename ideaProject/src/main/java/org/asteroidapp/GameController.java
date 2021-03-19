@@ -21,7 +21,6 @@ public class GameController {
      * Logger for GameController
      */
     private static final Logger log = LogManager.getLogger(GameController.class.getSimpleName());
-    private static Logger callStack = LogManager.getLogger("callStack");
 
     /**
      * Default constructor
@@ -227,7 +226,7 @@ public class GameController {
      * @param name player's ame, which will be removed, if it's find in players collection
      */
     //TODO refactor (what's the goal of this method..?)
-    public void removePlayer(String name) {
+    private void removePlayer(String name) {
         log.log(Level.INFO, "removePlayer called");
 
         if (name != null && !name.equals("")) {

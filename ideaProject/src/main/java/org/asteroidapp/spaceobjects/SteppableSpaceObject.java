@@ -34,7 +34,7 @@ public abstract class SteppableSpaceObject implements Observable {
             log.log(Level.FATAL, "Wrong position! (position is null)");
         }
 
-        log.log(Level.TRACE, "SteppableSpaceObeject created");
+        log.log(Level.TRACE, "SteppableSpaceObject created");
     }
 
     /**
