@@ -74,7 +74,6 @@ public class Sun implements EventObservable {
             while (settlerIterator.hasNext()) {
 
                 var settlerItem = settlerIterator.next();
-                settlerIterator.remove();
                 settlerItem.notifyFlairEvent();
             }
 
@@ -82,9 +81,6 @@ public class Sun implements EventObservable {
             //-> returns an emptyIterator, which has not next element
             //-> hasNext() returns 'false'
             if(!playerOn.getIterOnMySettlers().hasNext()){
-                //remove playerIterator - won't throw ConcurrentModificationException
-                playerIterator.remove();
-
                 //if player has no settlers -> the player must die
                 //so kill him/her
                 playerOn.killPlayer();

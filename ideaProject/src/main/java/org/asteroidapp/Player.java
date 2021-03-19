@@ -68,7 +68,7 @@ public class Player {
      */
     public Iterator<Settler> getIterOnMySettlers() {
         log.log(Level.TRACE, "getIterOnMySettlers called");
-        if (mySettlers.size() == 0) {
+        if (mySettlers == null || mySettlers.size() == 0) {
             return Collections.emptyIterator();
         } else {
             return mySettlers.iterator();
@@ -105,7 +105,6 @@ public class Player {
         for (var settler : mySettlers) {
             settler.die();
         }
-        mySettlers = null;
 
         CallStackViewer.getInstance().methodReturns();
     }
