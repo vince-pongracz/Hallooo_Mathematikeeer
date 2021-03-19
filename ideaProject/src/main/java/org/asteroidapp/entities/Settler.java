@@ -46,7 +46,7 @@ public class Settler extends Entity {
         options.add("move");
         options.add("drill");
         options.add("mine");
-        options.add("create gate");
+        options.add("create gate"); 
         options.add("build gate");
         options.add("create robot");
         options.add("deploy resource");
