@@ -1,9 +1,6 @@
 package org.asteroidapp;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +15,6 @@ import org.asteroidapp.util.TestConfig;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
@@ -79,8 +75,11 @@ public class AppController {
         log.log(Level.INFO, "Hello team :)");
 
         while (!quitCondition) {
-            ConsoleUI.getInstance().sendMessageToConsole("Type start to start," +
-                    " help to show options, or quit to close application!");
+            ConsoleUI.getInstance().sendMessageToConsole(
+                    "Type start to start," +
+                            " help to show options, or quit to close application!");
+            ConsoleUI.getInstance().sendMessageToConsole("Type TEST MODE for entry to test mode");
+
             String response = ConsoleUI.getInstance().readLineFromConsole();
             if (response != null) {
                 if (response.equals("start")) {
@@ -106,6 +105,9 @@ public class AppController {
 
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
+                } else if (response.equals("TEST MODE")) {
+                    testMode();
+                    quitCondition = true;
                 } else {
                     //NOP
                 }
@@ -114,7 +116,7 @@ public class AppController {
         }
     }
 
-    public void test() {
+    public void testMode() {
         TestConfig config = new TestConfig();
         try {
             ConsoleUI.getInstance().sendMessageToConsole("Filename of testconfig:");
@@ -130,13 +132,13 @@ public class AppController {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return;
         }
-        Queue<String> autoCommands = config.setConfigIntoComponents();;
+        Queue<String> autoCommands = config.setConfigIntoComponents();
         ConsoleUI.getInstance().setAutoCommands(autoCommands);
 
         GameController.getInstance().setupGame();
         GameController.getInstance().inGame();
-
     }
 
     public void containerTest() {
@@ -158,8 +160,7 @@ public class AppController {
         CallStackViewer.getInstance().methodStartsLogCall("___CALLSTACK:___");
 
         AppController app = new AppController();
-        app.test();
-        //app.consoleDemo();
+        app.consoleDemo();
 
         CallStackViewer.getInstance().methodReturns();
     }

@@ -54,7 +54,7 @@ public class ConsoleUI {
                 System.exit(0);
             }
 
-            sendMessageToConsole(command);
+            sendMessageToConsole("------\n"+command);
             return command;
         }
         String ret = "";
@@ -69,7 +69,7 @@ public class ConsoleUI {
             try {
                 String command = autoCommands.remove();
                 log.log(Level.INFO, "Used automatic command: " + command);
-                sendMessageToConsole(command);
+                sendMessageToConsole("------\n" + command);
                 return Integer.parseInt(command);
             } catch (NumberFormatException e) {
                 log.log(Level.WARN, "Invalid command queue element in autoCommands.");
