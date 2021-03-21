@@ -1,15 +1,15 @@
 {
-  "testname": "assertTest",
+  "testname": "createZoneTest",
   "playerNumber": 1,
   "playerNames": ["testName"],
   "settlerNumber": 1,
-  "asteroidNumber": 1,
+  "asteroidNumber": 2,
   "range": 1000,
-  "maxRound": 4,
-  "sunFlairInEveryXRound": 3,
+  "maxRound": 1,
+  "sunFlairInEveryXRound": 2,
   "homeCapacity": 5,
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": ["0", "temp0", "assert"]
+  "realCommandQueue": ["assert"]
 }
