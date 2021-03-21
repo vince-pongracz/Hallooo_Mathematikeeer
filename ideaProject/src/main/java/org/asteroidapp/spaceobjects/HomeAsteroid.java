@@ -15,6 +15,8 @@ public class HomeAsteroid extends Asteroid {
      */
     private static final Logger log = LogManager.getLogger(HomeAsteroid.class.getSimpleName());
 
+    public static int homeCapacity = 5;
+
     /**
      * Default constructor
      *
@@ -28,7 +30,7 @@ public class HomeAsteroid extends Asteroid {
 
         //to override Asteroid core, layer constructions
         core = null;
-        core = new Core(5, new Empty());
+        core = new Core(homeCapacity, new Empty());
         layer = null;
         layer = new Layer(0);
 

@@ -162,7 +162,7 @@ public abstract class Entity implements Observer {
 
     /**
      * for easier handle the entities in GameController
-     * Decision, and interaction wit user about what he/she wnats to do
+     * Decision, and interaction wit user about what he/she wants to do
      */
     public abstract void doAction();
 }

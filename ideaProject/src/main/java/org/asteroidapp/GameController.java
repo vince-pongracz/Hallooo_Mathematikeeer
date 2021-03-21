@@ -360,6 +360,8 @@ public class GameController {
         CallStackViewer.getInstance().methodReturns();
     }
 
+    public static int sunFlairInEveryXRound = 10;
+
     /**
      * Call and schedule flair events
      */
@@ -368,11 +370,11 @@ public class GameController {
         log.log(Level.INFO, "evaluateFlair called");
         CallStackViewer.getInstance().methodStartsLogCall("evaluateFlair() called");
 
-        if (getRound() % 10 == 0) {
+        if (getRound() % sunFlairInEveryXRound == 0) {
             log.log(Level.TRACE, "flair event will be launched");
 
             AsteroidZone.getInstance().getSun().notifyAboutDieEvent();
-        } else if (getRound() % 10 == 7) {
+        } else if (getRound() % sunFlairInEveryXRound == 7) {
             log.log(Level.TRACE, "flair is coming in the future!");
 
             AsteroidZone.getInstance().getSun().notifyAboutDanger();
@@ -393,6 +395,8 @@ public class GameController {
         players.add(newPlayer);
     }
 
+    public static int maxRound = 22;
+
     /**
      * Game loop
      */
@@ -402,7 +406,7 @@ public class GameController {
         gameIsRunning = true;
         log.log(Level.TRACE, "game is running: {}", ((Boolean) gameIsRunning).toString());
 
-        while (gameIsRunning && getRound() < 22) {
+        while (gameIsRunning && getRound() < maxRound) {
             log.log(Level.TRACE, "new round started: {}", getRound());
             round();
             evaluateRound();

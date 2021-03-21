@@ -64,6 +64,9 @@ public class AsteroidZone {
 
     private SteppableSpaceObject homeAsteroid = null;
 
+    public static int numOfAsteroids = 23;
+
+    public static int range = 1000;
     /**
      * It creates the whole zone with a bunch of asteroids (amount can be set)
      * the home asteroid and the sun.
@@ -71,12 +74,8 @@ public class AsteroidZone {
     public void createZone() {
         CallStackViewer.getInstance().methodStartsLogCall("createZone() called");
 
-        //add home
-        int range = 1000;
-        int numOfAsteroids = 23;
-
-        Resource resource;
-        int layer;
+        Resource resource = new Empty();
+        int layer = 0;
 
         //For now the Sun is in the top-left Corner and has a size of 100 x 100
         sun = new Sun(new Position(150, 150, 50));

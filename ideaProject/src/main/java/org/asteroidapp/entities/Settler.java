@@ -31,8 +31,8 @@ public class Settler extends Entity {
     /**
      * It stores the name of the resource and how many does the player possess from that.
      */
-    private ResourceStorage resources = new ResourceStorage();
-
+    private ResourceStorage resources = null;
+    public static int settlerCapacity = 10;
 
     /**
      * Default constructor
@@ -51,6 +51,7 @@ public class Settler extends Entity {
         options.add("create robot");
         options.add("deploy resource");
         options.add("list neighbours");
+        options.add("wait");
 
         if (owner != null) {
             this.owner = owner;
@@ -59,6 +60,9 @@ public class Settler extends Entity {
             log.log(Level.FATAL, "owner is null!");
         }
         log.log(Level.TRACE, "Settler created with an empty resource list");
+
+        resources = new ResourceStorage();
+        resources.setAllCapacity(settlerCapacity);
 
         //Fot the testing the create bot and portal functions
         resources.pushMore(2, new Coal());
@@ -261,12 +265,24 @@ public class Settler extends Entity {
                     listMyNeighbours();
                     actionOK = true;
                     break;
+                case 8:
+                    waitingSettler();
+                    actionOK = true;
+                    break;
                 default:
                     break;
             }
         }
     }
 
+    /**
+     * Do nothing in a round
+     */
+    private void waitingSettler() {
+        log.log(Level.INFO, "Do nothing in this round with settler: {}", this.getName());
+        CallStackViewer.getInstance().methodStartsLogCall("waitingSettler() called (Settler)");
+        CallStackViewer.getInstance().methodReturns();
+    }
 
     /**
      * It stores the gates that the player created
