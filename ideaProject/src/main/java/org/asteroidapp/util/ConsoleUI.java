@@ -50,7 +50,7 @@ public class ConsoleUI {
             log.log(Level.INFO, "Used automatic command: " + command);
 
             //TODO meg nem megy.. :(
-            if(command.equals("assert")){ower
+            if(command.equals("assert")){
                 System.exit(0);
             }
 
