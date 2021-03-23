@@ -16,22 +16,22 @@
 
         <!-- File Appender for callStack logger-->
         <File name="FILE2" fileName="${callStackPath}/callStack_${date:yyyyMMdd_HHmmss}.log" append="true">
-            <PatternLayout pattern="%m - %d{yyyy-MM-dd HH:mm:ss} [%t] %-6level %logger%n"/>
+            <PatternLayout pattern="%m %n"/>
         </File>
 
         <!-- Console Appender for callStack logger -->
         <Console name="STDOUT_CALLSTACK" target="SYSTEM_OUT">
-            <PatternLayout pattern="%m - %d{yyyy-MM-dd HH:mm:ss} [%t] %-6level %logger%n"/>
+            <PatternLayout pattern="%m %n"/>
         </Console>
     </Appenders>
     <Loggers>
         <Logger name="callStack" level="trace" additivity="false">
             <AppenderRef ref="FILE2"/>
-             <AppenderRef ref="STDOUT_CALLSTACK"></AppenderRef>
+            <AppenderRef ref="STDOUT_CALLSTACK"></AppenderRef>
         </Logger>
 
         <Root level="trace">
-<!--            <AppenderRef ref="STDOUT" level="info"/>-->
+            <!--            <AppenderRef ref="STDOUT" level="info"/>-->
             <AppenderRef ref="FILE"/>
         </Root>
     </Loggers>

@@ -67,7 +67,7 @@ public class CallStackViewer {
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < intendWith; i++) {
-            builder.append("   ");
+            builder.append("    ");
         }
         intendWith++;
 
