@@ -488,8 +488,6 @@ public class GameController {
         if (bot != null) {
             robots.add(bot);
             log.log(Level.TRACE, "bot added to the game");
-            CallStackViewer.getInstance().logCall("addBot(AIRobot bot) callled (GameController) ");
-            CallStackViewer.getInstance().methodReturns();
         } else {
             log.log(Level.TRACE, "no bot added to the game");
         }
