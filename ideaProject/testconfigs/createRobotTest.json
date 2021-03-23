@@ -1,0 +1,15 @@
+{
+  "testname": "createRobotTest",
+  "playerNumber": 1,
+  "playerNames": ["testName"],
+  "settlerNumber": 1,
+  "asteroidNumber": 1,
+  "range": 1000,
+  "maxRound": 2,
+  "sunFlairInEveryXRound": 3,
+  "homeCapacity": 5,
+  "settlerCapacity": 10,
+  "defOfCloseToSun": 500,
+  "maxNeighbourDistance": 500,
+  "realCommandQueue": ["5", "assert"]
+}

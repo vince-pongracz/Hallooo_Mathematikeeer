@@ -1,0 +1,15 @@
+{
+  "testname": "listNeighboursTest",
+  "playerNumber": 1,
+  "playerNames": ["testName"],
+  "settlerNumber": 1,
+  "asteroidNumber": 7,
+  "range": 1000,
+  "maxRound": 3,
+  "sunFlairInEveryXRound": 10,
+  "homeCapacity": 5,
+  "settlerCapacity": 10,
+  "defOfCloseToSun": 500,
+  "maxNeighbourDistance": 500,
+  "realCommandQueue": ["7", "assert"]
+}

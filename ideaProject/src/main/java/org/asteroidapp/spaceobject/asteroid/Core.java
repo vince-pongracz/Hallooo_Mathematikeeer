@@ -3,13 +3,9 @@ package org.asteroidapp.spaceobject.asteroid;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.AppController;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.resources.ResourceStorage;
 import org.asteroidapp.util.CallStackViewer;
-
-import java.lang.invoke.CallSite;
-import java.util.*;
 
 
 /**
@@ -27,9 +23,9 @@ public class Core {
      */
     public Core(Resource initResource) {
 
-        resource = new ResourceStorage();
-        resource.setAllCapacity(1);
-        resource.pushResource(initResource);
+        resources = new ResourceStorage();
+        resources.setAllCapacity(1);
+        resources.pushResource(initResource);
     }
 
     /**
@@ -39,15 +35,15 @@ public class Core {
      * @param initResource
      */
     public Core(int capacity, Resource initResource) {
-        resource = new ResourceStorage();
-        resource.setAllCapacity(Math.abs(capacity));
-        resource.pushResource(initResource);
+        resources = new ResourceStorage();
+        resources.setAllCapacity(Math.abs(capacity));
+        resources.pushResource(initResource);
     }
 
     /**
      * Resource storage of core
      */
-    ResourceStorage resource = null;
+    ResourceStorage resources = null;
 
     /**
      * It returns with the raw material of the seed.
@@ -56,9 +52,9 @@ public class Core {
      */
     public Resource popResource() {
         log.log(Level.TRACE, "popResource called.");
-        CallStackViewer.getInstance().logCall("popResource() called (Core)");
+        CallStackViewer.getInstance().methodStartsLogCall("popResource() called (Core)");
         CallStackViewer.getInstance().methodReturns();
-        return resource.popRandomResource();
+        return resources.popRandomResource();
     }
 
     /**
@@ -68,12 +64,16 @@ public class Core {
      */
     //TODO: esetek lefedése
     public void pushResource(Resource newResource) {
-        CallStackViewer.getInstance().logCall("pushResource() called (Core)");
+        CallStackViewer.getInstance().methodStartsLogCall("pushResource() called (Core)");
 
-        resource.pushResource(newResource);
+        resources.pushResource(newResource);
         log.log(Level.TRACE, "pushResource called. The ressource was set to: {}", newResource.getName());
 
         CallStackViewer.getInstance().methodReturns();
+    }
+
+    public String getCoreInfo(){
+        return resources.getResourceList().get(0).getName();
     }
 
 }

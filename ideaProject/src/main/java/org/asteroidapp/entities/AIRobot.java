@@ -3,7 +3,6 @@ package org.asteroidapp.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.AppController;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
@@ -29,7 +28,7 @@ public class AIRobot extends Entity {
 
         log.log(Level.INFO, "AIRobot constructor called");
 
-        CallStackViewer.getInstance().logCall("AIRobot constructor called");
+        CallStackViewer.getInstance().methodStartsLogCall("AIRobot constructor called");
 
         if (creationPlace != null && name != null) {
             onSpaceObject = creationPlace;
@@ -45,7 +44,7 @@ public class AIRobot extends Entity {
     public boolean drill() {
         log.log(Level.INFO, "drill called (AIRobot's drill)");
 
-        CallStackViewer.getInstance().logCall("drill() called (AIRobot's drill)");
+        CallStackViewer.getInstance().methodStartsLogCall("drill() called (AIRobot's drill)");
 
         //callStacklog miatt kell ez a kulon cucc... :/
         boolean ret = false;
@@ -65,7 +64,7 @@ public class AIRobot extends Entity {
     @Override
     protected void die() {
         log.log(Level.INFO, "die called (AIRobot's die)");
-        CallStackViewer.getInstance().logCall("die() called (AIRobot)");
+        CallStackViewer.getInstance().methodStartsLogCall("die() called (AIRobot)");
 
         //delete robot's reference from collections (every collections)
         //checkout form onSpaceObject
@@ -88,7 +87,7 @@ public class AIRobot extends Entity {
         //TODO (OPT): don't choose an asteroid, where robot came from
 
         log.log(Level.INFO, "chooseNeighbour called");
-        CallStackViewer.getInstance().logCall("chooseNeighbour() called (AIRobot)");
+        CallStackViewer.getInstance().methodStartsLogCall("chooseNeighbour() called (AIRobot)");
 
         //nullcheck
         if (neighbours != null) {
@@ -112,7 +111,7 @@ public class AIRobot extends Entity {
     @Override
     public void notifyFlairEvent() {
         log.log(Level.INFO, "notifyFlairEvent called");
-        CallStackViewer.getInstance().logCall("notifyFlairEvent() called (AIRobot)");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyFlairEvent() called (AIRobot)");
 
         die();
 
@@ -123,7 +122,7 @@ public class AIRobot extends Entity {
     public void notifyFlairDanger() {
         //TODO AI in Robots... (opt)
         log.log(Level.INFO, "notifyFlairDanger called");
-        CallStackViewer.getInstance().logCall("notifyFlairDanger() called (AIRobot)");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyFlairDanger() called (AIRobot)");
 
         log.log(Level.INFO, "Hey bot, you should hide!");
 
@@ -135,7 +134,7 @@ public class AIRobot extends Entity {
     @Override
     public void notifyAsteroidExplosion() {
         log.log(Level.INFO, "notifyAsteroidExplosion called");
-        CallStackViewer.getInstance().logCall("notifyAsteroidExplosion() called (AIRobot)");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyAsteroidExplosion() called (AIRobot)");
 
         //robot has to move (she/he is protected at the explosion)
         move();
@@ -151,7 +150,7 @@ public class AIRobot extends Entity {
     @Override
     public void doAction() {
         log.log(Level.INFO, "doAction called");
-        CallStackViewer.getInstance().logCall("doAction() called (AIRobot)");
+        CallStackViewer.getInstance().methodStartsLogCall("doAction() called (AIRobot)");
 
         //TODO implement better action choose, and decisioning
         stratOne();

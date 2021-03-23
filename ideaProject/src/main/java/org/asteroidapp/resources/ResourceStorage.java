@@ -50,16 +50,17 @@ public class ResourceStorage {
 
     public Resource popRandomResource() {
         Resource result;
-        CallStackViewer.getInstance().logCall("popRandomResource (ResourceStorage) called");
+        CallStackViewer.getInstance().methodStartsLogCall("popRandomResource (ResourceStorage) called");
         if (resourceList == null || resourceList.size() == 0) {
-            CallStackViewer.getInstance().logCall("The resource was: Empty");
+            CallStackViewer.getInstance().innerMethodCall("The resource was: Empty");
             result = new Empty();
 
         } else {
             Collections.shuffle(resourceList);
             result = resourceList.remove(0);
-            CallStackViewer.getInstance().logCall("The resource was: " + result.getName());
+            CallStackViewer.getInstance().innerMethodCall("The resource was: " + result.getName());
         }
+
         CallStackViewer.getInstance().methodReturns();
         return result;
     }

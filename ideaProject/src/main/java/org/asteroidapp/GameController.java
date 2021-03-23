@@ -21,14 +21,13 @@ public class GameController {
      * Logger for GameController
      */
     private static final Logger log = LogManager.getLogger(GameController.class.getSimpleName());
-    private static Logger callStack = LogManager.getLogger("callStack");
 
     /**
      * Default constructor
      */
     private GameController() {
         log.log(Level.INFO, "GameController constructor called");
-        CallStackViewer.getInstance().logCall("GameController constructor called");
+        CallStackViewer.getInstance().methodStartsLogCall("GameController constructor called");
 
         //default config?
         //later set in setup
@@ -103,7 +102,7 @@ public class GameController {
      */
     private void dropSettlers() {
         log.log(Level.INFO, "dropSettlers called");
-        CallStackViewer.getInstance().logCall("dropSettlers() called");
+        CallStackViewer.getInstance().methodStartsLogCall("dropSettlers() called");
         log.log(Level.TRACE, "iterate on player(s) to create their settler(s)");
 
         //for every player
@@ -143,7 +142,7 @@ public class GameController {
      */
     private void createAndNamePlayers() {
         log.log(Level.INFO, "createAndNamePlayers called");
-        CallStackViewer.getInstance().logCall("createAndNamePlayers() called");
+        CallStackViewer.getInstance().methodStartsLogCall("createAndNamePlayers() called");
 
         //create so many players, which was given in config
         for (int i = 0; i < playersNum; ) {
@@ -175,7 +174,7 @@ public class GameController {
     public void setupGame() {
 
         log.log(Level.INFO, "setupGame called");
-        CallStackViewer.getInstance().logCall("setupGame() called");
+        CallStackViewer.getInstance().methodStartsLogCall("setupGame() called");
 
         //get number and name of players
         log.log(Level.TRACE, "Setup...");
@@ -227,7 +226,7 @@ public class GameController {
      * @param name player's ame, which will be removed, if it's find in players collection
      */
     //TODO refactor (what's the goal of this method..?)
-    public void removePlayer(String name) {
+    private void removePlayer(String name) {
         log.log(Level.INFO, "removePlayer called");
 
         if (name != null && !name.equals("")) {
@@ -278,7 +277,7 @@ public class GameController {
      */
     public void evaluateRound() {
         log.log(Level.INFO, "evaluateRound called");
-        CallStackViewer.getInstance().logCall("evaluateRound() called");
+        CallStackViewer.getInstance().methodStartsLogCall("evaluateRound() called");
 
         //eval flair
         evaluateFlair();
@@ -361,19 +360,21 @@ public class GameController {
         CallStackViewer.getInstance().methodReturns();
     }
 
+    public static int sunFlairInEveryXRound = 10;
+
     /**
      * Call and schedule flair events
      */
     private void evaluateFlair() {
         //TODO logic to flair scheduling - long task
         log.log(Level.INFO, "evaluateFlair called");
-        CallStackViewer.getInstance().logCall("evaluateFlair() called");
+        CallStackViewer.getInstance().methodStartsLogCall("evaluateFlair() called");
 
-        if (getRound() % 10 == 0) {
+        if (getRound() % sunFlairInEveryXRound == 0) {
             log.log(Level.TRACE, "flair event will be launched");
 
             AsteroidZone.getInstance().getSun().notifyAboutDieEvent();
-        } else if (getRound() % 10 == 7) {
+        } else if (getRound() % sunFlairInEveryXRound == 7) {
             log.log(Level.TRACE, "flair is coming in the future!");
 
             AsteroidZone.getInstance().getSun().notifyAboutDanger();
@@ -394,16 +395,18 @@ public class GameController {
         players.add(newPlayer);
     }
 
+    public static int maxRound = 22;
+
     /**
      * Game loop
      */
     public void inGame() {
         log.log(Level.INFO, "inGame called - this is the game loop");
-        CallStackViewer.getInstance().logCall("inGame()");
+        CallStackViewer.getInstance().methodStartsLogCall("inGame()");
         gameIsRunning = true;
         log.log(Level.TRACE, "game is running: {}", ((Boolean) gameIsRunning).toString());
 
-        while (gameIsRunning && getRound() < 22) {
+        while (gameIsRunning && getRound() < maxRound) {
             log.log(Level.TRACE, "new round started: {}", getRound());
             round();
             evaluateRound();
@@ -417,13 +420,14 @@ public class GameController {
      */
     private void round() {
         log.log(Level.INFO, "round called: {} th round of the game", currentRound);
-        CallStackViewer.getInstance().logCall("round: " + currentRound);
+        CallStackViewer.getInstance().methodStartsLogCall("round: " + currentRound);
 
         currentRound++;
 
         log.log(Level.TRACE, "check on players");
         if (players != null && players.size() != 0) {
             log.log(Level.INFO, "Iterate on players");
+
             for (var player : players) {
 
                 var tempName = player.getName();
@@ -431,8 +435,10 @@ public class GameController {
                 log.log(Level.TRACE, "iterate on {}'s settlers", tempName);
 
                 var settlerIter = player.getIterOnMySettlers();
+
                 while (settlerIter.hasNext()) {
-                    settlerIter.next().doAction();
+                    var settlerItem = settlerIter.next();
+                    settlerItem.doAction();
                 }
             }
         }

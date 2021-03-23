@@ -11,6 +11,7 @@ import org.asteroidapp.resources.Resource;
 import org.asteroidapp.spaceobject.asteroid.Core;
 import org.asteroidapp.spaceobject.asteroid.Layer;
 import org.asteroidapp.util.CallStackViewer;
+import org.asteroidapp.util.ConsoleUI;
 
 /**
  * class for Asteroid
@@ -29,13 +30,15 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         super(position);
 
         log.log(Level.INFO, "Asteroid constructor called");
-        CallStackViewer.getInstance().logCall("Asteroid constructor called");
+        CallStackViewer.getInstance().methodStartsLogCall("Asteroid constructor called");
 
         this.name = "";
         setName(name);
 
         this.core = new Core(initResource);
         this.layer = new Layer(layer);
+
+        closeToSun = position.distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) < AsteroidZone.defOfCloseToSun;
 
         log.log(Level.TRACE, "new Asteroid created");
         CallStackViewer.getInstance().methodReturns();
@@ -66,7 +69,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     @Override
     public int drillLayer() {
         log.log(Level.INFO, "drillLayer called, before drill was the layer: {}", layer.getThickness());
-        CallStackViewer.getInstance().logCall("drillLayer() called (Asteroid)");
+        CallStackViewer.getInstance().methodStartsLogCall("drillLayer() called (Asteroid)");
 
         //thin layer
         var result = layer.thinIt();
@@ -113,7 +116,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     @Override
     public Resource mineResource() {
         log.log(Level.INFO, "mineResource called");
-        CallStackViewer.getInstance().logCall("mineResource() called (Asteroid)");
+        CallStackViewer.getInstance().methodStartsLogCall("mineResource() called (Asteroid)");
 
         Resource ret = null;
         //if no layer --> can be mined
@@ -132,7 +135,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     @Override
     public boolean addResourceToCore(Resource resource) {
         log.log(Level.INFO, "addResourceToCore called");
-        CallStackViewer.getInstance().logCall("addResourceToCore() called (Asteroid)");
+        CallStackViewer.getInstance().methodStartsLogCall("addResourceToCore() called (Asteroid)");
 
         if (resource != null) {
             if (layer.getThickness() == 0 && core.popResource().equals(new Empty())) {
@@ -174,6 +177,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     @Override
     public String getInfo() {
         //TODO write some valuable information here
+        ConsoleUI.getInstance().sendMessageToConsole("name: " + name + ", layer: " + layer.getThickness() + ", core: " + core.getCoreInfo() + ", isCloseToSun: " + closeToSun +
+                ", position: x=" + position.getX() + " y=" + position.getY());
         return "exampleInfo";
     }
 
@@ -201,7 +206,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
      */
     protected void explode() {
         log.log(Level.INFO, "explode called");
-        CallStackViewer.getInstance().logCall("explode() called (Asteroid)");
+        CallStackViewer.getInstance().methodStartsLogCall("explode() called (Asteroid)");
 
         //let these resources go
         core = null;
@@ -209,8 +214,14 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
         //DO NOT handle the checkIn, checkOut here!
         //this is the entity's responsibility
-        for (var item : playersOnMe) {
-            item.notifyAsteroidExplosion();
+        //for (var item : playersOnMe) {
+          //  item.notifyAsteroidExplosion();
+        //}
+        var iter = entitiesOnMe.iterator();
+        while(iter.hasNext()){
+            var entityItem = iter.next();
+            iter.remove();
+            entityItem.notifyAsteroidExplosion();
         }
 
         //remove from world
@@ -232,7 +243,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
      * Notify observers, they have to die or handle this event
      */
     public void notifyAboutDieEvent() {
-        CallStackViewer.getInstance().logCall("notifyAboutDieEvent() called (Asteroid)");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyAboutDieEvent() called (Asteroid)");
 
         explode();
 

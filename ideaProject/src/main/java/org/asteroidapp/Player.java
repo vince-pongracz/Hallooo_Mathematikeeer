@@ -7,6 +7,7 @@ import org.asteroidapp.entities.Settler;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -30,7 +31,7 @@ public class Player {
 
         log.log(Level.TRACE, "Player created with name: {}", this.name);
 
-        this.mySettlers = new ArrayList<Settler>();
+        this.mySettlers = new CopyOnWriteArrayList<Settler>();
         log.log(Level.TRACE, "List created for settlers");
     }
 
@@ -60,14 +61,14 @@ public class Player {
     /**
      *
      */
-    private List<Settler> mySettlers;
+    private List<Settler> mySettlers = null;
 
     /**
      * @return
      */
     public Iterator<Settler> getIterOnMySettlers() {
         log.log(Level.TRACE, "getIterOnMySettlers called");
-        if (mySettlers.size() == 0) {
+        if (mySettlers == null || mySettlers.size() == 0) {
             return Collections.emptyIterator();
         } else {
             return mySettlers.iterator();
@@ -98,13 +99,12 @@ public class Player {
 
     public void killPlayer() {
         log.log(Level.INFO, "killPlayer called");
-        CallStackViewer.getInstance().logCall("killPlayer() called");
+        CallStackViewer.getInstance().methodStartsLogCall("killPlayer() called");
 
-        GameController.getInstance().removePlayer(this.name);
+        GameController.getInstance().leaveGame(this);
         for (var settler : mySettlers) {
             settler.die();
         }
-        mySettlers = null;
 
         CallStackViewer.getInstance().methodReturns();
     }
