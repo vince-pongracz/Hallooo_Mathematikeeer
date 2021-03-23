@@ -11,5 +11,5 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": [ "4", "0", "temp10", "4", "assert" ]
+  "realCommandQueue": [ "3", "4", "0", "temp10", "4", "assert" ]
 }
