@@ -1,10 +1,19 @@
 package org.asteroidapp.resources;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.asteroidapp.entities.AIRobot;
+
 /**
  * 
  */
 public class Iron extends Resource {
 
+	/**
+	 * logger for Iron
+	 */
+
+	private static final Logger log = LogManager.getLogger(Iron.class.getSimpleName());
 	/**
 	 * Default constructor
 	 */

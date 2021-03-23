@@ -13,7 +13,10 @@ import java.util.*;
  */
 public class Position {
 
-    private static final Logger log = LogManager.getLogger(Position.class.toString());
+    /**
+     * Logger for Position
+     */
+    private static final Logger log = LogManager.getLogger(Position.class.getSimpleName());
 
     /**
      * Default constructor
@@ -159,7 +162,7 @@ public class Position {
     /**
      * maximal range of view, when looking for neighbours
      */
-    private static double maxNeighbourDistance = 250;
+    private static double maxNeighbourDistance = 500;
 
     /**
      * Getter on maxNeighbourDistance
@@ -167,7 +170,7 @@ public class Position {
      * @return maxNeighbourDistance
      */
     public static double getMaximalNeighbourDistance() {
-        log.log(Level.TRACE, "getMaximalNeighbourDistance function called ({}.)", maxNeighbourDistance);
+        log.log(Level.TRACE, "getMaximalNeighbourDistance function called ({})", maxNeighbourDistance);
         return maxNeighbourDistance;
     }
 
@@ -178,7 +181,7 @@ public class Position {
      */
     public static void setMaximalNeighbourDistance(double maxDistance) {
         log.log(Level.TRACE, "setMaximalNeighbourDistance function called");
-        log.log(Level.TRACE, "new value of maxNeighbourDistance: ({}.)", maxNeighbourDistance);
+        log.log(Level.TRACE, "new value of maxNeighbourDistance: ({})", maxNeighbourDistance);
         maxNeighbourDistance = Math.abs(maxDistance);
     }
 

@@ -1,31 +1,63 @@
 package org.asteroidapp.spaceobjects;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.interfaces.EventObservable;
+import org.asteroidapp.resources.Empty;
+import org.asteroidapp.resources.FrozenWater;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.spaceobject.asteroid.Core;
 import org.asteroidapp.spaceobject.asteroid.Layer;
+import org.asteroidapp.util.CallStackViewer;
+import org.asteroidapp.util.ConsoleUI;
 
 /**
- *
+ * class for Asteroid
  */
 public class Asteroid extends SteppableSpaceObject implements EventObservable {
+
+    /**
+     * Logger for Asteroid class
+     */
+    private static final Logger log = LogManager.getLogger(Asteroid.class.getSimpleName());
 
     /**
      * Default constructor
      */
     public Asteroid(String name, Position position, Resource initResource, int layer) {
         super(position);
+
+        log.log(Level.INFO, "Asteroid constructor called");
+        CallStackViewer.getInstance().methodStartsLogCall("Asteroid constructor called");
+
         this.name = "";
         setName(name);
 
         this.core = new Core(initResource);
         this.layer = new Layer(layer);
+
+        closeToSun = position.distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) < AsteroidZone.defOfCloseToSun;
+
+        log.log(Level.TRACE, "new Asteroid created");
+        CallStackViewer.getInstance().methodReturns();
     }
 
+    /**
+     * Setter on name
+     *
+     * @param name Asteroid's name
+     */
     private void setName(String name) {
+        log.log(Level.TRACE, "setName called");
         //TODO check name at AsteroidZone, exception, etc;
+
+        //check on name
         if (name != null && !name.equals("")) {
             this.name = name;
+        } else {
+            log.log(Level.FATAL, "name is null - name cannot set");
         }
     }
 
@@ -35,35 +67,94 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     }
 
     @Override
-    public boolean drillLayer() {
-        int result = layer.thinIt();
+    public int drillLayer() {
+        log.log(Level.INFO, "drillLayer called, before drill was the layer: {}", layer.getThickness());
+        CallStackViewer.getInstance().methodStartsLogCall("drillLayer() called (Asteroid)");
 
-        if (result == 0 && core.getResource() != null) {
-            var res = core.getResource();
-            if (res.isRadioActive()) {
-                explode();
-            } else {
-//TODO make it clear
-            }
+        //thin layer
+        var result = layer.thinIt();
 
+        //like pop
+        var resource = core.popResource();
+
+        //like push
+        //because of stack behaviour (later come)
+        core.pushResource(resource);
+
+        //TODO closeToSun part
+        //check explosion conditions
+        if (result == 0 && resource != null && resource.isRadioActive() && closeToSun) {
+            //this calls explosion
+            log.log(Level.INFO, "Asteroid has radioactive core _and_ it's close to Sun --> EXPLODE");
+            notifyAboutDieEvent();
+        } else if (result == 0 && resource != null && resource.equals(new FrozenWater()) && closeToSun) {
+            //TODO hopefully this condition is enough to sublimate FrozenWater when it's close to sun
+
+            //when it is FrozenWater --> drop it, and set empty
+            core.popResource();
+            core.pushResource(new Empty());
         }
 
-        return false;
+        CallStackViewer.getInstance().methodReturns();
+        //return the actual thickness
+        return result;
     }
 
+    /**
+     * Overridden method to get layerThickness
+     *
+     * @return actual layer thickness, or -1, if it's not interpretable
+     */
+    @Override
+    public int getLayerThickness() {
+        return layer.getThickness();
+    }
+
+    /**
+     * can return with null! --- and it's okay, and good :)
+     */
     @Override
     public Resource mineResource() {
-        return null;
+        log.log(Level.INFO, "mineResource called");
+        CallStackViewer.getInstance().methodStartsLogCall("mineResource() called (Asteroid)");
+
+        Resource ret = null;
+        //if no layer --> can be mined
+        if (layer.getThickness() == 0) {
+            CallStackViewer.getInstance().methodReturns();
+            ret = core.popResource();
+        } else {
+            log.log(Level.INFO, "Resource cannot mined - layer is too big!");
+            ret = null;
+        }
+
+        CallStackViewer.getInstance().methodReturns();
+        return ret;
     }
 
     @Override
     public boolean addResourceToCore(Resource resource) {
+        log.log(Level.INFO, "addResourceToCore called");
+        CallStackViewer.getInstance().methodStartsLogCall("addResourceToCore() called (Asteroid)");
+
+        if (resource != null) {
+            if (layer.getThickness() == 0 && core.popResource().equals(new Empty())) {
+                core.pushResource(resource);
+
+                CallStackViewer.getInstance().methodReturns();
+                return true;
+            } else {
+                log.log(Level.INFO, "Resource cannot mined - layer is too big or the core is not mined!");
+            }
+        }
+
+        CallStackViewer.getInstance().methodReturns();
         return false;
     }
 
     @Override
     public void setMyPosition(Position newPosition) {
-
+        //NOP for asteroid
     }
 
 
@@ -79,48 +170,83 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
     @Override
     public SteppableSpaceObject getPair() {
+        log.log(Level.TRACE, "No pair for asteroid - null returned");
         return null;
     }
 
     @Override
     public String getInfo() {
-        return null;
+        //TODO write some valuable information here
+        ConsoleUI.getInstance().sendMessageToConsole("name: " + name + ", layer: " + layer.getThickness() + ", core: " + core.getCoreInfo() + ", isCloseToSun: " + closeToSun +
+                ", position: x=" + position.getX() + " y=" + position.getY());
+        return "exampleInfo";
     }
 
     /**
-     *
+     * name of the asteroid
      */
-    private String name;
+    private String name = "";
 
     /**
-     *
+     * definition of close to sun
      */
-    private boolean closeToSun;
-
-
-
-    protected Core core;
-    protected Layer layer;
+    private boolean closeToSun = false;
 
     /**
-     *
+     * core of the asteroid
+     */
+    protected Core core = null;
+    /**
+     * layer of the asteroid
+     */
+    protected Layer layer = null;
+
+    /**
+     * explode asteroid (and notify observers, what they have to do!)
      */
     protected void explode() {
-        // TODO implement here
+        log.log(Level.INFO, "explode called");
+        CallStackViewer.getInstance().methodStartsLogCall("explode() called (Asteroid)");
+
+        //let these resources go
+        core = null;
+        layer = null;
+
+        //DO NOT handle the checkIn, checkOut here!
+        //this is the entity's responsibility
+        //for (var item : playersOnMe) {
+          //  item.notifyAsteroidExplosion();
+        //}
+        var iter = entitiesOnMe.iterator();
+        while(iter.hasNext()){
+            var entityItem = iter.next();
+            iter.remove();
+            entityItem.notifyAsteroidExplosion();
+        }
+
+        //remove from world
+        AsteroidZone.getInstance().removeSpaceObject(this);
+
+        CallStackViewer.getInstance().methodReturns();
+        //gc eats this object sooner or later
     }
 
     /**
-     *
+     * Notify observers about danger
+     * Asteroid don't send notification about its explosion (before it happens)
      */
     public void notifyAboutDanger() {
-        // TODO implement here
+        //NOP for asteroid
     }
 
     /**
-     *
+     * Notify observers, they have to die or handle this event
      */
     public void notifyAboutDieEvent() {
-        // TODO implement here
-    }
+        CallStackViewer.getInstance().methodStartsLogCall("notifyAboutDieEvent() called (Asteroid)");
 
+        explode();
+
+        CallStackViewer.getInstance().methodReturns();
+    }
 }

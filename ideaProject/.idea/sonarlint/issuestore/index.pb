@@ -5,10 +5,6 @@
 gradlew.bat,2\a\2a45a911a8f1836b0b6c5b758962572012d8f8c3
 7
 gradlew,5\b\5bbfa66edb4db3c7c33c5181f43510990d3307f9
-]
--src/main/java/org/asteroidapp/Observable.java,d\5\d5015c097a5d6933e24b9b02cdcf4ced27e2b0fb
-[
-+src/main/java/org/asteroidapp/Observer.java,e\5\e55f6edd10816dd95b8a9b5e963f0d42e0a296c4
 ?
 settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
 Y
@@ -25,8 +21,6 @@ a
 1src/main/java/org/asteroidapp/resources/Iron.java,2\5\25dcd1fc1d598d197d8e07f591e3f0cbf9ee97ac
 a
 1src/main/java/org/asteroidapp/resources/Uran.java,9\9\99336c81a92e0da85456b7c6bc9b513f486e9e56
-b
-2src/main/java/org/asteroidapp/EventObservable.java,1\5\158fc34052c31f616ebbcfbd46e06dfb0adcc2a4
 m
 =src/main/java/org/asteroidapp/spaceobject/asteroid/Layer.java,c\2\c22044b1176eee2fde0780c7d820cfd8a797e0df
 c
@@ -57,3 +51,7 @@ a
 0src/main/java/org/asteroidapp/AppController.java,d\f\df66229ac777f50cabb27a3634153c07e4a54258
 a
 1src/main/java/org/asteroidapp/util/ConsoleUI.java,8\8\88331e60d01b79dd451ef7945ec96b20a102eb70
+l
+<src/main/java/org/asteroidapp/resources/ResourceStorage.java,1\6\163d01dd3a7b0212162c287020276078433c5bf5
+g
+7src/main/java/org/asteroidapp/util/CallStackViewer.java,6\c\6ca52822bafebdc39442ac68e8973926cce9906c

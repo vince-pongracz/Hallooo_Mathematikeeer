@@ -1,5 +1,8 @@
 package org.asteroidapp.resources;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.asteroidapp.entities.AIRobot;
 import org.asteroidapp.resources.Resource;
 
 /**
@@ -7,8 +10,12 @@ import org.asteroidapp.resources.Resource;
  */
 public class Uran extends Resource {
 
+	/**
+	 * logger for Uran
+	 */
 
-	//TODO log messages
+	private static final Logger log = LogManager.getLogger(Uran.class.getSimpleName());
+
 	/**
 	 * Default constructor
 	 */

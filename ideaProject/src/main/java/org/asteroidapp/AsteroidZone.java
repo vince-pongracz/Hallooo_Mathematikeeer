@@ -5,6 +5,7 @@ import org.asteroidapp.spaceobjects.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
 
@@ -14,14 +15,22 @@ import java.util.*;
  */
 public class AsteroidZone {
 
-    int asteroidSize = 80;
-    private static final Logger log = LogManager.getLogger(AsteroidZone.class.toString());
+    private int asteroidSize = 80;
+
+    //only one random per class should exist otherwise it would give the same result (Position, Resource) for every asteroid
+    private Random random = new Random(999); //seed: 999 is good for testing uran explosion
+
+
+    /**
+     * logger for AsteroidZone
+     */
+    private static final Logger log = LogManager.getLogger(AsteroidZone.class.getSimpleName());
 
     /**
      * Default constructor
      */
     private AsteroidZone() {
-        spaceObjects = new HashSet<>();
+        spaceObjects = Collections.synchronizedSet(new HashSet<>());
     }
 
     private static AsteroidZone instance = null;
@@ -37,12 +46,12 @@ public class AsteroidZone {
      * The definition of what is too close to the sun (in pixels)
      */
     //TODO setter, or preset
-    public static double defOfCloseToSun = 30;
+    public static double defOfCloseToSun = 500;
 
     /**
      * It stores the objects e.g. asteroid, home asteroid, portals
      */
-    private Set<SteppableSpaceObject> spaceObjects;
+    private Set<SteppableSpaceObject> spaceObjects = null;
 
     /**
      * store the sun
@@ -60,36 +69,67 @@ public class AsteroidZone {
      * the home asteroid and the sun.
      */
     public void createZone() {
+        CallStackViewer.getInstance().methodStartsLogCall("createZone() called");
+
         //add home
         int range = 1000;
-        int numOfAsteroids = 8;
-        Random rand = new Random();
+        int numOfAsteroids = 23;
+
         Resource resource;
         int layer;
 
-        homeAsteroid = new HomeAsteroid(new Position(0, 0, 10), new Empty());
-        spaceObjects.add(homeAsteroid);
-
         //For now the Sun is in the top-left Corner and has a size of 100 x 100
-        sun = new Sun(new Position(0, 100, 50));
+        sun = new Sun(new Position(150, 150, 50));
         log.log(Level.TRACE, "Sun has been created in the top-left corner");
 
-        int i = 0;
-        while (i < numOfAsteroids) {
+        homeAsteroid = new HomeAsteroid(new Position(400, 500, 5), new Empty());
+        spaceObjects.add(homeAsteroid);
+
+        int numOfPlacedAsteroids = 0;
+        while (numOfPlacedAsteroids < numOfAsteroids && numOfPlacedAsteroids <= 23) {
             //TODO add minimal, maximal distance logic, namefaker for spacenames
             Position randomPosition = generateRandomPosition(range);
+
             if (checkDistanceAtCreate(randomPosition)) {
-                randomPosition.setRadius(30);
+                randomPosition.setRadius(5);
                 resource = generateRandomResource();
-                layer = rand.nextInt(5) + 3;
-                //Layer is between 3 and 8
-                spaceObjects.add(new Asteroid("temp" + i, randomPosition, resource, layer));
+
+                //Layer is between 3 and 6
+                layer = random.nextInt(3) + 3;
+
+                spaceObjects.add(new Asteroid("temp" + numOfPlacedAsteroids, randomPosition, resource, layer));
                 log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}",
                         (int) randomPosition.getX(), (int) randomPosition.getY(), resource.getName(), layer);
-                i++;
+                numOfPlacedAsteroids++;
             }
         }
 
+        //TODO Slipping is not working
+/*
+        if(numOfAsteroids > 20){
+            Position slippedPosition = null;
+
+            while(numOfPlacedAsteroids < numOfAsteroids){
+                for(SteppableSpaceObject elem: spaceObjects){
+                    slippedPosition = generateSlippedPosition(elem.getPosition(), range);
+
+                    if(slippedPosition != null){
+                        resource = generateRandomResource();
+                        layer = random.nextInt(3) + 3;
+                        slippedPosition.setRadius(5);
+                        spaceObjects.add(new Asteroid("temp" + numOfPlacedAsteroids, slippedPosition, resource, layer));
+                        log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}", (int) slippedPosition.getX(), (int) slippedPosition.getY(), resource.getName(), layer);
+                        numOfPlacedAsteroids++;
+                    }
+
+                    if(numOfPlacedAsteroids == numOfAsteroids)
+                        break;
+                }
+                break;
+            }
+        }*/
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -98,11 +138,16 @@ public class AsteroidZone {
      * @param spaceObj The object that is going to added to the list of spaceObjects
      */
     public void addSpaceObject(SteppableSpaceObject spaceObj) {
+        log.log(Level.INFO, "addSpaceObject called");
+        CallStackViewer.getInstance().methodStartsLogCall("addSpaceObject() called");
+
         if (spaceObj != null) {
             spaceObjects.add(spaceObj);
         } else {
-            //NOP
+            log.log(Level.WARN, "spaceObj is null");
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -111,8 +156,16 @@ public class AsteroidZone {
      * @param removedSpaceObject The object that is going to removed to the list of spaceObjects
      */
     public void removeSpaceObject(SteppableSpaceObject removedSpaceObject) {
-        //TODO nullcheck
-        spaceObjects.remove(removedSpaceObject);
+        log.log(Level.INFO, "removeSpaceObject called");
+        CallStackViewer.getInstance().methodStartsLogCall("removeSpaceObject() called");
+
+        if (removedSpaceObject != null) {
+            spaceObjects.remove(removedSpaceObject);
+        } else {
+            log.log(Level.WARN, "removedSpaceObject is null");
+        }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -130,10 +183,42 @@ public class AsteroidZone {
      * @return A random position that an object owns on the screen
      */
     public Position generateRandomPosition(int range) {
-        Random random = new Random();
-        return new Position(random.nextInt(range - asteroidSize), random.nextInt(range - asteroidSize) + asteroidSize);
+        //Round to the nearest number that can be divided by 5 for less possible Positions
+        int x = random.nextInt(range - asteroidSize);
+        int y = random.nextInt(range - asteroidSize) + asteroidSize;
+        return new Position(x, y);
     }
 
+    //TODO Slipping the asteroids is not working :(
+/*
+    public Position generateSlippedPosition(Position currentPos, int range){
+        Position slipped = null;
+        boolean isNotCorrect = true;
+        int x = 0;
+
+        while(x < range - asteroidSize && isNotCorrect){
+            Position temp = new Position(x, currentPos.getY());
+            if(checkDistanceAtCreate(temp)) {
+                slipped = temp;
+                isNotCorrect = true;
+            }
+            x += 1;
+        }
+
+        int y = asteroidSize;
+        if(slipped == null){
+            while(y < range && isNotCorrect){
+                Position temp = new Position(currentPos.getX(), y);
+                if(checkDistanceAtCreate(temp)) {
+                    slipped = temp;
+                    isNotCorrect = true;
+                }
+                y += 1;
+            }
+        }
+        return slipped;
+    }
+*/
     /**
      * It generates a randomly selected resource
      *
@@ -141,7 +226,6 @@ public class AsteroidZone {
      */
     public Resource generateRandomResource() {
         //TODO solve: 5 of each Resources should not be near to the sun
-        Random random = new Random();
         int randNum = random.nextInt(5);
         Resource result;
 

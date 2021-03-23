@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
+import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
 
@@ -24,31 +25,46 @@ public class AIRobot extends Entity {
      */
     public AIRobot(String name, SteppableSpaceObject creationPlace) {
         super(name, creationPlace);
+
         log.log(Level.INFO, "AIRobot constructor called");
+
+        CallStackViewer.getInstance().methodStartsLogCall("AIRobot constructor called");
+
         if (creationPlace != null && name != null) {
             onSpaceObject = creationPlace;
         } else {
             log.log(Level.FATAL, "null parameters in constructor!");
         }
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
 
     @Override
     public boolean drill() {
         log.log(Level.INFO, "drill called (AIRobot's drill)");
-        if (onSpaceObject.drillLayer()) {
+
+        CallStackViewer.getInstance().methodStartsLogCall("drill() called (AIRobot's drill)");
+
+        //callStacklog miatt kell ez a kulon cucc... :/
+        boolean ret = false;
+        if (onSpaceObject.drillLayer() > 0) {
             log.log(Level.INFO, "drill success!");
-            return true;
+            ret = true;
         } else {
             decisionCounterStratOne += 3;
             log.log(Level.INFO, "drill is not successful!");
-            return false;
+            ret = false;
         }
+
+        CallStackViewer.getInstance().methodReturns();
+        return ret;
     }
 
     @Override
     protected void die() {
         log.log(Level.INFO, "die called (AIRobot's die)");
+        CallStackViewer.getInstance().methodStartsLogCall("die() called (AIRobot)");
 
         //delete robot's reference from collections (every collections)
         //checkout form onSpaceObject
@@ -62,24 +78,32 @@ public class AIRobot extends Entity {
         //remove form game
         GameController.getInstance().removeBot(this);
 
+        CallStackViewer.getInstance().methodReturns();
     }
 
     @Override
     protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
-        //TODO solve (OPT): don't choose a spaceObject, which is empty
-        //TODO don't choose an asteroid, where robot came from
+        //TODO (OPT): don't choose a spaceObject, which is empty
+        //TODO (OPT): don't choose an asteroid, where robot came from
 
-        log.log(Level.INFO, "chooseNaighbour called");
+        log.log(Level.INFO, "chooseNeighbour called");
+        CallStackViewer.getInstance().methodStartsLogCall("chooseNeighbour() called (AIRobot)");
+
         //nullcheck
         if (neighbours != null) {
             //convert set to a list to shuffle
             var neighbourListToShuffle = new ArrayList<SteppableSpaceObject>(neighbours);
             Collections.shuffle(neighbourListToShuffle);
             //generate random to decision
-            var randomNumber = new Random(neighbourListToShuffle.size()).nextInt();
+            var randomNumber = new Random().nextInt(neighbourListToShuffle.size());
+
+            CallStackViewer.getInstance().methodReturns();
+
             return neighbourListToShuffle.get(randomNumber);
         } else {
             log.log(Level.FATAL, "Given collection in parameter is null!");
+            CallStackViewer.getInstance().methodReturns();
+
             return null;
         }
     }
@@ -87,24 +111,35 @@ public class AIRobot extends Entity {
     @Override
     public void notifyFlairEvent() {
         log.log(Level.INFO, "notifyFlairEvent called");
-        log.log(Level.TRACE, "in a flair, robot has to die");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyFlairEvent() called (AIRobot)");
+
         die();
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     @Override
     public void notifyFlairDanger() {
         //TODO AI in Robots... (opt)
         log.log(Level.INFO, "notifyFlairDanger called");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyFlairDanger() called (AIRobot)");
+
         log.log(Level.INFO, "Hey bot, you should hide!");
+
         //NOP for Robots...
         //or some logic required to make a hole and hide
+        CallStackViewer.getInstance().methodReturns();
     }
 
     @Override
     public void notifyAsteroidExplosion() {
         log.log(Level.INFO, "notifyAsteroidExplosion called");
+        CallStackViewer.getInstance().methodStartsLogCall("notifyAsteroidExplosion() called (AIRobot)");
+
         //robot has to move (she/he is protected at the explosion)
         move();
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -115,8 +150,12 @@ public class AIRobot extends Entity {
     @Override
     public void doAction() {
         log.log(Level.INFO, "doAction called");
-        //TODO implement better action choose, and decisionmaking
+        CallStackViewer.getInstance().methodStartsLogCall("doAction() called (AIRobot)");
+
+        //TODO implement better action choose, and decisioning
         stratOne();
+
+        CallStackViewer.getInstance().methodReturns();
     }
 
     /**
@@ -126,6 +165,7 @@ public class AIRobot extends Entity {
     private void stratOne() {
         //TODO (OPT) create more strategies
         log.log(Level.INFO, "strat_1 called: AIRobot on strat1");
+
         int mod = 4;
         //1 move, than 3 drill
         log.log(Level.TRACE, "make decision");

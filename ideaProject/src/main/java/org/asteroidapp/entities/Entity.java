@@ -7,6 +7,7 @@ import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.AsteroidZone;
+import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
 
@@ -18,7 +19,10 @@ import java.util.*;
  */
 public abstract class Entity implements Observer {
 
-    private static final Logger log = LogManager.getLogger(Entity.class.toString());
+    /**
+     * Logger for Entity
+     */
+    private static final Logger log = LogManager.getLogger(Entity.class.getSimpleName());
 
     /**
      * Default constructor for an entity
@@ -50,13 +54,23 @@ public abstract class Entity implements Observer {
      * and then it will move to that specified object
      */
     public void move() {
+        log.log(Level.INFO, "move called");
+        CallStackViewer.getInstance().methodStartsLogCall( "move() called (Entity)");
+
         var neighbours = listMyNeighbours();
         var nextSpaceObject = chooseNeighbour(neighbours);
-        onSpaceObject.checkOut(this);
-        setMySpaceObject(nextSpaceObject);
-        nextSpaceObject.checkIn(this);
-        log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
+
+        if (nextSpaceObject != null) {
+            //TODO solve when it's null
+            onSpaceObject.checkOut(this);
+            setMySpaceObject(nextSpaceObject);
+            nextSpaceObject.checkIn(this);
+            log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
+        }
+
+        CallStackViewer.getInstance().methodReturns();
     }
+
 
     /**
      * Abstract function for drill event. It will be implemented in AIRobot and Settler.
@@ -76,18 +90,24 @@ public abstract class Entity implements Observer {
      * @return list of the possible neighbours where the entity can move
      */
     public Set<SteppableSpaceObject> listMyNeighbours() {
+        log.log(Level.INFO, "listMyNeighbours called");
+        CallStackViewer.getInstance().methodStartsLogCall("listMyNeighbours() called (Entity)");
+
         Set<SteppableSpaceObject> neighbours = new HashSet<>();
-        Iterator<SteppableSpaceObject> iter = AsteroidZone.getInstance().getIterOnSpaceObjects();
-        Position sun = AsteroidZone.getInstance().getSun().getPosition();
-        SteppableSpaceObject temp;
+        var iter = AsteroidZone.getInstance().getIterOnSpaceObjects();
+        //Position sun = AsteroidZone.getInstance().getSun().getPosition();
+        SteppableSpaceObject temp = null;
 
         while (iter.hasNext()) {
             temp = iter.next();
-            if (temp.getPosition().distanceFrom(onSpaceObject.getPosition()) > Position.getMaximalNeighbourDistance()) {
+            double distance = temp.getPosition().distanceFrom(onSpaceObject.getPosition());
+            if (distance < Position.getMaximalNeighbourDistance() && !temp.getName().equals(onSpaceObject.getName())) {
                 neighbours.add(temp);
-                log.log(Level.TRACE, "Possible neighbour: ", temp.getName());
+                log.log(Level.INFO, "Possible neighbour: {}", temp.getInfo());
             }
         }
+
+        CallStackViewer.getInstance().methodReturns();
         return neighbours;
     }
 
@@ -145,5 +165,4 @@ public abstract class Entity implements Observer {
      * Decision, and interaction wit user about what he/she wnats to do
      */
     public abstract void doAction();
-
 }
