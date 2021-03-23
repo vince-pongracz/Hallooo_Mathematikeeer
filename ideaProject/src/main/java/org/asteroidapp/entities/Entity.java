@@ -120,7 +120,6 @@ public abstract class Entity implements Observer {
         if (newOnPlace != null) {
             onSpaceObject = newOnPlace;
             log.log(Level.TRACE, "Space object set to {} ", newOnPlace.getName());
-            CallStackViewer.getInstance().logCall( "setMySpaceObject(SteppableSpaceObject newOnPlace) called (Entity)");
             CallStackViewer.getInstance().methodReturns();
         } else {
             //NOP
