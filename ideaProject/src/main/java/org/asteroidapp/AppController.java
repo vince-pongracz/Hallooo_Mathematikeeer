@@ -78,7 +78,7 @@ public class AppController {
             ConsoleUI.getInstance().sendMessageToConsole(
                     "Type start to start," +
                             " help to show options, or quit to close application!");
-            ConsoleUI.getInstance().sendMessageToConsole("Type TEST MODE for entry to test mode");
+            ConsoleUI.getInstance().sendMessageToConsole("Type testmode for entry to test mode");
 
             String response = ConsoleUI.getInstance().readLineFromConsole();
             if (response != null) {
@@ -105,7 +105,28 @@ public class AppController {
 
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
-                } else if (response.equals("TEST MODE")) {
+                } else if (response.equals("test_move")) {
+                    Queue<String> autoCommands= new ArrayDeque<String>();
+                    autoCommands.add("1");
+                    autoCommands.add("x");
+                    autoCommands.add("1");
+                    autoCommands.add("0");
+                    ConsoleUI.getInstance().setAutoCommands(autoCommands);
+
+                    GameController.getInstance().setupGame();
+                    GameController.getInstance().inGame();
+                }
+                else if (response.equals("test_bot")) {
+                    Queue<String> autoCommands= new ArrayDeque<String>();
+                    autoCommands.add("1");
+                    autoCommands.add("x");
+                    autoCommands.add("1");
+                    autoCommands.add("5");
+                    ConsoleUI.getInstance().setAutoCommands(autoCommands);
+
+                    GameController.getInstance().setupGame();
+                    GameController.getInstance().inGame();
+                } else if (response.equals("testmode")) {
                     testMode();
                     quitCondition = true;
                 } else {
@@ -119,7 +140,7 @@ public class AppController {
     public void testMode() {
         TestConfig config = new TestConfig();
         try {
-            ConsoleUI.getInstance().sendMessageToConsole("Filename of testconfig:");
+            ConsoleUI.getInstance().sendMessageToConsole("Filename of testconfig:  (testconfigs/...)");
             String filename = ConsoleUI.getInstance().readLineFromConsole();
             Gson json = new Gson();
             config = json.fromJson(new JsonReader(new FileReader(filename)), TestConfig.class);
