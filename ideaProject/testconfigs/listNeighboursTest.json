@@ -5,7 +5,7 @@
   "settlerNumber": 1,
   "asteroidNumber": 7,
   "range": 1000,
-  "maxRound": 3,
+  "maxRound": 2,
   "sunFlairInEveryXRound": 10,
   "homeCapacity": 5,
   "settlerCapacity": 10,
