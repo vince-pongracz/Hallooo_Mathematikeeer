@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
+    id "org.nosphere.gradle.github.actions" version "1.2.0"
 }
 run {
     standardInput(System.in)
