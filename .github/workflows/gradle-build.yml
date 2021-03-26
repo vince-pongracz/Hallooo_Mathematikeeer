@@ -24,7 +24,4 @@ jobs:
         java-version: 15
     - uses: eskatos/gradle-command-action@v1.3.3
       with:
-        wrapper-directory: /gradle/wrapper/gradle-wrapper.properties
         arguments: build
-      env:
-        CI: true
