@@ -3,12 +3,12 @@ ideaProject/build/
 ideaProject/.idea/sonarlint/
 ideaProject/.gradle/*
 ideaProject/modules/
-ideaProject/logs/
+ideaProject/logs
 ideaProject/.idea/codestream.xml
 ideaProject/.idea/misc.xml
 ideaProject/.idea/sonarlint/issuestore/index.pb
 ideaProject/callStacks/
-.DS_Store
+/.DS_Store
 ideaProject/.DS_Store
 ideaProject/src/.DS_Store
 ideaProject/src/main/.DS_Store
