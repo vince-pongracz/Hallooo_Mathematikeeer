@@ -7,6 +7,7 @@ import org.asteroidapp.resources.Resource;
 import org.asteroidapp.spaceobject.asteroid.Core;
 import org.asteroidapp.spaceobject.asteroid.Layer;
 import org.asteroidapp.util.CallStackViewer;
+import org.asteroidapp.util.ConsoleUI;
 
 public class HomeAsteroid extends Asteroid {
 
@@ -48,7 +49,10 @@ public class HomeAsteroid extends Asteroid {
     public Resource mineResource() {
         CallStackViewer.getInstance().methodStartsLogCall("mineResource() called (HomeAsteroid)");
 
-        Resource temp = core.popResource();
+        Resource temp = new Empty();
+        while(temp.getName().equals(new Empty().getName())){
+            temp = core.popResource();
+        }
 
         CallStackViewer.getInstance().methodReturns();
         return temp;
