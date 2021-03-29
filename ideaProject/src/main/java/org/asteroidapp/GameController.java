@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.entities.AIRobot;
+import org.asteroidapp.entities.Ufo;
 import org.asteroidapp.entities.Settler;
 import org.asteroidapp.resources.*;
 import org.asteroidapp.util.CallStackViewer;
@@ -35,6 +36,7 @@ public class GameController {
         currentRound = 1;
         playersNum = 0;
         settlerNum = 1;
+        ufosNum = 1,
 
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -43,9 +45,11 @@ public class GameController {
 
         robots = new HashSet<>();
         players = new HashSet<>();
+        ufos = new HashSet<>();
 
         log.log(Level.TRACE, "robots has their collection");
         log.log(Level.TRACE, "players has their collection");
+        log.log(Level.TRACE, "ufos has their collection");
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -86,6 +90,12 @@ public class GameController {
      */
     private int settlerNum;
 
+
+    /**
+     * Number of players in current game
+     */
+    private int ufosNum;
+
     /**
      * collection for robots
      */
@@ -95,6 +105,11 @@ public class GameController {
      * collection for players
      */
     private transient Set<Player> players;
+
+    /**
+     * collection for ufos
+     */
+    private transient Set<Ufo> ufos;
 
     /**
      * Create and place settlers to the HomeAsteroid
@@ -185,6 +200,9 @@ public class GameController {
 
         ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired settlers for each player");
         settlerNum = ConsoleUI.getInstance().readIntFromConsole();
+
+        ConsoleUI.getInstance().sendMessageToConsole("Type the number of ufos");
+        ufosNum = ConsoleUI.getInstance().readIntFromConsole();
 
         log.log(Level.TRACE, "Initialize...");
 
@@ -449,6 +467,15 @@ public class GameController {
 
             for (var bot : robots) {
                 bot.doAction();
+            }
+        }
+
+        log.log(Level.TRACE, "check on ufos");
+        if (ufos != null && ufos.size() != 0) {
+            log.log(Level.INFO, "Iterate on ufos, they do things:");
+
+            for (var ufo : ufos) {
+                ufo.doAction();
             }
         }
 

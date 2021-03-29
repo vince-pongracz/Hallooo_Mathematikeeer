@@ -1,8 +1,9 @@
 {
-  "testname": "assertTest --- sajni még nem jó :(",
+  "testname": "assertTest --- sajni mï¿½g nem jï¿½ :(",
   "playerNumber": 1,
   "playerNames": ["testName"],
   "settlerNumber": 1,
+  "ufosNumer": 1,
   "asteroidNumber": 1,
   "range": 1000,
   "maxRound": 4,
