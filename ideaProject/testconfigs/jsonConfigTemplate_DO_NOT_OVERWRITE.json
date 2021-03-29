@@ -12,6 +12,5 @@
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
   "realCommandQueue": [],
-  "enableCompare": true,
   "expectedOut": []
 }

@@ -12,7 +12,6 @@
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
   "realCommandQueue": [ "3", "4", "0", "temp10", "4", "assert" ],
-  "enableCompare": true,
   "expectedOut": [
     "GameController - setup ended",
     "Gate - New gate created",

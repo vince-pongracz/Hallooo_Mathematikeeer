@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 
+//TODO logs everywhere
+
 public class TestConfig {
 
     private static final Logger log = LogManager.getLogger(TestConfig.class.getSimpleName());
@@ -41,7 +43,7 @@ public class TestConfig {
      * commands after game init
      */
     private String[] realCommandQueue = {};
-    private boolean enableCompare = true;
+    private transient boolean enableCompare = true;
     private String[] expectedOut = {};
 
     public boolean checkConfig() {
@@ -93,16 +95,23 @@ public class TestConfig {
 
     public void eval() {
         ConsoleUI.getInstance().sendMessageToConsole("");
-        ConsoleUI.getInstance().sendMessageToConsole("EVAL TEST: " + testname);
-        ConsoleUI.getInstance().sendMessageToConsole("-----------------------");
-        if (checkExpected() == enableCompare) {
-            ConsoleUI.getInstance().sendMessageToConsole("---------------------");
+        ConsoleUI.getInstance().sendMessageToConsole("EVAL TEST : " + testname);
+        ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+
+        enableCompare = (expectedOut.length > 0) ? true : false;
+
+        if (enableCompare && checkExpected()) {
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
             ConsoleUI.getInstance().sendMessageToConsole(testname + " : PASSED");
-            ConsoleUI.getInstance().sendMessageToConsole("---------------------");
-        } else {
-            ConsoleUI.getInstance().sendMessageToConsole("---------------------");
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+        } else if (enableCompare && !checkExpected()) {
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
             ConsoleUI.getInstance().sendMessageToConsole(testname + " FAILED");
-            ConsoleUI.getInstance().sendMessageToConsole("---------------------");
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+        } else {
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+            ConsoleUI.getInstance().sendMessageToConsole(testname + " : no eval for this test");
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
         }
     }
 
@@ -137,15 +146,14 @@ public class TestConfig {
                 }
             }
 
-            if(howManyFound != expectedOut.length){
+            if (howManyFound != expectedOut.length) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
 
         } catch (IOException e) {
             System.err.println("Fileerror");
-            //TODO log
         }
         return false;
     }
