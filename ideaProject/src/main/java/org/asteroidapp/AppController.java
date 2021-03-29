@@ -138,12 +138,11 @@ public class AppController {
     }
 
     public void testMode() {
-        TestConfig config = new TestConfig();
         try {
             ConsoleUI.getInstance().sendMessageToConsole("Filename of testconfig:  (testconfigs/...)");
             String filename = ConsoleUI.getInstance().readLineFromConsole();
             Gson json = new Gson();
-            config = json.fromJson(new JsonReader(new FileReader(filename)), TestConfig.class);
+            TestConfig config = json.fromJson(new JsonReader(new FileReader(filename)), TestConfig.class);
             if (config.checkConfig()) {
                 ConsoleUI.getInstance().sendMessageToConsole("config is OK");
             } else {
@@ -151,15 +150,20 @@ public class AppController {
                 System.err.println("Wrong config");
                 return;
             }
+
+            ConsoleUI.getInstance().addTestConfig(config);
+            Queue<String> autoCommands = config.setConfigIntoComponents();
+            ConsoleUI.getInstance().setAutoCommands(autoCommands);
+
+            GameController.getInstance().setupGame();
+            GameController.getInstance().inGame();
+
+            config.eval();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return;
         }
-        Queue<String> autoCommands = config.setConfigIntoComponents();
-        ConsoleUI.getInstance().setAutoCommands(autoCommands);
-
-        GameController.getInstance().setupGame();
-        GameController.getInstance().inGame();
     }
 
     public void containerTest() {

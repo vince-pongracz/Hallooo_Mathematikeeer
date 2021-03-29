@@ -12,5 +12,6 @@
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
   "realCommandQueue": [],
-  "expectedOut": "write expected output here (callStack)"
+  "enableCompare": true,
+  "expectedOut": []
 }
