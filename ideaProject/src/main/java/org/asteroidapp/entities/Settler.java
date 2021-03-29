@@ -10,6 +10,7 @@ import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
+import org.asteroidapp.spaceobjects.Sun;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
@@ -180,9 +181,11 @@ public class Settler extends Entity {
         log.log(Level.INFO, "notifyFlairEvent called");
         CallStackViewer.getInstance().methodStartsLogCall("notifyFlairEvent() called (Settler)");
 
+        boolean settlerIsFarFromSun = onSpaceObject.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun;
+
         //TODO refactor: one Asteroid can hide just one entity..
-        if (onSpaceObject.getLayerThickness() == 0 && onSpaceObject.mineResource().equals(new Empty())) {
-            log.log(Level.INFO, "You were hidden in an asteroid during the sunflair so you survived");
+        if (onSpaceObject.getLayerThickness() == 0 && onSpaceObject.mineResource().equals(new Empty()) || settlerIsFarFromSun) {
+            log.log(Level.INFO, "You were hidden in an asteroid during the sunflair or you were far away from the sun, so you survived");
         } else {
             log.log(Level.INFO, "You were not hidden in an asteroid during the sunflair so you died");
             die();
