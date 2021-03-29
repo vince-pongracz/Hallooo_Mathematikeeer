@@ -11,5 +11,6 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": []
+  "realCommandQueue": [],
+  "expectedOut": "write expected output here (callStack)"
 }
