@@ -19,6 +19,8 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //TODO logs everywhere
 
@@ -137,7 +139,9 @@ public class TestConfig {
             int howManyFound = 0;
             for (var line : lines) {
                 for (int i = howManyFound; i < expectedOut.length; i++) {
-                    if (line.contains(expectedOut[i])) {
+                    Pattern pattern = Pattern.compile(expectedOut[i], Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(line);
+                    if (matcher.find()) {
                         ConsoleUI.getInstance().sendMessageToConsole(expectedOut[i] + " : pattern found");
                         howManyFound++;
                     } else {
