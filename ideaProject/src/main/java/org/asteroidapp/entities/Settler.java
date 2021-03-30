@@ -52,6 +52,7 @@ public class Settler extends Entity {
         options.add("deploy resource");
         options.add("list neighbours");
         options.add("wait");
+        options.add("list my resources");
 
         if (owner != null) {
             this.owner = owner;
@@ -263,11 +264,15 @@ public class Settler extends Entity {
                 case 7:
                     //always have to list the neighbours - no excuse
                     listMyNeighbours();
-                    actionOK = true;
+                    actionOK = false;
                     break;
                 case 8:
                     waitingSettler();
                     actionOK = true;
+                    break;
+                case 9:
+                    listResources();
+                    actionOK = false;
                     break;
                 default:
                     break;
@@ -446,7 +451,7 @@ public class Settler extends Entity {
         log.log(Level.INFO, "ListResources called");
         CallStackViewer.getInstance().methodStartsLogCall("listResources() called (Settler)");
 
-        resources.getResourceList().forEach((temp) -> System.out.println(temp.getName()));
+        ConsoleUI.getInstance().sendMessageToConsole(resources.toString());
 
         CallStackViewer.getInstance().methodReturns();
         return resources.getResourceList();
@@ -462,6 +467,7 @@ public class Settler extends Entity {
         //TODO refactor --- choose from storage, not from nothing!
         log.log(Level.INFO, "chooseResource called");
         CallStackViewer.getInstance().methodStartsLogCall("chooseResource() called (Settler)");
+        ConsoleUI.getInstance().sendMessageToConsole("Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran");
         log.log(Level.INFO, "Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran");
 
         int resourceNum = ConsoleUI.getInstance().readIntFromConsole();

@@ -124,7 +124,6 @@ public abstract class SteppableSpaceObject implements Observable {
      *
      * @param leavingEntity Entity, which leaves the object
      */
-    //TODO check
     public void checkOut(Entity leavingEntity) {
         log.log(Level.INFO, "checkOut called");
         CallStackViewer.getInstance().methodStartsLogCall("checkOut() called");

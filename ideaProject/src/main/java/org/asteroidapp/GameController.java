@@ -36,7 +36,7 @@ public class GameController {
         currentRound = 1;
         playersNum = 0;
         settlerNum = 1;
-        ufosNum = 1,
+        ufosNum = 1;
 
 
         GsonBuilder gsonBuilder = new GsonBuilder();

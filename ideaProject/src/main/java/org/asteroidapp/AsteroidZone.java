@@ -85,7 +85,7 @@ public class AsteroidZone {
         spaceObjects.add(homeAsteroid);
 
         int numOfPlacedAsteroids = 0;
-        while (numOfPlacedAsteroids < numOfAsteroids && numOfPlacedAsteroids <= 23) {
+        while (numOfPlacedAsteroids < numOfAsteroids && numOfPlacedAsteroids <= numOfAsteroids) {
             //TODO add minimal, maximal distance logic, namefaker for spacenames
             Position randomPosition = generateRandomPosition(range);
 
