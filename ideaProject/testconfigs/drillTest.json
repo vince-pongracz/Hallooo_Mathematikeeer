@@ -11,5 +11,12 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": [ "0", "temp3", "1", "1", "1", "1", "1", "1"]
+  "realCommandQueue": [ "0", "temp3", "1", "assert"],
+  "expectedOut": [
+    "GameController - setup ended",
+    "Settler - Drill called",
+    "Settler - Settler tried to drill an object",
+    "Asteroid - drillLayer called, before drill was the layer:",
+    "Settler - Drill was successful"
+    ]
 }

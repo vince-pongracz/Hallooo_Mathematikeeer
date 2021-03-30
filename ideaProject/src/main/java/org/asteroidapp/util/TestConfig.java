@@ -101,12 +101,13 @@ public class TestConfig {
         ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
 
         enableCompare = (expectedOut.length > 0) ? true : false;
+        boolean checkExpectedV = checkExpected();
 
-        if (enableCompare && checkExpected()) {
+        if (enableCompare && checkExpectedV) {
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
             ConsoleUI.getInstance().sendMessageToConsole(testname + " : PASSED");
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
-        } else if (enableCompare && !checkExpected()) {
+        } else if (enableCompare && !checkExpectedV) {
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
             ConsoleUI.getInstance().sendMessageToConsole(testname + " FAILED");
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
