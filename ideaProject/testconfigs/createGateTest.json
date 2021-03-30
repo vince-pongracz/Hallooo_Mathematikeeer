@@ -11,5 +11,10 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": [ "3", "assert" ]
+  "realCommandQueue": [ "3", "assert" ],
+  "expectedOut": [
+    "GameController - setup ended",
+    "Gate - New gate created",
+    "Gate - New gate created"
+  ]
 }
