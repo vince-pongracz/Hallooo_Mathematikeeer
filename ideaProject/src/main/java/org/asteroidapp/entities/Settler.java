@@ -412,7 +412,7 @@ public class Settler extends Entity {
         CallStackViewer.getInstance().methodStartsLogCall("deployResource() called (Settler)");
 
         listResources();
-        var resource = chooseResource();
+        var resource = chooseResource(resources);
 
         if (resources.countOf(resource) > 0) {
             log.log(Level.INFO, "The selected resource can be chosen");
@@ -471,9 +471,7 @@ public class Settler extends Entity {
      *
      * @return the chosen resource
      */
-    public Resource chooseResource() {
-
-        //TODO refactor --- choose from storage, not from nothing!
+    private Resource chooseResource(ResourceStorage chooseFrom) {
         log.log(Level.INFO, "chooseResource called");
         CallStackViewer.getInstance().methodStartsLogCall("chooseResource() called (Settler)");
         ConsoleUI.getInstance().sendMessageToConsole("Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran");
@@ -495,8 +493,12 @@ public class Settler extends Entity {
             case (4):
                 resource = new Uran();
                 break;
+            default:
+                break;
         }
-        log.log(Level.TRACE, "Choosen resource: {}", resource.getName());
+        log.log(Level.TRACE, "Chosen resource: {}", resource.getName());
+
+        resource = chooseFrom.popResource(resource);
 
         CallStackViewer.getInstance().methodReturns();
         return resource;
