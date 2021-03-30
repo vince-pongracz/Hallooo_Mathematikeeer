@@ -11,5 +11,19 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": ["assert"]
+  "realCommandQueue": ["assert"],
+  "expectedOut": [
+"GameController - createAndNamePlayers called",
+    "Sun - Sun constructor called",
+    "Asteroid - Asteroid constructor called",
+    "Sun - getPosition called",
+    "SteppableSpaceObject - SteppableSpaceObject constructor called",
+    "Asteroid - Asteroid constructor called",
+    "Sun - getPosition called",   "SteppableSpaceObject - SteppableSpaceObject constructor called",
+    "Asteroid - Asteroid constructor called",
+    "Sun - getPosition called",
+    "GameController - dropSettlers called",
+    "SteppableSpaceObject - checkIn called",
+    "Sun - checkIn called"
+  ]
 }

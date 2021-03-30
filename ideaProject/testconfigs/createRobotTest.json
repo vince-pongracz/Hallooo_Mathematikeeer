@@ -11,5 +11,20 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": ["5", "assert"]
+  "realCommandQueue": ["5", "assert"],
+  "expectedOut": [
+    "Settler - CreateBot called",
+    "AIRobot - AIRobot constructor called",
+    "GameController - getInstance called",
+    "Settler - Bot created at Home asteroid",
+    "GameController - Iterate on robots, they do things:",
+    "AIRobot - doAction called",
+    "AIRobot - strat_1 called: AIRobot on strat1",
+    "Entity - move called",
+   "Entity - listMyNeighbours called",
+    "Entity - Possible neighbour: exampleInfo",
+    "AIRobot - chooseNeighbour called",
+    "SteppableSpaceObject - checkOut called",
+    "SteppableSpaceObject - checkIn called"
+  ]
 }
