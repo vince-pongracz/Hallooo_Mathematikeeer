@@ -63,13 +63,11 @@ public class Core {
      * @param newResource
      */
     //TODO: esetek lefedése
-    public void pushResource(Resource newResource) {
+    public boolean pushResource(Resource newResource) {
         CallStackViewer.getInstance().methodStartsLogCall("pushResource() called (Core)");
-
-        resources.pushResource(newResource);
-        log.log(Level.TRACE, "pushResource called. The ressource was set to: {}", newResource.getName());
-
+        boolean success = resources.pushResource(newResource);
         CallStackViewer.getInstance().methodReturns();
+        return success;
     }
 
     public String getCoreInfo(){

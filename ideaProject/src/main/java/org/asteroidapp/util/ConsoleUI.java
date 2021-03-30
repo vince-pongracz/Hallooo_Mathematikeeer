@@ -3,6 +3,7 @@ package org.asteroidapp.util;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.GameController;
 
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,13 @@ public class ConsoleUI {
         if (autoCommands != null && !autoCommands.isEmpty()){
             String command = autoCommands.remove();
             log.log(Level.INFO, "Used automatic command: " + command);
+
+            //TODO meg nem megy.. :(
+            if(command.equals("assert")){
+                System.exit(0);
+            }
+
+            sendMessageToConsole("------\n"+command);
             return command;
         }
         String ret = "";
@@ -61,6 +69,7 @@ public class ConsoleUI {
             try {
                 String command = autoCommands.remove();
                 log.log(Level.INFO, "Used automatic command: " + command);
+                sendMessageToConsole("------\n" + command);
                 return Integer.parseInt(command);
             } catch (NumberFormatException e) {
                 log.log(Level.WARN, "Invalid command queue element in autoCommands.");

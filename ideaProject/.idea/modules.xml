@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/asteroids.iml" filepath="$PROJECT_DIR$/.idea/modules/asteroids.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/asteroids.main.iml" filepath="$PROJECT_DIR$/.idea/modules/asteroids.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/asteroids.test.iml" filepath="$PROJECT_DIR$/.idea/modules/asteroids.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ideaProject.iml" filepath="$PROJECT_DIR$/.idea/ideaProject.iml" />
     </modules>
   </component>

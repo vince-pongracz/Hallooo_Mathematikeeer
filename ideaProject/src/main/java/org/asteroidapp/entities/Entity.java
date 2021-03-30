@@ -120,6 +120,7 @@ public abstract class Entity implements Observer {
         if (newOnPlace != null) {
             onSpaceObject = newOnPlace;
             log.log(Level.TRACE, "Space object set to {} ", newOnPlace.getName());
+            CallStackViewer.getInstance().methodReturns();
         } else {
             //NOP
         }
@@ -162,7 +163,7 @@ public abstract class Entity implements Observer {
 
     /**
      * for easier handle the entities in GameController
-     * Decision, and interaction wit user about what he/she wnats to do
+     * Decision, and interaction wit user about what he/she wants to do
      */
     public abstract void doAction();
 }

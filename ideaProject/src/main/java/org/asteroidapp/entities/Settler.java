@@ -10,6 +10,7 @@ import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
+import org.asteroidapp.spaceobjects.Sun;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
@@ -31,8 +32,8 @@ public class Settler extends Entity {
     /**
      * It stores the name of the resource and how many does the player possess from that.
      */
-    private ResourceStorage resources = new ResourceStorage();
-
+    private ResourceStorage resources = null;
+    public static int settlerCapacity = 10;
 
     /**
      * Default constructor
@@ -51,6 +52,8 @@ public class Settler extends Entity {
         options.add("create robot");
         options.add("deploy resource");
         options.add("list neighbours");
+        options.add("wait");
+        options.add("list my resources");
 
         if (owner != null) {
             this.owner = owner;
@@ -60,11 +63,14 @@ public class Settler extends Entity {
         }
         log.log(Level.TRACE, "Settler created with an empty resource list");
 
+        resources = new ResourceStorage();
+        resources.setAllCapacity(settlerCapacity);
+
         //Fot the testing the create bot and portal functions
         resources.pushMore(2, new Coal());
         resources.pushMore(2, new Uran());
-        resources.pushMore(1, new FrozenWater());
-        resources.pushMore(3, new Iron());
+        resources.pushMore(2, new FrozenWater());
+        resources.pushMore(4, new Iron());
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -175,9 +181,11 @@ public class Settler extends Entity {
         log.log(Level.INFO, "notifyFlairEvent called");
         CallStackViewer.getInstance().methodStartsLogCall("notifyFlairEvent() called (Settler)");
 
+        boolean settlerIsFarFromSun = onSpaceObject.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun;
+
         //TODO refactor: one Asteroid can hide just one entity..
-        if (onSpaceObject.getLayerThickness() == 0 && onSpaceObject.mineResource().equals(new Empty())) {
-            log.log(Level.INFO, "You were hidden in an asteroid during the sunflair so you survived");
+        if (onSpaceObject.getLayerThickness() == 0 && onSpaceObject.mineResource().equals(new Empty()) || settlerIsFarFromSun) {
+            log.log(Level.INFO, "You were hidden in an asteroid during the sunflair or you were far away from the sun, so you survived");
         } else {
             log.log(Level.INFO, "You were not hidden in an asteroid during the sunflair so you died");
             die();
@@ -246,20 +254,26 @@ public class Settler extends Entity {
                     actionOK = createGate();
                     break;
                 case 4:
-                    //TODO refactor, return with boolean
-                    buildGate();
+                    actionOK = buildGate();
                     break;
                 case 5:
                     actionOK = createBot();
                     break;
                 case 6:
-                    //TODO refactor, return with boolean
-                    deployResource();
+                    actionOK = deployResource();
                     break;
                 case 7:
                     //always have to list the neighbours - no excuse
                     listMyNeighbours();
+                    actionOK = false;
+                    break;
+                case 8:
+                    waitingSettler();
                     actionOK = true;
+                    break;
+                case 9:
+                    listResources();
+                    actionOK = false;
                     break;
                 default:
                     break;
@@ -267,6 +281,14 @@ public class Settler extends Entity {
         }
     }
 
+    /**
+     * Do nothing in a round
+     */
+    private void waitingSettler() {
+        log.log(Level.INFO, "Do nothing in this round with settler: {}", this.getName());
+        CallStackViewer.getInstance().methodStartsLogCall("waitingSettler() called (Settler)");
+        CallStackViewer.getInstance().methodReturns();
+    }
 
     /**
      * It stores the gates that the player created
@@ -352,7 +374,7 @@ public class Settler extends Entity {
         boolean createSuccess = false;
         //TODO nullcheck on resources count, or init all resource with 0 count
         //TODO when createdGates has size() == 0 --> it's also OK
-        if (createdGates.size() == 0 && resources.countOf(new FrozenWater()) >= 1 && resources.countOf(new Iron()) >= 2 && resources.countOf(new Uran()) >= 1) { ////CHANGED CREATEDGATES NULLCHECK  TO SIZE == 0
+        if (createdGates.size() <= 1 && resources.countOf(new FrozenWater()) >= 1 && resources.countOf(new Iron()) >= 2 && resources.countOf(new Uran()) >= 1) { ////CHANGED CREATEDGATES NULLCHECK  TO SIZE == 0
 
             resources.popResource(new FrozenWater());
             resources.popMore(2, new Iron());
@@ -384,7 +406,8 @@ public class Settler extends Entity {
     /**
      * It selects a resource from the player and tries to put it in the core of the asteroid
      */
-    public void deployResource() {
+    public boolean deployResource() {
+        boolean success = false;
         log.log(Level.INFO, "DeployResource called");
         CallStackViewer.getInstance().methodStartsLogCall("deployResource() called (Settler)");
 
@@ -394,17 +417,21 @@ public class Settler extends Entity {
         if (resources.countOf(resource) > 0) {
             log.log(Level.INFO, "The selected resource can be chosen");
             onSpaceObject.addResourceToCore(resource);
+            success = true;
         } else {
             log.log(Level.INFO, "The selected resource can not be chosen");
+            success = false;
         }
 
         CallStackViewer.getInstance().methodReturns();
+        return success;
     }
 
     /**
      * If the player has gate(s) then it will build them on a certain position
      */
-    public void buildGate() {
+    public boolean buildGate() {
+        boolean success = false;
         log.log(Level.INFO, "BuildGate called");
         CallStackViewer.getInstance().methodStartsLogCall("buildGate() called (Settler)");
 
@@ -414,11 +441,14 @@ public class Settler extends Entity {
             gate.setMyPosition(this.onSpaceObject.getPosition());  ////////ALTERED EMPTY POSITION TO SETTLERS (ASTEROIDS) POSITION FOR TESTING, SHOULD BE SOMEWHERE AROUND THE SETTLER
             AsteroidZone.getInstance().addSpaceObject(gate);
             log.log(Level.INFO, "Gate placed at x = {}, y = {}", gate.getPosition().getX(), gate.getPosition().getY());
+            success = true;
         } else {
             log.log(Level.INFO, "You do not have any gates to place");
+            success = false;
         }
 
         CallStackViewer.getInstance().methodReturns();
+        return success;
     }
 
     /**
@@ -430,7 +460,7 @@ public class Settler extends Entity {
         log.log(Level.INFO, "ListResources called");
         CallStackViewer.getInstance().methodStartsLogCall("listResources() called (Settler)");
 
-        resources.getResourceList().forEach((temp) -> System.out.println(temp.getName()));
+        ConsoleUI.getInstance().sendMessageToConsole(resources.toString());
 
         CallStackViewer.getInstance().methodReturns();
         return resources.getResourceList();
@@ -446,6 +476,7 @@ public class Settler extends Entity {
         //TODO refactor --- choose from storage, not from nothing!
         log.log(Level.INFO, "chooseResource called");
         CallStackViewer.getInstance().methodStartsLogCall("chooseResource() called (Settler)");
+        ConsoleUI.getInstance().sendMessageToConsole("Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran");
         log.log(Level.INFO, "Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran");
 
         int resourceNum = ConsoleUI.getInstance().readIntFromConsole();

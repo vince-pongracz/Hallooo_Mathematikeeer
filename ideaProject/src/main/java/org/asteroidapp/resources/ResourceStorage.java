@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+//TODO kellene egy async garbage collector, ami az emptyket eltakarítja, ha bekerülnek...
 public class ResourceStorage {
     private List<Resource> resourceList = new ArrayList<>();
 
@@ -21,10 +22,10 @@ public class ResourceStorage {
     }
 
     //It should be set before, because otherwise the pushMore() function won't work properly
-    private int allCapacity = 10;
+    private int allCapacity = 1;
 
     private boolean storageIsFull() {
-        if (allCapacity == resourceList.size()) {
+        if (allCapacity == (resourceList.size() - countOf(new Empty()))) {
             return true;
         } else {
             return false;
@@ -65,11 +66,13 @@ public class ResourceStorage {
         return result;
     }
 
-    public void pushResource(Resource whatYouWant) {
-        if (whatYouWant != null && resourceList.size() <= allCapacity) {
+    public boolean pushResource(Resource whatYouWant) {
+        if (whatYouWant != null && !this.storageIsFull()) {
             resourceList.add(whatYouWant);
+            return true;
         } else {
             //TODO log
+            return false;
         }
     }
 
@@ -103,9 +106,8 @@ public class ResourceStorage {
     }
 
     public boolean pushMore(int count, Resource typeFrom) {
-        if (allCapacity - count >= resourceList.size()) {
+        if (allCapacity - count + countOf(new Empty()) >= resourceList.size()) {
             for (int i = 0; i < count; i++) {
-                //TODO kellene copy ctor a resourcenal
                 resourceList.add(typeFrom);
             }
             return true;
@@ -125,4 +127,22 @@ public class ResourceStorage {
         }
         return counter;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("----------------------\n");
+        builder.append("ResourceStorage:\n");
+        builder.append("cap: ").append(this.allCapacity).append("\n");
+        builder.append("Uran: ").append(countOf(new Uran())).append("\n");
+        builder.append("Coal: ").append(countOf(new Coal())).append("\n");
+        builder.append("Frozenwater: ").append(countOf(new FrozenWater())).append("\n");
+        builder.append("Iron: ").append(countOf(new Iron())).append("\n");
+        builder.append("Empty: ").append(countOf(new Empty())).append("\n");
+        builder.append("----------------------\n");
+        return builder.toString();
+    }
+
+
+    //TODO improve: add a ResourceStorage to another
 }
