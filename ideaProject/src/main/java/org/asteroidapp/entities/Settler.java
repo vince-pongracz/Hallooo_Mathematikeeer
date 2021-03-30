@@ -254,15 +254,13 @@ public class Settler extends Entity {
                     actionOK = createGate();
                     break;
                 case 4:
-                    //TODO refactor, return with boolean
-                    buildGate();
+                    actionOK = buildGate();
                     break;
                 case 5:
                     actionOK = createBot();
                     break;
                 case 6:
-                    //TODO refactor, return with boolean
-                    deployResource();
+                    actionOK = deployResource();
                     break;
                 case 7:
                     //always have to list the neighbours - no excuse
@@ -408,7 +406,8 @@ public class Settler extends Entity {
     /**
      * It selects a resource from the player and tries to put it in the core of the asteroid
      */
-    public void deployResource() {
+    public boolean deployResource() {
+        boolean success = false;
         log.log(Level.INFO, "DeployResource called");
         CallStackViewer.getInstance().methodStartsLogCall("deployResource() called (Settler)");
 
@@ -418,17 +417,21 @@ public class Settler extends Entity {
         if (resources.countOf(resource) > 0) {
             log.log(Level.INFO, "The selected resource can be chosen");
             onSpaceObject.addResourceToCore(resource);
+            success = true;
         } else {
             log.log(Level.INFO, "The selected resource can not be chosen");
+            success = false;
         }
 
         CallStackViewer.getInstance().methodReturns();
+        return success;
     }
 
     /**
      * If the player has gate(s) then it will build them on a certain position
      */
-    public void buildGate() {
+    public boolean buildGate() {
+        boolean success = false;
         log.log(Level.INFO, "BuildGate called");
         CallStackViewer.getInstance().methodStartsLogCall("buildGate() called (Settler)");
 
@@ -438,11 +441,14 @@ public class Settler extends Entity {
             gate.setMyPosition(this.onSpaceObject.getPosition());  ////////ALTERED EMPTY POSITION TO SETTLERS (ASTEROIDS) POSITION FOR TESTING, SHOULD BE SOMEWHERE AROUND THE SETTLER
             AsteroidZone.getInstance().addSpaceObject(gate);
             log.log(Level.INFO, "Gate placed at x = {}, y = {}", gate.getPosition().getX(), gate.getPosition().getY());
+            success = true;
         } else {
             log.log(Level.INFO, "You do not have any gates to place");
+            success = false;
         }
 
         CallStackViewer.getInstance().methodReturns();
+        return success;
     }
 
     /**
