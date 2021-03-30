@@ -11,5 +11,13 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": [ "0", "temp1", "8", "8", "assert" ]
+  "realCommandQueue": [ "0", "temp1", "8", "8", "assert" ],
+  "expectedOut": [
+    "GameController - setup ended",
+    "Entity - move called",
+    "ConsoleUI - Used automatic command: temp1",
+    "Settler - Do nothing in this round with settler:",
+    "GameController - evaluateFlair called",
+    "Settler - Die method of player testName"
+  ]
 }
