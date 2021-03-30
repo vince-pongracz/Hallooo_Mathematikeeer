@@ -137,19 +137,15 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         log.log(Level.INFO, "addResourceToCore called");
         CallStackViewer.getInstance().methodStartsLogCall("addResourceToCore() called (Asteroid)");
 
-        if (resource != null) {
-            if (layer.getThickness() == 0 && core.popResource().equals(new Empty())) {
-                core.pushResource(resource);
-
-                CallStackViewer.getInstance().methodReturns();
-                return true;
-            } else {
-                log.log(Level.INFO, "Resource cannot mined - layer is too big or the core is not mined!");
-            }
+        boolean success = false;
+        if (resource != null && layer.getThickness() == 0) {
+            success = core.pushResource(resource);
+        }else{
+            //NOP
         }
 
         CallStackViewer.getInstance().methodReturns();
-        return false;
+        return success;
     }
 
     @Override
@@ -215,10 +211,10 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         //DO NOT handle the checkIn, checkOut here!
         //this is the entity's responsibility
         //for (var item : playersOnMe) {
-          //  item.notifyAsteroidExplosion();
+        //  item.notifyAsteroidExplosion();
         //}
         var iter = entitiesOnMe.iterator();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             var entityItem = iter.next();
             iter.remove();
             entityItem.notifyAsteroidExplosion();

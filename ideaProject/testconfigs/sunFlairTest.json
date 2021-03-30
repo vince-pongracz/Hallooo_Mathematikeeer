@@ -1,0 +1,15 @@
+{
+  "testname": "sunFlairTest",
+  "playerNumber": 1,
+  "playerNames": [ "testName" ],
+  "settlerNumber": 1,
+  "asteroidNumber": 23,
+  "range": 1000,
+  "maxRound": 22,
+  "sunFlairInEveryXRound": 3,
+  "homeCapacity": 5,
+  "settlerCapacity": 10,
+  "defOfCloseToSun": 500,
+  "maxNeighbourDistance": 500,
+  "realCommandQueue": [ "0", "temp1", "8", "8", "assert" ]
+}

@@ -1,0 +1,16 @@
+{
+  "testname": "defaultTestName --- this test has default values, and don't do anything",
+  "playerNumber": 1,
+  "playerNames": ["testName"],
+  "settlerNumber": 1,
+  "asteroidNumber": 23,
+  "range": 1000,
+  "maxRound": 22,
+  "sunFlairInEveryXRound": 10,
+  "homeCapacity": 5,
+  "settlerCapacity": 10,
+  "defOfCloseToSun": 500,
+  "maxNeighbourDistance": 500,
+  "realCommandQueue": [],
+  "expectedOut": []
+}

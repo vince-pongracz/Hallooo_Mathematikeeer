@@ -7,6 +7,7 @@ import org.asteroidapp.resources.Resource;
 import org.asteroidapp.spaceobject.asteroid.Core;
 import org.asteroidapp.spaceobject.asteroid.Layer;
 import org.asteroidapp.util.CallStackViewer;
+import org.asteroidapp.util.ConsoleUI;
 
 public class HomeAsteroid extends Asteroid {
 
@@ -14,6 +15,8 @@ public class HomeAsteroid extends Asteroid {
      * logger for HomeAsteroid
      */
     private static final Logger log = LogManager.getLogger(HomeAsteroid.class.getSimpleName());
+
+    public static int homeCapacity = 5;
 
     /**
      * Default constructor
@@ -28,7 +31,7 @@ public class HomeAsteroid extends Asteroid {
 
         //to override Asteroid core, layer constructions
         core = null;
-        core = new Core(5, new Empty());
+        core = new Core(homeCapacity, new Empty());
         layer = null;
         layer = new Layer(0);
 
@@ -46,7 +49,10 @@ public class HomeAsteroid extends Asteroid {
     public Resource mineResource() {
         CallStackViewer.getInstance().methodStartsLogCall("mineResource() called (HomeAsteroid)");
 
-        Resource temp = core.popResource();
+        Resource temp = new Empty();
+        while(temp.getName().equals(new Empty().getName())){
+            temp = core.popResource();
+        }
 
         CallStackViewer.getInstance().methodReturns();
         return temp;
