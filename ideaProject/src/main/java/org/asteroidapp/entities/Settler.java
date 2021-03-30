@@ -69,8 +69,8 @@ public class Settler extends Entity {
         //Fot the testing the create bot and portal functions
         resources.pushMore(2, new Coal());
         resources.pushMore(2, new Uran());
-        resources.pushMore(1, new FrozenWater());
-        resources.pushMore(3, new Iron());
+        resources.pushMore(2, new FrozenWater());
+        resources.pushMore(4, new Iron());
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -376,7 +376,7 @@ public class Settler extends Entity {
         boolean createSuccess = false;
         //TODO nullcheck on resources count, or init all resource with 0 count
         //TODO when createdGates has size() == 0 --> it's also OK
-        if (createdGates.size() == 0 && resources.countOf(new FrozenWater()) >= 1 && resources.countOf(new Iron()) >= 2 && resources.countOf(new Uran()) >= 1) { ////CHANGED CREATEDGATES NULLCHECK  TO SIZE == 0
+        if (createdGates.size() <= 1 && resources.countOf(new FrozenWater()) >= 1 && resources.countOf(new Iron()) >= 2 && resources.countOf(new Uran()) >= 1) { ////CHANGED CREATEDGATES NULLCHECK  TO SIZE == 0
 
             resources.popResource(new FrozenWater());
             resources.popMore(2, new Iron());
