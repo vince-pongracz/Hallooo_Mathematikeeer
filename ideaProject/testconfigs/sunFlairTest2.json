@@ -5,12 +5,20 @@
   "settlerNumber": 1,
   "asteroidNumber": 2,
   "range": 1000,
-  "maxRound": 2,
+  "maxRound": 3,
   "sunFlairInEveryXRound": 1,
   "homeCapacity": 5,
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
   "realCommandQueue": [ "8", "8", "assert" ],
-  "expectedOut": []
+  "expectedOut": [
+    "GameController - setup ended",
+    "GameController - round called: 1 th round of the game",
+    "Settler - Do nothing in this round with settler:",
+    "Sun - notifyAboutDieEvent called",
+    "Sun - doSunFlair called",
+    "Settler - notifyFlairEvent called",
+    "so you survived"
+  ]
 }

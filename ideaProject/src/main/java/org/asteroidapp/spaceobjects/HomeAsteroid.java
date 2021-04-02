@@ -49,10 +49,7 @@ public class HomeAsteroid extends Asteroid {
     public Resource mineResource() {
         CallStackViewer.getInstance().methodStartsLogCall("mineResource() called (HomeAsteroid)");
 
-        Resource temp = new Empty();
-        while(temp.getName().equals(new Empty().getName())){
-            temp = core.popResource();
-        }
+        Resource temp = core.popResource();
 
         CallStackViewer.getInstance().methodReturns();
         return temp;

@@ -157,7 +157,6 @@ public class AppController {
 
             GameController.getInstance().setupGame();
             GameController.getInstance().inGame();
-
             config.eval();
 
         } catch (FileNotFoundException e) {
