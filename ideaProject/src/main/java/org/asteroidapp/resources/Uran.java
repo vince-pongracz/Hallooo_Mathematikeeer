@@ -20,6 +20,7 @@ public class Uran extends Resource {
     private static final Logger log = LogManager.getLogger(Uran.class.getSimpleName());
 
     private int expositionCounter = 0;
+    private static final int uranExpositionCoeff = 3;
 
     /**
      * Default constructor
@@ -45,10 +46,12 @@ public class Uran extends Resource {
         boolean realRadioActive = false;
 
         if (position.distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) < AsteroidZone.defOfCloseToSun) {
-            log.log(Level.TRACE, "Uran is close to Sun. --> increment expositionCounter");
+
             ++expositionCounter;
-            if (expositionCounter % 3 == 0) {
-                log.log(Level.INFO, "expositionCounter%3==0 : TRUE --> activated: isRadioActive will return: TRUE");
+            log.log(Level.TRACE, "Uran is close to Sun. --> increment expositionCounter, current value: {}",expositionCounter);
+
+            if (expositionCounter % uranExpositionCoeff == 0) {
+                log.log(Level.INFO, "(expositionCounter % uranExpositionCoeff == 0) is TRUE --> activated: isRadioActive will return: TRUE");
                 realRadioActive = true;
                 expositionCounter = 0;
             } else {

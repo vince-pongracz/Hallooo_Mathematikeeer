@@ -416,6 +416,7 @@ public class Settler extends Entity {
         if (resources.countOf(resource) > 0) {
             log.log(Level.INFO, "The selected resource can be chosen");
             onSpaceObject.addResourceToCore(resource);
+            resource.isRadioActive(onSpaceObject.getPosition());
             success = true;
         } else {
             log.log(Level.INFO, "The selected resource can not be chosen");
