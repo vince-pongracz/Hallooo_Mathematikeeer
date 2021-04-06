@@ -8,6 +8,8 @@
         <!-- File Appender for normal logger-->
         <File name="FILE" fileName="${basePath}/logfile_${date:yyyyMMdd_HHmmss}.log" append="true">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-6level %logger - %m%n"/>
+
+            <!--- Ignore logs from Position -->
             <RegexFilter regex=".*Position.*" onMatch="DENY" onMismatch="ACCEPT"/>
         </File>
         <!-- Console Appender for normal logger-->
