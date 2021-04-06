@@ -32,6 +32,7 @@ public class AIRobot extends Entity {
 
         if (creationPlace != null && name != null) {
             onSpaceObject = creationPlace;
+            log.log(Level.TRACE, "AIRobot created on {}", creationPlace.getName());
         } else {
             log.log(Level.FATAL, "null parameters in constructor!");
         }

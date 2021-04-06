@@ -25,7 +25,7 @@ public class Position {
         x = 0;
         y = 0;
         ownRadius = 0;
-        log.log(Level.TRACE, "Empty position created (x:{} y:{} r:{})", x, y, ownRadius);
+        //log.log(Level.TRACE, "Empty position created (x:{} y:{} r:{})", x, y, ownRadius);
     }
 
     /**
@@ -38,7 +38,7 @@ public class Position {
         x = xCoordinate;
         y = yCoordinate;
         ownRadius = 0;
-        log.log(Level.TRACE, "Position created (x:{} y:{} r:{})", x, y, ownRadius);
+        //log.log(Level.TRACE, "Position created (x:{} y:{} r:{})", x, y, ownRadius);
     }
 
     /**
@@ -52,7 +52,7 @@ public class Position {
         this.x = xCoordinate;
         this.y = yCoordinate;
         this.ownRadius = Math.abs(ownRadius);
-        log.log(Level.TRACE, "Position created (x:{} y:{} r:{})", x, y, ownRadius);
+        //log.log(Level.TRACE, "Position created (x:{} y:{} r:{})", x, y, ownRadius);
     }
 
     /**
@@ -77,7 +77,7 @@ public class Position {
      */
     public void setRadius(double newRadius) {
         ownRadius = Math.abs(newRadius);
-        log.log(Level.TRACE, "setNewRadius called, new radius is: {}", ownRadius);
+        //log.log(Level.TRACE, "setNewRadius called, new radius is: {}", ownRadius);
     }
 
 
@@ -87,7 +87,7 @@ public class Position {
      * @return x coordinate
      */
     public double getX() {
-        log.log(Level.TRACE, "getX called, x coordinate: {}", x);
+        //log.log(Level.TRACE, "getX called, x coordinate: {}", x);
         return x;
     }
 
@@ -97,7 +97,7 @@ public class Position {
      * @return y coordinate
      */
     public double getY() {
-        log.log(Level.TRACE, "getY called, y coordinate: {}", y);
+        //log.log(Level.TRACE, "getY called, y coordinate: {}", y);
         return y;
     }
 
@@ -107,7 +107,7 @@ public class Position {
      * @return ownRadius radius of an object with position
      */
     public double getRadius() {
-        log.log(Level.TRACE, "getRadius called, radius: {}", ownRadius);
+        //log.log(Level.TRACE, "getRadius called, radius: {}", ownRadius);
         return ownRadius;
     }
 
@@ -118,14 +118,14 @@ public class Position {
      * @return double distance
      */
     public double distanceFrom(Position pos) {
-        log.log(Level.TRACE, "distanceFrom function called");
+        //log.log(Level.TRACE, "distanceFrom function called");
 
         double xQuad = Math.pow(Math.abs(this.x - pos.getX()), 2);
-        log.log(Level.TRACE, "Difference square of x coordinates ({})", xQuad);
+        //log.log(Level.TRACE, "Difference square of x coordinates ({})", xQuad);
         double yQuad = Math.pow(Math.abs(this.y - pos.getY()), 2);
-        log.log(Level.TRACE, "Difference square of y coordinates ({})", yQuad);
+        //log.log(Level.TRACE, "Difference square of y coordinates ({})", yQuad);
         double distance = Math.sqrt(xQuad + yQuad);
-        log.log(Level.TRACE, "Distance between points: ({})", distance);
+        //log.log(Level.TRACE, "Distance between points: ({})", distance);
         return distance;
     }
 
@@ -137,10 +137,9 @@ public class Position {
      * @return postion Position of the left upper corner
      */
     public Position getLeftUpperCornerCoordinates() {
-        log.log(Level.TRACE, "getLeftUpperCornerCoordinates function called");
+        //log.log(Level.TRACE, "getLeftUpperCornerCoordinates function called");
         double xLeftUpper = this.x - ownRadius;
         double yLeftUpper = this.y + ownRadius;
-        log.log(Level.TRACE, "calculated coordinates: ( {}; {} )", xLeftUpper, yLeftUpper);
         return new Position(xLeftUpper, yLeftUpper, 0);
     }
 
@@ -148,13 +147,13 @@ public class Position {
     private static double minNeighbourDistance = 0;
 
     public static double getMinimalNeighbourDistance() {
-        log.log(Level.TRACE, "getMinimalNeighbourDistance function called ({}.)", minNeighbourDistance);
+        //log.log(Level.TRACE, "getMinimalNeighbourDistance function called ({}.)", minNeighbourDistance);
         return minNeighbourDistance;
     }
 
     public static void setMinimalNeighbourDistance(double minDistance) {
-        log.log(Level.TRACE, "setMinimalNeighbourDistance called");
-        log.log(Level.TRACE, "new value of minNeighbourDistance: ({}.)", minNeighbourDistance);
+        //log.log(Level.TRACE, "setMinimalNeighbourDistance called");
+        //log.log(Level.TRACE, "new value of minNeighbourDistance: ({}.)", minNeighbourDistance);
         minNeighbourDistance = Math.abs(minDistance);
     }
 
@@ -170,7 +169,7 @@ public class Position {
      * @return maxNeighbourDistance
      */
     public static double getMaximalNeighbourDistance() {
-        log.log(Level.TRACE, "getMaximalNeighbourDistance function called ({})", maxNeighbourDistance);
+        //log.log(Level.TRACE, "getMaximalNeighbourDistance function called ({})", maxNeighbourDistance);
         return maxNeighbourDistance;
     }
 
@@ -180,21 +179,21 @@ public class Position {
      * @param maxDistance
      */
     public static void setMaximalNeighbourDistance(double maxDistance) {
-        log.log(Level.TRACE, "setMaximalNeighbourDistance function called");
-        log.log(Level.TRACE, "new value of maxNeighbourDistance: ({})", maxNeighbourDistance);
+        //log.log(Level.TRACE, "setMaximalNeighbourDistance function called");
+        //log.log(Level.TRACE, "new value of maxNeighbourDistance: ({})", maxNeighbourDistance);
         maxNeighbourDistance = Math.abs(maxDistance);
     }
 
     @Override
     public boolean equals(Object o) {
-        log.log(Level.TRACE, "equals method called (between 2 position)");
+        //log.log(Level.TRACE, "equals method called (between 2 position)");
 
         if (this == o) {
-            log.log(Level.TRACE, "object was this (references are equal -> data equal)");
+            //log.log(Level.TRACE, "object was this (references are equal -> data equal)");
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
-            log.log(Level.TRACE, "classes aren't matching, or one of the objects is null");
+            //log.log(Level.TRACE, "classes aren't matching, or one of the objects is null");
             return false;
         }
 
@@ -203,7 +202,7 @@ public class Position {
                 Double.compare(position.y, y) == 0 &&
                 Double.compare(position.ownRadius, ownRadius) == 0;
 
-        log.log(Level.TRACE, "result of equals: {}", String.valueOf(returnValue));
+        //log.log(Level.TRACE, "result of equals: {}", String.valueOf(returnValue));
 
         return returnValue;
     }

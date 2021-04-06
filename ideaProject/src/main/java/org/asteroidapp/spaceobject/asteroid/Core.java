@@ -43,7 +43,7 @@ public class Core {
     /**
      * Resource storage of core
      */
-    ResourceStorage resources = null;
+    private ResourceStorage resources = null;
 
     /**
      * It returns with the raw material of the seed.
@@ -70,8 +70,10 @@ public class Core {
         return success;
     }
 
-    public String getCoreInfo(){
-        return resources.getResourceList().get(0).getName();
+    public String getCoreInfo() {
+        var res =  resources.popRandomResource();
+        resources.pushResource(res);
+        return res.getName();
     }
 
 }

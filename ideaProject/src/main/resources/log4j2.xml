@@ -8,6 +8,7 @@
         <!-- File Appender for normal logger-->
         <File name="FILE" fileName="${basePath}/logfile_${date:yyyyMMdd_HHmmss}.log" append="true">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-6level %logger - %m%n"/>
+            <RegexFilter regex=".*Position.*" onMatch="DENY" onMismatch="ACCEPT"/>
         </File>
         <!-- Console Appender for normal logger-->
         <Console name="STDOUT" target="SYSTEM_OUT">
@@ -30,7 +31,7 @@
             <AppenderRef ref="STDOUT_CALLSTACK"></AppenderRef>
         </Logger>
 
-  <Root level="info">
+        <Root level="trace">
             <!--- <AppenderRef ref="STDOUT" level="info"/> -->
             <AppenderRef ref="FILE"/>
         </Root>

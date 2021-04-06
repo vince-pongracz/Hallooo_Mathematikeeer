@@ -83,7 +83,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
         //TODO closeToSun part
         //check explosion conditions
-        if (result == 0 && resource != null && resource.isRadioActive() && closeToSun) {
+        if (result == 0 && resource != null && resource.isRadioActive(position) && closeToSun) {
             //this calls explosion
             log.log(Level.INFO, "Asteroid has radioactive core _and_ it's close to Sun --> EXPLODE");
             notifyAboutDieEvent();

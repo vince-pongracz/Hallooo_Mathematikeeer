@@ -10,7 +10,6 @@ import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
-import org.asteroidapp.spaceobjects.Sun;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
@@ -32,7 +31,7 @@ public class Settler extends Entity {
     /**
      * It stores the name of the resource and how many does the player possess from that.
      */
-    private ResourceStorage resources = null;
+    private ResourceStorage resources;
     public static int settlerCapacity = 10;
 
     /**
@@ -345,7 +344,7 @@ public class Settler extends Entity {
         //mining is successful
         if (res != null) {
             if (!res.equals(new Empty())) {
-                addResource(res);
+                this.resources.pushResource(res);
                 log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
                 mineSuccess = true;
             } else {
@@ -502,23 +501,5 @@ public class Settler extends Entity {
 
         CallStackViewer.getInstance().methodReturns();
         return resource;
-    }
-
-    /**
-     * It ads a resource to the players resources
-     *
-     * @param resource the resource that will be added
-     */
-    private void addResource(Resource resource) {
-        log.log(Level.INFO, "addResource called");
-        CallStackViewer.getInstance().methodStartsLogCall("addResource called");
-        //TODO this can return null.. :/
-        if (resource != null) {
-            resources.pushResource(resource);
-            log.log(Level.INFO, "{} added to settler successfully", resource.getName());
-        } else {
-            log.log(Level.INFO, "Nothing can be added");
-        }
-        CallStackViewer.getInstance().methodReturns();
     }
 }

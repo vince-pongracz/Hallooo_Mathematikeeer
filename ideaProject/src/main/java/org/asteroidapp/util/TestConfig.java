@@ -9,6 +9,7 @@ import org.asteroidapp.GameController;
 import org.asteroidapp.entities.Settler;
 import org.asteroidapp.spaceobjects.HomeAsteroid;
 import org.asteroidapp.spaceobjects.Position;
+import org.asteroidapp.spaceobjects.Sun;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +22,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.asteroidapp.entities.Settler.*;
 
 //TODO logs everywhere
 
@@ -81,7 +84,7 @@ public class TestConfig {
         AsteroidZone.numOfAsteroids = Math.abs(asteroidNumber);
         AsteroidZone.range = Math.abs(range);
         GameController.maxRound = Math.abs(maxRound);
-        GameController.sunFlairInEveryXRound = Math.abs(sunFlairInEveryXRound);
+        Sun.sunFlairInEveryXRound = Math.abs(sunFlairInEveryXRound);
         HomeAsteroid.homeCapacity = Math.abs(homeCapacity);
         Settler.settlerCapacity = Math.abs(settlerCapacity);
         AsteroidZone.defOfCloseToSun = Math.abs(defOfCloseToSun);
@@ -107,7 +110,7 @@ public class TestConfig {
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
             ConsoleUI.getInstance().sendMessageToConsole(testname + " : PASSED");
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
-        } else if (enableCompare && !checkExpectedV) {
+        } else if (enableCompare) {
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
             ConsoleUI.getInstance().sendMessageToConsole(testname + " FAILED");
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
@@ -151,14 +154,10 @@ public class TestConfig {
                 }
             }
 
-            if (howManyFound != expectedOut.length) {
-                return false;
-            } else {
-                return true;
-            }
+            return (howManyFound == expectedOut.length);
 
         } catch (IOException e) {
-            System.err.println("Fileerror");
+            System.err.println("File error");
         }
         return false;
     }

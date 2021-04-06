@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.entities.AIRobot;
 import org.asteroidapp.entities.Settler;
 import org.asteroidapp.resources.*;
+import org.asteroidapp.spaceobjects.Sun;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
@@ -360,8 +361,6 @@ public class GameController {
         CallStackViewer.getInstance().methodReturns();
     }
 
-    public static int sunFlairInEveryXRound = 10;
-
     /**
      * Call and schedule flair events
      */
@@ -370,11 +369,11 @@ public class GameController {
         log.log(Level.INFO, "evaluateFlair called");
         CallStackViewer.getInstance().methodStartsLogCall("evaluateFlair() called");
 
-        if (getRound() % sunFlairInEveryXRound == 0) {
+        if (getRound() % Sun.sunFlairInEveryXRound == 0) {
             log.log(Level.TRACE, "flair event will be launched");
 
             AsteroidZone.getInstance().getSun().notifyAboutDieEvent();
-        } else if (getRound() % sunFlairInEveryXRound == 7) {
+        } else if (getRound() % Sun.sunFlairInEveryXRound == (Sun.sunFlairInEveryXRound - 2)) {
             log.log(Level.TRACE, "flair is coming in the future!");
 
             AsteroidZone.getInstance().getSun().notifyAboutDanger();
