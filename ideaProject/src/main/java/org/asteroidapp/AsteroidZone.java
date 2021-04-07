@@ -174,18 +174,6 @@ public class AsteroidZone {
     }
 
     /**
-     * It generates a random Position
-     *
-     * @return A random position that an object owns on the screen
-     */
-    public Position generateRandomPosition(int range) {
-        //Round to the nearest number that can be divided by 5 for less possible Positions
-        int x = random.nextInt(range - asteroidSize);
-        int y = random.nextInt(range - asteroidSize) + asteroidSize;
-        return new Position(x, y);
-    }
-
-    /**
      * It generates a randomly selected resource
      *
      * @return A randomly selected resource
@@ -212,29 +200,6 @@ public class AsteroidZone {
                 result = new Empty();
         }
         return result;
-    }
-
-    /**
-     * It decides whether on that position can be placed on Asteroid or not
-     *
-     * @param toCheckPosition
-     * @return true if an Asteroid can be placed there otherwise false
-     */
-    private boolean checkDistanceAtCreate(Position toCheckPosition) {
-        boolean canBePlaced = true;
-        int x, y;
-        for (SteppableSpaceObject elem : spaceObjects) {
-            x = (int) elem.getPosition().getX();
-            y = (int) elem.getPosition().getY();
-            int r = (int) elem.getPosition().getRadius();
-            boolean xIsWrong = toCheckPosition.getX() > x - r && toCheckPosition.getX() < x + asteroidSize + r;
-            boolean yIsWrong = toCheckPosition.getY() > y - r && toCheckPosition.getY() < y + asteroidSize + r;
-
-            if (xIsWrong || yIsWrong) {
-                canBePlaced = false;
-            }
-        }
-        return canBePlaced;
     }
 
     /**
