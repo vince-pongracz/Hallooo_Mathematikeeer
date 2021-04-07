@@ -1,9 +1,7 @@
 package org.asteroidapp.resources;
 
-import javafx.geometry.Pos;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.entities.AIRobot;
 import org.asteroidapp.spaceobjects.Position;
 
 /**

@@ -15,10 +15,10 @@ import java.util.*;
  */
 public class AsteroidZone {
 
-    private int asteroidSize = 80;
+    private final int asteroidSize = 80;
 
     //only one random per class should exist otherwise it would give the same result (Position, Resource) for every asteroid
-    private Random random = new Random(999); //seed: 999 is good for testing uran explosion
+    private final Random random = new Random(999); //seed: 999 is good for testing uran explosion
 
 
     /**
@@ -85,7 +85,7 @@ public class AsteroidZone {
         spaceObjects.add(homeAsteroid);
 
         int numOfPlacedAsteroids = 0;
-        while (numOfPlacedAsteroids < numOfAsteroids && numOfPlacedAsteroids <= numOfAsteroids) {
+        while (numOfPlacedAsteroids < numOfAsteroids) {
             //TODO add minimal, maximal distance logic, namefaker for spacenames
             Position randomPosition = generateRandomPosition(range);
 

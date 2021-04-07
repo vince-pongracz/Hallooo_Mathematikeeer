@@ -85,15 +85,15 @@ public class Settler extends Entity {
         log.log(Level.INFO, "Settler tried to drill an object");
 
         int oldThickness = onSpaceObject.getLayerThickness();
-        int newThickness = onSpaceObject.drillLayer();
+        onSpaceObject.drillLayer();
         boolean ret = false;
 
-        if (newThickness > 0 || (oldThickness == 1 && newThickness == 0)) {
+        if (oldThickness > 1) {
             log.log(Level.INFO, "Drill was successful");
             ret = true;
-        } else if (newThickness == 0) {
-            log.log(Level.INFO, "NO more drill needed, it's ready, you can mine");
-            ret = false;
+        } else if (oldThickness == 0) {
+            log.log(Level.INFO, "SpaceObject is already drilled: mineable");
+            ret = true;
         } else {
             log.log(Level.INFO, "Drill was not successful");
             ret = false;
@@ -114,6 +114,7 @@ public class Settler extends Entity {
 
         onSpaceObject.checkOut(this);
         onSpaceObject = null;
+        AsteroidZone.getInstance().getSun().checkOut(this);
         owner.removeSettler(this);
 
         //if this settler is the owner's last
@@ -121,8 +122,6 @@ public class Settler extends Entity {
         if (!owner.getIterOnMySettlers().hasNext()) {
             owner.killPlayer();
         }
-
-        AsteroidZone.getInstance().getSun().checkOut(this);
 
         CallStackViewer.getInstance().methodReturns();
     }

@@ -269,7 +269,6 @@ public class GameController {
      * @return
      */
     public int getRound() {
-        log.log(Level.TRACE, "getRound called - current round: {}", currentRound);
         return currentRound;
     }
 

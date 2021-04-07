@@ -64,14 +64,16 @@ public class Core {
      */
     //TODO: esetek lefedése
     public boolean pushResource(Resource newResource) {
+        log.log(Level.TRACE, "pushResource called.");
         CallStackViewer.getInstance().methodStartsLogCall("pushResource() called (Core)");
+
         boolean success = resources.pushResource(newResource);
         CallStackViewer.getInstance().methodReturns();
         return success;
     }
 
     public String getCoreInfo() {
-        var res =  resources.popRandomResource();
+        var res = resources.popRandomResource();
         resources.pushResource(res);
         return res.getName();
     }

@@ -1,7 +1,5 @@
 package org.asteroidapp.resources;
 
-import org.asteroidapp.util.CallStackViewer;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

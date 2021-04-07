@@ -47,9 +47,8 @@ public class AIRobot extends Entity {
 
         CallStackViewer.getInstance().methodStartsLogCall("drill() called (AIRobot's drill)");
 
-        //callStacklog miatt kell ez a kulon cucc... :/
         boolean ret = false;
-        if (onSpaceObject.drillLayer() > 0) {
+        if (onSpaceObject.drillLayer()) {
             log.log(Level.INFO, "drill success!");
             ret = true;
         } else {

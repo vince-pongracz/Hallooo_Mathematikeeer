@@ -61,11 +61,12 @@ public abstract class Entity implements Observer {
         var nextSpaceObject = chooseNeighbour(neighbours);
 
         if (nextSpaceObject != null) {
-            //TODO solve when it's null
             onSpaceObject.checkOut(this);
             setMySpaceObject(nextSpaceObject);
             nextSpaceObject.checkIn(this);
             log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
+        } else{
+            //NOP?
         }
 
         CallStackViewer.getInstance().methodReturns();

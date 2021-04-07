@@ -86,15 +86,17 @@ public class AppController {
                     //startGame();
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
-                    //TODO wipe game data to probable restart, or rerun with current config --- solve this
 
+                    quitCondition = true;
                 } else if (response.equals("help")) {
                     ConsoleUI.getInstance().sendMessageToConsole("help --> help msg");
                     ConsoleUI.getInstance().sendMessageToConsole("start --> start and config game");
                     ConsoleUI.getInstance().sendMessageToConsole("quit --> close app");
                     ConsoleUI.getInstance().sendMessageToConsole("test1 --> run pre-defined config: test1");
+
                 } else if (response.equals("quit")) {
                     quitCondition = true;
+
                     //delete/free resources
                 } else if (response.equals("test1")) {
                     Queue<String> autoCommands = new ArrayDeque<String>();
@@ -105,6 +107,9 @@ public class AppController {
 
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
+
+                    quitCondition = true;
+
                 } else if (response.equals("test_move")) {
                     Queue<String> autoCommands= new ArrayDeque<String>();
                     autoCommands.add("1");
@@ -115,6 +120,8 @@ public class AppController {
 
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
+
+                    quitCondition = true;
                 }
                 else if (response.equals("test_bot")) {
                     Queue<String> autoCommands= new ArrayDeque<String>();
@@ -126,6 +133,8 @@ public class AppController {
 
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
+
+                    quitCondition = true;
                 } else if (response.equals("testmode")) {
                     testMode();
                     quitCondition = true;

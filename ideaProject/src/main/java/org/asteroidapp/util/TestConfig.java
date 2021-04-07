@@ -23,8 +23,6 @@ import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.asteroidapp.entities.Settler.*;
-
 //TODO logs everywhere
 
 public class TestConfig {
