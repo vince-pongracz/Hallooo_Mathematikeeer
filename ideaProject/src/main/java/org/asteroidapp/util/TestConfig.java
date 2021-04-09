@@ -152,6 +152,10 @@ public class TestConfig {
                 }
             }
 
+            for (int i = howManyFound; i < expectedOut.length; ++i) {
+                ConsoleUI.getInstance().sendMessageToConsole(expectedOut[i] + " : NOT found");
+            }
+
             return (howManyFound == expectedOut.length);
 
         } catch (IOException e) {

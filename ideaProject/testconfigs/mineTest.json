@@ -11,12 +11,11 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": [ "0", "temp3", "1", "1", "1", "1", "1", "2", "assert"],
+  "realCommandQueue": [ "0", "temp3", "1", "1", "1", "1", "1", "2", "9", "assert" ],
   "expectedOut": [
     "GameController - setup ended",
     "Settler - Mine called",
     "Asteroid - mineResource called",
-    "Settler - addResource called",
-    "Settler - Coal added to settler successfully"
+    "Settler.*FrozenWater.*"
   ]
 }

@@ -69,7 +69,7 @@ public class Settler extends Entity {
         resources.pushMore(2, new Coal());
         resources.pushMore(2, new Uran());
         resources.pushMore(2, new FrozenWater());
-        resources.pushMore(4, new Iron());
+        resources.pushMore(3, new Iron());
 
         CallStackViewer.getInstance().methodReturns();
     }

@@ -1,7 +1,7 @@
 {
-  "testname": "assertTest --- sajni még nem jó :(",
+  "testname": "assertTest",
   "playerNumber": 1,
-  "playerNames": ["testName"],
+  "playerNames": [ "testName" ],
   "settlerNumber": 1,
   "asteroidNumber": 1,
   "range": 1000,
@@ -11,5 +11,9 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": ["0", "temp0", "assert"]
+  "realCommandQueue": [ "0", "temp0", "assert" ],
+  "expectedOut": [
+    "GameController - setup ended",
+    "ConsoleUI - Used automatic command: assert"
+  ]
 }

@@ -11,7 +11,7 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": [ "0", "temp0", "1", "1", "1", "1", "1", "1", "1", "1", "assert" ],
+  "realCommandQueue": [ "0", "temp13", "1", "1", "1", "1", "1", "1", "1", "1", "assert" ],
   "expectedOut": [
     "GameController - setup ended",
     "Entity - move called",
