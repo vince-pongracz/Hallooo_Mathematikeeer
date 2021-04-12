@@ -98,6 +98,8 @@ public abstract class Entity implements Observer {
         Set<SteppableSpaceObject> neighbours = new HashSet<>();
 
         Asteroid currentAsteroid = (Asteroid)onSpaceObject;
+
+        //If the asteroid has a gate, which is active, get its pair's asteroid and add it to the neighbours
         if (currentAsteroid.getCurrentGate() != null) {
             if (currentAsteroid.getCurrentGate().isActive()) {
                 Gate teleportableGate = (Gate) (currentAsteroid.getCurrentGate().getPair());
