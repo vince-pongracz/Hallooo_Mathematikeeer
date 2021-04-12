@@ -254,4 +254,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     public void setCurrentGate(Gate currentGate) {
         this.currentGate = currentGate;
     }
+
+    public Gate getCurrentGate(){
+        return currentGate;
+    }
 }

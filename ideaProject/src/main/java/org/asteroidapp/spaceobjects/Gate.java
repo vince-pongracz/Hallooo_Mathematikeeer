@@ -87,7 +87,7 @@ public class Gate extends SteppableSpaceObject implements Observable {
         CallStackViewer.getInstance().methodStartsLogCall("isActive() called");
 
         boolean ret = false;
-        if (this.position != null && gatePair.position != null) {
+        if (this.currentAsteroid != null && gatePair.currentAsteroid != null) {
             log.log(Level.INFO, "This gate is active, you can teleport");
             ret = true;
         } else {
@@ -132,5 +132,8 @@ public class Gate extends SteppableSpaceObject implements Observable {
 
     public void setCurrentAsteroid(Asteroid currentAsteroid) {
         this.currentAsteroid = currentAsteroid;
+    }
+    public Asteroid getCurrentAsteroid(){
+        return currentAsteroid;
     }
 }
