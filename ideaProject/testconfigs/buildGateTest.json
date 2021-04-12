@@ -1,7 +1,7 @@
 {
   "testname": "buildGateTest",
   "playerNumber": 1,
-  "playerNames": ["testName"],
+  "playerNames": [ "testName" ],
   "settlerNumber": 1,
   "ufosNumer": 1,
   "asteroidNumber": 23,
@@ -12,5 +12,12 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": [ "3", "4", "0", "temp10", "4", "assert" ]
+  "realCommandQueue": [ "3", "4", "0", "temp10", "4", "assert" ],
+  "expectedOut": [
+    "GameController - setup ended",
+    "Gate - New gate created",
+    "Gate - New gate created",
+    "Settler - BuildGate called",
+    "Settler - Gate placed at"
+  ]
 }

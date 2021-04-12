@@ -10,15 +10,25 @@ import org.asteroidapp.entities.Settler;
 import org.asteroidapp.spaceobjects.HomeAsteroid;
 import org.asteroidapp.spaceobjects.Position;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Queue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+//TODO logs everywhere
 
 public class TestConfig {
 
     private static final Logger log = LogManager.getLogger(TestConfig.class.getSimpleName());
 
-    private final String testname = "defaultTestName";
+    private String testname = "defaultTestName";
     private int playerNumber = 1;
     private String[] playerNames = {"testName"};
     private int settlerNumber = 1;
@@ -30,10 +40,13 @@ public class TestConfig {
     private int settlerCapacity = 10;
     private int defOfCloseToSun = 500;
     private int maxNeighbourDistance = 500;
+
     /**
      * commands after game init
      */
     private String[] realCommandQueue = {};
+    private transient boolean enableCompare = true;
+    private String[] expectedOut = {};
 
     public boolean checkConfig() {
         if (testname != null &&
@@ -82,4 +95,70 @@ public class TestConfig {
         return commands;
     }
 
+    public void eval() {
+        ConsoleUI.getInstance().sendMessageToConsole("");
+        ConsoleUI.getInstance().sendMessageToConsole("EVAL TEST : " + testname);
+        ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+
+        enableCompare = (expectedOut.length > 0) ? true : false;
+
+        if (enableCompare && checkExpected()) {
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+            ConsoleUI.getInstance().sendMessageToConsole(testname + " : PASSED");
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+        } else if (enableCompare && !checkExpected()) {
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+            ConsoleUI.getInstance().sendMessageToConsole(testname + " FAILED");
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+        } else {
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+            ConsoleUI.getInstance().sendMessageToConsole(testname + " : no eval for this test");
+            ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
+        }
+    }
+
+    private boolean checkExpected() {
+        try {
+            String dirName = "logs" + File.separator;
+            File directory = new File(dirName);
+            File[] files = directory.listFiles(File::isFile);
+            long lastModifiedTime = Long.MIN_VALUE;
+            File latestLog = null;
+
+            if (files != null) {
+                for (var file : files) {
+                    if (file.lastModified() > lastModifiedTime) {
+                        latestLog = file;
+                        lastModifiedTime = file.lastModified();
+                    }
+                }
+            }
+
+            List<String> lines = Files.readAllLines(Paths.get(dirName + latestLog.getName()), StandardCharsets.UTF_8);
+
+            int howManyFound = 0;
+            for (var line : lines) {
+                for (int i = howManyFound; i < expectedOut.length; i++) {
+                    Pattern pattern = Pattern.compile(expectedOut[i], Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(line);
+                    if (matcher.find()) {
+                        ConsoleUI.getInstance().sendMessageToConsole(expectedOut[i] + " : pattern found");
+                        howManyFound++;
+                    } else {
+                        //NOP
+                    }
+                }
+            }
+
+            if (howManyFound != expectedOut.length) {
+                return false;
+            } else {
+                return true;
+            }
+
+        } catch (IOException e) {
+            System.err.println("Fileerror");
+        }
+        return false;
+    }
 }

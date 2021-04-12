@@ -159,7 +159,6 @@ public class Ufo extends Entity {
         log.log(Level.INFO, "notifyAsteroidExplosion called");
         CallStackViewer.getInstance().methodStartsLogCall("notifyAsteroidExplosion() called (AIRobot)");
 
-        //robot has to move (she/he is protected at the explosion)
         move();
 
         CallStackViewer.getInstance().methodReturns();
@@ -175,7 +174,6 @@ public class Ufo extends Entity {
         log.log(Level.INFO, "doAction called");
         CallStackViewer.getInstance().methodStartsLogCall("doAction() called (AIRobot)");
 
-        //TODO implement better action choose, and decisioning
         stratOne();
 
         CallStackViewer.getInstance().methodReturns();
@@ -183,17 +181,15 @@ public class Ufo extends Entity {
 
     /**
      * Strategy 1
-     * 1 move, then 3 drill --- repeat it (robots)
+     *
      * 1 move, then raw material search, if found mined
      */
     private void stratOne() {
-        //TODO (OPT) create more strategies
+
         log.log(Level.INFO, "strat_1 called: AIRobot on strat1");
 
-        int mod = 2;
-        //1 move, than 3 drill
         log.log(Level.TRACE, "make decision");
-        if (decisionCounterStratOne % mod == 0) {
+        if (decisionCounterStratOne % 2 == 0) {
             move();
         } else{
             mine();
@@ -201,8 +197,7 @@ public class Ufo extends Entity {
 
         decisionCounterStratOne++;
 
-        //not to increment this variable, give a bound to it - ring structure
-        if (decisionCounterStratOne == mod) {
+        if (decisionCounterStratOne == 2) {
             decisionCounterStratOne = 0;
         }
     }

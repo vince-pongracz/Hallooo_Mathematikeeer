@@ -34,7 +34,7 @@ public class ResourceStorage {
 
     /**
      * @param whatYouWant
-     * @return null or a resource what was asked
+     * @return new Empty or a resource what was asked
      */
     public Resource popResource(Resource whatYouWant) {
         if (whatYouWant != null) {
@@ -46,11 +46,11 @@ public class ResourceStorage {
                 }
             }
         }
-        return null;
+        return new Empty();
     }
 
     public Resource popRandomResource() {
-        Resource result;
+        Resource result = null;
         CallStackViewer.getInstance().methodStartsLogCall("popRandomResource (ResourceStorage) called");
         if (resourceList == null || resourceList.size() == 0) {
             CallStackViewer.getInstance().innerMethodCall("The resource was: Empty");

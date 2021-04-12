@@ -3,7 +3,6 @@ package org.asteroidapp.util;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.GameController;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,7 @@ public class ConsoleUI {
     private Scanner scanner = null;
 
     private Queue<String> autoCommands = null;
+    private TestConfig testConfig = null;
 
     private ConsoleUI() {
         scanner = new Scanner(System.in);
@@ -45,16 +45,17 @@ public class ConsoleUI {
 
     public String readLineFromConsole() {
 
-        if (autoCommands != null && !autoCommands.isEmpty()){
+        if (autoCommands != null && !autoCommands.isEmpty()) {
             String command = autoCommands.remove();
             log.log(Level.INFO, "Used automatic command: " + command);
 
             //TODO meg nem megy.. :(
-            if(command.equals("assert")){
+            if (command.equals("assert")) {
+                testConfig.eval();
                 System.exit(0);
             }
 
-            sendMessageToConsole("------\n"+command);
+            sendMessageToConsole("------\n" + command);
             return command;
         }
         String ret = "";
@@ -63,13 +64,25 @@ public class ConsoleUI {
         return ret;
     }
 
+
+
+    public void addTestConfig(TestConfig test){
+        testConfig = test;
+    }
+
     public int readIntFromConsole() {
 
-        if (autoCommands != null && !autoCommands.isEmpty()){
+        if (autoCommands != null && !autoCommands.isEmpty()) {
             try {
                 String command = autoCommands.remove();
                 log.log(Level.INFO, "Used automatic command: " + command);
                 sendMessageToConsole("------\n" + command);
+
+                if (command.equals("assert")) {
+                    testConfig.eval();
+                    System.exit(0);
+                }
+
                 return Integer.parseInt(command);
             } catch (NumberFormatException e) {
                 log.log(Level.WARN, "Invalid command queue element in autoCommands.");
@@ -85,6 +98,7 @@ public class ConsoleUI {
                 System.out.println("Try again, an error occurs");
             }
         }
+
         return returnValue;
     }
 
@@ -106,7 +120,7 @@ public class ConsoleUI {
             map.forEach((K, V) -> {
                 System.out.println(K + " : " + V);
             });
-        }else{
+        } else {
             log.log(Level.WARN, "map is null");
         }
     }
