@@ -5,7 +5,7 @@
     "testName"
   ],
   "settlerNumber": 1,
-  "ufosNumer": 1,
+  "ufosNumber": 1,
   "asteroidNumber": 23,
   "range": 1000,
   "maxRound": 22,
