@@ -24,6 +24,11 @@ public class Gate extends SteppableSpaceObject implements Observable {
     private Gate gatePair = null;
 
     /**
+     * The Asteroid at which the gate is placed
+     */
+    private Asteroid currentAsteroid = null;
+
+    /**
      * Default constructor
      */
     public Gate(Position position) {
@@ -123,5 +128,9 @@ public class Gate extends SteppableSpaceObject implements Observable {
     public String getInfo() {
         log.log(Level.TRACE, "Gate's getInfo called");
         return "Some example info";
+    }
+
+    public void setCurrentAsteroid(Asteroid currentAsteroid) {
+        this.currentAsteroid = currentAsteroid;
     }
 }

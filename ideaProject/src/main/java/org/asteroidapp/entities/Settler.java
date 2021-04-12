@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
 import org.asteroidapp.resources.*;
+import org.asteroidapp.spaceobjects.Asteroid;
 import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.Position;
@@ -432,7 +433,10 @@ public class Settler extends Entity {
         if (createdGates.size() != 0) {     /////////////// SIZE CHECK INSTEAD OF NULL CHECK
             Gate gate = createdGates.remove(0);
             //TODO position for gate
-            gate.setMyPosition(this.onSpaceObject.getPosition());  ////////ALTERED EMPTY POSITION TO SETTLERS (ASTEROIDS) POSITION FOR TESTING, SHOULD BE SOMEWHERE AROUND THE SETTLER
+            Asteroid currentAsteroid = (Asteroid)this.onSpaceObject;
+            currentAsteroid.setCurrentGate(gate);
+            gate.setCurrentAsteroid(currentAsteroid);
+            gate.setMyPosition(this.onSpaceObject.getPosition());  ////////ALTERED EMPTY POSITION TO SETTLERS (ASTEROIDS) POSITION FOR, AND STICK THEM TOGETHER
             AsteroidZone.getInstance().addSpaceObject(gate);
             log.log(Level.INFO, "Gate placed at x = {}, y = {}", gate.getPosition().getX(), gate.getPosition().getY());
         } else {
