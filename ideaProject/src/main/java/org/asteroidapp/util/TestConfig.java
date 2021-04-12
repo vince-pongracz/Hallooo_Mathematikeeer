@@ -33,6 +33,7 @@ public class TestConfig {
     private String[] playerNames = {"testName"};
     private int settlerNumber = 1;
     private int asteroidNumber = 23;
+    private int ufosNumber = 1;
     private int range = 1000;
     private int maxRound = 22;
     private int sunFlairInEveryXRound = 10;
@@ -53,6 +54,7 @@ public class TestConfig {
                 playerNumber >= 1 &&
                 playerNames.length == playerNumber &&
                 settlerNumber >= 1 &&
+                ufosNumber >= 1 &&
                 asteroidNumber <= 23 &&
                 asteroidNumber >= 1 &&
                 range == 1000 &&
@@ -91,6 +93,7 @@ public class TestConfig {
         commands.addAll(Arrays.asList(playerNames));
         commands.add(Integer.toString(settlerNumber));
         commands.addAll(Arrays.asList(realCommandQueue));
+        commands.add(Integer.toString(ufosNumber));
 
         return commands;
     }
