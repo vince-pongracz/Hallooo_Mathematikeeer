@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
 import org.asteroidapp.resources.*;
+import org.asteroidapp.spaceobjects.Asteroid;
 import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
 import org.asteroidapp.spaceobjects.Position;
@@ -429,10 +430,14 @@ public class Settler extends Entity {
         log.log(Level.INFO, "BuildGate called");
         CallStackViewer.getInstance().methodStartsLogCall("buildGate() called (Settler)");
 
-        if (createdGates.size() != 0) {     /////////////// SIZE CHECK INSTEAD OF NULL CHECK
+        Asteroid currentAsteroid = (Asteroid) onSpaceObject;
+
+        if (createdGates.size() != 0 && currentAsteroid.getCurrentGate() == null) {     /////////////// SIZE CHECK INSTEAD OF NULL CHECK
             Gate gate = createdGates.remove(0);
             //TODO position for gate
-            gate.setMyPosition(this.onSpaceObject.getPosition());  ////////ALTERED EMPTY POSITION TO SETTLERS (ASTEROIDS) POSITION FOR TESTING, SHOULD BE SOMEWHERE AROUND THE SETTLER
+            currentAsteroid.setCurrentGate(gate);
+            gate.setCurrentAsteroid(currentAsteroid);
+            gate.setMyPosition(this.onSpaceObject.getPosition());  ////////ALTERED EMPTY POSITION TO SETTLERS (ASTEROIDS) POSITION, AND STICK THEM TOGETHER
             AsteroidZone.getInstance().addSpaceObject(gate);
             log.log(Level.INFO, "Gate placed at x = {}, y = {}", gate.getPosition().getX(), gate.getPosition().getY());
         } else {

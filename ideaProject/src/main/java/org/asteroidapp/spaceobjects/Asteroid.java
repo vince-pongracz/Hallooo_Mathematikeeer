@@ -24,6 +24,11 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     private static final Logger log = LogManager.getLogger(Asteroid.class.getSimpleName());
 
     /**
+     * The gate placed on this asteroid
+     */
+    private Gate currentGate = null;
+
+    /**
      * Default constructor
      */
     public Asteroid(String name, Position position, Resource initResource, int layer) {
@@ -244,5 +249,13 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         explode();
 
         CallStackViewer.getInstance().methodReturns();
+    }
+
+    public void setCurrentGate(Gate currentGate) {
+        this.currentGate = currentGate;
+    }
+
+    public Gate getCurrentGate(){
+        return currentGate;
     }
 }

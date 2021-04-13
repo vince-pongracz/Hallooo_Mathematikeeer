@@ -3,6 +3,8 @@ package org.asteroidapp.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.spaceobjects.Asteroid;
+import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
@@ -55,7 +57,7 @@ public abstract class Entity implements Observer {
      */
     public void move() {
         log.log(Level.INFO, "move called");
-        CallStackViewer.getInstance().methodStartsLogCall( "move() called (Entity)");
+        CallStackViewer.getInstance().methodStartsLogCall("move() called (Entity)");
 
         var neighbours = listMyNeighbours();
         var nextSpaceObject = chooseNeighbour(neighbours);
@@ -94,6 +96,18 @@ public abstract class Entity implements Observer {
         CallStackViewer.getInstance().methodStartsLogCall("listMyNeighbours() called (Entity)");
 
         Set<SteppableSpaceObject> neighbours = new HashSet<>();
+
+        Asteroid currentAsteroid = (Asteroid)onSpaceObject;
+
+        //If the asteroid has a gate, which is active, get its pair's asteroid and add it to the neighbours
+        if (currentAsteroid.getCurrentGate() != null) {
+            if (currentAsteroid.getCurrentGate().isActive()) {
+                Gate teleportableGate = (Gate) (currentAsteroid.getCurrentGate().getPair());
+                Asteroid teleportableAsteroid = teleportableGate.getCurrentAsteroid();
+                neighbours.add(teleportableAsteroid);
+            }
+        }
+
         var iter = AsteroidZone.getInstance().getIterOnSpaceObjects();
         //Position sun = AsteroidZone.getInstance().getSun().getPosition();
         SteppableSpaceObject temp = null;

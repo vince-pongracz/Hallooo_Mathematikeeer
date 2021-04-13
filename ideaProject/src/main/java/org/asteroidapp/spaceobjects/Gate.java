@@ -3,7 +3,9 @@ package org.asteroidapp.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.interfaces.Observable;
+import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.resources.Empty;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.util.CallStackViewer;
@@ -11,7 +13,7 @@ import org.asteroidapp.util.CallStackViewer;
 /**
  * Class for teleport gates.
  */
-public class Gate extends SteppableSpaceObject implements Observable {
+public class Gate extends SteppableSpaceObject implements Observable, Observer {
 
     /**
      * logger for Gate
@@ -22,6 +24,16 @@ public class Gate extends SteppableSpaceObject implements Observable {
      * Another gate connected to this one, allowing travel between the two.
      */
     private Gate gatePair = null;
+
+    /**
+     * The Asteroid at which the gate is placed
+     */
+    private Asteroid currentAsteroid = null;
+
+    /**
+     * Stores if the gate has been hit by a sunflare
+     */
+    private boolean affectedByFlair = false;
 
     /**
      * Default constructor
@@ -82,7 +94,7 @@ public class Gate extends SteppableSpaceObject implements Observable {
         CallStackViewer.getInstance().methodStartsLogCall("isActive() called");
 
         boolean ret = false;
-        if (this.position != null && gatePair.position != null) {
+        if (this.currentAsteroid != null && gatePair.currentAsteroid != null) {
             log.log(Level.INFO, "This gate is active, you can teleport");
             ret = true;
         } else {
@@ -115,7 +127,7 @@ public class Gate extends SteppableSpaceObject implements Observable {
         log.log(Level.TRACE, "Gate's getPair called");
         CallStackViewer.getInstance().methodStartsLogCall("getPair() called (Gate)");
         CallStackViewer.getInstance().methodReturns();
-        
+
         return gatePair;
     }
 
@@ -123,5 +135,38 @@ public class Gate extends SteppableSpaceObject implements Observable {
     public String getInfo() {
         log.log(Level.TRACE, "Gate's getInfo called");
         return "Some example info";
+    }
+
+    public void setCurrentAsteroid(Asteroid currentAsteroid) {
+        this.currentAsteroid = currentAsteroid;
+    }
+
+    public Asteroid getCurrentAsteroid() {
+        return currentAsteroid;
+    }
+
+    @Override
+    public void notifyFlairEvent() {
+        if (currentAsteroid != null) {
+            if (currentAsteroid.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun){
+                affectedByFlair = true;
+            }
+        }
+    }
+
+    @Override
+    public void notifyFlairDanger() {
+        //nada
+    }
+
+    @Override
+    public void notifyAsteroidExplosion() {
+        //nada
+    }
+
+    public void moveToNeighbour(Asteroid neighbour){
+        currentAsteroid.setCurrentGate(null);
+        setCurrentAsteroid(neighbour);
+        currentAsteroid.setCurrentGate(this);
     }
 }
