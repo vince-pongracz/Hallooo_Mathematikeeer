@@ -58,6 +58,7 @@ public class TestConfig {
                 ufosNumber >= 1 &&
                 asteroidNumber <= 23 &&
                 asteroidNumber >= 1 &&
+                ufosNumber >= 0 &&
                 range == 1000 &&
                 maxRound >= 1 &&
                 homeCapacity >= 1 &&
@@ -93,8 +94,8 @@ public class TestConfig {
         commands.add(Integer.toString(playerNumber));
         commands.addAll(Arrays.asList(playerNames));
         commands.add(Integer.toString(settlerNumber));
-        commands.addAll(Arrays.asList(realCommandQueue));
         commands.add(Integer.toString(ufosNumber));
+        commands.addAll(Arrays.asList(realCommandQueue));
 
         return commands;
     }

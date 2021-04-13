@@ -112,6 +112,12 @@ public class GameController {
      */
     private transient Set<Ufo> ufos;
 
+    private void createUfos(){
+        for (int i = 0; i < ufosNum; i++) {
+            ufos.add(new Ufo("Ufo_" + i, AsteroidZone.getInstance().findHome()));
+        }
+    }
+
     /**
      * Create and place settlers to the HomeAsteroid
      * this method creates just settlers
@@ -211,6 +217,7 @@ public class GameController {
         AsteroidZone.getInstance().createZone();
         //create and place settlers on the Zone
         GameController.getInstance().dropSettlers();
+        GameController.getInstance().createUfos();
 
         log.log(Level.TRACE, "jsonBuilder created");
         GsonBuilder gsonBuilder = new GsonBuilder();

@@ -35,10 +35,11 @@ public class Ufo extends Entity {
 
         log.log(Level.INFO, "Ufo constructor called");
 
-        CallStackViewer.getInstance().methodStartsLogCall("AIRobot constructor called");
+        CallStackViewer.getInstance().methodStartsLogCall("Ufo constructor called");
 
         if (creationPlace != null && name != null) {
             onSpaceObject = creationPlace;
+            creationPlace.checkIn(this);
         } else {
             log.log(Level.FATAL, "null parameters in constructor!");
         }
@@ -172,7 +173,7 @@ public class Ufo extends Entity {
     @Override
     public void doAction() {
         log.log(Level.INFO, "doAction called");
-        CallStackViewer.getInstance().methodStartsLogCall("doAction() called (AIRobot)");
+        CallStackViewer.getInstance().methodStartsLogCall("doAction() called (Ufo)");
 
         stratOne();
 
@@ -186,7 +187,7 @@ public class Ufo extends Entity {
      */
     private void stratOne() {
 
-        log.log(Level.INFO, "strat_1 called: AIRobot on strat1");
+        log.log(Level.INFO, "strat_1 called: Ufo on strat1");
 
         log.log(Level.TRACE, "make decision");
         if (decisionCounterStratOne % 2 == 0) {
