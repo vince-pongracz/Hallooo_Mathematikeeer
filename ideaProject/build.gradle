@@ -7,6 +7,12 @@ run {
     standardInput(System.in)
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
+}
+
 group 'org.example'
 version '1.0-SNAPSHOT'
 
