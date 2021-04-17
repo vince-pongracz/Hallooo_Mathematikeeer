@@ -1,8 +1,9 @@
 {
   "testname": "listNeighboursTest",
   "playerNumber": 1,
-  "playerNames": ["testName"],
+  "playerNames": [ "testName" ],
   "settlerNumber": 1,
+  "ufosNumber": 1,
   "asteroidNumber": 7,
   "range": 1000,
   "maxRound": 2,
@@ -11,5 +12,10 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": ["7", "assert"]
+  "realCommandQueue": [ "7", "assert" ],
+  "expectedOut": [
+    "GameController - setup ended",
+    "Entity - listMyNeighbours called",
+    "Entity - Possible neighbour:"
+  ]
 }

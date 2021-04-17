@@ -5,8 +5,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.entities.AIRobot;
+import org.asteroidapp.entities.Ufo;
 import org.asteroidapp.entities.Settler;
 import org.asteroidapp.resources.*;
+import org.asteroidapp.spaceobjects.Sun;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
@@ -35,6 +37,7 @@ public class GameController {
         currentRound = 1;
         playersNum = 0;
         settlerNum = 1;
+        ufosNum = 1;
 
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -43,9 +46,11 @@ public class GameController {
 
         robots = new HashSet<>();
         players = new HashSet<>();
+        ufos = new HashSet<>();
 
         log.log(Level.TRACE, "robots has their collection");
         log.log(Level.TRACE, "players has their collection");
+        log.log(Level.TRACE, "ufos has their collection");
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -86,6 +91,12 @@ public class GameController {
      */
     private int settlerNum;
 
+
+    /**
+     * Number of players in current game
+     */
+    private int ufosNum;
+
     /**
      * collection for robots
      */
@@ -95,6 +106,17 @@ public class GameController {
      * collection for players
      */
     private transient Set<Player> players;
+
+    /**
+     * collection for ufos
+     */
+    private transient Set<Ufo> ufos;
+
+    private void createUfos(){
+        for (int i = 0; i < ufosNum; i++) {
+            ufos.add(new Ufo("Ufo_" + i, AsteroidZone.getInstance().findHome()));
+        }
+    }
 
     /**
      * Create and place settlers to the HomeAsteroid
@@ -186,12 +208,16 @@ public class GameController {
         ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired settlers for each player");
         settlerNum = ConsoleUI.getInstance().readIntFromConsole();
 
+        ConsoleUI.getInstance().sendMessageToConsole("Type the number of ufos");
+        ufosNum = ConsoleUI.getInstance().readIntFromConsole();
+
         log.log(Level.TRACE, "Initialize...");
 
         //creating zone
         AsteroidZone.getInstance().createZone();
         //create and place settlers on the Zone
         GameController.getInstance().dropSettlers();
+        GameController.getInstance().createUfos();
 
         log.log(Level.TRACE, "jsonBuilder created");
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -268,7 +294,6 @@ public class GameController {
      * @return
      */
     public int getRound() {
-        log.log(Level.TRACE, "getRound called - current round: {}", currentRound);
         return currentRound;
     }
 
@@ -360,8 +385,6 @@ public class GameController {
         CallStackViewer.getInstance().methodReturns();
     }
 
-    public static int sunFlairInEveryXRound = 10;
-
     /**
      * Call and schedule flair events
      */
@@ -370,11 +393,11 @@ public class GameController {
         log.log(Level.INFO, "evaluateFlair called");
         CallStackViewer.getInstance().methodStartsLogCall("evaluateFlair() called");
 
-        if (getRound() % sunFlairInEveryXRound == 0) {
+        if (getRound() % Sun.sunFlairInEveryXRound == 0) {
             log.log(Level.TRACE, "flair event will be launched");
 
             AsteroidZone.getInstance().getSun().notifyAboutDieEvent();
-        } else if (getRound() % sunFlairInEveryXRound == 7) {
+        } else if (getRound() % Sun.sunFlairInEveryXRound == (Sun.sunFlairInEveryXRound - 2)) {
             log.log(Level.TRACE, "flair is coming in the future!");
 
             AsteroidZone.getInstance().getSun().notifyAboutDanger();
@@ -449,6 +472,15 @@ public class GameController {
 
             for (var bot : robots) {
                 bot.doAction();
+            }
+        }
+
+        log.log(Level.TRACE, "check on ufos");
+        if (ufos != null && ufos.size() != 0) {
+            log.log(Level.INFO, "Iterate on ufos, they do things:");
+
+            for (var ufo : ufos) {
+                ufo.doAction();
             }
         }
 

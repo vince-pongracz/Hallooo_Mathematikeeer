@@ -3,6 +3,7 @@
   "playerNumber": 1,
   "playerNames": ["testName"],
   "settlerNumber": 1,
+  "ufosNumber": 1,
   "asteroidNumber": 2,
   "range": 1000,
   "maxRound": 1,
@@ -11,5 +12,19 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": ["assert"]
+  "realCommandQueue": ["assert"],
+  "expectedOut": [
+"GameController - createAndNamePlayers called",
+    "Sun - Sun constructor called",
+    "Asteroid - Asteroid constructor called",
+    "Sun - getPosition called",
+    "SteppableSpaceObject - SteppableSpaceObject constructor called",
+    "Asteroid - Asteroid constructor called",
+    "Sun - getPosition called",   "SteppableSpaceObject - SteppableSpaceObject constructor called",
+    "Asteroid - Asteroid constructor called",
+    "Sun - getPosition called",
+    "GameController - dropSettlers called",
+    "SteppableSpaceObject - checkIn called",
+    "Sun - checkIn called"
+  ]
 }

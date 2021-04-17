@@ -2,6 +2,11 @@ package org.asteroidapp;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,30 +18,39 @@ import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 import org.asteroidapp.util.TestConfig;
 
+
+import javafx.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayDeque;
 import java.util.Queue;
+import javafx.scene.control.Button;
 
 
 //extends Application
-public class AppController {
+public class AppController extends Application {
 
     //JavaFX demo
-    /*
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Button button1 = new Button("Hi team! :)");
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Hello World!");
+        Button btn = new Button();
+        btn.setText("Say 'Hello World'");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+
         StackPane root = new StackPane();
-        root.getChildren().add(button1);
-        Scene scene = new Scene(root);
-
-        primaryStage.setScene(scene);
-
-        primaryStage.setTitle("Asteroids - beta");
+        root.getChildren().add(btn);
+        primaryStage.setScene(new Scene(root, 300, 250));
         primaryStage.show();
     }
-     */
+
 
 
     /*
@@ -86,15 +100,17 @@ public class AppController {
                     //startGame();
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
-                    //TODO wipe game data to probable restart, or rerun with current config --- solve this
 
+                    quitCondition = true;
                 } else if (response.equals("help")) {
                     ConsoleUI.getInstance().sendMessageToConsole("help --> help msg");
                     ConsoleUI.getInstance().sendMessageToConsole("start --> start and config game");
                     ConsoleUI.getInstance().sendMessageToConsole("quit --> close app");
                     ConsoleUI.getInstance().sendMessageToConsole("test1 --> run pre-defined config: test1");
+
                 } else if (response.equals("quit")) {
                     quitCondition = true;
+
                     //delete/free resources
                 } else if (response.equals("test1")) {
                     Queue<String> autoCommands = new ArrayDeque<String>();
@@ -105,6 +121,9 @@ public class AppController {
 
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
+
+                    quitCondition = true;
+
                 } else if (response.equals("test_move")) {
                     Queue<String> autoCommands= new ArrayDeque<String>();
                     autoCommands.add("1");
@@ -115,6 +134,8 @@ public class AppController {
 
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
+
+                    quitCondition = true;
                 }
                 else if (response.equals("test_bot")) {
                     Queue<String> autoCommands= new ArrayDeque<String>();
@@ -126,6 +147,8 @@ public class AppController {
 
                     GameController.getInstance().setupGame();
                     GameController.getInstance().inGame();
+
+                    quitCondition = true;
                 } else if (response.equals("testmode")) {
                     testMode();
                     quitCondition = true;
@@ -138,12 +161,11 @@ public class AppController {
     }
 
     public void testMode() {
-        TestConfig config = new TestConfig();
         try {
             ConsoleUI.getInstance().sendMessageToConsole("Filename of testconfig:  (testconfigs/...)");
             String filename = ConsoleUI.getInstance().readLineFromConsole();
             Gson json = new Gson();
-            config = json.fromJson(new JsonReader(new FileReader(filename)), TestConfig.class);
+            TestConfig config = json.fromJson(new JsonReader(new FileReader(filename)), TestConfig.class);
             if (config.checkConfig()) {
                 ConsoleUI.getInstance().sendMessageToConsole("config is OK");
             } else {
@@ -151,15 +173,19 @@ public class AppController {
                 System.err.println("Wrong config");
                 return;
             }
+
+            ConsoleUI.getInstance().addTestConfig(config);
+            Queue<String> autoCommands = config.setConfigIntoComponents();
+            ConsoleUI.getInstance().setAutoCommands(autoCommands);
+
+            GameController.getInstance().setupGame();
+            GameController.getInstance().inGame();
+            config.eval();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return;
         }
-        Queue<String> autoCommands = config.setConfigIntoComponents();
-        ConsoleUI.getInstance().setAutoCommands(autoCommands);
-
-        GameController.getInstance().setupGame();
-        GameController.getInstance().inGame();
     }
 
     public void containerTest() {
@@ -181,7 +207,9 @@ public class AppController {
         CallStackViewer.getInstance().methodStartsLogCall("___CALLSTACK:___");
 
         AppController app = new AppController();
-        app.consoleDemo();
+        //app.consoleDemo();
+
+        launch(args);
 
         CallStackViewer.getInstance().methodReturns();
     }

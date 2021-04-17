@@ -68,7 +68,7 @@ public abstract class SteppableSpaceObject implements Observable {
      *
      * @return actual core thickness, or -1, if it's not interpretable
      */
-    public abstract int drillLayer();
+    public abstract boolean drillLayer();
 
     /**
      * Abstract method to get layerThickness

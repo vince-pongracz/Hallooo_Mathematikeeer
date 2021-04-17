@@ -1,5 +1,7 @@
 package org.asteroidapp;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.asteroidapp.resources.*;
 import org.asteroidapp.spaceobjects.*;
 import org.apache.logging.log4j.Level;
@@ -7,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.util.CallStackViewer;
 
+import java.io.FileInputStream;
 import java.util.*;
 
 /**
@@ -15,10 +18,10 @@ import java.util.*;
  */
 public class AsteroidZone {
 
-    private int asteroidSize = 80;
+    private final int asteroidSize = 80;
 
     //only one random per class should exist otherwise it would give the same result (Position, Resource) for every asteroid
-    private Random random = new Random(999); //seed: 999 is good for testing uran explosion
+    private final Random random = new Random(999); //seed: 999 is good for testing uran explosion
 
 
     /**
@@ -77,58 +80,52 @@ public class AsteroidZone {
         Resource resource = new Empty();
         int layer = 0;
 
-        //For now the Sun is in the top-left Corner and has a size of 100 x 100
+        //TODO The sun and the homeasteroid can't have that kind of fix position because they are going to collide with other asteroids
         sun = new Sun(new Position(150, 150, 50));
         log.log(Level.TRACE, "Sun has been created in the top-left corner");
 
         homeAsteroid = new HomeAsteroid(new Position(400, 500, 5), new Empty());
         spaceObjects.add(homeAsteroid);
 
-        int numOfPlacedAsteroids = 0;
-        while (numOfPlacedAsteroids < numOfAsteroids && numOfPlacedAsteroids <= numOfAsteroids) {
-            //TODO add minimal, maximal distance logic, namefaker for spacenames
-            Position randomPosition = generateRandomPosition(range);
+        //numOfTiles must be rows * columns and the numOfAsteroids must be lower than the numOfTiles
+        int numOfTiles = 42;
+        int columns = 7;
+        int rows = 6;
+        int count = 0;
 
-            if (checkDistanceAtCreate(randomPosition)) {
-                randomPosition.setRadius(5);
+        while (count < numOfAsteroids){
+            int n = random.nextInt(numOfTiles);
+            int i = n % columns;
+            int j = n / columns;
+
+            int x = i * (1500 / columns) + random.nextInt(1500 / columns - 80);
+            int y = j * (900 / rows) + random.nextInt(900 / rows - 80);
+            Position position = new Position(x, y);
+
+            if(canPlaceAsteroid(position)){
+                position.setRadius(5);
                 resource = generateRandomResource();
-
                 //Layer is between 3 and 6
                 layer = random.nextInt(3) + 3;
 
-                spaceObjects.add(new Asteroid("temp" + numOfPlacedAsteroids, randomPosition, resource, layer));
-                log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}",
-                        (int) randomPosition.getX(), (int) randomPosition.getY(), resource.getName(), layer);
-                numOfPlacedAsteroids++;
+                spaceObjects.add(new Asteroid("temp" + count, position, resource, layer));
+                log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}", (int) position.getX(), (int) position.getY(), resource.getName(), layer);
+                count++;
             }
         }
 
-        //TODO Slipping is not working
-/*
-        if(numOfAsteroids > 20){
-            Position slippedPosition = null;
+        CallStackViewer.getInstance().methodReturns();
+    }
 
-            while(numOfPlacedAsteroids < numOfAsteroids){
-                for(SteppableSpaceObject elem: spaceObjects){
-                    slippedPosition = generateSlippedPosition(elem.getPosition(), range);
-
-                    if(slippedPosition != null){
-                        resource = generateRandomResource();
-                        layer = random.nextInt(3) + 3;
-                        slippedPosition.setRadius(5);
-                        spaceObjects.add(new Asteroid("temp" + numOfPlacedAsteroids, slippedPosition, resource, layer));
-                        log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}", (int) slippedPosition.getX(), (int) slippedPosition.getY(), resource.getName(), layer);
-                        numOfPlacedAsteroids++;
-                    }
-
-                    if(numOfPlacedAsteroids == numOfAsteroids)
-                        break;
-                }
+    boolean canPlaceAsteroid(Position pos){
+        boolean result = true;
+        for(SteppableSpaceObject elem: spaceObjects){
+            if (elem.getPosition().equals(pos)) {
+                result = false;
                 break;
             }
-        }*/
-
-        CallStackViewer.getInstance().methodReturns();
+        }
+        return result;
     }
 
     /**
@@ -177,48 +174,6 @@ public class AsteroidZone {
     }
 
     /**
-     * It generates a random Position
-     *
-     * @return A random position that an object owns on the screen
-     */
-    public Position generateRandomPosition(int range) {
-        //Round to the nearest number that can be divided by 5 for less possible Positions
-        int x = random.nextInt(range - asteroidSize);
-        int y = random.nextInt(range - asteroidSize) + asteroidSize;
-        return new Position(x, y);
-    }
-
-    //TODO Slipping the asteroids is not working :(
-/*
-    public Position generateSlippedPosition(Position currentPos, int range){
-        Position slipped = null;
-        boolean isNotCorrect = true;
-        int x = 0;
-
-        while(x < range - asteroidSize && isNotCorrect){
-            Position temp = new Position(x, currentPos.getY());
-            if(checkDistanceAtCreate(temp)) {
-                slipped = temp;
-                isNotCorrect = true;
-            }
-            x += 1;
-        }
-
-        int y = asteroidSize;
-        if(slipped == null){
-            while(y < range && isNotCorrect){
-                Position temp = new Position(currentPos.getX(), y);
-                if(checkDistanceAtCreate(temp)) {
-                    slipped = temp;
-                    isNotCorrect = true;
-                }
-                y += 1;
-            }
-        }
-        return slipped;
-    }
-*/
-    /**
      * It generates a randomly selected resource
      *
      * @return A randomly selected resource
@@ -245,29 +200,6 @@ public class AsteroidZone {
                 result = new Empty();
         }
         return result;
-    }
-
-    /**
-     * It decides whether on that position can be placed on Asteroid or not
-     *
-     * @param toCheckPosition
-     * @return true if an Asteroid can be placed there otherwise false
-     */
-    private boolean checkDistanceAtCreate(Position toCheckPosition) {
-        boolean canBePlaced = true;
-        int x, y;
-        for (SteppableSpaceObject elem : spaceObjects) {
-            x = (int) elem.getPosition().getX();
-            y = (int) elem.getPosition().getY();
-            int r = (int) elem.getPosition().getRadius();
-            boolean xIsWrong = toCheckPosition.getX() > x - r && toCheckPosition.getX() < x + asteroidSize + r;
-            boolean yIsWrong = toCheckPosition.getY() > y - r && toCheckPosition.getY() < y + asteroidSize + r;
-
-            if (xIsWrong || yIsWrong) {
-                canBePlaced = false;
-            }
-        }
-        return canBePlaced;
     }
 
     /**

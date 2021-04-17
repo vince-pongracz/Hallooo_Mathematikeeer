@@ -1,10 +1,28 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'org.openjfx:javafx-plugin:0.0.9'
+    }
+}
+
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
+
+apply plugin: 'org.openjfx.javafxplugin'
 run {
     standardInput(System.in)
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
 }
 
 group 'org.example'
@@ -28,14 +46,15 @@ dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
 }
 
+task runJsonTests {
+    //don't do anything yet
+    group 'verification'
+    description 'run predefined tests specified by jsons'
+}
+
 javafx {
     version = "15.0.1"
     modules = ['javafx.controls', 'javafx.fxml']
 }
-
-test {
-    useJUnitPlatform()
-}
-
 
 mainClassName = 'org.asteroidapp.AppController'

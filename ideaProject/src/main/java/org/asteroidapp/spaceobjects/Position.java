@@ -140,7 +140,6 @@ public class Position {
         log.log(Level.TRACE, "getLeftUpperCornerCoordinates function called");
         double xLeftUpper = this.x - ownRadius;
         double yLeftUpper = this.y + ownRadius;
-        log.log(Level.TRACE, "calculated coordinates: ( {}; {} )", xLeftUpper, yLeftUpper);
         return new Position(xLeftUpper, yLeftUpper, 0);
     }
 

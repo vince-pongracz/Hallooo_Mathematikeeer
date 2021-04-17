@@ -1,5 +1,8 @@
 package org.asteroidapp.spaceobjects;
 
+import com.google.gson.FieldNamingStrategy;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +12,8 @@ import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.resources.Empty;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.util.CallStackViewer;
+
+import java.lang.reflect.Field;
 
 /**
  * Class for teleport gates.
@@ -40,6 +45,11 @@ public class Gate extends SteppableSpaceObject implements Observable, Observer {
      */
     public Gate(Position position) {
         super(position);
+
+        JsonObject object = new JsonObject();
+        object.addProperty("cmd","move");
+        var str = object.get("cmd").getAsString();
+
         CallStackViewer.getInstance().methodStartsLogCall("Gate constructor called");
 
         log.log(Level.TRACE, "Gate constructor called.");
@@ -55,9 +65,9 @@ public class Gate extends SteppableSpaceObject implements Observable, Observer {
     }
 
     @Override
-    public int drillLayer() {
-        log.log(Level.TRACE, "Gate's drillLayer called: uninterpretable, returns -1");
-        return -1;
+    public boolean drillLayer() {
+        log.log(Level.TRACE, "Gate's drillLayer called: uninterpretable, returns FALSE");
+        return false;
     }
 
     /**
