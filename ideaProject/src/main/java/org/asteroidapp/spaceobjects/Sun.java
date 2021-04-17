@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.interfaces.EventObservable;
 import org.asteroidapp.GameController;
 import org.asteroidapp.entities.Entity;
+import org.asteroidapp.interfaces.Observable;
+import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.HashSet;
