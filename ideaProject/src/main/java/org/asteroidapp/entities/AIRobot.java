@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
+import org.asteroidapp.interfaces.AutoEntity;
+import org.asteroidapp.interfaces.Drill;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.util.CallStackViewer;
 
@@ -13,7 +15,7 @@ import java.util.*;
 /**
  *
  */
-public class AIRobot extends Entity {
+public class AIRobot extends Entity implements Drill, AutoEntity {
 
     /**
      * logger for AIRobot
@@ -82,7 +84,7 @@ public class AIRobot extends Entity {
     }
 
     @Override
-    protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
+    public SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
         //TODO (OPT): don't choose a spaceObject, which is empty
         //TODO (OPT): don't choose an asteroid, where robot came from
 

@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
+import org.asteroidapp.interfaces.AutoEntity;
+import org.asteroidapp.interfaces.Mine;
 import org.asteroidapp.resources.Empty;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.resources.ResourceStorage;
@@ -16,7 +18,7 @@ import java.util.*;
 /**
  *
  */
-public class Ufo extends Entity {
+public class Ufo extends Entity implements Mine, AutoEntity {
 
 
     private ResourceStorage resources = null;
@@ -40,6 +42,8 @@ public class Ufo extends Entity {
         if (creationPlace != null && name != null) {
             onSpaceObject = creationPlace;
             creationPlace.checkIn(this);
+            resources = new ResourceStorage();
+            resources.setAllCapacity(UfoCapacity);
         } else {
             log.log(Level.FATAL, "null parameters in constructor!");
         }
@@ -47,17 +51,12 @@ public class Ufo extends Entity {
         CallStackViewer.getInstance().methodReturns();
     }
 
-
-    @Override
-    public boolean drill() {
-        return false;
-    }
-
     @Override
     protected void die() {
-
+        //NOP
     }
 
+    @Override
     public boolean mine() {
         log.log(Level.INFO, "Mine called");
         CallStackViewer.getInstance().methodStartsLogCall("mine() called (Ufo)");
@@ -106,7 +105,7 @@ public class Ufo extends Entity {
     }
 
     @Override
-    protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
+    public SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
         //TODO (OPT): don't choose a spaceObject, which is empty
         //TODO (OPT): don't choose an asteroid, where robot came from
 
@@ -182,7 +181,7 @@ public class Ufo extends Entity {
 
     /**
      * Strategy 1
-     *
+     * <p>
      * 1 move, then raw material search, if found mined
      */
     private void stratOne() {
@@ -192,7 +191,7 @@ public class Ufo extends Entity {
         log.log(Level.TRACE, "make decision");
         if (decisionCounterStratOne % 2 == 0) {
             move();
-        } else{
+        } else {
             mine();
         }
 

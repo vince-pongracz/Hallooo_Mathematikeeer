@@ -1,22 +1,18 @@
 package org.asteroidapp.spaceobjects;
 
-import com.google.gson.FieldNamingStrategy;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.interfaces.Observable;
+import org.asteroidapp.interfaces.MoveableObserver;
 import org.asteroidapp.resources.Empty;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.util.CallStackViewer;
 
-import java.lang.reflect.Field;
-
 /**
  * Class for teleport gates.
  */
-public class Gate extends SteppableSpaceObject implements Observable {
+public class Gate extends SteppableSpaceObject implements MoveableObserver {
 
     /**
      * logger for Gate
@@ -121,17 +117,44 @@ public class Gate extends SteppableSpaceObject implements Observable {
     }
 
     @Override
-    public SteppableSpaceObject getPair() {
-        log.log(Level.TRACE, "Gate's getPair called");
-        CallStackViewer.getInstance().methodStartsLogCall("getPair() called (Gate)");
-        CallStackViewer.getInstance().methodReturns();
-        
-        return gatePair;
-    }
-
-    @Override
     public String getInfo() {
         log.log(Level.TRACE, "Gate's getInfo called");
         return "Some example info";
+    }
+
+    @Override
+    public SteppableSpaceObject getTarget() {
+        //TODO gate has an asteroid!, return here that
+        return this; //this.gatePair.position...
+    }
+
+    @Override
+    public void move() {
+
+    }
+
+    @Override
+    public void notifyFlairEvent() {
+
+    }
+
+    @Override
+    public void notifyFlairDanger() {
+
+    }
+
+    @Override
+    public void notifyAsteroidExplosion() {
+
+    }
+
+    @Override
+    public void checkOut(MoveableObserver leavingThing) {
+
+    }
+
+    @Override
+    public void checkIn(MoveableObserver newThing) {
+
     }
 }

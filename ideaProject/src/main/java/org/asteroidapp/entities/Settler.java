@@ -5,6 +5,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
+import org.asteroidapp.interfaces.AutoEntity;
+import org.asteroidapp.interfaces.Drill;
+import org.asteroidapp.interfaces.Mine;
+import org.asteroidapp.interfaces.MoveableObserver;
 import org.asteroidapp.resources.*;
 import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
@@ -19,7 +23,7 @@ import java.util.*;
  * Settlers are Entities who can mine, create Robots and Gates
  * They also can manage their resources.
  */
-public class Settler extends Entity {
+public class Settler extends Entity implements AutoEntity, Drill, Mine {
 
     List<String> options = new ArrayList<>();
 
@@ -133,7 +137,7 @@ public class Settler extends Entity {
      * @return the chosen neighbour
      */
     @Override
-    protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
+    public SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
         log.log(Level.INFO, "ChooseNeighbour called");
         CallStackViewer.getInstance().methodStartsLogCall("chooseNeighbour() called (Settler)");
 
@@ -333,6 +337,7 @@ public class Settler extends Entity {
      *
      * @return boolean success
      */
+    @Override
     public boolean mine() {
         log.log(Level.INFO, "Mine called");
         CallStackViewer.getInstance().methodStartsLogCall("mine() called (Settler)");

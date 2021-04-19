@@ -3,8 +3,8 @@ package org.asteroidapp.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.interfaces.MoveableObserver;
 import org.asteroidapp.spaceobjects.Position;
-import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.util.CallStackViewer;
@@ -17,7 +17,7 @@ import java.util.*;
  * The move anf listMyNeighbours functions are just implemented
  * the others are abstract and they will be implemented in Settler or AIRobot
  */
-public abstract class Entity implements Observer {
+public abstract class Entity implements MoveableObserver {
 
     /**
      * Logger for Entity
@@ -62,7 +62,7 @@ public abstract class Entity implements Observer {
 
         if (nextSpaceObject != null) {
             onSpaceObject.checkOut(this);
-            onSpaceObject = nextSpaceObject;
+            onSpaceObject = nextSpaceObject.getTarget();
             nextSpaceObject.checkIn(this);
             log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
         } else{
@@ -71,13 +71,6 @@ public abstract class Entity implements Observer {
 
         CallStackViewer.getInstance().methodReturns();
     }
-
-
-    /**
-     * Abstract function for drill event. It will be implemented in AIRobot and Settler.
-     * It will thicken the layer of an asteroid if possible
-     */
-    public abstract boolean drill();
 
     /**
      * Abstract function for die event. It will be implemented in AIRobot and Settler.
@@ -128,7 +121,7 @@ public abstract class Entity implements Observer {
      * @param neighbours the list of neighbours from where the player can choose where to move to
      * @return the chosen neighbour
      */
-    protected abstract SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours);
+    public abstract SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours);
 
     /**
      * Abstract function for notifyFlairEvent. It will be implemented in AIRobot and Settler.
@@ -147,10 +140,4 @@ public abstract class Entity implements Observer {
      * notifies the entity about an asteroid explosion
      */
     public abstract void notifyAsteroidExplosion();
-
-    /**
-     * for easier handle the entities in GameController
-     * Decision, and interaction wit user about what he/she wants to do
-     */
-    public abstract void doAction();
 }

@@ -158,17 +158,16 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     }
 
     @Override
-    public SteppableSpaceObject getPair() {
-        log.log(Level.TRACE, "No pair for asteroid - null returned");
-        return null;
-    }
-
-    @Override
     public String getInfo() {
         //TODO write some valuable information here
         ConsoleUI.getInstance().sendMessageToConsole("name: " + name + ", layer: " + layer.getThickness() + ", core: " + core.getCoreInfo() + ", isCloseToSun: " + closeToSun +
                 ", position: x=" + position.getX() + " y=" + position.getY());
         return "exampleInfo";
+    }
+
+    @Override
+    public SteppableSpaceObject getTarget() {
+        return this;
     }
 
     /**
