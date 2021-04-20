@@ -142,19 +142,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     }
 
     @Override
-    public void setMyPosition(Position newPosition) {
-        //NOP for asteroid
-    }
-
-
-    @Override
     public boolean isActive() {
         return true;
-    }
-
-    @Override
-    public boolean setPair(Gate pairGate) {
-        return false;
     }
 
     @Override

@@ -23,6 +23,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
      * Another gate connected to this one, allowing travel between the two.
      */
     private Gate gatePair = null;
+    private Asteroid onAsteroid = null;
 
     /**
      * Default constructor
@@ -76,8 +77,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         return false;
     }
 
-    @Override
-    public void setMyPosition(Position newPosition) {
+    public void setMyAsteroid(Position newPosition) {
         log.log(Level.TRACE, "Gate's setMyPosition called");
         this.position = newPosition;
     }
@@ -99,7 +99,20 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         return ret;
     }
 
-    @Override
+    /**
+     * Sets a new position for object
+     *
+     * @param newSpaceObject to be set
+     */
+    public void setMyAsteroid(SteppableSpaceObject newSpaceObject){
+
+    }
+
+    /**
+     * @param pairGate
+     * @return
+     */
+
     public boolean setPair(Gate pairGate) {
         log.log(Level.TRACE, "Gate's setPair called");
         CallStackViewer.getInstance().methodStartsLogCall("setPair() called (Gate)");
@@ -125,7 +138,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     @Override
     public SteppableSpaceObject getTarget() {
         //TODO gate has an asteroid!, return here that
-        return this; //this.gatePair.position...
+        return this;//.gatePair.getPosition(); //this.gatePair.position...
     }
 
     @Override

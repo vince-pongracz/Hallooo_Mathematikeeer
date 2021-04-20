@@ -3,10 +3,8 @@ package org.asteroidapp.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.interfaces.Moveable;
 import org.asteroidapp.interfaces.MoveableObserver;
 import org.asteroidapp.interfaces.Observable;
-import org.asteroidapp.entities.Entity;
 import org.asteroidapp.resources.Resource;
 import org.asteroidapp.util.CallStackViewer;
 
@@ -96,25 +94,12 @@ public abstract class SteppableSpaceObject implements Observable {
     public abstract boolean addResourceToCore(Resource resource);
 
     /**
-     * Sets a new position for object
-     *
-     * @param newPosition to be set
-     */
-    public abstract void setMyPosition(Position newPosition);
-
-    /**
      * State of a SteppableSpaceObject
      *
      * @return true if SpaceObject is active (can be used)
      * false if it's not
      */
     public abstract boolean isActive();
-
-    /**
-     * @param pairGate
-     * @return
-     */
-    public abstract boolean setPair(Gate pairGate);
 
     /**
      * Checking out from a SteppableSpaceObject
@@ -164,5 +149,9 @@ public abstract class SteppableSpaceObject implements Observable {
      */
     public abstract String getInfo();
 
+    /**
+     * Returns the target spcaeObject, which will be set as new onSpaceObject of an Entity/MoveableObserver
+     * @return the SpaceObject behind the SpaceObject
+     */
     public abstract SteppableSpaceObject getTarget();
 }

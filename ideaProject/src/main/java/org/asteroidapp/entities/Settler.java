@@ -442,7 +442,7 @@ public class Settler extends Entity implements AutoEntity, Drill, Mine {
         if (createdGates.size() != 0) {     /////////////// SIZE CHECK INSTEAD OF NULL CHECK
             Gate gate = createdGates.remove(0);
             //TODO position for gate
-            gate.setMyPosition(this.onSpaceObject.getPosition());  ////////ALTERED EMPTY POSITION TO SETTLERS (ASTEROIDS) POSITION FOR TESTING, SHOULD BE SOMEWHERE AROUND THE SETTLER
+            gate.setMyAsteroid(this.onSpaceObject);  ////////ALTERED EMPTY POSITION TO SETTLERS (ASTEROIDS) POSITION FOR TESTING, SHOULD BE SOMEWHERE AROUND THE SETTLER
             AsteroidZone.getInstance().addSpaceObject(gate);
             log.log(Level.INFO, "Gate placed at x = {}, y = {}", gate.getPosition().getX(), gate.getPosition().getY());
             success = true;
