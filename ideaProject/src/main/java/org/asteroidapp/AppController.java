@@ -2,6 +2,11 @@ package org.asteroidapp;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,30 +18,39 @@ import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 import org.asteroidapp.util.TestConfig;
 
+
+import javafx.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayDeque;
 import java.util.Queue;
+import javafx.scene.control.Button;
 
 
 //extends Application
-public class AppController {
+public class AppController extends Application {
 
     //JavaFX demo
-    /*
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Button button1 = new Button("Hi team! :)");
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Hello World!");
+        Button btn = new Button();
+        btn.setText("Say 'Hello World'");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+
+            }
+        });
+
         StackPane root = new StackPane();
-        root.getChildren().add(button1);
-        Scene scene = new Scene(root);
-
-        primaryStage.setScene(scene);
-
-        primaryStage.setTitle("Asteroids - beta");
+        root.getChildren().add(btn);
+        primaryStage.setScene(new Scene(root, 300, 250));
         primaryStage.show();
     }
-     */
+
 
 
     /*
@@ -194,6 +208,8 @@ public class AppController {
 
         AppController app = new AppController();
         app.consoleDemo();
+
+        //launch(args);
 
         CallStackViewer.getInstance().methodReturns();
     }
