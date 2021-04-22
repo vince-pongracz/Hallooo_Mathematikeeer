@@ -24,11 +24,6 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     private static final Logger log = LogManager.getLogger(Asteroid.class.getSimpleName());
 
     /**
-     * The gate placed on this asteroid
-     */
-    private Gate currentGate = null;
-
-    /**
      * Default constructor
      */
     public Asteroid(String name, Position position, Resource initResource, int layer) {
@@ -71,7 +66,11 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         return name;
     }
 
-    @Override
+    /**
+     * Method for drill
+     *
+     * @return actual core thickness, or -1, if it's not interpretable
+     */
     public boolean drillLayer() {
         log.log(Level.INFO, "drillLayer called, before drill was the layer: {}", layer.getThickness());
         CallStackViewer.getInstance().methodStartsLogCall("drillLayer() called (Asteroid)");
@@ -99,19 +98,20 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     }
 
     /**
-     * Overridden method to get layerThickness
+     * Method to get layerThickness
      *
      * @return actual layer thickness, or -1, if it's not interpretable
      */
-    @Override
     public int getLayerThickness() {
         return layer.getThickness();
     }
 
     /**
+     * Mining a resource
+     *
      * can return with null! --- and it's okay, and good :)
+     * @return resource, which is mined
      */
-    @Override
     public Resource mineResource() {
         log.log(Level.INFO, "mineResource called");
         CallStackViewer.getInstance().methodStartsLogCall("mineResource() called (Asteroid)");
@@ -130,7 +130,13 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         return ret;
     }
 
-    @Override
+    /**
+     * Add a resource to the core
+     *
+     * @param resource to be added
+     * @return true if successfully added
+     * false if can't add
+     */
     public boolean addResourceToCore(Resource resource) {
         log.log(Level.INFO, "addResourceToCore called");
         CallStackViewer.getInstance().methodStartsLogCall("addResourceToCore() called (Asteroid)");
@@ -147,25 +153,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     }
 
     @Override
-    public void setMyPosition(Position newPosition) {
-        //NOP for asteroid
-    }
-
-
-    @Override
     public boolean isActive() {
         return true;
-    }
-
-    @Override
-    public boolean setPair(Gate pairGate) {
-        return false;
-    }
-
-    @Override
-    public SteppableSpaceObject getPair() {
-        log.log(Level.TRACE, "No pair for asteroid - null returned");
-        return null;
     }
 
     @Override
@@ -174,6 +163,11 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         ConsoleUI.getInstance().sendMessageToConsole("name: " + name + ", layer: " + layer.getThickness() + ", core: " + core.getCoreInfo() + ", isCloseToSun: " + closeToSun +
                 ", position: x=" + position.getX() + " y=" + position.getY());
         return "exampleInfo";
+    }
+
+    @Override
+    public Asteroid getTarget() {
+        return this;
     }
 
     /**
@@ -241,11 +235,4 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         CallStackViewer.getInstance().methodReturns();
     }
 
-    public void setCurrentGate(Gate currentGate) {
-        this.currentGate = currentGate;
-    }
-
-    public Gate getCurrentGate(){
-        return currentGate;
-    }
 }

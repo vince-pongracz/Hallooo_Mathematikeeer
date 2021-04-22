@@ -207,9 +207,9 @@ public class AppController extends Application {
         CallStackViewer.getInstance().methodStartsLogCall("___CALLSTACK:___");
 
         AppController app = new AppController();
-        //app.consoleDemo();
+        app.consoleDemo();
 
-        launch(args);
+        //launch(args);
 
         CallStackViewer.getInstance().methodReturns();
     }

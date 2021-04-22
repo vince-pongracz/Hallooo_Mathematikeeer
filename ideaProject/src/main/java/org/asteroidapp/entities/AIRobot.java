@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
+import org.asteroidapp.interfaces.AutoEntity;
+import org.asteroidapp.interfaces.Drill;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.util.CallStackViewer;
 
@@ -13,7 +15,7 @@ import java.util.*;
 /**
  *
  */
-public class AIRobot extends Entity {
+public class AIRobot extends Entity implements Drill, AutoEntity {
 
     /**
      * logger for AIRobot
@@ -31,7 +33,7 @@ public class AIRobot extends Entity {
         CallStackViewer.getInstance().methodStartsLogCall("AIRobot constructor called");
 
         if (creationPlace != null && name != null) {
-            onSpaceObject = creationPlace;
+            onAsteroid = creationPlace.getTarget();
             log.log(Level.TRACE, "AIRobot created on {}", creationPlace.getName());
         } else {
             log.log(Level.FATAL, "null parameters in constructor!");
@@ -48,7 +50,7 @@ public class AIRobot extends Entity {
         CallStackViewer.getInstance().methodStartsLogCall("drill() called (AIRobot's drill)");
 
         boolean ret = false;
-        if (onSpaceObject.drillLayer()) {
+        if (onAsteroid.drillLayer()) {
             log.log(Level.INFO, "drill success!");
             ret = true;
         } else {
@@ -68,21 +70,21 @@ public class AIRobot extends Entity {
 
         //delete robot's reference from collections (every collections)
         //checkout form onSpaceObject
-        onSpaceObject.checkOut(this);
+        onAsteroid.checkOut(this);
 
         //elv ennek így jónak kellene lennie, nem szabadna később se exceptiont dobnia...
-        onSpaceObject = null;
+        onAsteroid = null;
 
         //checkout form sun
         AsteroidZone.getInstance().getSun().checkOut(this);
         //remove form game
-        GameController.getInstance().removeBot(this);
+        GameController.getInstance().removeAutoEntity(this);
 
         CallStackViewer.getInstance().methodReturns();
     }
 
     @Override
-    protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
+    public SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
         //TODO (OPT): don't choose a spaceObject, which is empty
         //TODO (OPT): don't choose an asteroid, where robot came from
 

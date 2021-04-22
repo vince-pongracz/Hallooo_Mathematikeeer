@@ -3,9 +3,8 @@ package org.asteroidapp.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.interfaces.MoveableObserver;
 import org.asteroidapp.interfaces.Observable;
-import org.asteroidapp.entities.Entity;
-import org.asteroidapp.resources.Resource;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
@@ -23,10 +22,19 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * Default constructor
      */
-    public SteppableSpaceObject(Position position) {
+    public SteppableSpaceObject() {
         log.log(Level.INFO, "SteppableSpaceObject constructor called");
 
-        entitiesOnMe = new HashSet<>();
+        this.position = null;
+
+        log.log(Level.TRACE, "SteppableSpaceObject created");
+    }
+
+    /**
+     * Default constructor
+     */
+    public SteppableSpaceObject(Position position) {
+        log.log(Level.INFO, "SteppableSpaceObject constructor called");
 
         if (position != null) {
             this.position = position;
@@ -40,7 +48,7 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * set of entities
      */
-    protected Set<Entity> entitiesOnMe = null;
+    protected Set<MoveableObserver> entitiesOnMe = new HashSet<>();;
 
     /**
      * SpaceObject's position
@@ -64,43 +72,6 @@ public abstract class SteppableSpaceObject implements Observable {
     public abstract String getName();
 
     /**
-     * Abstract method for drill
-     *
-     * @return actual core thickness, or -1, if it's not interpretable
-     */
-    public abstract boolean drillLayer();
-
-    /**
-     * Abstract method to get layerThickness
-     *
-     * @return actual layer thickness, or -1, if it's not interpretable
-     */
-    public abstract int getLayerThickness();
-
-    /**
-     * Mining a resource
-     *
-     * @return resource, which is mined
-     */
-    public abstract Resource mineResource();
-
-    /**
-     * Add a resource to the core
-     *
-     * @param resource to be added
-     * @return true if successfully added
-     * false if can't add
-     */
-    public abstract boolean addResourceToCore(Resource resource);
-
-    /**
-     * Sets a new position for object
-     *
-     * @param newPosition to be set
-     */
-    public abstract void setMyPosition(Position newPosition);
-
-    /**
      * State of a SteppableSpaceObject
      *
      * @return true if SpaceObject is active (can be used)
@@ -109,27 +80,17 @@ public abstract class SteppableSpaceObject implements Observable {
     public abstract boolean isActive();
 
     /**
-     * @param pairGate
-     * @return
-     */
-    public abstract boolean setPair(Gate pairGate);
-
-    /**
-     * @return
-     */
-    public abstract SteppableSpaceObject getPair();
-
-    /**
      * Checking out from a SteppableSpaceObject
      *
-     * @param leavingEntity Entity, which leaves the object
+     * @param leavingThing Entity, which leaves the object
      */
-    public void checkOut(Entity leavingEntity) {
+    @Override
+    public void checkOut(MoveableObserver leavingThing) {
         log.log(Level.INFO, "checkOut called");
         CallStackViewer.getInstance().methodStartsLogCall("checkOut() called");
 
-        if (leavingEntity != null) {
-            Boolean temp = entitiesOnMe.remove(leavingEntity);
+        if (leavingThing != null) {
+            Boolean temp = entitiesOnMe.remove(leavingThing);
             log.log(Level.TRACE, "Entity removed: {}", temp.toString());
         } else {
             //NOP
@@ -141,15 +102,16 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * Check in to a SpaceObject
      *
-     * @param newEntity to be added to SpaceObject
+     * @param newThing to be added to SpaceObject
      */
     //TODO check
-    public void checkIn(Entity newEntity) {
+    @Override
+    public void checkIn(MoveableObserver newThing) {
         log.log(Level.INFO, "checkIn called");
         CallStackViewer.getInstance().methodStartsLogCall("checkIn() called");
 
-        if (newEntity != null) {
-            Boolean temp = entitiesOnMe.add(newEntity);
+        if (newThing != null) {
+            Boolean temp = entitiesOnMe.add(newThing);
             log.log(Level.TRACE, "Entity added: {}", temp.toString());
         } else {
             //NOP
@@ -165,4 +127,10 @@ public abstract class SteppableSpaceObject implements Observable {
      */
     public abstract String getInfo();
 
+    /**
+     * Returns the target spcaeObject, which will be set as new onSpaceObject of an Entity/MoveableObserver
+     *
+     * @return the SpaceObject behind the SpaceObject
+     */
+    public abstract Asteroid getTarget();
 }

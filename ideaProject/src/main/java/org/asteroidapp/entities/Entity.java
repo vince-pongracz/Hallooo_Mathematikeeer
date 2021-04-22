@@ -3,10 +3,9 @@ package org.asteroidapp.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.interfaces.MoveableObserver;
 import org.asteroidapp.spaceobjects.Asteroid;
-import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.spaceobjects.Position;
-import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.util.CallStackViewer;
@@ -19,7 +18,7 @@ import java.util.*;
  * The move anf listMyNeighbours functions are just implemented
  * the others are abstract and they will be implemented in Settler or AIRobot
  */
-public abstract class Entity implements Observer {
+public abstract class Entity implements MoveableObserver {
 
     /**
      * Logger for Entity
@@ -31,7 +30,8 @@ public abstract class Entity implements Observer {
      */
     public Entity(String name, SteppableSpaceObject droppingPlace) {
         this.name = name;
-        onSpaceObject = droppingPlace;
+        onAsteroid = droppingPlace.getTarget();
+        onAsteroid.checkIn(this);
     }
 
     /**
@@ -49,7 +49,7 @@ public abstract class Entity implements Observer {
     /**
      * It stores the object where the entity currently stands on
      */
-    protected SteppableSpaceObject onSpaceObject;
+    protected Asteroid onAsteroid;
 
     /**
      * It defines how the move function works. Firstly the neighbour has to be chosen from a list
@@ -63,8 +63,8 @@ public abstract class Entity implements Observer {
         var nextSpaceObject = chooseNeighbour(neighbours);
 
         if (nextSpaceObject != null) {
-            onSpaceObject.checkOut(this);
-            onSpaceObject = nextSpaceObject;
+            onAsteroid.checkOut(this);
+            onAsteroid = nextSpaceObject.getTarget();
             nextSpaceObject.checkIn(this);
             log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
         } else{
@@ -73,13 +73,6 @@ public abstract class Entity implements Observer {
 
         CallStackViewer.getInstance().methodReturns();
     }
-
-
-    /**
-     * Abstract function for drill event. It will be implemented in AIRobot and Settler.
-     * It will thicken the layer of an asteroid if possible
-     */
-    public abstract boolean drill();
 
     /**
      * Abstract function for die event. It will be implemented in AIRobot and Settler.
@@ -98,27 +91,18 @@ public abstract class Entity implements Observer {
 
         Set<SteppableSpaceObject> neighbours = new HashSet<>();
 
-        Asteroid currentAsteroid = (Asteroid)onSpaceObject;
-
-        //If the asteroid has a gate, which is active, get its pair's asteroid and add it to the neighbours
-        if (currentAsteroid.getCurrentGate() != null) {
-            if (currentAsteroid.getCurrentGate().isActive()) {
-                Gate teleportableGate = (Gate) (currentAsteroid.getCurrentGate().getPair());
-                Asteroid teleportableAsteroid = teleportableGate.getCurrentAsteroid();
-                neighbours.add(teleportableAsteroid);
-            }
-        }
-
         var iter = AsteroidZone.getInstance().getIterOnSpaceObjects();
         //Position sun = AsteroidZone.getInstance().getSun().getPosition();
         SteppableSpaceObject temp = null;
 
         while (iter.hasNext()) {
             temp = iter.next();
-            double distance = temp.getPosition().distanceFrom(onSpaceObject.getPosition());
-            if (distance < Position.getMaximalNeighbourDistance() && !temp.getName().equals(onSpaceObject.getName())) {
-                neighbours.add(temp);
-                log.log(Level.INFO, "Possible neighbour: {}", temp.getInfo());
+            if(temp.isActive() && temp.getPosition() != this.onAsteroid.getPosition()){
+                double distance = temp.getPosition().distanceFrom(onAsteroid.getPosition());
+                if (distance < Position.getMaximalNeighbourDistance() && !temp.getName().equals(onAsteroid.getName())) {
+                    neighbours.add(temp);
+                    log.log(Level.INFO, "Possible neighbour: {}", temp.getInfo());
+                }
             }
         }
 
@@ -133,7 +117,7 @@ public abstract class Entity implements Observer {
      * @return the object where the entity stands
      */
     public SteppableSpaceObject getMySpaceObject() {
-        return onSpaceObject;
+        return onAsteroid;
     }
 
     /**
@@ -142,7 +126,7 @@ public abstract class Entity implements Observer {
      * @param neighbours the list of neighbours from where the player can choose where to move to
      * @return the chosen neighbour
      */
-    protected abstract SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours);
+    public abstract SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours);
 
     /**
      * Abstract function for notifyFlairEvent. It will be implemented in AIRobot and Settler.
@@ -161,10 +145,4 @@ public abstract class Entity implements Observer {
      * notifies the entity about an asteroid explosion
      */
     public abstract void notifyAsteroidExplosion();
-
-    /**
-     * for easier handle the entities in GameController
-     * Decision, and interaction wit user about what he/she wants to do
-     */
-    public abstract void doAction();
 }

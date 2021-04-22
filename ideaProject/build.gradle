@@ -15,6 +15,7 @@ plugins {
 }
 
 apply plugin: 'org.openjfx.javafxplugin'
+
 run {
     standardInput(System.in)
 }
