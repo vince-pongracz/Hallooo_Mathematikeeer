@@ -5,7 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.interfaces.MoveableObserver;
 import org.asteroidapp.interfaces.Observable;
-import org.asteroidapp.resources.Resource;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
@@ -23,10 +22,19 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * Default constructor
      */
-    public SteppableSpaceObject(Position position) {
+    public SteppableSpaceObject() {
         log.log(Level.INFO, "SteppableSpaceObject constructor called");
 
-        entitiesOnMe = new HashSet<>();
+        this.position = null;
+
+        log.log(Level.TRACE, "SteppableSpaceObject created");
+    }
+
+    /**
+     * Default constructor
+     */
+    public SteppableSpaceObject(Position position) {
+        log.log(Level.INFO, "SteppableSpaceObject constructor called");
 
         if (position != null) {
             this.position = position;
@@ -40,7 +48,7 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * set of entities
      */
-    protected Set<MoveableObserver> entitiesOnMe = null;
+    protected Set<MoveableObserver> entitiesOnMe = new HashSet<>();;
 
     /**
      * SpaceObject's position
@@ -62,36 +70,6 @@ public abstract class SteppableSpaceObject implements Observable {
      * @return name or null/empty string, when SteppableSpaceObject has no name (because he/she is Gate)
      */
     public abstract String getName();
-
-    /**
-     * Abstract method for drill
-     *
-     * @return actual core thickness, or -1, if it's not interpretable
-     */
-    public abstract boolean drillLayer();
-
-    /**
-     * Abstract method to get layerThickness
-     *
-     * @return actual layer thickness, or -1, if it's not interpretable
-     */
-    public abstract int getLayerThickness();
-
-    /**
-     * Mining a resource
-     *
-     * @return resource, which is mined
-     */
-    public abstract Resource mineResource();
-
-    /**
-     * Add a resource to the core
-     *
-     * @param resource to be added
-     * @return true if successfully added
-     * false if can't add
-     */
-    public abstract boolean addResourceToCore(Resource resource);
 
     /**
      * State of a SteppableSpaceObject
@@ -151,7 +129,8 @@ public abstract class SteppableSpaceObject implements Observable {
 
     /**
      * Returns the target spcaeObject, which will be set as new onSpaceObject of an Entity/MoveableObserver
+     *
      * @return the SpaceObject behind the SpaceObject
      */
-    public abstract SteppableSpaceObject getTarget();
+    public abstract Asteroid getTarget();
 }

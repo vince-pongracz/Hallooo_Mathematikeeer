@@ -33,7 +33,7 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
         CallStackViewer.getInstance().methodStartsLogCall("AIRobot constructor called");
 
         if (creationPlace != null && name != null) {
-            onSpaceObject = creationPlace;
+            onAsteroid = creationPlace.getTarget();
             log.log(Level.TRACE, "AIRobot created on {}", creationPlace.getName());
         } else {
             log.log(Level.FATAL, "null parameters in constructor!");
@@ -50,7 +50,7 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
         CallStackViewer.getInstance().methodStartsLogCall("drill() called (AIRobot's drill)");
 
         boolean ret = false;
-        if (onSpaceObject.drillLayer()) {
+        if (onAsteroid.drillLayer()) {
             log.log(Level.INFO, "drill success!");
             ret = true;
         } else {
@@ -70,15 +70,15 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
 
         //delete robot's reference from collections (every collections)
         //checkout form onSpaceObject
-        onSpaceObject.checkOut(this);
+        onAsteroid.checkOut(this);
 
         //elv ennek így jónak kellene lennie, nem szabadna később se exceptiont dobnia...
-        onSpaceObject = null;
+        onAsteroid = null;
 
         //checkout form sun
         AsteroidZone.getInstance().getSun().checkOut(this);
         //remove form game
-        GameController.getInstance().removeBot(this);
+        GameController.getInstance().removeAutoEntity(this);
 
         CallStackViewer.getInstance().methodReturns();
     }

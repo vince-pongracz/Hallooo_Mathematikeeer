@@ -3,8 +3,6 @@ package org.asteroidapp.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.AsteroidZone;
-import org.asteroidapp.GameController;
 import org.asteroidapp.interfaces.AutoEntity;
 import org.asteroidapp.interfaces.Mine;
 import org.asteroidapp.resources.Empty;
@@ -39,14 +37,8 @@ public class Ufo extends Entity implements Mine, AutoEntity {
 
         CallStackViewer.getInstance().methodStartsLogCall("Ufo constructor called");
 
-        if (creationPlace != null && name != null) {
-            onSpaceObject = creationPlace;
-            creationPlace.checkIn(this);
-            resources = new ResourceStorage();
-            resources.setAllCapacity(UfoCapacity);
-        } else {
-            log.log(Level.FATAL, "null parameters in constructor!");
-        }
+        resources = new ResourceStorage();
+        resources.setAllCapacity(UfoCapacity);
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -61,7 +53,7 @@ public class Ufo extends Entity implements Mine, AutoEntity {
         log.log(Level.INFO, "Mine called");
         CallStackViewer.getInstance().methodStartsLogCall("mine() called (Ufo)");
 
-        Resource res = onSpaceObject.mineResource();
+        Resource res = onAsteroid.mineResource();
         boolean mineSuccess = false;
 
         //mining is successful
