@@ -1,7 +1,5 @@
 package org.asteroidapp.resources;
 
-import org.asteroidapp.util.CallStackViewer;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,20 +47,26 @@ public class ResourceStorage {
         return new Empty();
     }
 
+    /**
+     * Pop a random resource from storage
+     * @note when capacity == 1, then it will return the resource, but you don't have to specify, what you want (workaround for mine situation)
+     *
+     * @return an Empty, when it's size == 0 is true, or a random resource from collection
+     */
     public Resource popRandomResource() {
         Resource result = null;
-        CallStackViewer.getInstance().methodStartsLogCall("popRandomResource (ResourceStorage) called");
+        //CallStackViewer.getInstance().methodStartsLogCall("popRandomResource (ResourceStorage) called");
         if (resourceList == null || resourceList.size() == 0) {
-            CallStackViewer.getInstance().innerMethodCall("The resource was: Empty");
+            //CallStackViewer.getInstance().innerMethodCall("The resource was: Empty");
             result = new Empty();
 
         } else {
             Collections.shuffle(resourceList);
             result = resourceList.remove(0);
-            CallStackViewer.getInstance().innerMethodCall("The resource was: " + result.getName());
+            //CallStackViewer.getInstance().innerMethodCall("The resource was: " + result.getName());
         }
 
-        CallStackViewer.getInstance().methodReturns();
+        //CallStackViewer.getInstance().methodReturns();
         return result;
     }
 
@@ -71,7 +75,7 @@ public class ResourceStorage {
             resourceList.add(whatYouWant);
             return true;
         } else {
-            //TODO log
+            //TODO log -- trace?
             return false;
         }
     }

@@ -21,6 +21,8 @@ public class Sun implements EventObservable {
      */
     private static final Logger log = LogManager.getLogger(Sun.class.getSimpleName());
 
+    public static int sunFlairInEveryXRound = 10;
+
     /**
      * own set from entities, they will be notified
      */

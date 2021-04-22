@@ -2,7 +2,7 @@ package org.asteroidapp.resources;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.entities.AIRobot;
+import org.asteroidapp.spaceobjects.Position;
 
 /**
  * 
@@ -25,6 +25,7 @@ public class FrozenWater extends Resource {
 	 *
 	 * @return
 	 */
+	@Override
 	public String getName() {
 		return "FrozenWater";
 	}
@@ -32,7 +33,8 @@ public class FrozenWater extends Resource {
 	/**
 	 * @return
 	 */
-	public boolean isRadioActive() {
+	@Override
+	public boolean isRadioActive(Position position) {
 		return false;
 	}
 

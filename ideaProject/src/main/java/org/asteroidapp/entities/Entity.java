@@ -61,11 +61,12 @@ public abstract class Entity implements Observer {
         var nextSpaceObject = chooseNeighbour(neighbours);
 
         if (nextSpaceObject != null) {
-            //TODO solve when it's null
             onSpaceObject.checkOut(this);
-            setMySpaceObject(nextSpaceObject);
+            onSpaceObject = nextSpaceObject;
             nextSpaceObject.checkIn(this);
             log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
+        } else{
+            //NOP?
         }
 
         CallStackViewer.getInstance().methodReturns();
@@ -111,20 +112,6 @@ public abstract class Entity implements Observer {
         return neighbours;
     }
 
-    /**
-     * It sets the currently place of an entity to another one
-     *
-     * @param newOnPlace the new place that will be set
-     */
-    protected void setMySpaceObject(SteppableSpaceObject newOnPlace) {
-        if (newOnPlace != null) {
-            onSpaceObject = newOnPlace;
-            log.log(Level.TRACE, "Space object set to {} ", newOnPlace.getName());
-            CallStackViewer.getInstance().methodReturns();
-        } else {
-            //NOP
-        }
-    }
 
     /**
      * It returns with the object where the entity stands on

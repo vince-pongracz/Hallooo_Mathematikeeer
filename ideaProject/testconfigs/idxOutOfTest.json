@@ -1,0 +1,21 @@
+{
+  "testname": "idxOutOfTest - when listNeighbours called and a neighbour has been mined already",
+  "playerNumber": 1,
+  "playerNames": [ "exceptionHunter" ],
+  "settlerNumber": 1,
+  "asteroidNumber": 23,
+  "range": 1000,
+  "maxRound": 99,
+  "sunFlairInEveryXRound": 10,
+  "homeCapacity": 5,
+  "settlerCapacity": 10,
+  "defOfCloseToSun": 500,
+  "maxNeighbourDistance": 500,
+  "realCommandQueue": [ "6", "3", "6", "3", "6", "3", "0", "temp0", "1", "1", "1", "1", "0", "temp7", "8", "0", "temp0", "1", "2", "0", "Home", "7", "assert" ],
+  "expectedOut": [
+    "GameController - round called: 14 th round of the game",
+    "Entity - listMyNeighbours called",
+    "Entity - Possible neighbour: exampleInfo",
+    "ConsoleUI - Used automatic command: assert"
+  ]
+}

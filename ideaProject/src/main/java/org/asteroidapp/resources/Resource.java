@@ -2,9 +2,7 @@ package org.asteroidapp.resources;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.entities.AIRobot;
-
-import java.util.*;
+import org.asteroidapp.spaceobjects.Position;
 
 /**
  *
@@ -24,7 +22,7 @@ public abstract class Resource implements Comparable<Resource> {
     /**
      * @return
      */
-    public abstract boolean isRadioActive();
+    public abstract boolean isRadioActive(Position place);
 
     @Override
     public int compareTo(Resource other) {
@@ -36,11 +34,7 @@ public abstract class Resource implements Comparable<Resource> {
 
         if (obj != null && obj instanceof Resource) {
             //if the names are equals
-            if (this.getName().equals(((Resource) obj).getName())) {
-                return true;
-            } else {
-                return false;
-            }
+            return this.getName().equals(((Resource) obj).getName());
         } else {
             return false;
         }

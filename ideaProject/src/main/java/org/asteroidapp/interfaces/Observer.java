@@ -1,7 +1,5 @@
 package org.asteroidapp.interfaces;
 
-import java.util.*;
-
 /**
  * Observer interface to realize observer pattern
  */

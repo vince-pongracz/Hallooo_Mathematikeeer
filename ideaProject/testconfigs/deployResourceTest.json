@@ -1,0 +1,23 @@
+{
+  "testname": "deployResourceTest",
+  "playerNumber": 1,
+  "playerNames": [ "testName" ],
+  "settlerNumber": 1,
+  "asteroidNumber": 5,
+  "range": 1000,
+  "maxRound": 22,
+  "sunFlairInEveryXRound": 10,
+  "homeCapacity": 5,
+  "settlerCapacity": 10,
+  "defOfCloseToSun": 500,
+  "maxNeighbourDistance": 500,
+  "realCommandQueue": [ "0", "temp3", "1", "1", "1", "1", "1", "2", "6", "1", "assert"],
+  "expectedOut": [
+    "Settler - DeployResource called",
+    "Settler - ListResources called",
+    "Settler - chooseResource called",
+    "Settler - Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran",
+    "Settler - The selected resource can be chosen",
+    "Asteroid - addResourceToCore called"
+  ]
+}

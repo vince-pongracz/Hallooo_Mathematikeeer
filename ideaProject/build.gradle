@@ -28,6 +28,12 @@ dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
 }
 
+task runJsonTests {
+    //don't do anything yet
+    group 'verification'
+    description 'run predefined tests specified by jsons'
+}
+
 javafx {
     version = "15.0.1"
     modules = ['javafx.controls', 'javafx.fxml']

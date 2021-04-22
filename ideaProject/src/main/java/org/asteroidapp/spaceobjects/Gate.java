@@ -43,9 +43,9 @@ public class Gate extends SteppableSpaceObject implements Observable {
     }
 
     @Override
-    public int drillLayer() {
-        log.log(Level.TRACE, "Gate's drillLayer called: uninterpretable, returns -1");
-        return -1;
+    public boolean drillLayer() {
+        log.log(Level.TRACE, "Gate's drillLayer called: uninterpretable, returns FALSE");
+        return false;
     }
 
     /**

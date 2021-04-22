@@ -3,6 +3,7 @@
   "playerNumber": 1,
   "playerNames": ["testName"],
   "settlerNumber": 1,
+  "ufosNumber": 1,
   "asteroidNumber": 23,
   "range": 1000,
   "maxRound": 22,
@@ -11,5 +12,10 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": [ "3", "assert" ]
+  "realCommandQueue": [ "3", "assert" ],
+  "expectedOut": [
+    "GameController - setup ended",
+    "Gate - New gate created",
+    "Gate - New gate created"
+  ]
 }

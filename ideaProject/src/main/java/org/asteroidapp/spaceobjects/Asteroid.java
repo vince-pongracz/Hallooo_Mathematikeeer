@@ -67,29 +67,22 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
     }
 
     @Override
-    public int drillLayer() {
+    public boolean drillLayer() {
         log.log(Level.INFO, "drillLayer called, before drill was the layer: {}", layer.getThickness());
         CallStackViewer.getInstance().methodStartsLogCall("drillLayer() called (Asteroid)");
 
         //thin layer
-        var result = layer.thinIt();
+        var result = layer.getThickness() != layer.thinIt();
 
-        //like pop
         var resource = core.popResource();
-
-        //like push
-        //because of stack behaviour (later come)
         core.pushResource(resource);
 
-        //TODO closeToSun part
         //check explosion conditions
-        if (result == 0 && resource != null && resource.isRadioActive() && closeToSun) {
+        if (layer.getThickness() == 0 && resource != null && closeToSun && resource.isRadioActive(position)) {
             //this calls explosion
             log.log(Level.INFO, "Asteroid has radioactive core _and_ it's close to Sun --> EXPLODE");
             notifyAboutDieEvent();
-        } else if (result == 0 && resource != null && resource.equals(new FrozenWater()) && closeToSun) {
-            //TODO hopefully this condition is enough to sublimate FrozenWater when it's close to sun
-
+        } else if (layer.getThickness() == 0 && resource != null && resource.equals(new FrozenWater()) && closeToSun) {
             //when it is FrozenWater --> drop it, and set empty
             core.popResource();
             core.pushResource(new Empty());
@@ -140,7 +133,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         boolean success = false;
         if (resource != null && layer.getThickness() == 0) {
             success = core.pushResource(resource);
-        }else{
+        } else {
             //NOP
         }
 
@@ -199,6 +192,8 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
     /**
      * explode asteroid (and notify observers, what they have to do!)
+     *
+     * @note DO NOT handle the checkIn, checkOut here!
      */
     protected void explode() {
         log.log(Level.INFO, "explode called");
@@ -208,11 +203,6 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         core = null;
         layer = null;
 
-        //DO NOT handle the checkIn, checkOut here!
-        //this is the entity's responsibility
-        //for (var item : playersOnMe) {
-        //  item.notifyAsteroidExplosion();
-        //}
         var iter = entitiesOnMe.iterator();
         while (iter.hasNext()) {
             var entityItem = iter.next();

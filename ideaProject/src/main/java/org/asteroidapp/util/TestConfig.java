@@ -9,6 +9,7 @@ import org.asteroidapp.GameController;
 import org.asteroidapp.entities.Settler;
 import org.asteroidapp.spaceobjects.HomeAsteroid;
 import org.asteroidapp.spaceobjects.Position;
+import org.asteroidapp.spaceobjects.Sun;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +34,7 @@ public class TestConfig {
     private String[] playerNames = {"testName"};
     private int settlerNumber = 1;
     private int asteroidNumber = 23;
+    private int ufosNumber = 1;
     private int range = 1000;
     private int maxRound = 22;
     private int sunFlairInEveryXRound = 10;
@@ -53,8 +55,10 @@ public class TestConfig {
                 playerNumber >= 1 &&
                 playerNames.length == playerNumber &&
                 settlerNumber >= 1 &&
+                ufosNumber >= 1 &&
                 asteroidNumber <= 23 &&
                 asteroidNumber >= 1 &&
+                ufosNumber >= 0 &&
                 range == 1000 &&
                 maxRound >= 1 &&
                 homeCapacity >= 1 &&
@@ -81,7 +85,7 @@ public class TestConfig {
         AsteroidZone.numOfAsteroids = Math.abs(asteroidNumber);
         AsteroidZone.range = Math.abs(range);
         GameController.maxRound = Math.abs(maxRound);
-        GameController.sunFlairInEveryXRound = Math.abs(sunFlairInEveryXRound);
+        Sun.sunFlairInEveryXRound = Math.abs(sunFlairInEveryXRound);
         HomeAsteroid.homeCapacity = Math.abs(homeCapacity);
         Settler.settlerCapacity = Math.abs(settlerCapacity);
         AsteroidZone.defOfCloseToSun = Math.abs(defOfCloseToSun);
@@ -90,6 +94,7 @@ public class TestConfig {
         commands.add(Integer.toString(playerNumber));
         commands.addAll(Arrays.asList(playerNames));
         commands.add(Integer.toString(settlerNumber));
+        commands.add(Integer.toString(ufosNumber));
         commands.addAll(Arrays.asList(realCommandQueue));
 
         return commands;
@@ -101,12 +106,13 @@ public class TestConfig {
         ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
 
         enableCompare = (expectedOut.length > 0) ? true : false;
+        boolean checkExpectedV = checkExpected();
 
-        if (enableCompare && checkExpected()) {
+        if (enableCompare && checkExpectedV) {
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
             ConsoleUI.getInstance().sendMessageToConsole(testname + " : PASSED");
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
-        } else if (enableCompare && !checkExpected()) {
+        } else if (enableCompare) {
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
             ConsoleUI.getInstance().sendMessageToConsole(testname + " FAILED");
             ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
@@ -150,14 +156,14 @@ public class TestConfig {
                 }
             }
 
-            if (howManyFound != expectedOut.length) {
-                return false;
-            } else {
-                return true;
+            for (int i = howManyFound; i < expectedOut.length; ++i) {
+                ConsoleUI.getInstance().sendMessageToConsole(expectedOut[i] + " : NOT found");
             }
 
+            return (howManyFound == expectedOut.length);
+
         } catch (IOException e) {
-            System.err.println("Fileerror");
+            System.err.println("File error");
         }
         return false;
     }

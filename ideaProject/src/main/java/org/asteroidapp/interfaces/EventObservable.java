@@ -8,11 +8,11 @@ public interface EventObservable extends Observable {
     /**
      * notifies checked entities about flair danger
      */
-    public void notifyAboutDanger();
+    void notifyAboutDanger();
 
     /**
      * notifies checked entities about die event
      */
-    public void notifyAboutDieEvent();
+    void notifyAboutDieEvent();
 
 }

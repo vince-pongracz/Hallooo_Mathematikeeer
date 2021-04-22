@@ -1,8 +1,9 @@
 {
   "testname": "explodeTest",
   "playerNumber": 1,
-  "playerNames": ["testName"],
+  "playerNames": [ "testName" ],
   "settlerNumber": 1,
+  "ufosNumber": 1,
   "asteroidNumber": 23,
   "range": 1000,
   "maxRound": 10,
@@ -11,5 +12,15 @@
   "settlerCapacity": 10,
   "defOfCloseToSun": 500,
   "maxNeighbourDistance": 500,
-  "realCommandQueue": [ "0", "temp0", "1", "1", "1", "1", "1", "1", "1", "1" , "assert"]
+  "realCommandQueue": [ "0", "temp13", "1", "1", "1", "1", "1", "1", "1", "1", "assert" ],
+  "expectedOut": [
+    "GameController - setup ended",
+    "Entity - move called",
+    "ConsoleUI - Used automatic command: temp0",
+    "Settler - Settler tried to drill an object",
+    "Asteroid - drillLayer called, before drill was the layer: 1",
+    "Asteroid - Asteroid has radioactive core _and_ it's close to Sun --> EXPLODE",
+    "Asteroid - explode called",
+    "Settler - Die method of player"
+  ]
 }
