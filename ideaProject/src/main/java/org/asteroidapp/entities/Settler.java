@@ -5,10 +5,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.GameController;
+import org.asteroidapp.interfaces.AutoEntity;
+import org.asteroidapp.interfaces.Drill;
+import org.asteroidapp.interfaces.Mine;
 import org.asteroidapp.resources.*;
 import org.asteroidapp.spaceobjects.Gate;
 import org.asteroidapp.Player;
-import org.asteroidapp.spaceobjects.Position;
 import org.asteroidapp.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
@@ -19,7 +21,7 @@ import java.util.*;
  * Settlers are Entities who can mine, create Robots and Gates
  * They also can manage their resources.
  */
-public class Settler extends Entity {
+public class Settler extends Entity implements AutoEntity, Drill, Mine {
 
     List<String> options = new ArrayList<>();
 
@@ -84,8 +86,8 @@ public class Settler extends Entity {
         CallStackViewer.getInstance().methodStartsLogCall("drill() called (Settler)");
         log.log(Level.INFO, "Settler tried to drill an object");
 
-        int oldThickness = onSpaceObject.getLayerThickness();
-        onSpaceObject.drillLayer();
+        int oldThickness = onAsteroid.getLayerThickness();
+        onAsteroid.drillLayer();
         boolean ret = false;
 
         if (oldThickness > 1) {
@@ -112,8 +114,8 @@ public class Settler extends Entity {
         log.log(Level.INFO, "Die method of player {}'s settler called", this.owner.getName());
         CallStackViewer.getInstance().methodStartsLogCall("die() called (Settler)");
 
-        onSpaceObject.checkOut(this);
-        onSpaceObject = null;
+        onAsteroid.checkOut(this);
+        onAsteroid = null;
         AsteroidZone.getInstance().getSun().checkOut(this);
         owner.removeSettler(this);
 
@@ -133,7 +135,7 @@ public class Settler extends Entity {
      * @return the chosen neighbour
      */
     @Override
-    protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
+    public SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
         log.log(Level.INFO, "ChooseNeighbour called");
         CallStackViewer.getInstance().methodStartsLogCall("chooseNeighbour() called (Settler)");
 
@@ -179,10 +181,10 @@ public class Settler extends Entity {
         log.log(Level.INFO, "notifyFlairEvent called");
         CallStackViewer.getInstance().methodStartsLogCall("notifyFlairEvent() called (Settler)");
 
-        boolean settlerIsFarFromSun = onSpaceObject.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun;
+        boolean settlerIsFarFromSun = onAsteroid.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun;
 
         //TODO refactor: one Asteroid can hide just one entity..
-        if (onSpaceObject.getLayerThickness() == 0 && onSpaceObject.mineResource().equals(new Empty()) || settlerIsFarFromSun) {
+        if (onAsteroid.getLayerThickness() == 0 && onAsteroid.mineResource().equals(new Empty()) || settlerIsFarFromSun) {
             log.log(Level.INFO, "You were hidden in an asteroid during the sunflair or you were far away from the sun, so you survived");
         } else {
             log.log(Level.INFO, "You were not hidden in an asteroid during the sunflair so you died");
@@ -313,9 +315,9 @@ public class Settler extends Entity {
             resources.popResource(new Iron());
             resources.popResource(new Uran());
 
-            AIRobot bot = new AIRobot("Robot", onSpaceObject);
+            AIRobot bot = new AIRobot("Robot", onAsteroid);
             GameController.getInstance().addBot(bot);
-            log.log(Level.INFO, "Bot created at {} asteroid", onSpaceObject.getName());
+            log.log(Level.INFO, "Bot created at {} asteroid", onAsteroid.getName());
 
             CallStackViewer.getInstance().methodReturns();
             return true;
@@ -333,11 +335,12 @@ public class Settler extends Entity {
      *
      * @return boolean success
      */
+    @Override
     public boolean mine() {
         log.log(Level.INFO, "Mine called");
         CallStackViewer.getInstance().methodStartsLogCall("mine() called (Settler)");
 
-        Resource res = onSpaceObject.mineResource();
+        Resource res = onAsteroid.mineResource();
         boolean mineSuccess = false;
 
         //mining is successful
@@ -378,13 +381,11 @@ public class Settler extends Entity {
             resources.popMore(2, new Iron());
             resources.popResource(new Uran());
 
-            Gate gate1 = new Gate(new Position(400, 500));
+            Gate gate1 = new Gate();
             log.log(Level.INFO, "Gate1 created for {}", getName());
-            Gate gate2 = new Gate(new Position(700, 700));
+            Gate gate2 = new Gate();
             log.log(Level.INFO, "Gate2 created for {}", getName());
 
-
-            //TODO Gate class is not ready          This looks OK now -Abel
             createdGates.add(gate1);
             createdGates.add(gate2);
             CallStackViewer.getInstance().innerMethodCall("The 2 gates were added to the player");
@@ -414,8 +415,8 @@ public class Settler extends Entity {
 
         if (resources.countOf(resource) > 0) {
             log.log(Level.INFO, "The selected resource can be chosen");
-            onSpaceObject.addResourceToCore(resource);
-            resource.isRadioActive(onSpaceObject.getPosition());
+            onAsteroid.addResourceToCore(resource);
+            resource.isRadioActive(onAsteroid.getPosition());
             success = true;
         } else {
             log.log(Level.INFO, "The selected resource can not be chosen");
@@ -434,12 +435,14 @@ public class Settler extends Entity {
         log.log(Level.INFO, "BuildGate called");
         CallStackViewer.getInstance().methodStartsLogCall("buildGate() called (Settler)");
 
+
         if (createdGates.size() != 0) {     /////////////// SIZE CHECK INSTEAD OF NULL CHECK
             Gate gate = createdGates.remove(0);
-            //TODO position for gate
-            gate.setMyPosition(this.onSpaceObject.getPosition());  ////////ALTERED EMPTY POSITION TO SETTLERS (ASTEROIDS) POSITION FOR TESTING, SHOULD BE SOMEWHERE AROUND THE SETTLER
+
+            gate.setMyAsteroid(this.onAsteroid);
+            onAsteroid.checkIn(gate);
+
             AsteroidZone.getInstance().addSpaceObject(gate);
-            log.log(Level.INFO, "Gate placed at x = {}, y = {}", gate.getPosition().getX(), gate.getPosition().getY());
             success = true;
         } else {
             log.log(Level.INFO, "You do not have any gates to place");

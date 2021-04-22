@@ -6,6 +6,9 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.interfaces.EventObservable;
 import org.asteroidapp.GameController;
 import org.asteroidapp.entities.Entity;
+import org.asteroidapp.interfaces.MoveableObserver;
+import org.asteroidapp.interfaces.Observable;
+import org.asteroidapp.interfaces.Observer;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.HashSet;
@@ -26,7 +29,7 @@ public class Sun implements EventObservable {
     /**
      * own set from entities, they will be notified
      */
-    private Set<Entity> entities = null;
+    private Set<MoveableObserver> entities = null;
 
     /**
      * Default constructor
@@ -125,7 +128,7 @@ public class Sun implements EventObservable {
     }
 
     @Override
-    public void checkOut(Entity leavingEntity) {
+    public void checkOut(MoveableObserver leavingEntity) {
         log.log(Level.INFO, "checkOut called");
         CallStackViewer.getInstance().methodStartsLogCall("checkOut() called (Sun)");
 
@@ -139,7 +142,7 @@ public class Sun implements EventObservable {
     }
 
     @Override
-    public void checkIn(Entity newEntity) {
+    public void checkIn(MoveableObserver newEntity) {
         log.log(Level.INFO, "checkIn called");
         CallStackViewer.getInstance().methodStartsLogCall("checkIn() called (Sun)");
 

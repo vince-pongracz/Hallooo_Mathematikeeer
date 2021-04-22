@@ -493,7 +493,7 @@ public class GameController {
      * @param bot bot to remove
      * @return boolean was the operation successful
      */
-    public boolean removeBot(AIRobot bot) {
+    public boolean removeAutoEntity(AIRobot bot) {
         log.log(Level.TRACE, "removeBot called");
 
         Boolean retValue = false;
