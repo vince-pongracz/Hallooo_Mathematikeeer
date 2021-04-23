@@ -3,9 +3,10 @@ package org.asteroidapp;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import javafx.application.Application;
-import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -19,38 +20,44 @@ import org.asteroidapp.util.ConsoleUI;
 import org.asteroidapp.util.TestConfig;
 
 
-import javafx.event.ActionEvent;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayDeque;
 import java.util.Queue;
-import javafx.scene.control.Button;
+
+
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 //extends Application
 public class AppController extends Application {
 
-    //JavaFX demo
 
     @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
+    public void start(Stage primarystage) throws Exception {
 
-            @Override
-            public void handle(ActionEvent event) {
+        Image imageBackground = new Image("file:src/main/java/org/asteroidapp/images/asteroid_game.gif");
+        ImageView imBackground = new ImageView(imageBackground);
 
-            }
-        });
+        Image imageAsteroid = new Image("file:src/main/java/org/asteroidapp/images/Asteroid_01.png");
+        ImageView imAsteroid = new ImageView(imageAsteroid);
+        imAsteroid.setX(50);
+        imAsteroid.setY(50);
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
+        Group root = new Group();
+        root.getChildren().addAll(imBackground);
+        root.getChildren().addAll(imAsteroid);
+
+        // draw visszater imageViewal amit berakok a groupba
+        Scene scene = new Scene(root,1200,720);
+        primarystage.setScene(scene);
+        primarystage.setResizable(true);
+
+        primarystage.show();
     }
-
 
 
     /*
@@ -125,7 +132,7 @@ public class AppController extends Application {
                     quitCondition = true;
 
                 } else if (response.equals("test_move")) {
-                    Queue<String> autoCommands= new ArrayDeque<String>();
+                    Queue<String> autoCommands = new ArrayDeque<String>();
                     autoCommands.add("1");
                     autoCommands.add("x");
                     autoCommands.add("1");
@@ -136,9 +143,8 @@ public class AppController extends Application {
                     GameController.getInstance().inGame();
 
                     quitCondition = true;
-                }
-                else if (response.equals("test_bot")) {
-                    Queue<String> autoCommands= new ArrayDeque<String>();
+                } else if (response.equals("test_bot")) {
+                    Queue<String> autoCommands = new ArrayDeque<String>();
                     autoCommands.add("1");
                     autoCommands.add("x");
                     autoCommands.add("1");
@@ -152,13 +158,16 @@ public class AppController extends Application {
                 } else if (response.equals("testmode")) {
                     testMode();
                     quitCondition = true;
-                } else {
-                    //NOP
                 }
-            }
+            } else if (response.equals("mapView")) {
 
+            } else {
+                //NOP
+            }
         }
+
     }
+
 
     public void testMode() {
         try {
@@ -207,9 +216,9 @@ public class AppController extends Application {
         CallStackViewer.getInstance().methodStartsLogCall("___CALLSTACK:___");
 
         AppController app = new AppController();
-        app.consoleDemo();
+        //app.consoleDemo();
 
-        //launch(args);
+        launch(args);
 
         CallStackViewer.getInstance().methodReturns();
     }
