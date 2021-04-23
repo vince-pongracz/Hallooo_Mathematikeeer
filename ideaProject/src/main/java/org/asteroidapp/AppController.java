@@ -3,14 +3,9 @@ package org.asteroidapp;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
@@ -47,7 +42,11 @@ public class AppController extends Application {
         //hbox.getChildren().add(root);
         hbox.getChildren().add(vBox);
 
-        primaryStage.setScene(new Scene(hbox, 1900, 900));
+        Scene sc = new Scene(hbox, 1500, 900);
+        sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+        sc.getStylesheets().add(this.getClass().getResource("/style.css").toExternalForm());
+
+        primaryStage.setScene(sc);
         primaryStage.show();
     }
 
