@@ -505,4 +505,13 @@ public class Settler extends Entity implements AutoEntity, Drill, Mine {
         CallStackViewer.getInstance().methodReturns();
         return resource;
     }
+
+    public ResourceStorage getStorage() {
+        return resources;
+    }
+
+    public String getOwnerName(){
+        return owner.getName();
+    }
 }
+

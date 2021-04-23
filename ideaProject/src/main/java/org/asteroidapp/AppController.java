@@ -3,13 +3,20 @@ package org.asteroidapp;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.VIEW.RightView;
 import org.asteroidapp.resources.Coal;
 import org.asteroidapp.resources.FrozenWater;
 import org.asteroidapp.resources.ResourceStorage;
@@ -18,36 +25,29 @@ import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 import org.asteroidapp.util.TestConfig;
 
-
-import javafx.event.ActionEvent;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayDeque;
 import java.util.Queue;
-import javafx.scene.control.Button;
 
-
-//extends Application
 public class AppController extends Application {
 
-    //JavaFX demo
-
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws FileNotFoundException {
         primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
 
-            @Override
-            public void handle(ActionEvent event) {
+        //MapView mapView = new MapView();
+        RightView rightView = new RightView();
 
-            }
-        });
+        HBox hbox = new HBox();
+        VBox vBox = rightView.getVBox();
+        //Group root = mapView.getGroup();
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
+        //hbox.getChildren().add(root);
+        hbox.getChildren().add(vBox);
+
+        primaryStage.setScene(new Scene(hbox, 1900, 900));
         primaryStage.show();
     }
 
@@ -207,9 +207,9 @@ public class AppController extends Application {
         CallStackViewer.getInstance().methodStartsLogCall("___CALLSTACK:___");
 
         AppController app = new AppController();
-        app.consoleDemo();
+        //app.consoleDemo();
 
-        //launch(args);
+        launch(args);
 
         CallStackViewer.getInstance().methodReturns();
     }
