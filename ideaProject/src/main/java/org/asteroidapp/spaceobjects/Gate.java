@@ -122,7 +122,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     }
 
     @Override
-    public void move() {
+    public void move(SteppableSpaceObject nextSpaceObject) {
         var neighbourIter = AsteroidZone.getInstance().getIterOnSpaceObjects();
         var neighbours = new ArrayList<SteppableSpaceObject>();
         while (neighbourIter.hasNext()) {
@@ -150,7 +150,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     public void notifyFlairEvent() {
         if (currentAsteroid != null) {
             if (currentAsteroid.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun) {
-                move();
+                move(null);
             }
         }
     }
@@ -165,7 +165,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         //destroy gate
         //or move gate
         //move is easier
-        move();
+        move(null);
     }
 
     @Override

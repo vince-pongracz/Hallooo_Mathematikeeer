@@ -55,20 +55,17 @@ public abstract class Entity implements MoveableObserver {
      * It defines how the move function works. Firstly the neighbour has to be chosen from a list
      * and then it will move to that specified object
      */
-    public void move() {
+    public void move(SteppableSpaceObject nextSpaceObject) {
         log.log(Level.INFO, "move called");
         CallStackViewer.getInstance().methodStartsLogCall("move() called (Entity)");
 
         var neighbours = listMyNeighbours();
-        var nextSpaceObject = chooseNeighbour(neighbours);
 
-        if (nextSpaceObject != null) {
+        if (nextSpaceObject != null && neighbours.contains(nextSpaceObject)) {
             onAsteroid.checkOut(this);
             onAsteroid = nextSpaceObject.getTarget();
             nextSpaceObject.checkIn(this);
             log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
-        } else{
-            //NOP?
         }
 
         CallStackViewer.getInstance().methodReturns();

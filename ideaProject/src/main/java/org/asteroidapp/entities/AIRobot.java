@@ -139,7 +139,7 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
         CallStackViewer.getInstance().methodStartsLogCall("notifyAsteroidExplosion() called (AIRobot)");
 
         //robot has to move (she/he is protected at the explosion)
-        move();
+        move(this.chooseNeighbour(listMyNeighbours()));
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -173,7 +173,7 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
         log.log(Level.TRACE, "make decision");
         switch (decisionCounterStratOne % mod) {
             case 0:
-                move();
+                move(chooseNeighbour(listMyNeighbours()));
                 break;
             case 1:
             case 2:

@@ -33,19 +33,17 @@ public class GameController {
 
         //default config?
         //later set in setup
-        gameIsRunning = false;
         currentRound = 1;
         playersNum = 0;
         settlerNum = 1;
         ufosNum = 1;
-
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         log.log(Level.TRACE, "jsonBuilder created");
         log.log(Level.INFO, "\nDefault config set:\n{}", gsonBuilder.setPrettyPrinting().create().toJson(this));
 
         robots = new HashSet<>();
-        players = new HashSet<>();
+        players = new ArrayList<>();
         ufos = new HashSet<>();
 
         log.log(Level.TRACE, "robots has their collection");
@@ -62,7 +60,6 @@ public class GameController {
 
         if (instance == null) {
             log.log(Level.TRACE, "Create GameController instance");
-
             instance = new GameController();
         }
 
@@ -70,11 +67,6 @@ public class GameController {
 
         return instance;
     }
-
-    /**
-     * State of the game
-     */
-    private boolean gameIsRunning;
 
     /**
      * roundcounter
@@ -105,14 +97,14 @@ public class GameController {
     /**
      * collection for players
      */
-    private transient Set<Player> players;
+    private transient List<Player> players;
 
     /**
      * collection for ufos
      */
     private transient Set<Ufo> ufos;
 
-    private void createUfos(){
+    private void createUfos() {
         for (int i = 0; i < ufosNum; i++) {
             ufos.add(new Ufo("Ufo_" + i, AsteroidZone.getInstance().findHome()));
         }
@@ -282,7 +274,7 @@ public class GameController {
         if (playerLeaving != null) {
             log.log(Level.TRACE, "kill and remove player: {}", playerLeaving.getName());
 
-            players.remove(playerLeaving);
+            removePlayer(playerLeaving.getName());
         } else {
             //NOP
         }
@@ -313,7 +305,6 @@ public class GameController {
         if (players == null || players.size() == 0) {
             log.log(Level.TRACE, "Game lost");
             ConsoleUI.getInstance().sendMessageToConsole("Game lost");
-            gameIsRunning = false;
         }
         //check win conditions
         else {
@@ -378,7 +369,6 @@ public class GameController {
 
             if (win) {
                 log.log(Level.INFO, "Players win");
-                gameIsRunning = false;
             }
         }
 
@@ -421,73 +411,6 @@ public class GameController {
     public static int maxRound = 22;
 
     /**
-     * Game loop
-     */
-    public void inGame() {
-        log.log(Level.INFO, "inGame called - this is the game loop");
-        CallStackViewer.getInstance().methodStartsLogCall("inGame()");
-        gameIsRunning = true;
-        log.log(Level.TRACE, "game is running: {}", ((Boolean) gameIsRunning).toString());
-
-        while (gameIsRunning && getRound() < maxRound) {
-            log.log(Level.TRACE, "new round started: {}", getRound());
-            round();
-            evaluateRound();
-        }
-
-        CallStackViewer.getInstance().methodReturns();
-    }
-
-    /**
-     * Implements a round in the game
-     */
-    private void round() {
-        log.log(Level.INFO, "round called: {} th round of the game", currentRound);
-        CallStackViewer.getInstance().methodStartsLogCall("round: " + currentRound);
-
-        currentRound++;
-
-        log.log(Level.TRACE, "check on players");
-        if (players != null && players.size() != 0) {
-            log.log(Level.INFO, "Iterate on players");
-
-            for (var player : players) {
-
-                var tempName = player.getName();
-                log.log(Level.INFO, "player: _{}_ is on move", tempName);
-                log.log(Level.TRACE, "iterate on {}'s settlers", tempName);
-
-                var settlerIter = player.getIterOnMySettlers();
-
-                while (settlerIter.hasNext()) {
-                    var settlerItem = settlerIter.next();
-                    settlerItem.doAction();
-                }
-            }
-        }
-
-        log.log(Level.TRACE, "check on robots");
-        if (robots != null && robots.size() != 0) {
-            log.log(Level.INFO, "Iterate on robots, they do things:");
-
-            for (var bot : robots) {
-                bot.doAction();
-            }
-        }
-
-        log.log(Level.TRACE, "check on ufos");
-        if (ufos != null && ufos.size() != 0) {
-            log.log(Level.INFO, "Iterate on ufos, they do things:");
-
-            for (var ufo : ufos) {
-                ufo.doAction();
-            }
-        }
-
-        CallStackViewer.getInstance().methodReturns();
-    }
-
-    /**
      * Remove AIRobot from game
      *
      * @param bot bot to remove
@@ -520,9 +443,52 @@ public class GameController {
         if (bot != null) {
             robots.add(bot);
             log.log(Level.TRACE, "bot added to the game");
-            CallStackViewer.getInstance().methodReturns();
         } else {
             log.log(Level.TRACE, "no bot added to the game");
         }
+    }
+
+    private void execAutoEntityActions() {
+        log.log(Level.TRACE, "check on robots");
+        if (robots != null && robots.size() != 0) {
+            log.log(Level.INFO, "Iterate on robots, they do things:");
+
+            for (var bot : robots) {
+                bot.doAction();
+            }
+        }
+
+        log.log(Level.TRACE, "check on ufos");
+        if (ufos != null && ufos.size() != 0) {
+            log.log(Level.INFO, "Iterate on ufos, they do things:");
+
+            for (var ufo : ufos) {
+                ufo.doAction();
+            }
+        }
+    }
+
+    private int actual = 0;
+
+    public void nextPlayer() {
+        actual++;
+        if (actual == players.size()) {
+            actual = 0;
+            execAutoEntityActions();
+            evaluateRound();
+            currentRound++;
+
+            if (getRound() < maxRound) {
+                endGame();
+            }
+        }
+    }
+
+    public Player getActualPlayer() {
+        return players.get(actual);
+    }
+
+    private void endGame(){
+
     }
 }

@@ -1,7 +1,5 @@
 package org.asteroidapp;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import org.asteroidapp.resources.*;
 import org.asteroidapp.spaceobjects.*;
 import org.apache.logging.log4j.Level;
@@ -9,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.util.CallStackViewer;
 
-import java.io.FileInputStream;
 import java.util.*;
 
 /**
@@ -209,5 +206,16 @@ public class AsteroidZone {
      */
     public SteppableSpaceObject findHome() {
         return homeAsteroid;
+    }
+    
+    public SteppableSpaceObject getObjectByName(String name){
+        var iter = spaceObjects.iterator();
+        while (iter.hasNext()){
+            var suspect = iter.next();
+            if(suspect.getName().equals(name)){
+                return suspect;
+            }
+        }
+        return null;
     }
 }

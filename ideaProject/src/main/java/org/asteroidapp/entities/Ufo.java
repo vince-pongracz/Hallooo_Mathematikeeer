@@ -151,7 +151,7 @@ public class Ufo extends Entity implements Mine, AutoEntity {
         log.log(Level.INFO, "notifyAsteroidExplosion called");
         CallStackViewer.getInstance().methodStartsLogCall("notifyAsteroidExplosion() called (AIRobot)");
 
-        move();
+        move(chooseNeighbour(listMyNeighbours()));
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -182,7 +182,7 @@ public class Ufo extends Entity implements Mine, AutoEntity {
 
         log.log(Level.TRACE, "make decision");
         if (decisionCounterStratOne % 2 == 0) {
-            move();
+            move(chooseNeighbour(listMyNeighbours()));
         } else {
             mine();
         }

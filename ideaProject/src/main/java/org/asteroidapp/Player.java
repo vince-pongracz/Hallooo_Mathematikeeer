@@ -108,4 +108,20 @@ public class Player {
 
         CallStackViewer.getInstance().methodReturns();
     }
+
+    private int actual = 0;
+
+    public Settler getActualSettler(){
+        var returnedSettler = mySettlers.get(actual);
+        return returnedSettler;
+    }
+
+    public void nextSettler(){
+        actual++;
+        if(actual == mySettlers.size()){
+            actual = 0;
+            //if no more settler --> next player comes
+            GameController.getInstance().nextPlayer();
+        }
+    }
 }

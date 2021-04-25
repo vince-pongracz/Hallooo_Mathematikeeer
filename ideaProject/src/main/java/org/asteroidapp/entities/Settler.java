@@ -21,7 +21,7 @@ import java.util.*;
  * Settlers are Entities who can mine, create Robots and Gates
  * They also can manage their resources.
  */
-public class Settler extends Entity implements AutoEntity, Drill, Mine {
+public class Settler extends Entity implements Drill, Mine {
 
     List<String> options = new ArrayList<>();
 
@@ -223,15 +223,16 @@ public class Settler extends Entity implements AutoEntity, Drill, Mine {
         CallStackViewer.getInstance().methodReturns();
     }
 
+
     /**
      * Overridden function for doAction.
      * For easier handle the entities in GameController
      * Decision, and interaction wit user about what he/she wants to do
      */
+    /*
     @Override
     public void doAction() {
         log.log(Level.INFO, "doAction called");
-        //TODO kell ide callStack log?
 
         //choose an action.
         boolean actionOK = false;
@@ -280,11 +281,12 @@ public class Settler extends Entity implements AutoEntity, Drill, Mine {
             }
         }
     }
+    */
 
     /**
      * Do nothing in a round
      */
-    private void waitingSettler() {
+    public void waitingSettler() {
         log.log(Level.INFO, "Do nothing in this round with settler: {}", this.getName());
         CallStackViewer.getInstance().methodStartsLogCall("waitingSettler() called (Settler)");
         CallStackViewer.getInstance().methodReturns();
@@ -405,24 +407,24 @@ public class Settler extends Entity implements AutoEntity, Drill, Mine {
     /**
      * It selects a resource from the player and tries to put it in the core of the asteroid
      */
-    public boolean deployResource() {
+    public boolean deployResource(String resource) {
         boolean success = false;
         log.log(Level.INFO, "DeployResource called");
         CallStackViewer.getInstance().methodStartsLogCall("deployResource() called (Settler)");
 
-        listResources();
-        var resource = chooseResource(resources);
-
-        if (resources.countOf(resource) > 0) {
-            log.log(Level.INFO, "The selected resource can be chosen");
-            onAsteroid.addResourceToCore(resource);
-            resource.isRadioActive(onAsteroid.getPosition());
-            success = true;
-        } else {
-            log.log(Level.INFO, "The selected resource can not be chosen");
-            success = false;
+        var resourceIterator = resources.getResourceList().iterator();
+        while (resourceIterator.hasNext()) {
+            var tmp = resourceIterator.next();
+            if (tmp.getName().equals(resource)) {
+                if(onAsteroid.addResourceToCore(resources.popResource(tmp))){
+                    log.log(Level.INFO, "The selected resource can be chosen");
+                    tmp.isRadioActive(onAsteroid.getPosition());
+                    return true;
+                }
+                //TODO optimalize
+            }
         }
-
+        log.log(Level.INFO, "The selected resource can not be chosen");
         CallStackViewer.getInstance().methodReturns();
         return success;
     }
