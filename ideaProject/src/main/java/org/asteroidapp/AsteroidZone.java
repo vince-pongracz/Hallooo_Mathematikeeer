@@ -29,9 +29,7 @@ public class AsteroidZone {
     /**
      * Default constructor
      */
-    private AsteroidZone() {
-        spaceObjects = Collections.synchronizedSet(new HashSet<>());
-    }
+    private AsteroidZone() {}
 
     private static AsteroidZone instance = null;
 
@@ -51,7 +49,7 @@ public class AsteroidZone {
     /**
      * It stores the objects e.g. asteroid, home asteroid, portals
      */
-    private Set<SteppableSpaceObject> spaceObjects = null;
+    private Set<SteppableSpaceObject> spaceObjects = Collections.synchronizedSet(new HashSet<>());
 
     /**
      * store the sun
@@ -62,7 +60,7 @@ public class AsteroidZone {
         return sun;
     }
 
-    private SteppableSpaceObject homeAsteroid = null;
+    private HomeAsteroid homeAsteroid = null;
 
     public static int numOfAsteroids = 23;
 
@@ -114,7 +112,7 @@ public class AsteroidZone {
         CallStackViewer.getInstance().methodReturns();
     }
 
-    boolean canPlaceAsteroid(Position pos){
+    private boolean canPlaceAsteroid(Position pos){
         boolean result = true;
         for(SteppableSpaceObject elem: spaceObjects){
             if (elem.getPosition().equals(pos)) {
@@ -204,7 +202,7 @@ public class AsteroidZone {
      *
      * @return the home asteroid
      */
-    public SteppableSpaceObject findHome() {
+    public HomeAsteroid findHome() {
         return homeAsteroid;
     }
     

@@ -1,6 +1,7 @@
 package org.asteroidapp;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import org.asteroidapp.resources.*;
 import org.asteroidapp.spaceobjects.Sun;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
+import org.asteroidapp.util.InitMessage;
 
 import java.util.*;
 
@@ -76,18 +78,18 @@ public class GameController {
     /**
      * Number of players in current game
      */
-    private int playersNum;
+    private int playersNum = 1;
 
     /**
      * Initial number of settlers/player in current game
      */
-    private int settlerNum;
+    private int settlerNum = 1;
 
 
     /**
      * Number of players in current game
      */
-    private int ufosNum;
+    private int ufosNum = 1;
 
     /**
      * collection for robots
@@ -119,23 +121,25 @@ public class GameController {
         CallStackViewer.getInstance().methodStartsLogCall("dropSettlers() called");
         log.log(Level.TRACE, "iterate on player(s) to create their settler(s)");
 
+        var startPlace = AsteroidZone.getInstance().findHome();
         //for every player
         for (var playerItem : players) {
-            String playerName = playerItem.getName();
+            var playerName = playerItem.getName();
 
             log.log(Level.INFO, "create {}'s settlers", playerName);
 
             for (int i = 0; i < settlerNum; i++) {
                 //settlerName to set
-                String name = playerName + "'s settler" + i;
+                String name = playerName + "'s settler_" + i;
 
                 //create new Settler (set name, startPlace, and owner), and bind to his/her owner
-                var startPlace = AsteroidZone.getInstance().findHome();
                 var newSettler = new Settler(name, startPlace, playerItem);
 
                 //bind settler to his/her asteroid (to get the notifications from his/her SteppableSpaceObject)
                 startPlace.checkIn(newSettler);
+
                 //bind settler to the sun (to get the notifications from sun)
+                //TODO ez nem csak akkor kellene, ha napközel van?
                 AsteroidZone.getInstance().getSun().checkIn(newSettler);
 
                 //bind player to settler
@@ -154,16 +158,13 @@ public class GameController {
      * initialize players
      * create players (but not settlers!)
      */
-    private void createAndNamePlayers() {
+    private void createAndNamePlayers(String[] names) {
         log.log(Level.INFO, "createAndNamePlayers called");
         CallStackViewer.getInstance().methodStartsLogCall("createAndNamePlayers() called");
 
         //create so many players, which was given in config
         for (int i = 0; i < playersNum; ) {
-            //Interaction with user(s)
-            ConsoleUI.getInstance().sendMessageToConsole("Name of player " + (i + 1));
-            //read the given playerName
-            String name = ConsoleUI.getInstance().readLineFromConsole();
+            String name = names[i];
 
             //check on input
             if (name != null && !name.equals("")) {
@@ -172,10 +173,8 @@ public class GameController {
 
                 log.log(Level.INFO, "New player({}) added as: {}", i, name);
                 i++;
-
             } else {
                 log.log(Level.WARN, "Wrong name try: {}", name);
-                ConsoleUI.getInstance().sendMessageToConsole("Wrong name");
             }
         }
 
@@ -185,38 +184,32 @@ public class GameController {
     /**
      * sets up the current game
      */
-    public void setupGame() {
+    public void setupGame(InitMessage initConfig) {
 
         log.log(Level.INFO, "setupGame called");
         CallStackViewer.getInstance().methodStartsLogCall("setupGame() called");
 
         //get number and name of players
         log.log(Level.TRACE, "Setup...");
-        ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired players");
+        playersNum = initConfig.getPlayerNum();
+        this.createAndNamePlayers(initConfig.getNames());
 
-        playersNum = ConsoleUI.getInstance().readIntFromConsole();
-        createAndNamePlayers();
-
-        ConsoleUI.getInstance().sendMessageToConsole("Type the number of desired settlers for each player");
-        settlerNum = ConsoleUI.getInstance().readIntFromConsole();
-
-        ConsoleUI.getInstance().sendMessageToConsole("Type the number of ufos");
-        ufosNum = ConsoleUI.getInstance().readIntFromConsole();
-
+        settlerNum = initConfig.getSettlerNum();
+        ufosNum = initConfig.getUfoNum();
         log.log(Level.TRACE, "Initialize...");
 
         //creating zone
+        AsteroidZone.numOfAsteroids = initConfig.getAsteroidNum();
+        AsteroidZone.defOfCloseToSun = initConfig.getDefOfCloseToSun();
         AsteroidZone.getInstance().createZone();
-        //create and place settlers on the Zone
+
+        //create and place settlers and ufos on the Zone
         GameController.getInstance().dropSettlers();
         GameController.getInstance().createUfos();
 
-        log.log(Level.TRACE, "jsonBuilder created");
         GsonBuilder gsonBuilder = new GsonBuilder();
         log.log(Level.INFO, "\nCurrent config:\n{}", gsonBuilder.setPrettyPrinting().create().toJson(this));
 
-        ConsoleUI.getInstance().sendMessageToConsole("");
-        ConsoleUI.getInstance().sendMessageToConsole("Setup ended");
         log.log(Level.INFO, "setup ended");
 
         CallStackViewer.getInstance().methodReturns();
@@ -297,20 +290,19 @@ public class GameController {
         CallStackViewer.getInstance().methodStartsLogCall("evaluateRound() called");
 
         //eval flair
-        evaluateFlair();
+        this.evaluateFlair();
 
         log.log(Level.INFO, "check win and lose conditions");
 
         //check is there any settler alive
         if (players == null || players.size() == 0) {
             log.log(Level.TRACE, "Game lost");
-            ConsoleUI.getInstance().sendMessageToConsole("Game lost");
+            //TODO response here
         }
         //check win conditions
         else {
-            //TODO implement correctly... it's not easy to find out the way..
-
-            ResourceStorage resources = new ResourceStorage();
+            ResourceStorage aggregStorage = new ResourceStorage();
+            aggregStorage.setAllCapacity(10000);
 
             //iterate on players for their resources
             for (var player : players) {
@@ -328,16 +320,15 @@ public class GameController {
                         if (tempList != null) {
                             //if yes, add them to the resources collection, what will be checked
                             for (Resource item : tempList) {
-                                resources.pushResource(item);
+                                aggregStorage.pushResource(item);
                             }
                         }
                         //if no resource, send a log message... (not so important)
                         else {
                             log.log(Level.TRACE, "No resource at settler: {}", settler.getName());
-                            //NOP
                         }
                     }
-                    //if settler isn't at HomeAsteroid, his/her resources don't matter in this check
+                    //if settler isn't at HomeAsteroid, his/her resource doesn't matter in this check
                     //because he/she isn't at HomeAsteroid
                     else {
                         log.log(Level.TRACE, "Settler: {} isn't at HomeAsteroid", settler.getName());
@@ -345,12 +336,15 @@ public class GameController {
                     }
                 }
             }
-            //TODO add resources from HomeAsteroid
+            //add resources to check from HomeAsteroid
+            var resourcesInHome = AsteroidZone.getInstance().findHome().getResourcesWithoutTakeThem();
+            for (var res:resourcesInHome) {
+                aggregStorage.pushResource(res);
+            }
 
             //check win:
             //if all resource in resources are more than 3 --> WIN
             //otherwise not
-            //TODO ha csak pl szen és uranbol van 3-3 akkor is valszeg igazzal ter vissza mivel nem Map
             boolean win = true;
 
             //It's not a map anymore therefore it doesn't know all the possible resources so
@@ -362,13 +356,15 @@ public class GameController {
             allResources.add(new Uran());
 
             for (var item : allResources) {
-                if (resources.countOf(item) < 3) {
+                if (aggregStorage.countOf(item) < 3) {
                     win = false;
+                    break;
                 }
             }
 
             if (win) {
                 log.log(Level.INFO, "Players win");
+                //TODO send response;
             }
         }
 
@@ -478,7 +474,7 @@ public class GameController {
             evaluateRound();
             currentRound++;
 
-            if (getRound() < maxRound) {
+            if (getRound() > maxRound) {
                 endGame();
             }
         }
@@ -488,7 +484,7 @@ public class GameController {
         return players.get(actual);
     }
 
-    private void endGame(){
+    private void endGame() {
 
     }
 }

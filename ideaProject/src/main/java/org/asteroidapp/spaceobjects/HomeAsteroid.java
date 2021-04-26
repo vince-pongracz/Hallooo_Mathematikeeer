@@ -8,6 +8,9 @@ import org.asteroidapp.spaceobject.asteroid.Core;
 import org.asteroidapp.spaceobject.asteroid.Layer;
 import org.asteroidapp.util.CallStackViewer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeAsteroid extends Asteroid {
 
     /**
@@ -57,5 +60,17 @@ public class HomeAsteroid extends Asteroid {
     @Override
     protected void explode() {
         //NOP
+    }
+
+    public List<Resource> getResourcesWithoutTakeThem() {
+        List<Resource> tmpRes = new ArrayList<>();
+        for (int i = 0; i < homeCapacity; i++) {
+            var tmp = core.popResource();
+            core.pushResource(tmp);
+            if (!tmp.equals(new Empty())){
+                tmpRes.add(tmp);
+            }
+        }
+        return tmpRes;
     }
 }

@@ -1,8 +1,10 @@
 package org.asteroidapp;
 
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.util.ActionResponse;
+import org.asteroidapp.util.InitMessage;
 
 
 public class CommandInterpreter {
@@ -19,9 +21,26 @@ public class CommandInterpreter {
         return instance;
     }
 
-    public boolean sendMessageToModell(JsonObject command) {
-        boolean success = false;
+    private ActionResponse initActionResponse() {
+        return new ActionResponse();
+    }
 
+    public ActionResponse initGame(InitMessage initDescription) {
+
+        var response = initActionResponse();
+
+        if (initDescription.check()) {
+            GameController.getInstance().setupGame(initDescription);
+            response.setMessage("Init successful").setSuccess(true);
+        } else {
+            response.setSuccess(false).setMessage("Unsuccessful init, try it again");
+        }
+        return response;
+    }
+
+    public ActionResponse sendCommandToModell(JsonObject command) {
+
+        var response = initActionResponse();
         var actualSettler = GameController.getInstance().getActualPlayer().getActualSettler();
 
         if (command.has("command")) {
@@ -33,24 +52,31 @@ public class CommandInterpreter {
                 var targetSteppable = AsteroidZone.getInstance().getObjectByName(target);
                 if (targetSteppable != null && actualSettler.listMyNeighbours().contains(targetSteppable)) {
                     actualSettler.move(targetSteppable);
-                    success = true;
+                    response.setSuccess(true).addRefreshObjects(actualSettler.getName());
                 }
             } else if (str.equals("deploy") && command.has("resource")) {
                 var res = command.get("resource").getAsString();
-                success = actualSettler.deployResource(res);
+                response.setSuccess(actualSettler.deployResource(res));
+
             } else if (str.equals("drill")) {
-                success = actualSettler.drill();
+                response.setSuccess(actualSettler.drill());
+
             } else if (str.equals("mine")) {
-                success = actualSettler.mine();
+                response.setSuccess(actualSettler.mine());
+
             } else if (str.equals("next")) {
                 actualSettler.waitingSettler();
-                success = true;
+                response.setSuccess(true);
+
             } else if (str.equals("buildGate")) {
-                success = actualSettler.buildGate();
+                response.setSuccess(actualSettler.buildGate());
+
             } else if (str.equals("createGate")) {
-                success = actualSettler.createGate();
+                response.setSuccess(actualSettler.createGate());
+
             } else if (str.equals("createBot")) {
-                success = actualSettler.createBot();
+                response.setSuccess(actualSettler.createBot());
+
             }
 
             //optional -- for console
@@ -61,13 +87,13 @@ public class CommandInterpreter {
             }
         }
 
-        if (success) {
+        if (response.isSuccessful()) {
             GameController.getInstance().getActualPlayer().nextSettler();
         }
-        return success;
+        return response;
         //success?
         //state
         //refresh game state
-        
+
     }
 }
