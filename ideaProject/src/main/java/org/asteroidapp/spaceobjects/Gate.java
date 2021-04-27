@@ -1,18 +1,20 @@
 package org.asteroidapp.spaceobjects;
 
+import com.sun.jdi.event.StepEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.interfaces.Observable;
-import org.asteroidapp.resources.Empty;
-import org.asteroidapp.resources.Resource;
+import org.asteroidapp.interfaces.MoveableObserver;
+import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.util.CallStackViewer;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Class for teleport gates.
  */
-public class Gate extends SteppableSpaceObject implements Observable {
-
+public class Gate extends SteppableSpaceObject implements MoveableObserver {
     /**
      * logger for Gate
      */
@@ -24,56 +26,47 @@ public class Gate extends SteppableSpaceObject implements Observable {
     private Gate gatePair = null;
 
     /**
+     * The Asteroid at which the gate is placed
+     */
+    private Asteroid currentAsteroid = null;
+
+    /**
+     * Stores if the gate has been hit by a sunflare
+     */
+    private boolean affectedByFlair = false;
+
+    /**
      * Default constructor
      */
-    public Gate(Position position) {
-        super(position);
+    public Gate() {
+        super();
+
         CallStackViewer.getInstance().methodStartsLogCall("Gate constructor called");
 
-        log.log(Level.TRACE, "Gate constructor called.");
-        log.log(Level.INFO, "New gate created.");
+        log.log(Level.TRACE, "Gate constructor called. New gate created.");
 
         CallStackViewer.getInstance().methodReturns();
     }
 
     @Override
     public String getName() {
-        log.log(Level.TRACE, "Gate's getName called: returns gate FOR NOW");
-        return "gate";
-    }
-
-    @Override
-    public boolean drillLayer() {
-        log.log(Level.TRACE, "Gate's drillLayer called: uninterpretable, returns FALSE");
-        return false;
+        log.log(Level.TRACE, "Gate's getName called: returns gate");
+        if (this.gatePair != null) {
+            return "Gate to " + this.getTarget().getName() + " from "+this.currentAsteroid.getName();
+        } else {
+            return "Gate on " + currentAsteroid.getName();
+        }
     }
 
     /**
-     * Overridden method to get layerThickness
+     * Sets a new position for object
      *
-     * @return actual layer thickness, or -1, if it's not interpretable, it is not an asteroid so it is -1
+     * @param asteroid to be set
      */
-    @Override
-    public int getLayerThickness() {
-        return -1;
-    }
-
-    @Override
-    public Resource mineResource() {
-        log.log(Level.TRACE, "Gate's mineResource called: no resource, returns null");
-        return new Empty();
-    }
-
-    @Override
-    public boolean addResourceToCore(Resource resource) {
-        log.log(Level.TRACE, "Gate's addResourceToCore called: can't hold resource, returns false");
-        return false;
-    }
-
-    @Override
-    public void setMyPosition(Position newPosition) {
-        log.log(Level.TRACE, "Gate's setMyPosition called");
-        this.position = newPosition;
+    public void setMyAsteroid(Asteroid asteroid) {
+        log.log(Level.TRACE, "Gate's setMyAsteroid called");
+        this.currentAsteroid = asteroid;
+        this.position = asteroid.position;
     }
 
     @Override
@@ -82,7 +75,7 @@ public class Gate extends SteppableSpaceObject implements Observable {
         CallStackViewer.getInstance().methodStartsLogCall("isActive() called");
 
         boolean ret = false;
-        if (this.position != null && gatePair.position != null) {
+        if (this.getCurrentAsteroid() != null && gatePair.getCurrentAsteroid() != null) {
             log.log(Level.INFO, "This gate is active, you can teleport");
             ret = true;
         } else {
@@ -93,7 +86,11 @@ public class Gate extends SteppableSpaceObject implements Observable {
         return ret;
     }
 
-    @Override
+
+    /**
+     * @param pairGate
+     * @return
+     */
     public boolean setPair(Gate pairGate) {
         log.log(Level.TRACE, "Gate's setPair called");
         CallStackViewer.getInstance().methodStartsLogCall("setPair() called (Gate)");
@@ -111,17 +108,74 @@ public class Gate extends SteppableSpaceObject implements Observable {
     }
 
     @Override
-    public SteppableSpaceObject getPair() {
-        log.log(Level.TRACE, "Gate's getPair called");
-        CallStackViewer.getInstance().methodStartsLogCall("getPair() called (Gate)");
-        CallStackViewer.getInstance().methodReturns();
-        
-        return gatePair;
-    }
-
-    @Override
     public String getInfo() {
         log.log(Level.TRACE, "Gate's getInfo called");
         return "Some example info";
+    }
+
+    @Override
+    public Asteroid getTarget() {
+        if (this.gatePair != null) {
+            return this.gatePair.getCurrentAsteroid();
+        } else {
+            return this.getCurrentAsteroid();
+        }
+    }
+
+    @Override
+    public void move() {
+        var neighbourIter = AsteroidZone.getInstance().getIterOnSpaceObjects();
+        var neighbours = new ArrayList<SteppableSpaceObject>();
+        while (neighbourIter.hasNext()) {
+            neighbours.add(neighbourIter.next());
+        }
+        Collections.shuffle(neighbours);
+        int i = 0;
+        SteppableSpaceObject target = this;
+        do {
+            target = neighbours.remove(i);
+            i++;
+        }
+        while(target.getTarget() == this.getCurrentAsteroid());
+
+        currentAsteroid.checkOut(this);
+        currentAsteroid = target.getTarget();
+        currentAsteroid.checkIn(this);
+    }
+
+    public Asteroid getCurrentAsteroid() {
+        return currentAsteroid;
+    }
+
+    @Override
+    public void notifyFlairEvent() {
+        if (currentAsteroid != null) {
+            if (currentAsteroid.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun) {
+                move();
+            }
+        }
+    }
+
+    @Override
+    public void notifyFlairDanger() {
+        //NOP
+    }
+
+    @Override
+    public void notifyAsteroidExplosion() {
+        //destroy gate
+        //or move gate
+        //move is easier
+        move();
+    }
+
+    @Override
+    public void checkOut(MoveableObserver leavingThing) {
+        //NOP
+    }
+
+    @Override
+    public void checkIn(MoveableObserver newThing) {
+        //NOP
     }
 }

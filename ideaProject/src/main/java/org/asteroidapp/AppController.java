@@ -2,9 +2,16 @@ package org.asteroidapp;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.VIEW.RightView;
 import org.asteroidapp.resources.Coal;
 import org.asteroidapp.resources.FrozenWater;
 import org.asteroidapp.resources.ResourceStorage;
@@ -13,30 +20,36 @@ import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 import org.asteroidapp.util.TestConfig;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+public class AppController extends Application {
 
-//extends Application
-public class AppController {
-
-    //JavaFX demo
-    /*
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Button button1 = new Button("Hi team! :)");
-        StackPane root = new StackPane();
-        root.getChildren().add(button1);
-        Scene scene = new Scene(root);
+    public void start(Stage primaryStage) throws FileNotFoundException {
+        primaryStage.setTitle("Hello World!");
 
-        primaryStage.setScene(scene);
+        //MapView mapView = new MapView();
+        RightView rightView = new RightView();
 
-        primaryStage.setTitle("Asteroids - beta");
+        HBox hbox = new HBox();
+        VBox vBox = rightView.getVBox();
+        //Group root = mapView.getGroup();
+
+        //hbox.getChildren().add(root);
+        hbox.getChildren().add(vBox);
+
+        Scene sc = new Scene(hbox, 1500, 900);
+        sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+        sc.getStylesheets().add(this.getClass().getResource("/style.css").toExternalForm());
+
+        primaryStage.setScene(sc);
         primaryStage.show();
     }
-     */
+
 
 
     /*
@@ -193,7 +206,9 @@ public class AppController {
         CallStackViewer.getInstance().methodStartsLogCall("___CALLSTACK:___");
 
         AppController app = new AppController();
-        app.consoleDemo();
+        //app.consoleDemo();
+
+        launch(args);
 
         CallStackViewer.getInstance().methodReturns();
     }
