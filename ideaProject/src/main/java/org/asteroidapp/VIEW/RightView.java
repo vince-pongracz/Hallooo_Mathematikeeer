@@ -55,14 +55,15 @@ public class RightView {
         return vbox;
     }
 
-    public void refreshRightView( Settler settler, int sunflair) {
+    public void refreshRightView(Settler settler, int sunflair) {
         if (settler != null) {
             ResourceStorage storage = settler.getStorage();
-            /*ironLabel = new Label(" Iron: " + storage.countOf(new Iron()));
-            coalLabel = new Label(" Coal: " + storage.countOf(new Iron()));
-            frozenWaterLabel = new Label(" Frozen water: " + storage.countOf(new Iron()));
-            uranLabel = new Label(" Uran: " + storage.countOf(new Iron()));
-            infoLabel = new Label(settler.getOwnerName() + "'s " + settler.getName() + "'s round\n Sunflair is coming in " + sunflair + " rounds");*/
+            labels.set(0, new Label(" Gate: " + storage.countOf(new Iron())));
+            labels.set(1, new Label(" Iron: " + storage.countOf(new Iron())));
+            labels.set(2, new Label(" Coal: " + storage.countOf(new Iron())));
+            labels.set(3, new Label(" Uran: " + storage.countOf(new Iron())));
+            labels.set(4, new Label(" FrozenWater: " + storage.countOf(new Iron())));
+            labels.set(5, new Label(" -------------------------------\n " +  settler.getOwnerName() + "'s " + settler.getName() + "'s round\n Sunflair is coming in " + sunflair + " rounds"));
         } else {
             System.out.println("Settler was null");
         }
