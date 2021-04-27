@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.AsteroidZone;
+import org.asteroidapp.GameController;
 import org.asteroidapp.interfaces.EventObservable;
 import org.asteroidapp.resources.Empty;
 import org.asteroidapp.resources.FrozenWater;
@@ -76,7 +77,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         CallStackViewer.getInstance().methodStartsLogCall("drillLayer() called (Asteroid)");
 
         //thin layer
-        var result = layer.getThickness() != layer.thinIt();
+        var canWeDrillAgain = (layer.getThickness() != layer.thinIt());
 
         var resource = core.popResource();
         core.pushResource(resource);
@@ -94,7 +95,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
         CallStackViewer.getInstance().methodReturns();
         //return the actual thickness
-        return result;
+        return canWeDrillAgain;
     }
 
     /**
@@ -211,6 +212,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
         //remove from world
         AsteroidZone.getInstance().removeSpaceObject(this);
+        GameController.response.addDeleteObjects(this.getName());
 
         CallStackViewer.getInstance().methodReturns();
         //gc eats this object sooner or later

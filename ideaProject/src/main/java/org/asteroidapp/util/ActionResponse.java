@@ -1,13 +1,16 @@
 package org.asteroidapp.util;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import org.asteroidapp.CommandInterpreter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ActionResponse {
     private boolean success;
     private String message;
-    private List<String> refreshObjects = new ArrayList<>();
-    private List<String> deleteObjects = new ArrayList<>();
+    private Set<String> refreshObjects = new HashSet<>();
+    private Set<String> deleteObjects = new HashSet<>();
 
     public boolean isSuccessful() {
         return success;
@@ -27,11 +30,11 @@ public class ActionResponse {
         return this;
     }
 
-    public List<String> getRefreshObjects() {
+    public Set<String> getRefreshObjects() {
         return refreshObjects;
     }
 
-    public ActionResponse addRefreshObjects(List<String> refreshObjects) {
+    public ActionResponse addRefreshObjects(Set<String> refreshObjects) {
         this.refreshObjects.addAll(refreshObjects);
         return this;
     }
@@ -40,16 +43,21 @@ public class ActionResponse {
         return this;
     }
 
-    public List<String> getDeleteObjects() {
+    public Set<String> getDeleteObjects() {
         return deleteObjects;
     }
 
-    public ActionResponse addDeleteObjects(List<String> deleteObjects) {
+    public ActionResponse addDeleteObjects(Set<String> deleteObjects) {
         this.deleteObjects.addAll(deleteObjects);
         return this;
     }
     public ActionResponse addDeleteObjects(String deleteObject) {
         this.deleteObjects.add(deleteObject);
+        return this;
+    }
+
+    public ActionResponse setDefaultMessage(){
+        this.message = success ? "Successed" : "Invalid or wrong operation";
         return this;
     }
 }

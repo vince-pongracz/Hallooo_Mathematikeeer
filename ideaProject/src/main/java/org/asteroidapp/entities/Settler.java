@@ -119,6 +119,8 @@ public class Settler extends Entity implements Drill, Mine {
         AsteroidZone.getInstance().getSun().checkOut(this);
         owner.removeSettler(this);
 
+        GameController.response.addDeleteObjects(this.getName());
+
         //if this settler is the owner's last
         //kill the owner, because he won't play anymore (all his/her settlers are died)
         if (!owner.getIterOnMySettlers().hasNext()) {
@@ -222,66 +224,6 @@ public class Settler extends Entity implements Drill, Mine {
 
         CallStackViewer.getInstance().methodReturns();
     }
-
-
-    /**
-     * Overridden function for doAction.
-     * For easier handle the entities in GameController
-     * Decision, and interaction wit user about what he/she wants to do
-     */
-    /*
-    @Override
-    public void doAction() {
-        log.log(Level.INFO, "doAction called");
-
-        //choose an action.
-        boolean actionOK = false;
-        while (!actionOK) {
-            ConsoleUI.getInstance().sendOptionListToConsole(options);
-            var answer = ConsoleUI.getInstance().readIntFromConsole();
-
-            switch (answer) {
-                case 0:
-                    move();
-                    actionOK = true;
-                    break;
-                case 1:
-                    actionOK = drill();
-                    break;
-                case 2:
-                    actionOK = mine();
-                    break;
-                case 3:
-                    actionOK = createGate();
-                    break;
-                case 4:
-                    actionOK = buildGate();
-                    break;
-                case 5:
-                    actionOK = createBot();
-                    break;
-                case 6:
-                    actionOK = deployResource();
-                    break;
-                case 7:
-                    //always have to list the neighbours - no excuse
-                    listMyNeighbours();
-                    actionOK = false;
-                    break;
-                case 8:
-                    waitingSettler();
-                    actionOK = true;
-                    break;
-                case 9:
-                    listResources();
-                    actionOK = false;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    */
 
     /**
      * Do nothing in a round
@@ -408,7 +350,6 @@ public class Settler extends Entity implements Drill, Mine {
      * It selects a resource from the player and tries to put it in the core of the asteroid
      */
     public boolean deployResource(String resource) {
-        boolean success = false;
         log.log(Level.INFO, "DeployResource called");
         CallStackViewer.getInstance().methodStartsLogCall("deployResource() called (Settler)");
 
@@ -426,7 +367,7 @@ public class Settler extends Entity implements Drill, Mine {
         }
         log.log(Level.INFO, "The selected resource can not be chosen");
         CallStackViewer.getInstance().methodReturns();
-        return success;
+        return false;
     }
 
     /**

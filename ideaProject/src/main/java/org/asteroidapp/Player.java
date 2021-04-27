@@ -31,7 +31,7 @@ public class Player {
 
         log.log(Level.TRACE, "Player created with name: {}", this.name);
 
-        this.mySettlers = new CopyOnWriteArrayList<Settler>();
+        this.mySettlers = new CopyOnWriteArrayList<>();
         log.log(Level.TRACE, "List created for settlers");
     }
 
@@ -82,6 +82,7 @@ public class Player {
         log.log(Level.TRACE, "addSettler called");
         if (!this.mySettlers.contains(newSettler)) {
             this.mySettlers.add(newSettler);
+            GameController.response.addRefreshObjects(newSettler.getName());
             log.log(Level.TRACE, "newSettler added to player {}.", name);
         } else {
             //NOP
@@ -95,6 +96,7 @@ public class Player {
     //TODO refactor to boolean, check
     public void removeSettler(Settler removedEntity) {
         mySettlers.remove(removedEntity);
+        GameController.response.addDeleteObjects(removedEntity.getName());
     }
 
     public void killPlayer() {

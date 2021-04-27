@@ -29,7 +29,8 @@ public class AsteroidZone {
     /**
      * Default constructor
      */
-    private AsteroidZone() {}
+    private AsteroidZone() {
+    }
 
     private static AsteroidZone instance = null;
 
@@ -65,6 +66,7 @@ public class AsteroidZone {
     public static int numOfAsteroids = 23;
 
     public static int range = 1000;
+
     /**
      * It creates the whole zone with a bunch of asteroids (amount can be set)
      * the home asteroid and the sun.
@@ -88,7 +90,7 @@ public class AsteroidZone {
         int rows = 6;
         int count = 0;
 
-        while (count < numOfAsteroids){
+        while (count < numOfAsteroids) {
             int n = random.nextInt(numOfTiles);
             int i = n % columns;
             int j = n / columns;
@@ -97,24 +99,26 @@ public class AsteroidZone {
             int y = j * (900 / rows) + random.nextInt(900 / rows - 80);
             Position position = new Position(x, y);
 
-            if(canPlaceAsteroid(position)){
+            if (canPlaceAsteroid(position)) {
                 position.setRadius(5);
                 resource = generateRandomResource();
                 //Layer is between 3 and 6
                 layer = random.nextInt(3) + 3;
 
-                spaceObjects.add(new Asteroid("temp" + count, position, resource, layer));
+                this.addSpaceObject(new Asteroid("temp" + count, position, resource, layer));
                 log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}", (int) position.getX(), (int) position.getY(), resource.getName(), layer);
                 count++;
             }
         }
 
+        GameController.response.addRefreshObjects(sun.getName());
+
         CallStackViewer.getInstance().methodReturns();
     }
 
-    private boolean canPlaceAsteroid(Position pos){
+    private boolean canPlaceAsteroid(Position pos) {
         boolean result = true;
-        for(SteppableSpaceObject elem: spaceObjects){
+        for (SteppableSpaceObject elem : spaceObjects) {
             if (elem.getPosition().equals(pos)) {
                 result = false;
                 break;
@@ -134,6 +138,7 @@ public class AsteroidZone {
 
         if (spaceObj != null) {
             spaceObjects.add(spaceObj);
+            GameController.response.addRefreshObjects(spaceObj.getName());
         } else {
             log.log(Level.WARN, "spaceObj is null");
         }
@@ -152,6 +157,7 @@ public class AsteroidZone {
 
         if (removedSpaceObject != null) {
             spaceObjects.remove(removedSpaceObject);
+            GameController.response.addDeleteObjects(removedSpaceObject.getName());
         } else {
             log.log(Level.WARN, "removedSpaceObject is null");
         }
@@ -205,12 +211,12 @@ public class AsteroidZone {
     public HomeAsteroid findHome() {
         return homeAsteroid;
     }
-    
-    public SteppableSpaceObject getObjectByName(String name){
+
+    public SteppableSpaceObject getObjectByName(String name) {
         var iter = spaceObjects.iterator();
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             var suspect = iter.next();
-            if(suspect.getName().equals(name)){
+            if (suspect.getName().equals(name)) {
                 return suspect;
             }
         }

@@ -3,6 +3,7 @@ package org.asteroidapp.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.GameController;
 import org.asteroidapp.interfaces.MoveableObserver;
 import org.asteroidapp.spaceobjects.Asteroid;
 import org.asteroidapp.spaceobjects.Position;
@@ -66,6 +67,8 @@ public abstract class Entity implements MoveableObserver {
             onAsteroid = nextSpaceObject.getTarget();
             nextSpaceObject.checkIn(this);
             log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
+
+            GameController.response.addRefreshObjects(this.getName());
         }
 
         CallStackViewer.getInstance().methodReturns();

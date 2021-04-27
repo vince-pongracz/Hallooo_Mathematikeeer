@@ -85,7 +85,7 @@ public class Sun implements EventObservable {
             //if playerOn has empty collection
             //-> returns an emptyIterator, which has not next element
             //-> hasNext() returns 'false'
-            if(!playerOn.getIterOnMySettlers().hasNext()){
+            if (!playerOn.getIterOnMySettlers().hasNext()) {
                 //if player has no settlers -> the player must die
                 //so kill him/her
                 playerOn.killPlayer();
@@ -153,5 +153,9 @@ public class Sun implements EventObservable {
         }
 
         CallStackViewer.getInstance().methodReturns();
+    }
+
+    public String getName() {
+        return "sun";
     }
 }

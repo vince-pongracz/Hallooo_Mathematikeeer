@@ -10,6 +10,7 @@ import org.asteroidapp.entities.Ufo;
 import org.asteroidapp.entities.Settler;
 import org.asteroidapp.resources.*;
 import org.asteroidapp.spaceobjects.Sun;
+import org.asteroidapp.util.ActionResponse;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 import org.asteroidapp.util.InitMessage;
@@ -25,6 +26,8 @@ public class GameController {
      * Logger for GameController
      */
     private static final Logger log = LogManager.getLogger(GameController.class.getSimpleName());
+
+    public static ActionResponse response = null;
 
     /**
      * Default constructor
@@ -108,7 +111,9 @@ public class GameController {
 
     private void createUfos() {
         for (int i = 0; i < ufosNum; i++) {
-            ufos.add(new Ufo("Ufo_" + i, AsteroidZone.getInstance().findHome()));
+            var ufo = new Ufo("Ufo_" + i, AsteroidZone.getInstance().findHome());
+            ufos.add(ufo);
+            GameController.response.addRefreshObjects(ufo.getName());
         }
     }
 
@@ -144,6 +149,8 @@ public class GameController {
 
                 //bind player to settler
                 playerItem.addSettler(newSettler);
+
+                GameController.response.addRefreshObjects(newSettler.getName());
 
                 log.log(Level.TRACE, "{} created for player: {}", newSettler.getName(), playerName);
             }
@@ -418,6 +425,7 @@ public class GameController {
         Boolean retValue = false;
         if (bot != null) {
             retValue = robots.remove(bot);
+            GameController.response.addDeleteObjects(bot.getName());
         } else {
             retValue = false;
         }
@@ -438,6 +446,7 @@ public class GameController {
 
         if (bot != null) {
             robots.add(bot);
+            GameController.response.addRefreshObjects(bot.getName());
             log.log(Level.TRACE, "bot added to the game");
         } else {
             log.log(Level.TRACE, "no bot added to the game");

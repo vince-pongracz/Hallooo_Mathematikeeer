@@ -3,6 +3,7 @@ package org.asteroidapp.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.GameController;
 import org.asteroidapp.interfaces.MoveableObserver;
 import org.asteroidapp.AsteroidZone;
 import org.asteroidapp.util.CallStackViewer;
@@ -140,6 +141,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         currentAsteroid.checkOut(this);
         currentAsteroid = target.getTarget();
         currentAsteroid.checkIn(this);
+        GameController.response.addRefreshObjects(this.getName());
     }
 
     public Asteroid getCurrentAsteroid() {
