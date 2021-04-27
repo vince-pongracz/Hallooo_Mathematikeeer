@@ -3,10 +3,15 @@ package org.asteroidapp;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import javafx.application.Application;
+
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +30,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayDeque;
 import java.util.Queue;
+
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 
 public class AppController extends Application {
 
@@ -49,7 +59,6 @@ public class AppController extends Application {
         primaryStage.setScene(sc);
         primaryStage.show();
     }
-
 
 
     /*
@@ -124,7 +133,7 @@ public class AppController extends Application {
                     quitCondition = true;
 
                 } else if (response.equals("test_move")) {
-                    Queue<String> autoCommands= new ArrayDeque<String>();
+                    Queue<String> autoCommands = new ArrayDeque<String>();
                     autoCommands.add("1");
                     autoCommands.add("x");
                     autoCommands.add("1");
@@ -135,9 +144,8 @@ public class AppController extends Application {
                     GameController.getInstance().inGame();
 
                     quitCondition = true;
-                }
-                else if (response.equals("test_bot")) {
-                    Queue<String> autoCommands= new ArrayDeque<String>();
+                } else if (response.equals("test_bot")) {
+                    Queue<String> autoCommands = new ArrayDeque<String>();
                     autoCommands.add("1");
                     autoCommands.add("x");
                     autoCommands.add("1");
@@ -151,13 +159,16 @@ public class AppController extends Application {
                 } else if (response.equals("testmode")) {
                     testMode();
                     quitCondition = true;
-                } else {
-                    //NOP
                 }
-            }
+            } else if (response.equals("mapView")) {
 
+            } else {
+                //NOP
+            }
         }
+
     }
+
 
     public void testMode() {
         try {

@@ -6,7 +6,11 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/asteroids.main.iml" filepath="$PROJECT_DIR$/.idea/modules/asteroids.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/asteroids.test.iml" filepath="$PROJECT_DIR$/.idea/modules/asteroids.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ideaProject.iml" filepath="$PROJECT_DIR$/.idea/ideaProject.iml" />
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.example.asteroids.main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.example.asteroids.main.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.example.asteroids.test.iml" filepath="$PROJECT_DIR$/.idea/modules/org.example.asteroids.test.iml" />
+>>>>>>> e7a7a199777bd87e6a29b7046ef378caac3d2892
     </modules>
   </component>
 </project>
