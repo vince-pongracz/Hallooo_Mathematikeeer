@@ -1,8 +1,6 @@
 package org.asteroidapp.util;
 
 
-import org.asteroidapp.CommandInterpreter;
-
 import java.util.HashSet;
 import java.util.Set;
 
