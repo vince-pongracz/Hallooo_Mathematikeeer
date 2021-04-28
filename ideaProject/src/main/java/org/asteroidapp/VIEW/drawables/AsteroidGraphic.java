@@ -1,7 +1,8 @@
-package org.asteroidapp.drawables;
+package org.asteroidapp.VIEW.drawables;
 
 import org.asteroidapp.MODELL.spaceobjects.Asteroid;
 import org.asteroidapp.MODELL.spaceobjects.Position;
+import org.asteroidapp.VIEW.MapView;
 
 public class AsteroidGraphic extends Drawable {
     private final Asteroid asteroid;

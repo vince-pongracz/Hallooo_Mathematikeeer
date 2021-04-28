@@ -58,4 +58,4 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
-mainClassName = 'org.asteroidapp.AppController'
+mainClassName = 'org.asteroidapp.CONTROLLER.AppController'

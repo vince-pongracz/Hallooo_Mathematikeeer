@@ -1,7 +1,8 @@
-package org.asteroidapp.drawables;
+package org.asteroidapp.VIEW.drawables;
 
 import org.asteroidapp.MODELL.entities.Ufo;
 import org.asteroidapp.MODELL.spaceobjects.Position;
+import org.asteroidapp.VIEW.MapView;
 
 public class UfoGraphic  extends Drawable {
     private final Ufo ufo;

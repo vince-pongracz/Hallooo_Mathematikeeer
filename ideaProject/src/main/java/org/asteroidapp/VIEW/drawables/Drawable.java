@@ -1,4 +1,4 @@
-package org.asteroidapp.drawables;
+package org.asteroidapp.VIEW.drawables;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

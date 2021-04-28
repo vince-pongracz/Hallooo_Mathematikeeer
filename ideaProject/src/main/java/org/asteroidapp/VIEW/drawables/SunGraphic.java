@@ -1,7 +1,8 @@
-package org.asteroidapp.drawables;
+package org.asteroidapp.VIEW.drawables;
 
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.MODELL.spaceobjects.Sun;
+import org.asteroidapp.VIEW.MapView;
 
 public class SunGraphic extends Drawable {
     private final Sun sun;

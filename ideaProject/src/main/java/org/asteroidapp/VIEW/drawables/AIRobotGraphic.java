@@ -1,7 +1,8 @@
-package org.asteroidapp.drawables;
+package org.asteroidapp.VIEW.drawables;
 
 import org.asteroidapp.MODELL.entities.AIRobot;
 import org.asteroidapp.MODELL.spaceobjects.Position;
+import org.asteroidapp.VIEW.MapView;
 
 public class AIRobotGraphic extends Drawable {
     private final AIRobot aiRobot;

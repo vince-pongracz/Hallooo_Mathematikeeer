@@ -26,12 +26,15 @@ public class RightView {
     ArrayList<Label> labels = new ArrayList<>(Arrays.asList(new Label("Gate: 0"), new Label(" Iron: 0" ), new Label(" Coal: 0"), new Label(" Uran: 0"), new Label(" Frozen water: 0"), new Label("-------------------------------\n   Aron's Settler2's round \n   Sunflair is coming in 3 rounds")));
     ArrayList<ImageView> images = new ArrayList<>();
 
+    //TODO method define actionListeners
+
     public RightView() throws FileNotFoundException {
         vbox.setAlignment(Pos.CENTER);
         vbox.setBackground(new Background(new BackgroundFill(Color.rgb(40, 40, 40), CornerRadii.EMPTY, Insets.EMPTY)));
 
         for(int i = 0; i < 7; i++){
-            images.add(new ImageView(new Image(new FileInputStream("D:\\Users\\Downloads\\Portal (1).gif"))));
+
+            images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Portal.gif"))));
             images.get(i).setPreserveRatio(true);
             images.get(i).setFitHeight(35);
         }
