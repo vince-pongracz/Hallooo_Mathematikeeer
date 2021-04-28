@@ -1,18 +1,15 @@
 package org.asteroidapp.VIEW;
 
 import javafx.scene.Group;
-import javafx.scene.chart.ScatterChart;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.asteroidapp.VIEW.drawables.Drawable;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapView {
-
 
     public static final String alienPng = "file:src/main/java/resources/images/Alien.png";
     public static final String asteroidGif = "file:src/main/java/resources/images/asteroid_game.gif";
@@ -22,9 +19,9 @@ public class MapView {
     public static final String sunGif = "file:src/main/java/resources/images/Sun.gif";
 
 
-    Image backgroundImage = new Image("file:src/main/java/org/asteroidapp/images/asteroid_game.gif");
+    Image backgroundImage = new Image("file:src/main/java/resources/images/asteroid_game.gif");
     ImageView imBackground = new ImageView(backgroundImage);
-    List<Drawable> drawables = new ArrayList<Drawable>();
+    List<Drawable> drawables = new ArrayList<>();
     Group mapViewGroup = new Group();
 
 
