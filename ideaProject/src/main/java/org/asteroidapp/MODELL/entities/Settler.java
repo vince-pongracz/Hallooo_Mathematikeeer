@@ -11,6 +11,7 @@ import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
 import org.asteroidapp.CONTROLLER.Player;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
+import org.asteroidapp.VIEW.drawables.SettlerGraphic;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
@@ -71,6 +72,8 @@ public class Settler extends Entity implements Drill, Mine {
         resources.pushMore(2, new Uran());
         resources.pushMore(2, new FrozenWater());
         resources.pushMore(3, new Iron());
+
+        new SettlerGraphic(this);
 
         CallStackViewer.getInstance().methodReturns();
     }

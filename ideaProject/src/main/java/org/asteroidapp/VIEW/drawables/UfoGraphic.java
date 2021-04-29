@@ -10,6 +10,7 @@ public class UfoGraphic  extends Drawable {
     public UfoGraphic(Ufo ufoObj) {
         prior = 2;
         ufo = ufoObj;
+        MapView.getInstance().addDrawable(this);
     }
 
     @Override

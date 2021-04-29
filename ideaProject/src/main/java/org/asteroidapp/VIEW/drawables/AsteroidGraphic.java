@@ -10,6 +10,7 @@ public class AsteroidGraphic extends Drawable {
     public AsteroidGraphic(Asteroid asteroidObj) {
         prior = 1;
         asteroid = asteroidObj;
+        MapView.getInstance().addDrawable(this);
     }
 
     @Override

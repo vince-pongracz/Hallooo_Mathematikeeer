@@ -82,7 +82,7 @@ public class Menu {
                 //ConsoleUI.getInstance().sendMessageToConsole(""); ??
 
                 RightView rightView = null;
-                MapView mapView = new MapView();
+                MapView mapView = MapView.getInstance();
 
                 try {
                     rightView = new RightView();

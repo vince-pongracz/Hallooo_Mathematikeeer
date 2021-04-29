@@ -10,6 +10,7 @@ public class SunGraphic extends Drawable {
     public SunGraphic(Sun sunObj) {
         prior = 2;
         sun = sunObj;
+        MapView.getInstance().addDrawable(this);
     }
 
     @Override

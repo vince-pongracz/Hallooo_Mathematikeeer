@@ -10,6 +10,7 @@ public class SettlerGraphic extends Drawable {
     public SettlerGraphic(Settler SettlerObj) {
         prior = 2;
         settler = SettlerObj;
+        MapView.getInstance().addDrawable(this);
     }
 
     @Override

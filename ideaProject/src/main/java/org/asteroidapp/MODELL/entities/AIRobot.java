@@ -8,6 +8,7 @@ import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.interfaces.AutoEntity;
 import org.asteroidapp.MODELL.interfaces.Drill;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
+import org.asteroidapp.VIEW.drawables.AIRobotGraphic;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
@@ -39,6 +40,7 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
             log.log(Level.FATAL, "null parameters in constructor!");
         }
 
+        new AIRobotGraphic(this);
         CallStackViewer.getInstance().methodReturns();
     }
 

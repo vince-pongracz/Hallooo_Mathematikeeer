@@ -9,6 +9,7 @@ import org.asteroidapp.MODELL.resources.Empty;
 import org.asteroidapp.MODELL.resources.Resource;
 import org.asteroidapp.MODELL.resources.ResourceStorage;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
+import org.asteroidapp.VIEW.drawables.UfoGraphic;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
@@ -39,6 +40,8 @@ public class Ufo extends Entity implements Mine, AutoEntity {
 
         resources = new ResourceStorage();
         resources.setAllCapacity(UfoCapacity);
+
+        new UfoGraphic(this);
 
         CallStackViewer.getInstance().methodReturns();
     }

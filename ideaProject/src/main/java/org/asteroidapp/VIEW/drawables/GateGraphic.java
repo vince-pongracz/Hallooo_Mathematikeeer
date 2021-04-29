@@ -10,6 +10,7 @@ public class GateGraphic extends Drawable{
     public GateGraphic(Gate gateObj) {
         prior = 2;
         gate = gateObj;
+        MapView.getInstance().addDrawable(this);
     }
 
     @Override
