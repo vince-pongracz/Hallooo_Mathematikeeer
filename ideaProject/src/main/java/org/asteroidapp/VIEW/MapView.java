@@ -24,6 +24,14 @@ public class MapView {
     List<Drawable> drawables = new ArrayList<>();
     Group mapViewGroup = new Group();
 
+    private static MapView instance = null;
+    private MapView(){}
+    public static MapView getInstance(){
+        if (instance == null) {
+            instance = new MapView();
+        }
+        return instance;
+    }
 
     public void addDrawable(Drawable newDrawable) {
         drawables.add(newDrawable);

@@ -10,6 +10,7 @@ public class AIRobotGraphic extends Drawable {
     public AIRobotGraphic(AIRobot robotObj) {
         prior = 2;
         aiRobot = robotObj;
+        MapView.getInstance().addDrawable(this);
     }
 
     @Override
