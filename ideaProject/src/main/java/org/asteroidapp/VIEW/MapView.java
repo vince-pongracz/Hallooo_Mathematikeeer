@@ -51,6 +51,9 @@ public class MapView {
     public void refreshMap() {
         //TODO refactor
         for (int i = 0; i < drawables.size(); i++) {
+
+            //mapViewGroup.
+
             //prior alapjan rendezze
             //background 0
             //asteroida 1

@@ -12,6 +12,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.entities.Settler;
 import org.asteroidapp.MODELL.resources.*;
 
@@ -66,7 +67,7 @@ public class RightView {
             labels.set(2, new Label(" Coal: " + storage.countOf(new Iron())));
             labels.set(3, new Label(" Uran: " + storage.countOf(new Iron())));
             labels.set(4, new Label(" FrozenWater: " + storage.countOf(new Iron())));
-            labels.set(5, new Label(" -------------------------------\n " +  settler.getOwnerName() + "'s " + settler.getName() + "'s round\n Sunflair is coming in " + sunflair + " rounds"));
+            labels.set(5, new Label(" -------------------------------\n " + GameController.getInstance().getActualPlayer() + "'s " + settler.getName() + "'s round\n Sunflair is coming in " + sunflair + " rounds"));
         } else {
             System.out.println("Settler was null");
         }

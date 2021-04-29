@@ -6,11 +6,12 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.CONTROLLER.AsteroidZone;
 import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.interfaces.EventObservable;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.resources.Empty;
 import org.asteroidapp.MODELL.resources.FrozenWater;
 import org.asteroidapp.MODELL.resources.Resource;
-import org.asteroidapp.MODELL.spaceobject.asteroid.Core;
-import org.asteroidapp.MODELL.spaceobject.asteroid.Layer;
+import org.asteroidapp.MODELL.spaceobjects.asteroid.Core;
+import org.asteroidapp.MODELL.spaceobjects.asteroid.Layer;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
 
@@ -207,7 +208,7 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         while (iter.hasNext()) {
             var entityItem = iter.next();
             iter.remove();
-            entityItem.notifyAsteroidExplosion();
+            entityItem.recieveNotification(EventType.EXPLOSION);
         }
 
         //remove from world
@@ -218,12 +219,9 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
         //gc eats this object sooner or later
     }
 
-    /**
-     * Notify observers about danger
-     * Asteroid don't send notification about its explosion (before it happens)
-     */
+    @Override
     public void notifyAboutDanger() {
-        //NOP for asteroid
+        //NOP
     }
 
     /**
@@ -236,5 +234,4 @@ public class Asteroid extends SteppableSpaceObject implements EventObservable {
 
         CallStackViewer.getInstance().methodReturns();
     }
-
 }

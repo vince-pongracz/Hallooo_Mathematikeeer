@@ -7,13 +7,13 @@ public interface Observable {
 
 	/**
 	 * Checks out from object's collection, which will be notified when an event occoured
-	 * @param leavingThing entity, who checks out
+	 * @param leavingObserver entity, who checks out
 	 */
-	public void checkOut(MoveableObserver leavingThing);
+	void checkOut(Observer leavingObserver);
 
 	/**
 	 * Checks in on object's collection
-	 * @param newThing entity, who checks on, and will be notified about events
+	 * @param newObserver entity, who checks on, and will be notified about events
 	 */
-	public void checkIn(MoveableObserver newThing);
+	void checkIn(Observer newObserver);
 }

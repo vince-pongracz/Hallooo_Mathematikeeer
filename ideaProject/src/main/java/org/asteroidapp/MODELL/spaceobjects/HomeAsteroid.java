@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.MODELL.resources.Empty;
 import org.asteroidapp.MODELL.resources.Resource;
-import org.asteroidapp.MODELL.spaceobject.asteroid.Core;
-import org.asteroidapp.MODELL.spaceobject.asteroid.Layer;
+import org.asteroidapp.MODELL.spaceobjects.asteroid.Core;
+import org.asteroidapp.MODELL.spaceobjects.asteroid.Layer;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.ArrayList;

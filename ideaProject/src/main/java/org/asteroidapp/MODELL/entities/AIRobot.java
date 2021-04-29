@@ -7,11 +7,10 @@ import org.asteroidapp.CONTROLLER.AsteroidZone;
 import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.interfaces.AutoEntity;
 import org.asteroidapp.MODELL.interfaces.Drill;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.VIEW.drawables.AIRobotGraphic;
 import org.asteroidapp.util.CallStackViewer;
-
-import java.util.*;
 
 /**
  *
@@ -85,67 +84,6 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
         CallStackViewer.getInstance().methodReturns();
     }
 
-    @Override
-    public SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
-        //TODO (OPT): don't choose a spaceObject, which is empty
-        //TODO (OPT): don't choose an asteroid, where robot came from
-
-        log.log(Level.INFO, "chooseNeighbour called");
-        CallStackViewer.getInstance().methodStartsLogCall("chooseNeighbour() called (AIRobot)");
-
-        //nullcheck
-        if (neighbours != null) {
-            //convert set to a list to shuffle
-            var neighbourListToShuffle = new ArrayList<SteppableSpaceObject>(neighbours);
-            Collections.shuffle(neighbourListToShuffle);
-            //generate random to decision
-            var randomNumber = new Random().nextInt(neighbourListToShuffle.size());
-
-            CallStackViewer.getInstance().methodReturns();
-
-            return neighbourListToShuffle.get(randomNumber);
-        } else {
-            log.log(Level.FATAL, "Given collection in parameter is null!");
-            CallStackViewer.getInstance().methodReturns();
-
-            return null;
-        }
-    }
-
-    @Override
-    public void notifyFlairEvent() {
-        log.log(Level.INFO, "notifyFlairEvent called");
-        CallStackViewer.getInstance().methodStartsLogCall("notifyFlairEvent() called (AIRobot)");
-
-        die();
-
-        CallStackViewer.getInstance().methodReturns();
-    }
-
-    @Override
-    public void notifyFlairDanger() {
-        //TODO AI in Robots... (opt)
-        log.log(Level.INFO, "notifyFlairDanger called");
-        CallStackViewer.getInstance().methodStartsLogCall("notifyFlairDanger() called (AIRobot)");
-
-        log.log(Level.INFO, "Hey bot, you should hide!");
-
-        //NOP for Robots...
-        //or some logic required to make a hole and hide
-        CallStackViewer.getInstance().methodReturns();
-    }
-
-    @Override
-    public void notifyAsteroidExplosion() {
-        log.log(Level.INFO, "notifyAsteroidExplosion called");
-        CallStackViewer.getInstance().methodStartsLogCall("notifyAsteroidExplosion() called (AIRobot)");
-
-        //robot has to move (she/he is protected at the explosion)
-        move(this.chooseNeighbour(listMyNeighbours()));
-
-        CallStackViewer.getInstance().methodReturns();
-    }
-
     /**
      * counter for decision
      */
@@ -156,7 +94,7 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
         log.log(Level.INFO, "doAction called");
         CallStackViewer.getInstance().methodStartsLogCall("doAction() called (AIRobot)");
 
-        //TODO implement better action choose, and decisioning
+        //TODO implement better action choose, and decisionmaking
         stratOne();
 
         CallStackViewer.getInstance().methodReturns();
@@ -191,6 +129,15 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
         //not to increment this variable, give a bound to it - ring structure
         if (decisionCounterStratOne == mod) {
             decisionCounterStratOne = 0;
+        }
+    }
+
+    @Override
+    public void recieveNotification(EventType eventType) {
+        switch (eventType){
+            case FLAIREVENT -> die();
+            case EXPLOSION -> move(this.chooseNeighbour(listMyNeighbours()));
+            case FLAIRWARN -> log.log(Level.INFO, "Hey bot, you should hide!");
         }
     }
 }

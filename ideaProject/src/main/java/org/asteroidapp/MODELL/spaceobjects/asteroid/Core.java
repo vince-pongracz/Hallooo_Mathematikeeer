@@ -1,4 +1,4 @@
-package org.asteroidapp.MODELL.spaceobject.asteroid;
+package org.asteroidapp.MODELL.spaceobjects.asteroid;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -22,8 +22,6 @@ public class Core {
      * Default constructor
      */
     public Core(Resource initResource) {
-
-        resources = new ResourceStorage();
         resources.setAllCapacity(1);
         resources.pushResource(initResource);
     }
@@ -35,7 +33,6 @@ public class Core {
      * @param initResource
      */
     public Core(int capacity, Resource initResource) {
-        resources = new ResourceStorage();
         resources.setAllCapacity(Math.abs(capacity));
         resources.pushResource(initResource);
     }
@@ -43,7 +40,7 @@ public class Core {
     /**
      * Resource storage of core
      */
-    private ResourceStorage resources = null;
+    private ResourceStorage resources = new ResourceStorage();
 
     /**
      * It returns with the raw material of the seed.

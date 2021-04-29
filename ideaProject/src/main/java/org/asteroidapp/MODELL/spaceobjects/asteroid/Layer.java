@@ -1,4 +1,4 @@
-package org.asteroidapp.MODELL.spaceobject.asteroid;
+package org.asteroidapp.MODELL.spaceobjects.asteroid;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -36,7 +36,7 @@ public class Layer {
         CallStackViewer.getInstance().methodStartsLogCall("thinIt() called (Layer)");
 
         if (thickness > 0) {
-            thickness--;
+            --thickness;
         } else {
             log.log(Level.TRACE, "Thickness is already 0");
         }

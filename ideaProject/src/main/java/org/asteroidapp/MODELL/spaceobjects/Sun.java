@@ -5,7 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.MODELL.interfaces.EventObservable;
 import org.asteroidapp.CONTROLLER.GameController;
-import org.asteroidapp.MODELL.interfaces.MoveableObserver;
+import org.asteroidapp.MODELL.interfaces.EventType;
+import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.HashSet;
@@ -26,7 +27,7 @@ public class Sun implements EventObservable {
     /**
      * own set from entities, they will be notified
      */
-    private Set<MoveableObserver> entities = null;
+    private Set<Observer> entities = null;
 
     /**
      * Default constructor
@@ -76,7 +77,7 @@ public class Sun implements EventObservable {
             while (settlerIterator.hasNext()) {
 
                 var settlerItem = settlerIterator.next();
-                settlerItem.notifyFlairEvent();
+                settlerItem.recieveNotification(EventType.FLAIREVENT);
             }
 
             //if playerOn has empty collection
@@ -104,7 +105,7 @@ public class Sun implements EventObservable {
         while (playerIterator.hasNext()) {
             var settlerIterator = playerIterator.next().getIterOnMySettlers();
             while (settlerIterator.hasNext()) {
-                settlerIterator.next().notifyFlairDanger();
+                settlerIterator.next().recieveNotification(EventType.FLAIRWARN);
             }
         }
 
@@ -125,28 +126,28 @@ public class Sun implements EventObservable {
     }
 
     @Override
-    public void checkOut(MoveableObserver leavingEntity) {
+    public void checkOut(Observer leavingObserver) {
         log.log(Level.INFO, "checkOut called");
         CallStackViewer.getInstance().methodStartsLogCall("checkOut() called (Sun)");
 
-        if (leavingEntity != null) {
-            this.entities.remove(leavingEntity);
+        if (leavingObserver != null) {
+            this.entities.remove(leavingObserver);
         } else {
-            log.log(Level.FATAL, "leavingEntity is null");
+            log.log(Level.FATAL, "leavingThing is null");
         }
 
         CallStackViewer.getInstance().methodReturns();
     }
 
     @Override
-    public void checkIn(MoveableObserver newEntity) {
+    public void checkIn(Observer newObserver) {
         log.log(Level.INFO, "checkIn called");
         CallStackViewer.getInstance().methodStartsLogCall("checkIn() called (Sun)");
 
-        if (newEntity != null) {
-            this.entities.add(newEntity);
+        if (newObserver != null) {
+            this.entities.add(newObserver);
         } else {
-            log.log(Level.FATAL, "newEntity is null");
+            log.log(Level.FATAL, "newThing is null");
         }
 
         CallStackViewer.getInstance().methodReturns();

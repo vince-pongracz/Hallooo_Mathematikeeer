@@ -1,6 +1,7 @@
 package org.asteroidapp.VIEW.drawables;
 
 import org.asteroidapp.MODELL.entities.Ufo;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
 
@@ -28,4 +29,12 @@ public class UfoGraphic  extends Drawable {
         return ufo.getName();
     }
 
+    @Override
+    public void recieveNotification(EventType eventType) {
+        if(eventType == EventType.REFRESH){
+            setVisible(true);
+
+
+        }
+    }
 }

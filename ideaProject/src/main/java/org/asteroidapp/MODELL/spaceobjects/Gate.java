@@ -4,8 +4,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.CONTROLLER.GameController;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.interfaces.MoveableObserver;
 import org.asteroidapp.CONTROLLER.AsteroidZone;
+import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     public String getName() {
         log.log(Level.TRACE, "Gate's getName called: returns gate");
         if (this.gatePair != null) {
-            return "Gate to " + this.getTarget().getName() + " from "+this.currentAsteroid.getName();
+            return "Gate to " + this.getTarget().getName() + " from " + this.currentAsteroid.getName();
         } else {
             return "Gate on " + currentAsteroid.getName();
         }
@@ -136,7 +138,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
             target = neighbours.remove(i);
             i++;
         }
-        while(target.getTarget() == this.getCurrentAsteroid());
+        while (target.getTarget() == this.getCurrentAsteroid());
 
         currentAsteroid.checkOut(this);
         currentAsteroid = target.getTarget();
@@ -148,8 +150,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         return currentAsteroid;
     }
 
-    @Override
-    public void notifyFlairEvent() {
+    private void notifyFlairEvent() {
         if (currentAsteroid != null) {
             if (currentAsteroid.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun) {
                 move(null);
@@ -157,13 +158,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         }
     }
 
-    @Override
-    public void notifyFlairDanger() {
-        //NOP
-    }
-
-    @Override
-    public void notifyAsteroidExplosion() {
+    private void notifyAsteroidExplosion() {
         //destroy gate
         //or move gate
         //move is easier
@@ -171,12 +166,20 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     }
 
     @Override
-    public void checkOut(MoveableObserver leavingThing) {
-        //NOP
+    public void checkOut(Observer leavingObserver) {
+        this.entitiesOnMe.remove(leavingObserver);
     }
 
     @Override
-    public void checkIn(MoveableObserver newThing) {
-        //NOP
+    public void checkIn(Observer newObserver) {
+        this.entitiesOnMe.add(newObserver);
+    }
+
+    @Override
+    public void recieveNotification(EventType eventType) {
+        switch (eventType) {
+            case EXPLOSION -> notifyAsteroidExplosion();
+            case FLAIREVENT -> notifyFlairEvent();
+        }
     }
 }

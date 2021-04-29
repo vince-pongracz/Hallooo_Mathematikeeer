@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.spaceobjects.Asteroid;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
@@ -26,5 +27,10 @@ public class AsteroidGraphic extends Drawable {
     @Override
     public String getName() {
         return asteroid.getName();
+    }
+
+    @Override
+    public void recieveNotification(EventType eventType) {
+
     }
 }

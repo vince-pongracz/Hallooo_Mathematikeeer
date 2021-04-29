@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.CONTROLLER.AsteroidZone;
 import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.interfaces.Drill;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.interfaces.Mine;
 import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
@@ -22,8 +23,6 @@ import java.util.*;
  * They also can manage their resources.
  */
 public class Settler extends Entity implements Drill, Mine {
-
-    List<String> options = new ArrayList<>();
 
     /**
      * Logger for Settler class
@@ -45,20 +44,9 @@ public class Settler extends Entity implements Drill, Mine {
         log.log(Level.INFO, "Settler constructor called");
         CallStackViewer.getInstance().methodStartsLogCall("Settler constructor called");
 
-        options.add("move");
-        options.add("drill");
-        options.add("mine");
-        options.add("create gate");
-        options.add("build gate");
-        options.add("create robot");
-        options.add("deploy resource");
-        options.add("list neighbours");
-        options.add("wait");
-        options.add("list my resources");
-
         if (owner != null) {
             this.owner = owner;
-            createdGates = new ArrayList<Gate>();     ////// INITIALIZED GATE INVENTORY
+            createdGates = new ArrayList<>();     ////// INITIALIZED GATE INVENTORY
         } else {
             log.log(Level.FATAL, "owner is null!");
         }
@@ -133,55 +121,10 @@ public class Settler extends Entity implements Drill, Mine {
     }
 
     /**
-     * Overridden function for chooseNeighbour. It chooses a neighbour where the player can move to
-     *
-     * @param neighbours the list of neighbours from where the player can choose where to move to
-     * @return the chosen neighbour
-     */
-    @Override
-    public SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
-        log.log(Level.INFO, "ChooseNeighbour called");
-        CallStackViewer.getInstance().methodStartsLogCall("chooseNeighbour() called (Settler)");
-
-        SteppableSpaceObject selected = null;
-
-        if (neighbours != null) {
-            boolean found = false;
-
-            while (!found) {
-                ConsoleUI.getInstance().sendMessageToConsole("Choose destination:");
-
-                //refactor this with a single ConsoleUI call.
-                for (var item : neighbours) {
-                    ConsoleUI.getInstance().sendMessageToConsole(item.getName());
-                }
-
-                String name = ConsoleUI.getInstance().readLineFromConsole();
-                for (var temp : neighbours) {
-                    if (temp.getName().equals(name)) {
-                        selected = temp;
-                        found = true;
-                        continue;
-                    }
-                }
-                if (!found) {
-                    ConsoleUI.getInstance().sendMessageToConsole("Wrong name");
-                }
-            }
-        } else {
-            log.log(Level.WARN, "neighbours is null, cannot choose from empty neighbour list");
-        }
-
-        CallStackViewer.getInstance().methodReturns();
-        return selected;
-    }
-
-    /**
      * Overridden function for notifyFlairEvent.
      * It notifies the entity about a flair event is happening
      */
-    @Override
-    public void notifyFlairEvent() {
+    private void notifyFlairEvent() {
         log.log(Level.INFO, "notifyFlairEvent called");
         CallStackViewer.getInstance().methodStartsLogCall("notifyFlairEvent() called (Settler)");
 
@@ -202,27 +145,12 @@ public class Settler extends Entity implements Drill, Mine {
      * Overridden function for notifyFlairDanger.
      * It notifies the entity about a coming flair event
      */
-    @Override
-    public void notifyFlairDanger() {
+    private void notifyFlairDanger() {
         log.log(Level.INFO, "NotifyFlairDanger called");
         CallStackViewer.getInstance().methodStartsLogCall("notifyFlairDanger() called (Settler)");
 
+        //TODO send popup?
         log.log(Level.INFO, "Be aware, a flair is coming in 2 rounds");
-
-        CallStackViewer.getInstance().methodReturns();
-    }
-
-    /**
-     * Overridden function for notifyAsteroidExplosion.
-     * notifies the entity about an asteroid explosion
-     */
-    @Override
-    public void notifyAsteroidExplosion() {
-        log.log(Level.INFO, "NotifyAsteroidExplosion called");
-        CallStackViewer.getInstance().methodStartsLogCall("notifyAsteroidExplosion() called (Settler)");
-
-        //so you have to die
-        die();
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -359,7 +287,7 @@ public class Settler extends Entity implements Drill, Mine {
         while (resourceIterator.hasNext()) {
             var tmp = resourceIterator.next();
             if (tmp.getName().equals(resource)) {
-                if(onAsteroid.addResourceToCore(resources.popResource(tmp))){
+                if (onAsteroid.addResourceToCore(resources.popResource(tmp))) {
                     log.log(Level.INFO, "The selected resource can be chosen");
                     tmp.isRadioActive(onAsteroid.getPosition());
                     return true;
@@ -413,50 +341,17 @@ public class Settler extends Entity implements Drill, Mine {
         return resources.getResourceList();
     }
 
-    /**
-     * From the collected Resources the player chooses one
-     *
-     * @return the chosen resource
-     */
-    private Resource chooseResource(ResourceStorage chooseFrom) {
-        log.log(Level.INFO, "chooseResource called");
-        CallStackViewer.getInstance().methodStartsLogCall("chooseResource() called (Settler)");
-        ConsoleUI.getInstance().sendMessageToConsole("Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran");
-        log.log(Level.INFO, "Write the number of the resource you would like to choose : 1 - Coal, 2 - FrozenWater, 3 - Iron, 4 - Uran");
-
-        int resourceNum = ConsoleUI.getInstance().readIntFromConsole();
-        Resource resource = null;
-
-        switch (resourceNum) {
-            case (1):
-                resource = new Coal();
-                break;
-            case (2):
-                resource = new FrozenWater();
-                break;
-            case (3):
-                resource = new Iron();
-                break;
-            case (4):
-                resource = new Uran();
-                break;
-            default:
-                break;
-        }
-        log.log(Level.TRACE, "Chosen resource: {}", resource.getName());
-
-        resource = chooseFrom.popResource(resource);
-
-        CallStackViewer.getInstance().methodReturns();
-        return resource;
-    }
-
     public ResourceStorage getStorage() {
         return resources;
     }
 
-    public String getOwnerName(){
-        return owner.getName();
+    @Override
+    public void recieveNotification(EventType eventType) {
+        switch (eventType) {
+            case EXPLOSION -> die();
+            case FLAIREVENT -> notifyFlairEvent();
+            case FLAIRWARN -> notifyFlairDanger();
+        }
     }
 }
 

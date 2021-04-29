@@ -1,22 +1,8 @@
 package org.asteroidapp.MODELL.interfaces;
 
-/**
- * Observer interface to realize observer pattern
- */
 public interface Observer {
-
 	/**
-	 * This method will inform the player/entity, that a flair event occours
+	 * This method will inform the observer
 	 */
-	public void notifyFlairEvent();
-
-	/**
-	 * This method will inform the player/entity, that a flair event will come in the near future
-	 */
-	public void notifyFlairDanger();
-
-	/**
-	 * This method will inform the player/entity, that his/her asteroid exploded, also she/he died
-	 */
-	public void notifyAsteroidExplosion();
+	public void recieveNotification(EventType eventType);
 }

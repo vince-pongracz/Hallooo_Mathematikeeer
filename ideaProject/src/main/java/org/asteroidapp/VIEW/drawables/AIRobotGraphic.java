@@ -1,8 +1,11 @@
 package org.asteroidapp.VIEW.drawables;
 
 import org.asteroidapp.MODELL.entities.AIRobot;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
+
+import java.io.FileNotFoundException;
 
 public class AIRobotGraphic extends Drawable {
     private final AIRobot aiRobot;
@@ -26,5 +29,14 @@ public class AIRobotGraphic extends Drawable {
     @Override
     public String getName() {
         return aiRobot.getName();
+    }
+
+    @Override
+    public void recieveNotification(EventType eventType) {
+        if(aiRobot != null){
+            try {
+                draw();
+            }catch (FileNotFoundException e){}
+        }
     }
 }

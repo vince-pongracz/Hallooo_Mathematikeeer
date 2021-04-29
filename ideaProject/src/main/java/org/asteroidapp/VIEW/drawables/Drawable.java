@@ -2,6 +2,7 @@ package org.asteroidapp.VIEW.drawables;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 
 import java.io.FileInputStream;
@@ -10,33 +11,23 @@ import java.io.FileNotFoundException;
 /**
  * This is an abstract base class for the objects that will be drawn on the field
  */
-public abstract class Drawable {
+public abstract class Drawable extends ImageView implements Observer{
     protected int prior;
-    private boolean visible = true;
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean setToThisState) {
-        visible = setToThisState;
-    }
-
 
     public int getPrior() {
         return prior;
     }
 
     public ImageView draw() throws FileNotFoundException {
-        if (visible) {
+        if (isVisible()) {
             Image image = new Image(new FileInputStream(getImagePath()));
 
-            ImageView imageView = new ImageView(image);
+            this.setImage(image);
 
-            imageView.setX(getPosition().getX());
-            imageView.setY(getPosition().getY());
+            setX(getPosition().getX());
+            setY(getPosition().getY());
 
-            return imageView;
+            return this;
             //Setting the preserve ratio of the image view
             //imageView.setPreserveRatio(true);     lehet kell példában volt
         } else {
