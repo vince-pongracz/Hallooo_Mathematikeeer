@@ -3,7 +3,6 @@ package org.asteroidapp.MODELL.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.interfaces.MoveableObserver;
 import org.asteroidapp.CONTROLLER.AsteroidZone;
@@ -129,15 +128,15 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     @Override
     public void move(SteppableSpaceObject nextSpaceObject) {
         var neighbourIter = AsteroidZone.getInstance().getIterOnSpaceObjects();
-        var neighbours = new ArrayList<SteppableSpaceObject>();
+        var allZoneObject = new ArrayList<SteppableSpaceObject>();
         while (neighbourIter.hasNext()) {
-            neighbours.add(neighbourIter.next());
+            allZoneObject.add(neighbourIter.next());
         }
-        Collections.shuffle(neighbours);
+        Collections.shuffle(allZoneObject);
         int i = 0;
         SteppableSpaceObject target = this;
         do {
-            target = neighbours.remove(i);
+            target = allZoneObject.remove(i);
             i++;
         }
         while (target.getTarget() == this.getCurrentAsteroid());
@@ -169,17 +168,17 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
 
     @Override
     public void checkOut(Observer leavingObserver) {
-        this.entitiesOnMe.remove(leavingObserver);
+        this.observers.remove(leavingObserver);
     }
 
     @Override
     public void checkIn(Observer newObserver) {
-        this.entitiesOnMe.add(newObserver);
+        this.observers.add(newObserver);
     }
 
     @Override
     public void signalizeUpdate(EventType event) {
-        for (var obs:entitiesOnMe) {
+        for (var obs: observers) {
             obs.notify(event);
         }
     }
@@ -190,6 +189,5 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
             case EXPLOSION -> notifyAsteroidExplosion();
             case FLAIREVENT -> notifyFlairEvent();
         }
-        this.signalizeUpdate(EventType.REFRESH);
     }
 }

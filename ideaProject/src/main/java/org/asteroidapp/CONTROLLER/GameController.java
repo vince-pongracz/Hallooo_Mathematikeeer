@@ -16,6 +16,9 @@ import org.asteroidapp.util.InitMessage;
 
 import java.util.*;
 
+import static org.asteroidapp.MODELL.interfaces.EventType.DELETE;
+import static org.asteroidapp.MODELL.interfaces.EventType.REFRESH;
+
 /**
  *
  */
@@ -112,7 +115,7 @@ public class GameController {
         for (int i = 0; i < ufosNum; i++) {
             var ufo = new Ufo("Ufo_" + i, AsteroidZone.getInstance().findHome());
             ufos.add(ufo);
-            GameController.response.addRefreshObjects(ufo.getName());
+            ufo.signalizeUpdate(EventType.REFRESH);
         }
     }
 
@@ -149,7 +152,7 @@ public class GameController {
                 //bind player to settler
                 playerItem.addSettler(newSettler);
 
-                GameController.response.addRefreshObjects(newSettler.getName());
+                newSettler.signalizeUpdate(EventType.REFRESH);
 
                 log.log(Level.TRACE, "{} created for player: {}", newSettler.getName(), playerName);
             }
@@ -424,7 +427,7 @@ public class GameController {
         Boolean retValue = false;
         if (bot != null) {
             retValue = robots.remove(bot);
-            GameController.response.addDeleteObjects(bot.getName());
+            bot.signalizeUpdate(DELETE);
         } else {
             retValue = false;
         }
@@ -445,7 +448,7 @@ public class GameController {
 
         if (bot != null) {
             robots.add(bot);
-            GameController.response.addRefreshObjects(bot.getName());
+            bot.signalizeUpdate(REFRESH);
             log.log(Level.TRACE, "bot added to the game");
         } else {
             log.log(Level.TRACE, "no bot added to the game");

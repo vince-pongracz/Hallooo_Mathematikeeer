@@ -37,7 +37,6 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
             log.log(Level.FATAL, "null parameters in constructor!");
         }
 
-
         this.checkIn(new AIRobotGraphic(this));
         CallStackViewer.getInstance().methodReturns();
     }
@@ -80,6 +79,8 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
         //remove form game
         GameController.getInstance().removeAutoEntity(this);
 
+        this.signalizeUpdate(EventType.DELETE);
+
         CallStackViewer.getInstance().methodReturns();
     }
 
@@ -95,6 +96,7 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
 
         //TODO implement better action choose, and decisionmaking
         stratOne();
+        this.signalizeUpdate(EventType.REFRESH);
 
         CallStackViewer.getInstance().methodReturns();
     }

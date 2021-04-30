@@ -87,9 +87,9 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
 
         //check explosion conditions
         if (layer.getThickness() == 0 && resource != null && closeToSun && resource.isRadioActive(position)) {
-            //this calls explosion
-            log.log(Level.INFO, "Asteroid has radioactive core _and_ it's close to Sun --> EXPLODE");
+            //this calls explosion, which notifies the observers
             signalizeUpdate(EventType.EXPLOSION);
+            log.log(Level.INFO, "Asteroid has radioactive core _and_ it's close to Sun --> EXPLODE");
         } else if (layer.getThickness() == 0 && resource != null && resource.equals(new FrozenWater()) && closeToSun) {
             //when it is FrozenWater --> drop it, and set empty
             core.popResource();
@@ -125,7 +125,6 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
         Resource ret = null;
         //if no layer --> can be mined
         if (layer.getThickness() == 0) {
-            CallStackViewer.getInstance().methodReturns();
             ret = core.popResource();
         } else {
             log.log(Level.INFO, "Resource cannot mined - layer is too big!");
@@ -208,7 +207,7 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
         core = null;
         layer = null;
 
-        var iter = entitiesOnMe.iterator();
+        var iter = observers.iterator();
         while (iter.hasNext()) {
             var entityItem = iter.next();
             iter.remove();
@@ -229,9 +228,10 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
     @Override
     public void signalizeUpdate(EventType event) {
         switch (event) {
+            //explode sent appropriate notifications for observers
             case EXPLOSION -> explode();
             default -> {
-                for (var obs : entitiesOnMe) {
+                for (var obs : observers) {
                     obs.notify(event);
                 }
             }

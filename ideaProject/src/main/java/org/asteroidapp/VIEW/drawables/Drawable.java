@@ -9,6 +9,7 @@ import org.asteroidapp.VIEW.MapView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Map;
 
 /**
  * This is an abstract base class for the objects that will be drawn on the field
@@ -20,7 +21,6 @@ public abstract class Drawable extends ImageView implements Observer {
         return prior;
     }
 
-    //TODO is it necessary to return an ImageView?
     public ImageView updateGraphics() throws FileNotFoundException {
         if (isVisible()) {
             Image image = new Image(new FileInputStream(getImagePath()));
@@ -46,19 +46,20 @@ public abstract class Drawable extends ImageView implements Observer {
 
     @Override
     public void notify(EventType eventType) {
-        if (this != null && eventType == EventType.REFRESH) {
-            try {
-                updateGraphics();
-            } catch (FileNotFoundException e) {
-                //log
-            } catch (NullPointerException e) {
-                //log -- fetch info from modell wasn't successful
-                // --> it probably doesn't exist
-                // --> delete graphical representation
-                MapView.getInstance().removeDrawable(this);
+        switch (eventType) {
+            case REFRESH -> {
+                try {
+                    updateGraphics();
+                } catch (FileNotFoundException e) {
+                    //log
+                } catch (NullPointerException e) {
+                    //log -- fetch info from modell wasn't successful
+                    // --> it probably doesn't exist
+                    // --> delete graphical representation
+                    MapView.getInstance().removeDrawable(this);
+                }
             }
-        } else {
-            //NOP
+            case DELETE -> MapView.getInstance().removeDrawable(this);
         }
     }
 }

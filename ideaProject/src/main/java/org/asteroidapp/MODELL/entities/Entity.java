@@ -3,7 +3,6 @@ package org.asteroidapp.MODELL.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.interfaces.MoveableObserver;
 import org.asteroidapp.MODELL.interfaces.Observable;
@@ -71,7 +70,7 @@ public abstract class Entity implements MoveableObserver, Observable {
             nextSpaceObject.checkIn(this);
             log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
 
-            GameController.response.addRefreshObjects(this.getName());
+            this.signalizeUpdate(EventType.REFRESH);
         }
 
         CallStackViewer.getInstance().methodReturns();
@@ -169,7 +168,8 @@ public abstract class Entity implements MoveableObserver, Observable {
     @Override
     public void checkOut(Observer leavingObserver) {
         observers.remove(leavingObserver);
-        leavingObserver.notify(EventType.REFRESH);
+        //sztem ey nem kell, eleg ha csak checkIn-re küldönk siganlt..?
+        //leavingObserver.notify(EventType.REFRESH);
     }
 
     @Override

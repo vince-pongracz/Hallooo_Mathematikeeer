@@ -3,6 +3,7 @@ package org.asteroidapp.MODELL.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.interfaces.Observable;
 import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.util.CallStackViewer;
@@ -48,7 +49,7 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * set of entities
      */
-    protected Set<Observer> entitiesOnMe = new HashSet<>();;
+    protected Set<Observer> observers = new HashSet<>();;
 
     /**
      * SpaceObject's position
@@ -89,7 +90,7 @@ public abstract class SteppableSpaceObject implements Observable {
         CallStackViewer.getInstance().methodStartsLogCall("checkOut() called");
 
         if (leavingObserver != null) {
-            Boolean temp = entitiesOnMe.remove(leavingObserver);
+            Boolean temp = observers.remove(leavingObserver);
             log.log(Level.TRACE, "Entity removed: {}", temp.toString());
         } else {
             //NOP
@@ -103,14 +104,14 @@ public abstract class SteppableSpaceObject implements Observable {
      *
      * @param newObserver to be added to SpaceObject
      */
-    //TODO check
     public void checkIn(Observer newObserver) {
         log.log(Level.INFO, "checkIn called");
         CallStackViewer.getInstance().methodStartsLogCall("checkIn() called");
 
         if (newObserver != null) {
-            Boolean temp = entitiesOnMe.add(newObserver);
+            Boolean temp = observers.add(newObserver);
             log.log(Level.TRACE, "Entity added: {}", temp.toString());
+            newObserver.notify(EventType.REFRESH);
         } else {
             //NOP
         }

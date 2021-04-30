@@ -132,6 +132,7 @@ public class Sun implements Observable {
 
         if (newObserver != null) {
             this.observers.add(newObserver);
+            newObserver.notify(EventType.REFRESH);
         } else {
             log.log(Level.FATAL, "newThing is null");
         }
@@ -141,11 +142,12 @@ public class Sun implements Observable {
 
     @Override
     public void signalizeUpdate(EventType event) {
-        switch (event){
+        //java switch expression syntax: http://tutorials.jenkov.com/java/switch.html
+        switch (event) {
             case FLAIREVENT -> doSunFlair();
             case FLAIRWARN -> notifyAboutDanger();
-            case REFRESH -> {
-                for (var obs: observers) {
+            default -> {
+                for (var obs : observers) {
                     obs.notify(event);
                 }
             }

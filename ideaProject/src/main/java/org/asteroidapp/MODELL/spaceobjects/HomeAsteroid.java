@@ -59,7 +59,7 @@ public class HomeAsteroid extends Asteroid {
 
     @Override
     protected void explode() {
-        //NOP
+        //NOP - it's an important override!
     }
 
     public List<Resource> getResourcesWithoutTakeThem() {

@@ -1,5 +1,6 @@
 package org.asteroidapp.CONTROLLER;
 
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.*;
 import org.apache.logging.log4j.Level;
@@ -111,8 +112,6 @@ public class AsteroidZone {
             }
         }
 
-        GameController.response.addRefreshObjects(sun.getName());
-
         CallStackViewer.getInstance().methodReturns();
     }
 
@@ -138,7 +137,7 @@ public class AsteroidZone {
 
         if (spaceObj != null) {
             spaceObjects.add(spaceObj);
-            GameController.response.addRefreshObjects(spaceObj.getName());
+            spaceObj.signalizeUpdate(EventType.REFRESH);
         } else {
             log.log(Level.WARN, "spaceObj is null");
         }
@@ -157,7 +156,7 @@ public class AsteroidZone {
 
         if (removedSpaceObject != null) {
             spaceObjects.remove(removedSpaceObject);
-            GameController.response.addDeleteObjects(removedSpaceObject.getName());
+            removedSpaceObject.signalizeUpdate(EventType.DELETE);
         } else {
             log.log(Level.WARN, "removedSpaceObject is null");
         }

@@ -109,6 +109,7 @@ public class Ufo extends Entity implements Mine, AutoEntity {
         CallStackViewer.getInstance().methodStartsLogCall("doAction() called (Ufo)");
 
         stratOne();
+        this.signalizeUpdate(EventType.REFRESH);
 
         CallStackViewer.getInstance().methodReturns();
     }

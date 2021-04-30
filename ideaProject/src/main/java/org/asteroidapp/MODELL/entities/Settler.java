@@ -12,7 +12,6 @@ import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
 import org.asteroidapp.CONTROLLER.Player;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
-import org.asteroidapp.VIEW.drawables.AIRobotGraphic;
 import org.asteroidapp.VIEW.drawables.GateGraphic;
 import org.asteroidapp.VIEW.drawables.SettlerGraphic;
 import org.asteroidapp.util.CallStackViewer;
@@ -109,8 +108,6 @@ public class Settler extends Entity implements Drill, Mine {
         onAsteroid = null;
         AsteroidZone.getInstance().getSun().checkOut(this);
         owner.removeSettler(this);
-
-        GameController.response.addDeleteObjects(this.getName());
 
         //if this settler is the owner's last
         //kill the owner, because he won't play anymore (all his/her settlers are died)
@@ -317,7 +314,6 @@ public class Settler extends Entity implements Drill, Mine {
         log.log(Level.INFO, "BuildGate called");
         CallStackViewer.getInstance().methodStartsLogCall("buildGate() called (Settler)");
 
-
         if (createdGates.size() != 0) {     /////////////// SIZE CHECK INSTEAD OF NULL CHECK
             Gate gate = createdGates.remove(0);
 
@@ -326,6 +322,7 @@ public class Settler extends Entity implements Drill, Mine {
             onAsteroid.checkIn(gate);
 
             AsteroidZone.getInstance().addSpaceObject(gate);
+            gate.signalizeUpdate(EventType.REFRESH);
             success = true;
         } else {
             log.log(Level.INFO, "You do not have any gates to place");
@@ -345,13 +342,13 @@ public class Settler extends Entity implements Drill, Mine {
         log.log(Level.INFO, "ListResources called");
         CallStackViewer.getInstance().methodStartsLogCall("listResources() called (Settler)");
 
-        ConsoleUI.getInstance().sendMessageToConsole(resources.toString());
+        //ConsoleUI.getInstance().sendMessageToConsole(resources.toString());
 
         CallStackViewer.getInstance().methodReturns();
         return resources.getResourceList();
     }
 
-    public ResourceStorage getStorage() {
+    public final ResourceStorage getStorage() {
         return resources;
     }
 
