@@ -28,13 +28,4 @@ public class UfoGraphic  extends Drawable {
     public String getName() {
         return ufo.getName();
     }
-
-    @Override
-    public void recieveNotification(EventType eventType) {
-        if(eventType == EventType.REFRESH){
-            setVisible(true);
-
-
-        }
-    }
 }

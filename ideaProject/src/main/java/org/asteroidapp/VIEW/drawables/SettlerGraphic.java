@@ -28,9 +28,4 @@ public class SettlerGraphic extends Drawable {
     public String getName() {
         return settler.getName();
     }
-
-    @Override
-    public void recieveNotification(EventType eventType) {
-
-    }
 }

@@ -1,5 +1,7 @@
 package org.asteroidapp.MODELL.interfaces;
 
+import jdk.jfr.Event;
+
 /**
  * Interface for observer pattern (observers check in, and out form objects)
  */
@@ -16,4 +18,6 @@ public interface Observable {
 	 * @param newObserver entity, who checks on, and will be notified about events
 	 */
 	void checkIn(Observer newObserver);
+
+	void signalizeUpdate(EventType event);
 }

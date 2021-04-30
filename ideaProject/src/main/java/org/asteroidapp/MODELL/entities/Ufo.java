@@ -40,7 +40,7 @@ public class Ufo extends Entity implements Mine, AutoEntity {
         resources = new ResourceStorage();
         resources.setAllCapacity(UfoCapacity);
 
-        new UfoGraphic(this);
+        this.checkIn(new UfoGraphic(this));
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -98,36 +98,6 @@ public class Ufo extends Entity implements Mine, AutoEntity {
         CallStackViewer.getInstance().methodReturns();
     }
 
-    private void notifyFlairEvent() {
-        log.log(Level.INFO, "notifyFlairEvent called");
-        CallStackViewer.getInstance().methodStartsLogCall("notifyFlairEvent() called (AIRobot)");
-
-        die();
-
-        CallStackViewer.getInstance().methodReturns();
-    }
-
-    private void notifyFlairDanger() {
-        //TODO AI in Robots... (opt)
-        log.log(Level.INFO, "notifyFlairDanger called");
-        CallStackViewer.getInstance().methodStartsLogCall("notifyFlairDanger() called (AIRobot)");
-
-        log.log(Level.INFO, "Hey ufo, you should hide!");
-
-        //NOP for Robots...
-        //or some logic required to make a hole and hide
-        CallStackViewer.getInstance().methodReturns();
-    }
-
-    private void notifyAsteroidExplosion() {
-        log.log(Level.INFO, "notifyAsteroidExplosion called");
-        CallStackViewer.getInstance().methodStartsLogCall("notifyAsteroidExplosion() called (AIRobot)");
-
-        move(chooseNeighbour(listMyNeighbours()));
-
-        CallStackViewer.getInstance().methodReturns();
-    }
-
     /**
      * counter for decision
      */
@@ -167,7 +137,10 @@ public class Ufo extends Entity implements Mine, AutoEntity {
     }
 
     @Override
-    public void recieveNotification(EventType eventType) {
-
+    public void notify(EventType eventType) {
+        switch (eventType){
+            case FLAIRWARN -> log.log(Level.INFO, "Hey ufo, you should hide!");
+            case EXPLOSION -> move(chooseNeighbour(listMyNeighbours()));
+        }
     }
 }

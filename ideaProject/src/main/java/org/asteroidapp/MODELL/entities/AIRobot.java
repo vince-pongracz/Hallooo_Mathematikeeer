@@ -5,9 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.CONTROLLER.AsteroidZone;
 import org.asteroidapp.CONTROLLER.GameController;
-import org.asteroidapp.MODELL.interfaces.AutoEntity;
-import org.asteroidapp.MODELL.interfaces.Drill;
-import org.asteroidapp.MODELL.interfaces.EventType;
+import org.asteroidapp.MODELL.interfaces.*;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.VIEW.drawables.AIRobotGraphic;
 import org.asteroidapp.util.CallStackViewer;
@@ -39,7 +37,8 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
             log.log(Level.FATAL, "null parameters in constructor!");
         }
 
-        new AIRobotGraphic(this);
+
+        this.checkIn(new AIRobotGraphic(this));
         CallStackViewer.getInstance().methodReturns();
     }
 
@@ -133,7 +132,7 @@ public class AIRobot extends Entity implements Drill, AutoEntity {
     }
 
     @Override
-    public void recieveNotification(EventType eventType) {
+    public void notify(EventType eventType) {
         switch (eventType){
             case FLAIREVENT -> die();
             case EXPLOSION -> move(this.chooseNeighbour(listMyNeighbours()));

@@ -3,9 +3,9 @@ package org.asteroidapp.MODELL.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.MODELL.interfaces.EventObservable;
 import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.interfaces.EventType;
+import org.asteroidapp.MODELL.interfaces.Observable;
 import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.util.CallStackViewer;
 
@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * Sun class
  */
-public class Sun implements EventObservable {
+public class Sun implements Observable {
 
     /**
      * Logger for Sun class
@@ -27,7 +27,7 @@ public class Sun implements EventObservable {
     /**
      * own set from entities, they will be notified
      */
-    private Set<Observer> entities = null;
+    private Set<Observer> observers = new HashSet<>();
 
     /**
      * Default constructor
@@ -38,7 +38,6 @@ public class Sun implements EventObservable {
 
         if (position != null) {
             this.position = position;
-            this.entities = new HashSet<>();
 
             log.log(Level.TRACE, "Sun created at position: ({};{})", position.getX(), position.getY());
         } else {
@@ -77,7 +76,7 @@ public class Sun implements EventObservable {
             while (settlerIterator.hasNext()) {
 
                 var settlerItem = settlerIterator.next();
-                settlerItem.recieveNotification(EventType.FLAIREVENT);
+                settlerItem.notify(EventType.FLAIREVENT);
             }
 
             //if playerOn has empty collection
@@ -96,7 +95,7 @@ public class Sun implements EventObservable {
     /**
      * Notify about the danger of sunFlair
      */
-    public void notifyAboutDanger() {
+    private void notifyAboutDanger() {
         log.log(Level.INFO, "notifyAboutDanger called");
         CallStackViewer.getInstance().methodStartsLogCall("notifyAboutDanger() called (Sun)");
 
@@ -105,22 +104,9 @@ public class Sun implements EventObservable {
         while (playerIterator.hasNext()) {
             var settlerIterator = playerIterator.next().getIterOnMySettlers();
             while (settlerIterator.hasNext()) {
-                settlerIterator.next().recieveNotification(EventType.FLAIRWARN);
+                settlerIterator.next().notify(EventType.FLAIRWARN);
             }
         }
-
-        CallStackViewer.getInstance().methodReturns();
-    }
-
-    /**
-     * Notify about the danger of sunFlair
-     * also call sunFlair
-     */
-    public void notifyAboutDieEvent() {
-        log.log(Level.INFO, "notifyAboutDieEvent called");
-        CallStackViewer.getInstance().methodStartsLogCall("notifyAboutDieEvent() called (Sun)");
-
-        doSunFlair();
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -131,7 +117,7 @@ public class Sun implements EventObservable {
         CallStackViewer.getInstance().methodStartsLogCall("checkOut() called (Sun)");
 
         if (leavingObserver != null) {
-            this.entities.remove(leavingObserver);
+            this.observers.remove(leavingObserver);
         } else {
             log.log(Level.FATAL, "leavingThing is null");
         }
@@ -145,7 +131,7 @@ public class Sun implements EventObservable {
         CallStackViewer.getInstance().methodStartsLogCall("checkIn() called (Sun)");
 
         if (newObserver != null) {
-            this.entities.add(newObserver);
+            this.observers.add(newObserver);
         } else {
             log.log(Level.FATAL, "newThing is null");
         }
@@ -153,7 +139,20 @@ public class Sun implements EventObservable {
         CallStackViewer.getInstance().methodReturns();
     }
 
+    @Override
+    public void signalizeUpdate(EventType event) {
+        switch (event){
+            case FLAIREVENT -> doSunFlair();
+            case FLAIRWARN -> notifyAboutDanger();
+            case REFRESH -> {
+                for (var obs: observers) {
+                    obs.notify(event);
+                }
+            }
+        }
+    }
+
     public String getName() {
-        return "sun";
+        return "Sun";
     }
 }

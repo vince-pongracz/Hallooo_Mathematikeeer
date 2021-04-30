@@ -30,13 +30,4 @@ public class AIRobotGraphic extends Drawable {
     public String getName() {
         return aiRobot.getName();
     }
-
-    @Override
-    public void recieveNotification(EventType eventType) {
-        if(aiRobot != null){
-            try {
-                draw();
-            }catch (FileNotFoundException e){}
-        }
-    }
 }

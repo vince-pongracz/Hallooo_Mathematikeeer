@@ -29,8 +29,4 @@ public class AsteroidGraphic extends Drawable {
         return asteroid.getName();
     }
 
-    @Override
-    public void recieveNotification(EventType eventType) {
-
-    }
 }

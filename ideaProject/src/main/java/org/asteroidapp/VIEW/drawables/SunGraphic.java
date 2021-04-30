@@ -28,9 +28,4 @@ public class SunGraphic extends Drawable {
     public String getName() {
         return "Sun";
     }
-
-    @Override
-    public void recieveNotification(EventType eventType) {
-
-    }
 }

@@ -28,9 +28,4 @@ public class GateGraphic extends Drawable{
     public String getName() {
         return gate.getName();
     }
-
-    @Override
-    public void recieveNotification(EventType eventType) {
-
-    }
 }

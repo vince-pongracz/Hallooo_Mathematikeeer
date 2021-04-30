@@ -50,6 +50,7 @@ public class MapView {
 
     public void refreshMap() {
         //TODO refactor
+        //igazabol mit csinal a refreshmap?
         for (int i = 0; i < drawables.size(); i++) {
 
             //mapViewGroup.
@@ -63,7 +64,7 @@ public class MapView {
             for (int j = 0; j < drawables.size(); j++){
                 if (drawables.get(i).getPrior() == 1) {
                     try {
-                        mapViewGroup.getChildren().addAll(drawables.get(i).draw());
+                        mapViewGroup.getChildren().addAll(drawables.get(i).updateGraphics());
                     } catch (FileNotFoundException e){
                         //TODO log/popup
                     }
@@ -73,7 +74,7 @@ public class MapView {
             for (int k = 0; k < drawables.size(); k++){
                 if (drawables.get(i).getPrior() == 2) {
                     try {
-                        mapViewGroup.getChildren().addAll(drawables.get(i).draw());
+                        mapViewGroup.getChildren().addAll(drawables.get(i).updateGraphics());
                     } catch (FileNotFoundException e){
                         //TODO log/popup
                     }

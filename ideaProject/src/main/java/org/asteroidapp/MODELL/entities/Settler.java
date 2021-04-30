@@ -12,6 +12,8 @@ import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
 import org.asteroidapp.CONTROLLER.Player;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
+import org.asteroidapp.VIEW.drawables.AIRobotGraphic;
+import org.asteroidapp.VIEW.drawables.GateGraphic;
 import org.asteroidapp.VIEW.drawables.SettlerGraphic;
 import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.ConsoleUI;
@@ -46,7 +48,6 @@ public class Settler extends Entity implements Drill, Mine {
 
         if (owner != null) {
             this.owner = owner;
-            createdGates = new ArrayList<>();     ////// INITIALIZED GATE INVENTORY
         } else {
             log.log(Level.FATAL, "owner is null!");
         }
@@ -61,7 +62,7 @@ public class Settler extends Entity implements Drill, Mine {
         resources.pushMore(2, new FrozenWater());
         resources.pushMore(3, new Iron());
 
-        new SettlerGraphic(this);
+        this.checkIn(new SettlerGraphic(this));
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -117,6 +118,8 @@ public class Settler extends Entity implements Drill, Mine {
             owner.killPlayer();
         }
 
+        this.signalizeUpdate(EventType.DELETE);
+
         CallStackViewer.getInstance().methodReturns();
     }
 
@@ -167,7 +170,7 @@ public class Settler extends Entity implements Drill, Mine {
     /**
      * It stores the gates that the player created
      */
-    private List<Gate> createdGates = null;
+    private List<Gate> createdGates = new ArrayList<>();
 
     /**
      * It stores the player where the settler belongs to
@@ -190,8 +193,11 @@ public class Settler extends Entity implements Drill, Mine {
             resources.popResource(new Uran());
 
             AIRobot bot = new AIRobot("Robot", onAsteroid);
+
             GameController.getInstance().addBot(bot);
             log.log(Level.INFO, "Bot created at {} asteroid", onAsteroid.getName());
+
+            this.signalizeUpdate(EventType.REFRESH);
 
             CallStackViewer.getInstance().methodReturns();
             return true;
@@ -235,6 +241,7 @@ public class Settler extends Entity implements Drill, Mine {
         }
 
         CallStackViewer.getInstance().methodReturns();
+        this.signalizeUpdate(EventType.REFRESH);
         return mineSuccess;
     }
 
@@ -273,6 +280,7 @@ public class Settler extends Entity implements Drill, Mine {
         }
 
         CallStackViewer.getInstance().methodReturns();
+        this.signalizeUpdate(EventType.REFRESH);
         return createSuccess;
     }
 
@@ -297,6 +305,7 @@ public class Settler extends Entity implements Drill, Mine {
         }
         log.log(Level.INFO, "The selected resource can not be chosen");
         CallStackViewer.getInstance().methodReturns();
+        this.signalizeUpdate(EventType.REFRESH);
         return false;
     }
 
@@ -312,6 +321,7 @@ public class Settler extends Entity implements Drill, Mine {
         if (createdGates.size() != 0) {     /////////////// SIZE CHECK INSTEAD OF NULL CHECK
             Gate gate = createdGates.remove(0);
 
+            gate.checkIn(new GateGraphic(gate));
             gate.setMyAsteroid(this.onAsteroid);
             onAsteroid.checkIn(gate);
 
@@ -346,7 +356,7 @@ public class Settler extends Entity implements Drill, Mine {
     }
 
     @Override
-    public void recieveNotification(EventType eventType) {
+    public void notify(EventType eventType) {
         switch (eventType) {
             case EXPLOSION -> die();
             case FLAIREVENT -> notifyFlairEvent();

@@ -20,7 +20,7 @@ public class AppController extends Application {
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Asteroid 1.0 - HalloMath");
 
         Menu menu = new Menu(primaryStage);
         VBox hbox = menu.getVBox();

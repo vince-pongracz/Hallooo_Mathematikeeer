@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.interfaces.MoveableObserver;
+import org.asteroidapp.MODELL.interfaces.Observable;
+import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Asteroid;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
@@ -20,7 +22,7 @@ import java.util.*;
  * The move anf listMyNeighbours functions are just implemented
  * the others are abstract and they will be implemented in Settler or AIRobot
  */
-public abstract class Entity implements MoveableObserver {
+public abstract class Entity implements MoveableObserver, Observable {
 
     /**
      * Logger for Entity
@@ -154,5 +156,26 @@ public abstract class Entity implements MoveableObserver {
     }
 
     @Override
-    public abstract void recieveNotification(EventType eventType);
+    public abstract void notify(EventType eventType);
+
+    List<Observer> observers = new ArrayList<>();
+
+    @Override
+    public void checkIn(Observer newObserver) {
+        observers.add(newObserver);
+        newObserver.notify(EventType.REFRESH);
+    }
+
+    @Override
+    public void checkOut(Observer leavingObserver) {
+        observers.remove(leavingObserver);
+        leavingObserver.notify(EventType.REFRESH);
+    }
+
+    @Override
+    public void signalizeUpdate(EventType event) {
+        for (var obs:observers) {
+            obs.notify(event);
+        }
+    }
 }

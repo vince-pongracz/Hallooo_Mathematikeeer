@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.MODELL.entities.AIRobot;
 import org.asteroidapp.MODELL.entities.Ufo;
 import org.asteroidapp.MODELL.entities.Settler;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Sun;
 import org.asteroidapp.util.ActionResponse;
@@ -387,11 +388,11 @@ public class GameController {
         if (getRound() % Sun.sunFlairInEveryXRound == 0) {
             log.log(Level.TRACE, "flair event will be launched");
 
-            AsteroidZone.getInstance().getSun().notifyAboutDieEvent();
+            AsteroidZone.getInstance().getSun().signalizeUpdate(EventType.FLAIREVENT);
         } else if (getRound() % Sun.sunFlairInEveryXRound == (Sun.sunFlairInEveryXRound - 2)) {
             log.log(Level.TRACE, "flair is coming in the future!");
 
-            AsteroidZone.getInstance().getSun().notifyAboutDanger();
+            AsteroidZone.getInstance().getSun().signalizeUpdate(EventType.FLAIRWARN);
         } else {
             log.log(Level.TRACE, "no flair event in this round");
             //NOP

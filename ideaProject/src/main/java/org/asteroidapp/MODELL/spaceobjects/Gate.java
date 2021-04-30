@@ -69,6 +69,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         log.log(Level.TRACE, "Gate's setMyAsteroid called");
         this.currentAsteroid = asteroid;
         this.position = asteroid.position;
+        this.signalizeUpdate(EventType.REFRESH);
     }
 
     @Override
@@ -112,6 +113,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     @Override
     public String getInfo() {
         log.log(Level.TRACE, "Gate's getInfo called");
+        this.signalizeUpdate(EventType.REFRESH);
         return "Some example info";
     }
 
@@ -143,7 +145,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         currentAsteroid.checkOut(this);
         currentAsteroid = target.getTarget();
         currentAsteroid.checkIn(this);
-        GameController.response.addRefreshObjects(this.getName());
+        this.signalizeUpdate(EventType.REFRESH);
     }
 
     public Asteroid getCurrentAsteroid() {
@@ -176,10 +178,18 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     }
 
     @Override
-    public void recieveNotification(EventType eventType) {
+    public void signalizeUpdate(EventType event) {
+        for (var obs:entitiesOnMe) {
+            obs.notify(event);
+        }
+    }
+
+    @Override
+    public void notify(EventType eventType) {
         switch (eventType) {
             case EXPLOSION -> notifyAsteroidExplosion();
             case FLAIREVENT -> notifyFlairEvent();
         }
+        this.signalizeUpdate(EventType.REFRESH);
     }
 }

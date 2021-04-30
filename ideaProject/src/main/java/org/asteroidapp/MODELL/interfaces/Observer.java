@@ -4,5 +4,5 @@ public interface Observer {
 	/**
 	 * This method will inform the observer
 	 */
-	public void recieveNotification(EventType eventType);
+	public void notify(EventType eventType);
 }
