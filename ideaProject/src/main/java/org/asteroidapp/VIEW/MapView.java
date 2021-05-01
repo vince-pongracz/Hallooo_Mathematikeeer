@@ -9,6 +9,8 @@ import org.asteroidapp.VIEW.drawables.Drawable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MapView {
@@ -45,7 +47,30 @@ public class MapView {
 
     public void refreshMap() {
         //TODO refactor
-        for (int i = 0; i < drawables.size(); i++) {
+
+        Collections.sort(drawables, new Comparator<Drawable>() {
+            @Override
+            public int compare(Drawable d1, Drawable d2) {
+                if ( d1.getPrior() < d2.getPrior())
+                    return 1;
+                if (d1.getPrior() > d2.getPrior())
+                    return -1;
+                return 0;
+            }
+        });
+        mapViewGroup.getChildren().removeAll();
+        mapViewGroup.getChildren().addAll(imBackground);
+        for (int i = 0; i < drawables.size(); i++){
+            if (drawables.get(i).getPrior() == 1) {
+                try {
+                    mapViewGroup.getChildren().addAll(drawables.get(i).draw());
+                } catch (FileNotFoundException e){
+                    //TODO log/popup
+                }
+
+            }
+        }
+      /*  for (int i = 0; i < drawables.size(); i++) {
             //prior alapjan rendezze
             //background 0
             //asteroida 1
@@ -71,8 +96,9 @@ public class MapView {
                     }
                 }
             }
-        }
+        }*/
     }
+
 
     public Group getMapViewGroup(){
         return mapViewGroup;
