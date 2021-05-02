@@ -80,6 +80,8 @@ public class Menu {
                 //Itt meg at kell adni a jatekosok nevet majd
                 //ConsoleUI.getInstance().sendMessageToConsole(""); ??
 
+                //TODO CmdInterpreter initGame: initmessage osszerak
+
                 RightView rightView = null;
                 MapView mapView = MapView.getInstance();
 

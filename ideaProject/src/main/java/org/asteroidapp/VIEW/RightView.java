@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW;
 
+import com.google.gson.JsonObject;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -34,7 +35,6 @@ public class RightView {
         vbox.setBackground(new Background(new BackgroundFill(Color.rgb(40, 40, 40), CornerRadii.EMPTY, Insets.EMPTY)));
 
         for (int i = 0; i < 7; i++) {
-
             images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Portal.gif"))));
             images.get(i).setPreserveRatio(true);
             images.get(i).setFitHeight(35);
