@@ -1,5 +1,9 @@
 package org.asteroidapp.VIEW;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,6 +16,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.asteroidapp.CONTROLLER.CommandInterpreter;
 import org.asteroidapp.MODELL.entities.Settler;
 import org.asteroidapp.MODELL.resources.*;
 
@@ -25,6 +30,7 @@ public class RightView {
     ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(new Button(" Move "), new Button(" Drill "), new Button(" Mine "), new Button(" Create gate "), new Button(" Build Gate "), new Button(" Create Robot "), new Button(" Deploy Resource ")));
     ArrayList<Label> labels = new ArrayList<>(Arrays.asList(new Label("Gate: 0"), new Label(" Iron: 0" ), new Label(" Coal: 0"), new Label(" Uran: 0"), new Label(" Frozen water: 0"), new Label("-------------------------------\n   Aron's Settler2's round \n   Sunflair is coming in 3 rounds")));
     ArrayList<ImageView> images = new ArrayList<>();
+    JsonObject command;
 
     //TODO method define actionListeners
 
@@ -52,6 +58,55 @@ public class RightView {
             labels.get(i).getStyleClass().add("labelRightFont");
             vbox.getChildren().add(labels.get(i));
         }
+
+        //move
+        buttons.get(0).setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                //? kattintással kiválasztani ?
+            }
+        });
+
+        //drill
+        buttons.get(1).setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                //send command drill
+            }
+        });
+
+        //mine
+        buttons.get(2).setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                //send command mine
+            }
+        });
+
+        //create gate
+        buttons.get(3).setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                //send command create gate
+            }
+        });
+
+        //build gate
+        buttons.get(4).setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                //send command build gate
+            }
+        });
+
+        //create robot
+        buttons.get(5).setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                //send command create robot
+            }
+        });
+
+        //deploy resource
+        buttons.get(6).setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                // ? popup ?
+            }
+        });
     }
 
     public VBox getVBox(){
