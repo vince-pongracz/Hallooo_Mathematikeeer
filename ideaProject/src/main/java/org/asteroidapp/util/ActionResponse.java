@@ -4,16 +4,16 @@ public class ActionResponse {
     private boolean success;
     private String message = "Default";
 
-    public boolean isWin() {
-        return win;
+    public GameState getGameState() {
+        return gameState;
     }
 
-    public ActionResponse setWin(boolean win) {
-        this.win = win;
+    public ActionResponse setGameState(GameState newState) {
+        gameState = newState;
         return this;
     }
 
-    private boolean win = false;
+    private GameState gameState = GameState.RUNNING;
 
     public boolean isSuccessful() {
         return success;

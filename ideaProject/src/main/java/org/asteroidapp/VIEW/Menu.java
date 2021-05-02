@@ -13,6 +13,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.asteroidapp.util.InitMessage;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

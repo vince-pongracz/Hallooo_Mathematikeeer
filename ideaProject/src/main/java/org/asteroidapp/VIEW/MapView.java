@@ -18,6 +18,7 @@ public class MapView {
     public static final String spaceshipGif = "file:src/main/java/resources/images/Spaceship.gif";
     public static final String sunGif = "file:src/main/java/resources/images/Sun.gif";
 
+    
 
     Image backgroundImage = new Image("file:src/main/java/resources/images/asteroid_game.gif");
     ImageView imBackground = new ImageView(backgroundImage);
