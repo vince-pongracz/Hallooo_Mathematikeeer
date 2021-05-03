@@ -30,7 +30,6 @@ public class RightView {
     ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(new Button(" Move "), new Button(" Drill "), new Button(" Mine "), new Button(" Create gate "), new Button(" Build Gate "), new Button(" Create Robot "), new Button(" Deploy Resource ")));
     ArrayList<Label> labels = new ArrayList<>(Arrays.asList(new Label("Gate: 0"), new Label(" Iron: 0" ), new Label(" Coal: 0"), new Label(" Uran: 0"), new Label(" Frozen water: 0"), new Label("-------------------------------\n   Aron's Settler2's round \n   Sunflair is coming in 3 rounds")));
     ArrayList<ImageView> images = new ArrayList<>();
-    JsonObject command;
 
     //TODO method define actionListeners
 
@@ -62,7 +61,7 @@ public class RightView {
         //move
         buttons.get(0).setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                //? kattintással kiválasztani ?
+                //? kattintással kiválasztani
             }
         });
 
@@ -70,6 +69,10 @@ public class RightView {
         buttons.get(1).setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 //send command drill
+                JsonObject jsonCmd = new JsonObject();
+                jsonCmd.addProperty("command", "drill");
+                var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
+                reactToActionResponse(response);
             }
         });
 
@@ -84,6 +87,10 @@ public class RightView {
         buttons.get(3).setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 //send command create gate
+                JsonObject jsonCmd = new JsonObject();
+                jsonCmd.addProperty("command", "createGate");
+                var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
+                reactToActionResponse(response);
             }
         });
 
@@ -91,6 +98,10 @@ public class RightView {
         buttons.get(4).setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 //send command build gate
+                JsonObject jsonCmd = new JsonObject();
+                jsonCmd.addProperty("command", "buildGate");
+                var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
+                reactToActionResponse(response);
             }
         });
 
@@ -98,6 +109,10 @@ public class RightView {
         buttons.get(5).setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 //send command create robot
+                JsonObject jsonCmd = new JsonObject();
+                jsonCmd.addProperty("command", "createBot");
+                var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
+                reactToActionResponse(response);
             }
         });
 
