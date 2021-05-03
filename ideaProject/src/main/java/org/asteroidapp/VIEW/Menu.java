@@ -87,11 +87,6 @@ public class Menu {
 
                 String[] namesString = names.toArray(new String[0]);
 
-                for (int i = 0; i < Integer.parseInt(textArea.getText()); i++) {
-                    namesString[i] = names.get(i);
-
-                }
-
                 InitMessage initMessage = new InitMessage().setPlayerNum(Integer.parseInt(textArea.getText())).setNames(namesString).setAsteroidNum(30).setHomeCapacity(6).setMaxRound(50).setSettlerCapacity(4).setSettlerNum(2).setSunFlairInEveryXRound(5).setUfoNum(3);
 
                 CommandInterpreter.getInstance().initGame(initMessage);
