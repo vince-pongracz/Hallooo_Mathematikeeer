@@ -65,7 +65,7 @@ public class MapView {
                 return 0;
             }
         });
-        mapViewGroup.getChildren().removeAll();
+        mapViewGroup.getChildren().clear();
         mapViewGroup.getChildren().addAll(imBackground);
         for (int i = 0; i < drawables.size(); i++){
             if (drawables.get(i).getPrior() == 1) {
