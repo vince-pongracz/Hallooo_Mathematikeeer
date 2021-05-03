@@ -1,5 +1,7 @@
 package org.asteroidapp.util;
 
+import java.util.ArrayList;
+
 public class InitMessage {
     private int playerNum = 0;
     private int settlerNum = 0;
@@ -11,16 +13,18 @@ public class InitMessage {
     private int settlerCapacity = 10;
     private int defOfCloseToSun = 500;
 
-    public String[] getNames() {
+   public String[] getNames() {
         return names;
-    }
+   }
 
     public InitMessage setNames(String[] names) {
         this.names = names;
         return this;
     }
 
-    private String[] names;
+
+      private String[] names;
+
 
     public boolean check() {
         if (playerNum > 0
