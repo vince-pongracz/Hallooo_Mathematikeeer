@@ -1,8 +1,10 @@
 package org.asteroidapp.CONTROLLER;
 
 import com.google.gson.*;
+import javafx.geometry.Pos;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.util.ActionResponse;
 import org.asteroidapp.util.InitMessage;
 
@@ -24,6 +26,7 @@ public class CommandInterpreter {
     private ActionResponse initActionResponse(ActionResponse response) {
         response = null;
         response = new ActionResponse();
+        response.setSuccess(false);
         return response;
     }
 
@@ -50,6 +53,24 @@ public class CommandInterpreter {
             var str = command.get("command").getAsString();
 
             if (str.equals("move") && command.has("target")) {
+
+                //OPTION choose
+                boolean hasPositionField = command.get("target").getAsJsonObject().has("targetX") &&
+                        command.get("target").getAsJsonObject().has("targetY");
+                if (hasPositionField) {
+                    double x = command.get("target").getAsJsonObject().get("targetX").getAsDouble();
+                    double y = command.get("target").getAsJsonObject().get("targetY").getAsDouble();
+                    Position pos = new Position(x, y);
+                    var targetSteppable = AsteroidZone.getInstance().getNearestObject(pos);
+                    if (actualSettler.listMyNeighbours().contains(targetSteppable)) {
+                        actualSettler.move(targetSteppable);
+                        GameController.response.setSuccess(true);
+                    } else {
+                        GameController.response.setSuccess(false);
+                    }
+                }
+
+
                 var target = command.get("target").getAsString();
                 var targetSteppable = AsteroidZone.getInstance().getObjectByName(target);
                 if (targetSteppable != null && actualSettler.listMyNeighbours().contains(targetSteppable)) {

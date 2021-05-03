@@ -2,14 +2,13 @@ package org.asteroidapp.VIEW.drawables;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.asteroidapp.MODELL.interfaces.EventType;
+import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Map;
 
 /**
  * This is an abstract base class for the objects that will be drawn on the field

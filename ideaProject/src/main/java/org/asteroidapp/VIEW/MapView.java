@@ -7,6 +7,8 @@ import org.asteroidapp.VIEW.drawables.Drawable;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MapView {
@@ -51,38 +53,33 @@ public class MapView {
 
     public void refreshMap() {
         //TODO refactor
-        //igazabol mit csinal a refreshmap?
-        for (int i = 0; i < drawables.size(); i++) {
 
-            //mapViewGroup.
 
-            //prior alapjan rendezze
-            //background 0
-            //asteroida 1
-            // tobbi az ketto
-            mapViewGroup.getChildren().removeAll();
-            mapViewGroup.getChildren().addAll(imBackground);
-            for (int j = 0; j < drawables.size(); j++){
-                if (drawables.get(i).getPrior() == 1) {
-                    try {
-                        mapViewGroup.getChildren().addAll(drawables.get(i).updateGraphics());
-                    } catch (FileNotFoundException e){
-                        //TODO log/popup
-                    }
-
-                }
+        Collections.sort(drawables, new Comparator<Drawable>() {
+            @Override
+            public int compare(Drawable d1, Drawable d2) {
+                if ( d1.getPrior() < d2.getPrior())
+                    return 1;
+                if (d1.getPrior() > d2.getPrior())
+                    return -1;
+                return 0;
             }
-            for (int k = 0; k < drawables.size(); k++){
-                if (drawables.get(i).getPrior() == 2) {
-                    try {
-                        mapViewGroup.getChildren().addAll(drawables.get(i).updateGraphics());
-                    } catch (FileNotFoundException e){
-                        //TODO log/popup
-                    }
+        });
+        mapViewGroup.getChildren().clear();
+        mapViewGroup.getChildren().addAll(imBackground);
+        for (int i = 0; i < drawables.size(); i++){
+            if (drawables.get(i).getPrior() == 1) {
+                try {
+                    mapViewGroup.getChildren().addAll(drawables.get(i).updateGraphics());
+                } catch (FileNotFoundException e){
+                    //TODO log/popup
                 }
+
             }
         }
+
     }
+
 
     public Group getMapViewGroup(){
         return mapViewGroup;
