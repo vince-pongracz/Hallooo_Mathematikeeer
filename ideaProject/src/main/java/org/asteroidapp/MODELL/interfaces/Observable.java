@@ -1,6 +1,6 @@
 package org.asteroidapp.MODELL.interfaces;
 
-import jdk.jfr.Event;
+import org.asteroidapp.MODELL.EventType;
 
 /**
  * Interface for observer pattern (observers check in, and out form objects)

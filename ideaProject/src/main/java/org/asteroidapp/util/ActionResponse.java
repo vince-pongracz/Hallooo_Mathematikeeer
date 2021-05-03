@@ -1,7 +1,7 @@
 package org.asteroidapp.util;
 
 public class ActionResponse {
-    private boolean success;
+    private boolean success = false;
     private String message = "Default";
 
     public GameState getGameState() {
@@ -33,8 +33,8 @@ public class ActionResponse {
         return this;
     }
 
-    public ActionResponse setDefaultMessage(){
-        this.message = success ? "Successed" : "Invalid or wrong operation";
+    public ActionResponse setDefaultMessage() {
+        this.message = (success && message.equals("Default")) ? "Successed" : "Invalid or wrong operation";
         return this;
     }
 }
