@@ -3,9 +3,10 @@ package org.asteroidapp.MODELL.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.MODELL.interfaces.EventObservable;
 import org.asteroidapp.CONTROLLER.GameController;
-import org.asteroidapp.MODELL.interfaces.MoveableObserver;
+import org.asteroidapp.MODELL.interfaces.EventType;
+import org.asteroidapp.MODELL.interfaces.Observable;
+import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.HashSet;
@@ -14,7 +15,7 @@ import java.util.Set;
 /**
  * Sun class
  */
-public class Sun implements EventObservable {
+public class Sun implements Observable {
 
     /**
      * Logger for Sun class
@@ -26,7 +27,7 @@ public class Sun implements EventObservable {
     /**
      * own set from entities, they will be notified
      */
-    private Set<MoveableObserver> entities = null;
+    private Set<Observer> observers = new HashSet<>();
 
     /**
      * Default constructor
@@ -37,7 +38,6 @@ public class Sun implements EventObservable {
 
         if (position != null) {
             this.position = position;
-            this.entities = new HashSet<>();
 
             log.log(Level.TRACE, "Sun created at position: ({};{})", position.getX(), position.getY());
         } else {
@@ -76,7 +76,7 @@ public class Sun implements EventObservable {
             while (settlerIterator.hasNext()) {
 
                 var settlerItem = settlerIterator.next();
-                settlerItem.notifyFlairEvent();
+                settlerItem.notify(EventType.FLAIREVENT);
             }
 
             //if playerOn has empty collection
@@ -95,7 +95,7 @@ public class Sun implements EventObservable {
     /**
      * Notify about the danger of sunFlair
      */
-    public void notifyAboutDanger() {
+    private void notifyAboutDanger() {
         log.log(Level.INFO, "notifyAboutDanger called");
         CallStackViewer.getInstance().methodStartsLogCall("notifyAboutDanger() called (Sun)");
 
@@ -104,55 +104,57 @@ public class Sun implements EventObservable {
         while (playerIterator.hasNext()) {
             var settlerIterator = playerIterator.next().getIterOnMySettlers();
             while (settlerIterator.hasNext()) {
-                settlerIterator.next().notifyFlairDanger();
+                settlerIterator.next().notify(EventType.FLAIRWARN);
             }
         }
 
         CallStackViewer.getInstance().methodReturns();
     }
 
-    /**
-     * Notify about the danger of sunFlair
-     * also call sunFlair
-     */
-    public void notifyAboutDieEvent() {
-        log.log(Level.INFO, "notifyAboutDieEvent called");
-        CallStackViewer.getInstance().methodStartsLogCall("notifyAboutDieEvent() called (Sun)");
-
-        doSunFlair();
-
-        CallStackViewer.getInstance().methodReturns();
-    }
-
     @Override
-    public void checkOut(MoveableObserver leavingEntity) {
+    public void checkOut(Observer leavingObserver) {
         log.log(Level.INFO, "checkOut called");
         CallStackViewer.getInstance().methodStartsLogCall("checkOut() called (Sun)");
 
-        if (leavingEntity != null) {
-            this.entities.remove(leavingEntity);
+        if (leavingObserver != null) {
+            this.observers.remove(leavingObserver);
         } else {
-            log.log(Level.FATAL, "leavingEntity is null");
+            log.log(Level.FATAL, "leavingThing is null");
         }
 
         CallStackViewer.getInstance().methodReturns();
     }
 
     @Override
-    public void checkIn(MoveableObserver newEntity) {
+    public void checkIn(Observer newObserver) {
         log.log(Level.INFO, "checkIn called");
         CallStackViewer.getInstance().methodStartsLogCall("checkIn() called (Sun)");
 
-        if (newEntity != null) {
-            this.entities.add(newEntity);
+        if (newObserver != null) {
+            this.observers.add(newObserver);
+            newObserver.notify(EventType.REFRESH);
         } else {
-            log.log(Level.FATAL, "newEntity is null");
+            log.log(Level.FATAL, "newThing is null");
         }
 
         CallStackViewer.getInstance().methodReturns();
     }
 
+    @Override
+    public void signalizeUpdate(EventType event) {
+        //java switch expression syntax: http://tutorials.jenkov.com/java/switch.html
+        switch (event) {
+            case FLAIREVENT -> doSunFlair();
+            case FLAIRWARN -> notifyAboutDanger();
+            default -> {
+                for (var obs : observers) {
+                    obs.notify(event);
+                }
+            }
+        }
+    }
+
     public String getName() {
-        return "sun";
+        return "Sun";
     }
 }

@@ -3,8 +3,9 @@ package org.asteroidapp.MODELL.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.MODELL.interfaces.MoveableObserver;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.interfaces.Observable;
+import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
@@ -48,7 +49,7 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * set of entities
      */
-    protected Set<MoveableObserver> entitiesOnMe = new HashSet<>();;
+    protected Set<Observer> observers = new HashSet<>();;
 
     /**
      * SpaceObject's position
@@ -82,15 +83,14 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * Checking out from a SteppableSpaceObject
      *
-     * @param leavingThing Entity, which leaves the object
+     * @param leavingObserver Entity, which leaves the object
      */
-    @Override
-    public void checkOut(MoveableObserver leavingThing) {
+    public void checkOut(Observer leavingObserver) {
         log.log(Level.INFO, "checkOut called");
         CallStackViewer.getInstance().methodStartsLogCall("checkOut() called");
 
-        if (leavingThing != null) {
-            Boolean temp = entitiesOnMe.remove(leavingThing);
+        if (leavingObserver != null) {
+            Boolean temp = observers.remove(leavingObserver);
             log.log(Level.TRACE, "Entity removed: {}", temp.toString());
         } else {
             //NOP
@@ -102,17 +102,16 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * Check in to a SpaceObject
      *
-     * @param newThing to be added to SpaceObject
+     * @param newObserver to be added to SpaceObject
      */
-    //TODO check
-    @Override
-    public void checkIn(MoveableObserver newThing) {
+    public void checkIn(Observer newObserver) {
         log.log(Level.INFO, "checkIn called");
         CallStackViewer.getInstance().methodStartsLogCall("checkIn() called");
 
-        if (newThing != null) {
-            Boolean temp = entitiesOnMe.add(newThing);
+        if (newObserver != null) {
+            Boolean temp = observers.add(newObserver);
             log.log(Level.TRACE, "Entity added: {}", temp.toString());
+            newObserver.notify(EventType.REFRESH);
         } else {
             //NOP
         }

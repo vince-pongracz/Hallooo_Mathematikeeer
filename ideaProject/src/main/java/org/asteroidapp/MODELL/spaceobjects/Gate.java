@@ -3,9 +3,10 @@ package org.asteroidapp.MODELL.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.CONTROLLER.GameController;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.interfaces.MoveableObserver;
 import org.asteroidapp.CONTROLLER.AsteroidZone;
+import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     public String getName() {
         log.log(Level.TRACE, "Gate's getName called: returns gate");
         if (this.gatePair != null) {
-            return "Gate to " + this.getTarget().getName() + " from "+this.currentAsteroid.getName();
+            return "Gate to " + this.getTarget().getName() + " from " + this.currentAsteroid.getName();
         } else {
             return "Gate on " + currentAsteroid.getName();
         }
@@ -67,6 +68,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         log.log(Level.TRACE, "Gate's setMyAsteroid called");
         this.currentAsteroid = asteroid;
         this.position = asteroid.position;
+        this.signalizeUpdate(EventType.REFRESH);
     }
 
     @Override
@@ -110,6 +112,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     @Override
     public String getInfo() {
         log.log(Level.TRACE, "Gate's getInfo called");
+        this.signalizeUpdate(EventType.REFRESH);
         return "Some example info";
     }
 
@@ -125,31 +128,30 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     @Override
     public void move(SteppableSpaceObject nextSpaceObject) {
         var neighbourIter = AsteroidZone.getInstance().getIterOnSpaceObjects();
-        var neighbours = new ArrayList<SteppableSpaceObject>();
+        var allZoneObject = new ArrayList<SteppableSpaceObject>();
         while (neighbourIter.hasNext()) {
-            neighbours.add(neighbourIter.next());
+            allZoneObject.add(neighbourIter.next());
         }
-        Collections.shuffle(neighbours);
+        Collections.shuffle(allZoneObject);
         int i = 0;
         SteppableSpaceObject target = this;
         do {
-            target = neighbours.remove(i);
+            target = allZoneObject.remove(i);
             i++;
         }
-        while(target.getTarget() == this.getCurrentAsteroid());
+        while (target.getTarget() == this.getCurrentAsteroid());
 
         currentAsteroid.checkOut(this);
         currentAsteroid = target.getTarget();
         currentAsteroid.checkIn(this);
-        GameController.response.addRefreshObjects(this.getName());
+        this.signalizeUpdate(EventType.REFRESH);
     }
 
     public Asteroid getCurrentAsteroid() {
         return currentAsteroid;
     }
 
-    @Override
-    public void notifyFlairEvent() {
+    private void notifyFlairEvent() {
         if (currentAsteroid != null) {
             if (currentAsteroid.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun) {
                 move(null);
@@ -157,13 +159,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         }
     }
 
-    @Override
-    public void notifyFlairDanger() {
-        //NOP
-    }
-
-    @Override
-    public void notifyAsteroidExplosion() {
+    private void notifyAsteroidExplosion() {
         //destroy gate
         //or move gate
         //move is easier
@@ -171,12 +167,27 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     }
 
     @Override
-    public void checkOut(MoveableObserver leavingThing) {
-        //NOP
+    public void checkOut(Observer leavingObserver) {
+        this.observers.remove(leavingObserver);
     }
 
     @Override
-    public void checkIn(MoveableObserver newThing) {
-        //NOP
+    public void checkIn(Observer newObserver) {
+        this.observers.add(newObserver);
+    }
+
+    @Override
+    public void signalizeUpdate(EventType event) {
+        for (var obs: observers) {
+            obs.notify(event);
+        }
+    }
+
+    @Override
+    public void notify(EventType eventType) {
+        switch (eventType) {
+            case EXPLOSION -> notifyAsteroidExplosion();
+            case FLAIREVENT -> notifyFlairEvent();
+        }
     }
 }

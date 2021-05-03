@@ -1,14 +1,19 @@
 package org.asteroidapp.util;
 
-
-import java.util.HashSet;
-import java.util.Set;
-
 public class ActionResponse {
     private boolean success;
-    private String message;
-    private Set<String> refreshObjects = new HashSet<>();
-    private Set<String> deleteObjects = new HashSet<>();
+    private String message = "Default";
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public ActionResponse setGameState(GameState newState) {
+        gameState = newState;
+        return this;
+    }
+
+    private GameState gameState = GameState.RUNNING;
 
     public boolean isSuccessful() {
         return success;
@@ -25,32 +30,6 @@ public class ActionResponse {
 
     public ActionResponse setMessage(String message) {
         this.message = message;
-        return this;
-    }
-
-    public Set<String> getRefreshObjects() {
-        return refreshObjects;
-    }
-
-    public ActionResponse addRefreshObjects(Set<String> refreshObjects) {
-        this.refreshObjects.addAll(refreshObjects);
-        return this;
-    }
-    public ActionResponse addRefreshObjects(String refreshObject) {
-        this.refreshObjects.add(refreshObject);
-        return this;
-    }
-
-    public Set<String> getDeleteObjects() {
-        return deleteObjects;
-    }
-
-    public ActionResponse addDeleteObjects(Set<String> deleteObjects) {
-        this.deleteObjects.addAll(deleteObjects);
-        return this;
-    }
-    public ActionResponse addDeleteObjects(String deleteObject) {
-        this.deleteObjects.add(deleteObject);
         return this;
     }
 

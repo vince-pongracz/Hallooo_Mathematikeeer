@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.VIEW.Menu;
 import org.asteroidapp.VIEW.RightView;
 import org.asteroidapp.util.CallStackViewer;
 
@@ -19,17 +20,10 @@ public class AppController extends Application {
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Asteroid 1.0 - HalloMath");
 
-        //MapView mapView = new MapView();
-        RightView rightView = new RightView();
-
-        HBox hbox = new HBox();
-        VBox vBox = rightView.getVBox();
-        //Group root = mapView.getGroup();
-
-        //hbox.getChildren().add(root);
-        hbox.getChildren().add(vBox);
+        Menu menu = new Menu(primaryStage);
+        VBox hbox = menu.getVBox();
 
         Scene sc = new Scene(hbox, 1500, 900);
         sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=VT323&display=swap");

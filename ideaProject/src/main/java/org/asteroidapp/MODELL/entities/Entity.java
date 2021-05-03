@@ -3,8 +3,10 @@ package org.asteroidapp.MODELL.entities;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.CONTROLLER.GameController;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.interfaces.MoveableObserver;
+import org.asteroidapp.MODELL.interfaces.Observable;
+import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Asteroid;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
@@ -19,7 +21,7 @@ import java.util.*;
  * The move anf listMyNeighbours functions are just implemented
  * the others are abstract and they will be implemented in Settler or AIRobot
  */
-public abstract class Entity implements MoveableObserver {
+public abstract class Entity implements MoveableObserver, Observable {
 
     /**
      * Logger for Entity
@@ -68,7 +70,7 @@ public abstract class Entity implements MoveableObserver {
             nextSpaceObject.checkIn(this);
             log.log(Level.TRACE, "Entity moved to {}", nextSpaceObject.getName());
 
-            GameController.response.addRefreshObjects(this.getName());
+            this.signalizeUpdate(EventType.REFRESH);
         }
 
         CallStackViewer.getInstance().methodReturns();
@@ -97,7 +99,7 @@ public abstract class Entity implements MoveableObserver {
 
         while (iter.hasNext()) {
             temp = iter.next();
-            if(temp.isActive() && temp.getPosition() != this.onAsteroid.getPosition()){
+            if (temp.isActive() && temp.getPosition() != this.onAsteroid.getPosition()) {
                 double distance = temp.getPosition().distanceFrom(onAsteroid.getPosition());
                 if (distance < Position.getMaximalNeighbourDistance() && !temp.getName().equals(onAsteroid.getName())) {
                     neighbours.add(temp);
@@ -126,23 +128,54 @@ public abstract class Entity implements MoveableObserver {
      * @param neighbours the list of neighbours from where the player can choose where to move to
      * @return the chosen neighbour
      */
-    public abstract SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours);
+    protected SteppableSpaceObject chooseNeighbour(Set<SteppableSpaceObject> neighbours) {
+        //TODO (OPT): don't choose a spaceObject, which is empty
+        //TODO (OPT): don't choose an asteroid, where the robot came from
 
-    /**
-     * Abstract function for notifyFlairEvent. It will be implemented in AIRobot and Settler.
-     * It notifies the entity about a flair event is happening
-     */
-    public abstract void notifyFlairEvent();
+        log.log(Level.INFO, "chooseNeighbour called");
+        CallStackViewer.getInstance().methodStartsLogCall("chooseNeighbour() called (AIRobot)");
 
-    /**
-     * Abstract function for notifyFlairDanger. It will be implemented in AIRobot and Settler.
-     * It notifies the entity about a coming flair event
-     */
-    public abstract void notifyFlairDanger();
+        //nullcheck
+        if (neighbours != null) {
+            //convert set to a list to shuffle
+            List<SteppableSpaceObject> neighbourListToShuffle = new ArrayList<>(neighbours);
+            Collections.shuffle(neighbourListToShuffle);
+            //generate random to decision
+            var randomNumber = new Random().nextInt(neighbourListToShuffle.size());
 
-    /**
-     * Abstract function for notifyAsteroidExplosion. It will be implemented in AIRobot and Settler.
-     * notifies the entity about an asteroid explosion
-     */
-    public abstract void notifyAsteroidExplosion();
+            CallStackViewer.getInstance().methodReturns();
+
+            return neighbourListToShuffle.get(randomNumber);
+        } else {
+            log.log(Level.FATAL, "Given collection in parameter is null!");
+            CallStackViewer.getInstance().methodReturns();
+
+            return null;
+        }
+    }
+
+    @Override
+    public abstract void notify(EventType eventType);
+
+    List<Observer> observers = new ArrayList<>();
+
+    @Override
+    public void checkIn(Observer newObserver) {
+        observers.add(newObserver);
+        newObserver.notify(EventType.REFRESH);
+    }
+
+    @Override
+    public void checkOut(Observer leavingObserver) {
+        observers.remove(leavingObserver);
+        //sztem ey nem kell, eleg ha csak checkIn-re küldönk siganlt..?
+        //leavingObserver.notify(EventType.REFRESH);
+    }
+
+    @Override
+    public void signalizeUpdate(EventType event) {
+        for (var obs:observers) {
+            obs.notify(event);
+        }
+    }
 }

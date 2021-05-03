@@ -4,12 +4,15 @@ import org.asteroidapp.MODELL.entities.AIRobot;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
 
+import java.io.FileNotFoundException;
+
 public class AIRobotGraphic extends Drawable {
     private final AIRobot aiRobot;
 
     public AIRobotGraphic(AIRobot robotObj) {
         prior = 2;
         aiRobot = robotObj;
+        MapView.getInstance().addDrawable(this);
     }
 
     @Override

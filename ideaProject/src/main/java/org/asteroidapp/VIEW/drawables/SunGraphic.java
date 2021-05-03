@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.MODELL.spaceobjects.Sun;
 import org.asteroidapp.VIEW.MapView;
@@ -10,6 +11,7 @@ public class SunGraphic extends Drawable {
     public SunGraphic(Sun sunObj) {
         prior = 2;
         sun = sunObj;
+        MapView.getInstance().addDrawable(this);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class CommandInterpreter {
                 var targetSteppable = AsteroidZone.getInstance().getObjectByName(target);
                 if (targetSteppable != null && actualSettler.listMyNeighbours().contains(targetSteppable)) {
                     actualSettler.move(targetSteppable);
-                    GameController.response.setSuccess(true).addRefreshObjects(actualSettler.getName());
+                    GameController.response.setSuccess(true);
                 }
             } else if (str.equals("deploy") && command.has("resource")) {
                 var res = command.get("resource").getAsString();

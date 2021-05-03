@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.MODELL.entities.AIRobot;
 import org.asteroidapp.MODELL.entities.Ufo;
 import org.asteroidapp.MODELL.entities.Settler;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Sun;
 import org.asteroidapp.util.ActionResponse;
@@ -14,6 +15,9 @@ import org.asteroidapp.util.CallStackViewer;
 import org.asteroidapp.util.InitMessage;
 
 import java.util.*;
+
+import static org.asteroidapp.MODELL.interfaces.EventType.DELETE;
+import static org.asteroidapp.MODELL.interfaces.EventType.REFRESH;
 
 /**
  *
@@ -111,7 +115,7 @@ public class GameController {
         for (int i = 0; i < ufosNum; i++) {
             var ufo = new Ufo("Ufo_" + i, AsteroidZone.getInstance().findHome());
             ufos.add(ufo);
-            GameController.response.addRefreshObjects(ufo.getName());
+            ufo.signalizeUpdate(EventType.REFRESH);
         }
     }
 
@@ -148,7 +152,7 @@ public class GameController {
                 //bind player to settler
                 playerItem.addSettler(newSettler);
 
-                GameController.response.addRefreshObjects(newSettler.getName());
+                newSettler.signalizeUpdate(EventType.REFRESH);
 
                 log.log(Level.TRACE, "{} created for player: {}", newSettler.getName(), playerName);
             }
@@ -387,11 +391,11 @@ public class GameController {
         if (getRound() % Sun.sunFlairInEveryXRound == 0) {
             log.log(Level.TRACE, "flair event will be launched");
 
-            AsteroidZone.getInstance().getSun().notifyAboutDieEvent();
+            AsteroidZone.getInstance().getSun().signalizeUpdate(EventType.FLAIREVENT);
         } else if (getRound() % Sun.sunFlairInEveryXRound == (Sun.sunFlairInEveryXRound - 2)) {
             log.log(Level.TRACE, "flair is coming in the future!");
 
-            AsteroidZone.getInstance().getSun().notifyAboutDanger();
+            AsteroidZone.getInstance().getSun().signalizeUpdate(EventType.FLAIRWARN);
         } else {
             log.log(Level.TRACE, "no flair event in this round");
             //NOP
@@ -423,7 +427,7 @@ public class GameController {
         Boolean retValue = false;
         if (bot != null) {
             retValue = robots.remove(bot);
-            GameController.response.addDeleteObjects(bot.getName());
+            bot.signalizeUpdate(DELETE);
         } else {
             retValue = false;
         }
@@ -444,7 +448,7 @@ public class GameController {
 
         if (bot != null) {
             robots.add(bot);
-            GameController.response.addRefreshObjects(bot.getName());
+            bot.signalizeUpdate(REFRESH);
             log.log(Level.TRACE, "bot added to the game");
         } else {
             log.log(Level.TRACE, "no bot added to the game");

@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
@@ -10,6 +11,7 @@ public class GateGraphic extends Drawable{
     public GateGraphic(Gate gateObj) {
         prior = 2;
         gate = gateObj;
+        MapView.getInstance().addDrawable(this);
     }
 
     @Override

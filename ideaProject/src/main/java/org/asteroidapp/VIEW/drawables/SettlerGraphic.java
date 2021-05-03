@@ -1,6 +1,7 @@
 package org.asteroidapp.VIEW.drawables;
 
 import org.asteroidapp.MODELL.entities.Settler;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
 
@@ -10,6 +11,7 @@ public class SettlerGraphic extends Drawable {
     public SettlerGraphic(Settler SettlerObj) {
         prior = 2;
         settler = SettlerObj;
+        MapView.getInstance().addDrawable(this);
     }
 
     @Override

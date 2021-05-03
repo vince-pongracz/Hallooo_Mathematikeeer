@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.MODELL.entities.Settler;
+import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
@@ -82,7 +83,7 @@ public class Player {
         log.log(Level.TRACE, "addSettler called");
         if (!this.mySettlers.contains(newSettler)) {
             this.mySettlers.add(newSettler);
-            GameController.response.addRefreshObjects(newSettler.getName());
+            newSettler.signalizeUpdate(EventType.REFRESH);
             log.log(Level.TRACE, "newSettler added to player {}.", name);
         } else {
             //NOP
@@ -96,7 +97,7 @@ public class Player {
     //TODO refactor to boolean, check
     public void removeSettler(Settler removedEntity) {
         mySettlers.remove(removedEntity);
-        GameController.response.addDeleteObjects(removedEntity.getName());
+        removedEntity.signalizeUpdate(EventType.DELETE);
     }
 
     public void killPlayer() {
