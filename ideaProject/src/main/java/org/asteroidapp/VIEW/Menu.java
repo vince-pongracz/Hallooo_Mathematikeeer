@@ -92,7 +92,6 @@ public class Menu {
 
                 }
 
-                //TODO CmdInterpreter initGame: initmessage osszerak
                 InitMessage initMessage = new InitMessage().setPlayerNum(Integer.parseInt(textArea.getText())).setNames(namesString).setAsteroidNum(30).setHomeCapacity(6).setMaxRound(50).setSettlerCapacity(4).setSettlerNum(2).setSunFlairInEveryXRound(5).setUfoNum(3);
 
                 CommandInterpreter.getInstance().initGame(initMessage);
