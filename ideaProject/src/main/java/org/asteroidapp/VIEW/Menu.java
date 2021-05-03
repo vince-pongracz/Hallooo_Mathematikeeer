@@ -56,9 +56,10 @@ public class Menu {
         td.setHeaderText("Enter your player name");
 
         enterNames.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                try {
+            @Override public void handle(ActionEvent e) {
+                names.clear();
+                try{
+
                     Integer.parseInt(textArea.getText());
                 } catch (NumberFormatException exception) {
                     System.out.println("Invalid number format");

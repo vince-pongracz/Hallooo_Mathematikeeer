@@ -6,13 +6,12 @@ import javafx.event.EventHandler;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import org.asteroidapp.CONTROLLER.AsteroidZone;
 import org.asteroidapp.CONTROLLER.CommandInterpreter;
 import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.entities.Settler;
@@ -23,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class RightView {
     VBox vbox = new VBox(20);
@@ -104,9 +104,7 @@ public class RightView {
                 JsonObject jsonCmd= new JsonObject();
                 jsonCmd.addProperty("command","mine");
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
-
-                //popup for response
-                //isSuccess, getMessage
+                reactToActionResponse(response);
             }
         });
 
@@ -146,8 +144,36 @@ public class RightView {
         //deploy resource
         buttons.get(6).setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                // ? 
-                //Rena
+
+                String chosenResource = "iron";
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Dialog for choosing a resource");
+                alert.setHeaderText("Choose a resource that you would like to deploy");
+                alert.setContentText("Resources and their amount are listed above the buttons on the right");
+
+                ButtonType ironBT = new ButtonType("Iron");
+                ButtonType coalBT = new ButtonType("Coal");
+                ButtonType uranBT = new ButtonType("Uran");
+                ButtonType frozenWaterBT = new ButtonType("Frozen Water");
+
+                alert.getButtonTypes().setAll(ironBT, coalBT, uranBT, frozenWaterBT);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ironBT){
+                    chosenResource = "Iron";
+                } else if (result.get() == coalBT) {
+                    chosenResource = "Coal";
+                } else if (result.get() == uranBT) {
+                    chosenResource = "Uran";
+                } else if (result.get() == frozenWaterBT) {
+                    chosenResource = "FrozenWater";
+                }
+                JsonObject jsonCmd= new JsonObject();
+                jsonCmd.addProperty("command","deploy");
+                jsonCmd.addProperty("resource", chosenResource);
+
+                var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
+                reactToActionResponse(response);
             }
         });
     }
@@ -159,9 +185,7 @@ public class RightView {
     public void refreshRightView(Settler settler, int sunflair) {
         if (settler != null) {
             ResourceStorage storage = settler.getStorage();
-            //a gate-eket valahogy mashogy kellene lekerni
-            //TODO getGateNum - Rena
-            labels.set(0, new Label(" Gate: "));
+            labels.set(0, new Label(" Gate: " + settler.getGateNum()));
             labels.set(1, new Label(" Iron: " + storage.countOf(new Iron())));
             labels.set(2, new Label(" Coal: " + storage.countOf(new Coal())));
             labels.set(3, new Label(" Uran: " + storage.countOf(new Uran())));
@@ -172,7 +196,16 @@ public class RightView {
         }
     }
 
-    public void reactToActionResponse(ActionResponse respone){
-        return;
+    public void reactToActionResponse(ActionResponse response){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Asteroid Game - Information Dialog");
+        if(response.isSuccessful())
+            alert.setHeaderText("Action successful");
+        else
+            alert.setHeaderText("Action unsuccessful");
+        alert.setContentText(response.getMessage());
+        alert.showAndWait();
+
+        refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler(), 0);
     }
 }
