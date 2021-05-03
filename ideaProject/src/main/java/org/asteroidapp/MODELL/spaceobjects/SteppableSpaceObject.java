@@ -3,7 +3,7 @@ package org.asteroidapp.MODELL.spaceobjects;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.MODELL.interfaces.EventType;
+import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.interfaces.Observable;
 import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.util.CallStackViewer;

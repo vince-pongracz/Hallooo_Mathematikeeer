@@ -4,7 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.MODELL.interfaces.AutoEntity;
-import org.asteroidapp.MODELL.interfaces.EventType;
+import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.interfaces.Mine;
 import org.asteroidapp.MODELL.resources.Empty;
 import org.asteroidapp.MODELL.resources.Resource;

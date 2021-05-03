@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.CONTROLLER.AsteroidZone;
 import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.interfaces.Drill;
-import org.asteroidapp.MODELL.interfaces.EventType;
+import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.interfaces.Mine;
 import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
@@ -15,7 +15,6 @@ import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.VIEW.drawables.GateGraphic;
 import org.asteroidapp.VIEW.drawables.SettlerGraphic;
 import org.asteroidapp.util.CallStackViewer;
-import org.asteroidapp.util.ConsoleUI;
 
 import java.util.*;
 

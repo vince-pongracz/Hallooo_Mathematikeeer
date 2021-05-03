@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.asteroidapp.MODELL.entities.AIRobot;
 import org.asteroidapp.MODELL.entities.Ufo;
 import org.asteroidapp.MODELL.entities.Settler;
-import org.asteroidapp.MODELL.interfaces.EventType;
+import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Sun;
 import org.asteroidapp.util.ActionResponse;
@@ -16,8 +16,8 @@ import org.asteroidapp.util.InitMessage;
 
 import java.util.*;
 
-import static org.asteroidapp.MODELL.interfaces.EventType.DELETE;
-import static org.asteroidapp.MODELL.interfaces.EventType.REFRESH;
+import static org.asteroidapp.MODELL.EventType.DELETE;
+import static org.asteroidapp.MODELL.EventType.REFRESH;
 
 /**
  *

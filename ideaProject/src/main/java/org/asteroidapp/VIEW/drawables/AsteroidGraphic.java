@@ -1,6 +1,5 @@
 package org.asteroidapp.VIEW.drawables;
 
-import org.asteroidapp.MODELL.interfaces.EventType;
 import org.asteroidapp.MODELL.spaceobjects.Asteroid;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;

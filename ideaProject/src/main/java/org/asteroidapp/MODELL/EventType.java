@@ -1,4 +1,4 @@
-package org.asteroidapp.MODELL.interfaces;
+package org.asteroidapp.MODELL;
 
 /**
  * Observer interface to realize observer pattern

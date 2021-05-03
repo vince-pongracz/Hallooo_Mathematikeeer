@@ -1,6 +1,6 @@
 package org.asteroidapp.CONTROLLER;
 
-import org.asteroidapp.MODELL.interfaces.EventType;
+import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.*;
 import org.apache.logging.log4j.Level;
@@ -220,5 +220,18 @@ public class AsteroidZone {
             }
         }
         return null;
+    }
+
+    public SteppableSpaceObject getNearestObject(Position position) {
+        double minDistance = Double.MAX_VALUE;
+        SteppableSpaceObject returnedObject = spaceObjects.iterator().next();
+        for (var objectItem :   spaceObjects) {
+            var actualDistance = position.distanceFrom(objectItem.getPosition());
+            if(actualDistance < minDistance){
+                minDistance = actualDistance;
+                returnedObject = objectItem;
+            }
+        }
+        return returnedObject;
     }
 }
