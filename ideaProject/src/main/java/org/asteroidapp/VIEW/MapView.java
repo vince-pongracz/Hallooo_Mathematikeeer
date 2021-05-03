@@ -20,7 +20,6 @@ public class MapView {
     public static final String spaceshipGif = "file:src/main/java/resources/images/Spaceship.gif";
     public static final String sunGif = "file:src/main/java/resources/images/Sun.gif";
 
-    
 
     Image backgroundImage = new Image("file:src/main/java/resources/images/asteroid_game.gif");
     ImageView imBackground = new ImageView(backgroundImage);
@@ -28,8 +27,11 @@ public class MapView {
     Group mapViewGroup = new Group();
 
     private static MapView instance = null;
-    private MapView(){}
-    public static MapView getInstance(){
+
+    private MapView() {
+    }
+
+    public static MapView getInstance() {
         if (instance == null) {
             instance = new MapView();
         }
@@ -54,11 +56,10 @@ public class MapView {
     public void refreshMap() {
         //TODO refactor
 
-
         Collections.sort(drawables, new Comparator<Drawable>() {
             @Override
             public int compare(Drawable d1, Drawable d2) {
-                if ( d1.getPrior() < d2.getPrior())
+                if (d1.getPrior() < d2.getPrior())
                     return 1;
                 if (d1.getPrior() > d2.getPrior())
                     return -1;
@@ -66,22 +67,19 @@ public class MapView {
             }
         });
         mapViewGroup.getChildren().clear();
-        mapViewGroup.getChildren().addAll(imBackground);
-        for (int i = 0; i < drawables.size(); i++){
-            if (drawables.get(i).getPrior() == 1) {
-                try {
-                    mapViewGroup.getChildren().addAll(drawables.get(i).updateGraphics());
-                } catch (FileNotFoundException e){
-                    //TODO log/popup
-                }
-
+        mapViewGroup.getChildren().add(imBackground);
+        for (int i = 0; i < drawables.size(); i++) {
+            try {
+                mapViewGroup.getChildren().add(drawables.get(i).updateGraphics());
+            } catch (FileNotFoundException e) {
+                //TODO log/popup
             }
         }
 
     }
 
 
-    public Group getMapViewGroup(){
+    public Group getMapViewGroup() {
         return mapViewGroup;
     }
 

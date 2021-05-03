@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import org.asteroidapp.CONTROLLER.AsteroidZone;
 import org.asteroidapp.CONTROLLER.CommandInterpreter;
 import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.entities.Settler;
