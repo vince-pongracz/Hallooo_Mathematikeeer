@@ -37,11 +37,35 @@ public class RightView {
         vbox.setAlignment(Pos.CENTER);
         vbox.setBackground(new Background(new BackgroundFill(Color.rgb(40, 40, 40), CornerRadii.EMPTY, Insets.EMPTY)));
 
-        for (int i = 0; i < 7; i++) {
-            images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Portal.gif"))));
-            images.get(i).setPreserveRatio(true);
-            images.get(i).setFitHeight(35);
-        }
+            images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Spaceship.gif"))));
+            images.get(0).setPreserveRatio(true);
+            images.get(0).setFitHeight(35);
+
+        images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Asteroid_01.png"))));
+        images.get(1).setPreserveRatio(true);
+        images.get(1).setFitHeight(35);
+
+        images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Asteroid_01.png"))));
+        images.get(2).setPreserveRatio(true);
+        images.get(2).setFitHeight(35);
+
+        images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Portal.gif"))));
+        images.get(3).setPreserveRatio(true);
+        images.get(3).setFitHeight(35);
+
+        images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Portal.gif"))));
+        images.get(4).setPreserveRatio(true);
+        images.get(4).setFitHeight(35);
+
+        images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Robot.png"))));
+        images.get(5).setPreserveRatio(true);
+        images.get(5).setFitHeight(35);
+
+        images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Asteroid_01.png"))));
+        images.get(6).setPreserveRatio(true);
+        images.get(6).setFitHeight(35);
+
+
 
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).setGraphic(images.get(i));

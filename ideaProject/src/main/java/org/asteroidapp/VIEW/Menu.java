@@ -13,6 +13,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.asteroidapp.CONTROLLER.CommandInterpreter;
 import org.asteroidapp.util.InitMessage;
 
 import java.io.FileNotFoundException;
@@ -24,7 +25,7 @@ public class Menu {
     Label label;
     TextArea textArea;
 
-    public Menu(Stage stage){
+    public Menu(Stage stage) {
 
         ArrayList<String> names = new ArrayList<>();
 
@@ -55,15 +56,16 @@ public class Menu {
         td.setHeaderText("Enter your player name");
 
         enterNames.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                try{
+            @Override
+            public void handle(ActionEvent e) {
+                try {
                     Integer.parseInt(textArea.getText());
-                } catch (NumberFormatException exception){
+                } catch (NumberFormatException exception) {
                     System.out.println("Invalid number format");
                     td.setHeaderText("You entered an invalid number, default player number  is 1\nEnter your player name");
                     textArea.setText("1");
                 }
-                for(int i = 0; i < Integer.parseInt(textArea.getText()); i++) {
+                for (int i = 0; i < Integer.parseInt(textArea.getText()); i++) {
                     td.showAndWait();
                     names.add(td.getEditor().getText());
                 }
@@ -71,17 +73,29 @@ public class Menu {
         });
 
         exit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
+            @Override
+            public void handle(ActionEvent e) {
                 System.exit(0);
             }
         });
 
         start.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
+            @Override
+            public void handle(ActionEvent e) {
                 //Itt meg at kell adni a jatekosok nevet majd
                 //ConsoleUI.getInstance().sendMessageToConsole(""); ??
 
+                String[] namesString = names.toArray(new String[0]);
+
+                for (int i = 0; i < Integer.parseInt(textArea.getText()); i++) {
+                    namesString[i] = names.get(i);
+
+                }
+
                 //TODO CmdInterpreter initGame: initmessage osszerak
+                InitMessage initMessage = new InitMessage().setPlayerNum(Integer.parseInt(textArea.getText())).setNames(namesString).setAsteroidNum(30).setHomeCapacity(6).setMaxRound(50).setSettlerCapacity(4).setSettlerNum(2).setSunFlairInEveryXRound(5).setUfoNum(3);
+
+                CommandInterpreter.getInstance().initGame(initMessage);
 
                 RightView rightView = null;
                 MapView mapView = MapView.getInstance();
@@ -108,7 +122,7 @@ public class Menu {
         });
     }
 
-    public VBox getVBox(){
+    public VBox getVBox() {
         return vbox;
     }
 }
