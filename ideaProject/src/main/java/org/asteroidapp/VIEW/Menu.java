@@ -56,6 +56,7 @@ public class Menu {
 
         enterNames.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
+                names.clear();
                 try{
                     Integer.parseInt(textArea.getText());
                 } catch (NumberFormatException exception){
