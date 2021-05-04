@@ -1,10 +1,9 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.image.Image;
 import org.asteroidapp.MODELL.entities.AIRobot;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
-
-import java.io.FileNotFoundException;
 
 public class AIRobotGraphic extends Drawable {
     private final AIRobot aiRobot;
@@ -23,6 +22,11 @@ public class AIRobotGraphic extends Drawable {
     @Override
     protected String getImagePath() {
         return MapView.robotPng;
+    }
+
+    @Override
+    public Image getRemoteImage() {
+        return MapView.robot;
     }
 
     @Override

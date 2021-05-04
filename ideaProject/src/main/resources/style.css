@@ -13,7 +13,7 @@
 .labelRightFont {
     -fx-font-family: VT323;
     -fx-font-size: 22;
-    -fx-text-fill: white
+    -fx-text-fill: white;
 }
 
 .buttonRight:hover {

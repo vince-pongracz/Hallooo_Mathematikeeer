@@ -60,9 +60,10 @@ public class Menu {
         td.setHeaderText("Enter your player name");
 
         enterNames.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
+            @Override
+            public void handle(ActionEvent e) {
                 names.clear();
-                try{
+                try {
 
                     Integer.parseInt(textArea.getText());
                 } catch (NumberFormatException exception) {
@@ -92,7 +93,9 @@ public class Menu {
 
                 String[] namesString = names.toArray(new String[0]);
 
-                InitMessage initMessage = new InitMessage().setPlayerNum(Integer.parseInt(textArea.getText())).setNames(namesString).setAsteroidNum(30).setHomeCapacity(6).setMaxRound(50).setSettlerCapacity(4).setSettlerNum(2).setSunFlairInEveryXRound(5).setUfoNum(3);
+                InitMessage initMessage = new InitMessage().setPlayerNum(Integer.parseInt(textArea.getText()))
+                        .setNames(namesString).setAsteroidNum(30).setHomeCapacity(6)
+                        .setMaxRound(50).setSettlerCapacity(4).setSettlerNum(2).setSunFlairInEveryXRound(5).setUfoNum(3);
 
                 CommandInterpreter.getInstance().initGame(initMessage);
 
@@ -107,9 +110,11 @@ public class Menu {
 
                 HBox hbox = new HBox();
                 VBox vBox = rightView.getVBox();
-                Group root = mapView.getMapViewGroup();
-
-                hbox.getChildren().add(root);
+                Group g = mapView.getMapViewGroup();
+                g.setVisible(true);
+                g.setLayoutX(0);
+                g.setLayoutY(0);
+                hbox.getChildren().add(g);
                 hbox.getChildren().add(vBox);
 
                 Scene sc = new Scene(hbox, 1790, 900);

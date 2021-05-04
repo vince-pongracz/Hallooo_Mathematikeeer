@@ -20,11 +20,13 @@ public abstract class Drawable extends ImageView implements Observer {
         return prior;
     }
 
-    public ImageView updateGraphics() throws FileNotFoundException {
-        if (isVisible()) {
-            Image image = new Image(new FileInputStream(getImagePath()));
+    public Drawable updateGraphics() throws FileNotFoundException {
+        this.setVisible(true);
 
-            this.setImage(image);
+        if (isVisible()) {
+            //Image image = new Image(new FileInputStream(getImagePath()));
+
+            this.setImage(getRemoteImage());
 
             setX(getPosition().getX());
             setY(getPosition().getY());
@@ -40,6 +42,8 @@ public abstract class Drawable extends ImageView implements Observer {
     protected abstract Position getPosition();
 
     protected abstract String getImagePath();
+
+    public abstract Image getRemoteImage();
 
     public abstract String getName();
 
