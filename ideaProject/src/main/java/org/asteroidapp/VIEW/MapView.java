@@ -13,22 +13,23 @@ import java.util.List;
 
 public class MapView {
 
-    public static final String alienPng = "file:src/main/java/resources/images/Alien.png";
-    public static final String asteroidGif = "file:src/main/java/resources/images/asteroid_game.gif";
-    public static final String portalGif = "file:src/main/java/resources/images/Portal.gif";
-    public static final String robotPng = "file:src/main/java/resources/images/Robot.png";
-    public static final String spaceshipGif = "file:src/main/java/resources/images/Spaceship.gif";
-    public static final String sunGif = "file:src/main/java/resources/images/Sun.gif";
+    public static final String alienPng = "file:src/main/resources/images/Alien.png";
+    public static final String asteroidGif = "file:src/main/resources/images/asteroid_game.gif";
+    public static final String portalGif = "file:src/main/resources/images/Portal.gif";
+    public static final String robotPng = "file:src/main/resources/images/Robot.png";
+    public static final String spaceshipGif = "file:src/resources/images/Spaceship.gif";
+    public static final String sunGif = "file:src/main/resources/images/Sun.gif";
 
-    
-
-    Image backgroundImage = new Image("file:src/main/java/resources/images/asteroid_game.gif");
+    Image backgroundImage = new Image("file:src/main/resources/images/asteroid_game.gif");
     ImageView imBackground = new ImageView(backgroundImage);
     List<Drawable> drawables = new ArrayList<>();
     Group mapViewGroup = new Group();
 
     private static MapView instance = null;
-    private MapView(){}
+    private MapView(){
+        imBackground.setFitHeight(900);
+        imBackground.setFitWidth(1500);
+    }
     public static MapView getInstance(){
         if (instance == null) {
             instance = new MapView();

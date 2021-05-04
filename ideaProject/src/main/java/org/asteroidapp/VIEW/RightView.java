@@ -27,7 +27,7 @@ import java.util.Arrays;
 public class RightView {
     VBox vbox = new VBox(20);
     ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(new Button(" Move "), new Button(" Drill "), new Button(" Mine "), new Button(" Create gate "), new Button(" Build Gate "), new Button(" Create Robot "), new Button(" Deploy Resource ")));
-    ArrayList<Label> labels = new ArrayList<>(Arrays.asList(new Label("Gate: 0"), new Label(" Iron: 0"), new Label(" Coal: 0"), new Label(" Uran: 0"), new Label(" Frozen water: 0"), new Label("-------------------------------\n   Aron's Settler2's round \n   Sunflair is coming in 3 rounds")));
+    ArrayList<Label> labels = new ArrayList<>(Arrays.asList(new Label("Gate: 0"), new Label(" Iron: 0"), new Label(" Coal: 0"), new Label(" Uran: 0"), new Label(" Frozen water: 0"), new Label("---------------------------------\n Aron's Settler2's round \n Sunflair is coming in 3 rounds")));
     ArrayList<ImageView> images = new ArrayList<>();
 
 
@@ -35,6 +35,7 @@ public class RightView {
 
     public RightView() throws FileNotFoundException {
         vbox.setAlignment(Pos.CENTER);
+
         vbox.setBackground(new Background(new BackgroundFill(Color.rgb(40, 40, 40), CornerRadii.EMPTY, Insets.EMPTY)));
 
             images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Spaceship.gif"))));
@@ -151,7 +152,7 @@ public class RightView {
             labels.set(2, new Label(" Coal: " + storage.countOf(new Coal())));
             labels.set(3, new Label(" Uran: " + storage.countOf(new Uran())));
             labels.set(4, new Label(" FrozenWater: " + storage.countOf(new FrozenWater())));
-            labels.set(5, new Label(" -------------------------------\n " + GameController.getInstance().getActualPlayer() + "'s " + settler.getName() + "'s round\n Sunflair is coming in " + sunflair + " rounds"));
+            labels.set(5, new Label(" ---------------------------------\n " + GameController.getInstance().getActualPlayer() + "'s " + settler.getName() + "'s round\n Sunflair is coming in " + sunflair + " rounds"));
         } else {
             System.out.println("Settler was null");
         }
