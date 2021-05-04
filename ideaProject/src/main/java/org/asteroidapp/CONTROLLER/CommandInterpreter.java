@@ -70,13 +70,6 @@ public class CommandInterpreter {
                     }
                 }
 
-
-                var target = command.get("target").getAsString();
-                var targetSteppable = AsteroidZone.getInstance().getObjectByName(target);
-                if (targetSteppable != null && actualSettler.listMyNeighbours().contains(targetSteppable)) {
-                    actualSettler.move(targetSteppable);
-                    GameController.response.setSuccess(true);
-                }
             } else if (str.equals("deploy") && command.has("resource")) {
                 var res = command.get("resource").getAsString();
                 GameController.response.setSuccess(actualSettler.deployResource(res));
