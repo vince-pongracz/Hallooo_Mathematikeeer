@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.entities.Settler;
@@ -12,6 +13,7 @@ public class SettlerGraphic extends Drawable {
     public SettlerGraphic(Settler SettlerObj) {
         prior = 2;
         settler = SettlerObj;
+        Tooltip.install(this,new Tooltip(getName()));
         MapView.getInstance().addDrawable(this);
     }
 

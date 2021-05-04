@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import org.asteroidapp.MODELL.entities.AIRobot;
 import org.asteroidapp.MODELL.spaceobjects.Position;
@@ -11,6 +12,7 @@ public class AIRobotGraphic extends Drawable {
     public AIRobotGraphic(AIRobot robotObj) {
         prior = 2;
         aiRobot = robotObj;
+        Tooltip.install(this,new Tooltip(getName()));
         MapView.getInstance().addDrawable(this);
     }
 

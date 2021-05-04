@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.spaceobjects.Position;
@@ -12,6 +13,7 @@ public class SunGraphic extends Drawable {
     public SunGraphic(Sun sunObj) {
         prior = 0;
         sun = sunObj;
+        Tooltip.install(this,new Tooltip(getName()));
         MapView.getInstance().addDrawable(this);
     }
 

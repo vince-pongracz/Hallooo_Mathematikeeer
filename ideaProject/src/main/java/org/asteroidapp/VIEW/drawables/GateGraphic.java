@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
@@ -12,6 +13,7 @@ public class GateGraphic extends Drawable{
     public GateGraphic(Gate gateObj) {
         prior = 2;
         gate = gateObj;
+        Tooltip.install(this,new Tooltip(getName()));
         MapView.getInstance().addDrawable(this);
     }
 

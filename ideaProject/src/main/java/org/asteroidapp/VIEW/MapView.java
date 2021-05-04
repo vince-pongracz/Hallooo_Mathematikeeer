@@ -1,6 +1,7 @@
 package org.asteroidapp.VIEW;
 
 import javafx.scene.Group;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BackgroundImage;
@@ -84,6 +85,8 @@ public class MapView {
         mapViewGroup = null;
         mapViewGroup = new Group();
         mapViewGroup.getChildren().add(imBackground);
+        Tooltip.install(imBackground,new Tooltip("BackGround"));
+
         for (int i = 0; i < drawables.size(); i++) {
             try {
                 mapViewGroup.getChildren().add(drawables.get(i).updateGraphics());

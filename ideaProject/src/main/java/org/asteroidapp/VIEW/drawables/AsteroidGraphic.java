@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.spaceobjects.Asteroid;
@@ -12,6 +13,7 @@ public class AsteroidGraphic extends Drawable {
     public AsteroidGraphic(Asteroid asteroidObj) {
         prior = 1;
         asteroid = asteroidObj;
+        Tooltip.install(this,new Tooltip(getName()));
         MapView.getInstance().addDrawable(this);
     }
 

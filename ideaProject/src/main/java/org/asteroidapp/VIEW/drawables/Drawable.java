@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.EventType;
@@ -7,6 +8,7 @@ import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
 
+import javax.naming.Name;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
