@@ -15,6 +15,7 @@ import org.asteroidapp.CONTROLLER.CommandInterpreter;
 import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.entities.Settler;
 import org.asteroidapp.MODELL.resources.*;
+import org.asteroidapp.MODELL.spaceobjects.Sun;
 import org.asteroidapp.util.ActionResponse;
 
 import java.io.FileInputStream;
@@ -39,6 +40,7 @@ public class RightView {
 
     public RightView() throws FileNotFoundException {
         vbox.setAlignment(Pos.CENTER);
+
         vbox.setBackground(new Background(new BackgroundFill(Color.rgb(40, 40, 40), CornerRadii.EMPTY, Insets.EMPTY)));
 
         images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Spaceship.gif"))));
@@ -79,7 +81,7 @@ public class RightView {
             vbox.getChildren().add(buttons.get(i));
         }
 
-        refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler(),0);
+        refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler());
 
         //move
         buttons.get(0).setOnAction(new EventHandler<ActionEvent>() {
@@ -190,7 +192,7 @@ public class RightView {
         return vbox;
     }
 
-    public void refreshRightView(Settler settler, int sunflair) {
+    public void refreshRightView(Settler settler) {
         if (settler != null) {
             ResourceStorage storage = settler.getStorage();
 
@@ -202,8 +204,8 @@ public class RightView {
                     new Label(" Coal: " + storage.countOf(new Coal())),
                     new Label(" Uran: " + storage.countOf(new Uran())),
                     new Label(" FrozenWater: " + storage.countOf(new FrozenWater())),
-                    new Label(" -------------------------------\n " + GameController.getInstance().getActualPlayer().getName()
-                            + "'s " + settler.getName() + "'s round\n Sunflair is coming in " + sunflair + " rounds")));
+                    new Label(" -------------------------------\n "
+                            + settler.getName() + "'s round\n Sunflair is coming in " + GameController.getInstance().getRound() % Sun.sunFlairInEveryXRound + " rounds")));
             for (var labelItem : labels) {
                 labelItem.getStyleClass().add("labelRightFont");
             }
@@ -223,6 +225,6 @@ public class RightView {
         alert.setContentText(response.getMessage());
         alert.showAndWait();
 
-        refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler(), 0);
+        refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler());
     }
 }

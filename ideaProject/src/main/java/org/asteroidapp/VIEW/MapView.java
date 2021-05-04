@@ -15,14 +15,6 @@ import java.util.List;
 
 public class MapView {
 
-    //wrong paths...
-    public static final String alienPng = "file:src/main/resources/images/Alien.png";
-    public static final String asteroidGif = "file:src/main/resources/images/Asteroid_01.png";
-    public static final String portalGif = "file:src/main/resources/images/Portal.gif";
-    public static final String robotPng = "file:src/main/resources/images/Robot.png";
-    public static final String spaceshipGif = "file:src/main/resources/images/Spaceship.gif";
-    public static final String sunGif = "file:src/main/resources/images/Sun.gif";
-
     public static Image ufo = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Alien.png");
     public static Image asteroid = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Asteroid_01.gif");
     public static Image portal = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Portal.gif");
@@ -31,8 +23,15 @@ public class MapView {
     public static Image sun = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Sun.gif");
     public static Image background = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/asteroid_game.gif");
 
-    //"file:src/main/resources/images/asteroid_game.gif"
-    ImageView imBackground = new ImageView(new Image("http://liveexample.pearsoncmg.com/book/image/us.gif"));
+    public static final String alienPng = "file:src/main/resources/images/Alien.png";
+    public static final String asteroidGif = "file:src/main/resources/images/asteroid_game.gif";
+    public static final String portalGif = "file:src/main/resources/images/Portal.gif";
+    public static final String robotPng = "file:src/main/resources/images/Robot.png";
+    public static final String spaceshipGif = "file:src/resources/images/Spaceship.gif";
+    public static final String sunGif = "file:src/main/resources/images/Sun.gif";
+
+    Image backgroundImage = new Image("file:src/main/resources/images/asteroid_game.gif");
+    ImageView imBackground = new ImageView(backgroundImage);
     List<Drawable> drawables = new ArrayList<>();
     Group mapViewGroup = new Group();
     Pane pane = new Pane();
@@ -40,6 +39,8 @@ public class MapView {
     private static MapView instance = null;
 
     private MapView() {
+        imBackground.setFitHeight(900);
+        imBackground.setFitWidth(1500);
     }
 
     public static MapView getInstance() {
@@ -71,9 +72,9 @@ public class MapView {
             @Override
             public int compare(Drawable d1, Drawable d2) {
                 if (d1.getPrior() < d2.getPrior())
-                    return 1;
-                if (d1.getPrior() > d2.getPrior())
                     return -1;
+                if (d1.getPrior() > d2.getPrior())
+                    return 1;
                 return 0;
             }
         });
@@ -92,6 +93,7 @@ public class MapView {
             }
         }
 
+        /* pane try
         pane.getChildren().clear();
         pane.setLayoutX(1200);
         pane.setLayoutY(900);
@@ -100,8 +102,10 @@ public class MapView {
                 pane.getChildren().add(item.updateGraphics());
             } catch (FileNotFoundException e) {
                 //TODO log/popup
+                System.err.println(e.getMessage());
             }
         }
+        */
 
 
     }
@@ -114,5 +118,4 @@ public class MapView {
     public Pane getMapViewPane() {
         return pane;
     }
-
 }

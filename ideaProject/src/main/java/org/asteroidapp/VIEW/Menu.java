@@ -10,12 +10,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.asteroidapp.CONTROLLER.CommandInterpreter;
 import org.asteroidapp.util.InitMessage;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -113,7 +117,7 @@ public class Menu {
                 hbox.getChildren().add(g);
                 hbox.getChildren().add(vBox);
 
-                Scene sc = new Scene(hbox, 1500, 900);
+                Scene sc = new Scene(hbox, 1790, 900);
                 sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=VT323&display=swap");
                 sc.getStylesheets().add(this.getClass().getResource("/style.css").toExternalForm());
                 stage.setScene(sc);
