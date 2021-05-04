@@ -10,10 +10,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.asteroidapp.CONTROLLER.CommandInterpreter;
+import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.util.InitMessage;
 
 import java.io.FileNotFoundException;
@@ -24,6 +26,8 @@ public class Menu {
     Button start, exit, enterNames;
     Label label;
     TextArea textArea;
+
+    public static Position mousePosition = new Position(0, 0);
 
     public Menu(Stage stage) {
 
@@ -112,6 +116,13 @@ public class Menu {
                 g.setLayoutY(0);
                 hbox.getChildren().add(g);
                 hbox.getChildren().add(vBox);
+
+                hbox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        mousePosition = new Position(event.getSceneX(), event.getSceneY());
+                    }
+                });
 
                 Scene sc = new Scene(hbox, 1790, 900);
                 sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=VT323&display=swap");

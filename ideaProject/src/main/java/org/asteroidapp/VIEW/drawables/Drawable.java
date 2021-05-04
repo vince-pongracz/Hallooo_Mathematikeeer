@@ -6,7 +6,6 @@ import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
-
 import java.io.FileNotFoundException;
 
 /**
@@ -29,6 +28,8 @@ public abstract class Drawable extends ImageView implements Observer {
 
             setX(getPosition().getX());
             setY(getPosition().getY());
+
+            this.setPreserveRatio(true);
 
             return (ImageView) this;
             //Setting the preserve ratio of the image view

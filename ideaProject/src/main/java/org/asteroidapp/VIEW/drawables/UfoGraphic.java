@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import org.asteroidapp.MODELL.entities.Ufo;
 import org.asteroidapp.MODELL.spaceobjects.Position;
@@ -11,6 +12,7 @@ public class UfoGraphic extends Drawable {
     public UfoGraphic(Ufo ufoObj) {
         prior = 2;
         ufo = ufoObj;
+        Tooltip.install(this,new Tooltip(getName()));
         MapView.getInstance().addDrawable(this);
     }
 
