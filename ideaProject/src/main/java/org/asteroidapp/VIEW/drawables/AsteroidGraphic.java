@@ -1,7 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.spaceobjects.Asteroid;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
@@ -21,7 +20,7 @@ public class AsteroidGraphic extends Drawable {
     }
 
     @Override
-    protected String getImagePath() {
+    protected Image getLocalImage() {
         return MapView.asteroidGif;
     }
 

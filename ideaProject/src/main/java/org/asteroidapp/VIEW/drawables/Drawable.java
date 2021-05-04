@@ -7,7 +7,6 @@ import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 /**
@@ -20,18 +19,18 @@ public abstract class Drawable extends ImageView implements Observer {
         return prior;
     }
 
-    public Drawable updateGraphics() throws FileNotFoundException {
+    public ImageView updateGraphics() throws FileNotFoundException {
         this.setVisible(true);
 
         if (isVisible()) {
             //Image image = new Image(new FileInputStream(getImagePath()));
 
-            this.setImage(getRemoteImage());
+            this.setImage(getImage());
 
             setX(getPosition().getX());
             setY(getPosition().getY());
 
-            return this;
+            return (ImageView) this;
             //Setting the preserve ratio of the image view
             //imageView.setPreserveRatio(true);     lehet kell példában volt
         } else {
@@ -41,7 +40,7 @@ public abstract class Drawable extends ImageView implements Observer {
 
     protected abstract Position getPosition();
 
-    protected abstract String getImagePath();
+    protected abstract Image getLocalImage();
 
     public abstract Image getRemoteImage();
 

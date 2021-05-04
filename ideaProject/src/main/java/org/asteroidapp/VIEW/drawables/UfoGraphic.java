@@ -1,7 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.entities.Ufo;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
@@ -21,7 +20,7 @@ public class UfoGraphic extends Drawable {
     }
 
     @Override
-    protected String getImagePath() {
+    protected Image getLocalImage() {
         return MapView.alienPng;
     }
 
