@@ -22,7 +22,7 @@ public class AIRobotGraphic extends Drawable {
     }
 
     @Override
-    protected String getImagePath() {
+    protected Image getLocalImage() {
         return MapView.robotPng;
     }
 

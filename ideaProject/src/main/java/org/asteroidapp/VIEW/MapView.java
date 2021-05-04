@@ -4,7 +4,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.Pane;
 import org.asteroidapp.VIEW.drawables.Drawable;
 
@@ -24,12 +23,12 @@ public class MapView {
     public static Image sun = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Sun.gif");
     public static Image background = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/asteroid_game.gif");
 
-    public static final String alienPng = "file:src/main/resources/images/Alien.png";
-    public static final String asteroidGif = "file:src/main/resources/images/asteroid_game.gif";
-    public static final String portalGif = "file:src/main/resources/images/Portal.gif";
-    public static final String robotPng = "file:src/main/resources/images/Robot.png";
-    public static final String spaceshipGif = "file:src/resources/images/Spaceship.gif";
-    public static final String sunGif = "file:src/main/resources/images/Sun.gif";
+    public static final Image alienPng = new Image("file:src/main/resources/images/Alien.png");
+    public static final Image asteroidGif = new Image("file:src/main/resources/images/asteroid_game.gif");
+    public static final Image portalGif = new Image("file:src/main/resources/images/Portal.gif");
+    public static final Image robotPng = new Image("file:src/main/resources/images/Robot.png");
+    public static final Image spaceshipGif = new Image("file:src/resources/images/Spaceship.gif");
+    public static final Image sunGif = new Image("file:src/main/resources/images/Sun.gif");
 
     Image backgroundImage = new Image("file:src/main/resources/images/asteroid_game.gif");
     ImageView imBackground = new ImageView(backgroundImage);
@@ -85,11 +84,11 @@ public class MapView {
         mapViewGroup = null;
         mapViewGroup = new Group();
         mapViewGroup.getChildren().add(imBackground);
-        Tooltip.install(imBackground,new Tooltip("BackGround"));
+        Tooltip.install(imBackground, new Tooltip("BackGround"));
 
-        for (int i = 0; i < drawables.size(); i++) {
+        for (var drawItem : drawables) {
             try {
-                mapViewGroup.getChildren().add(drawables.get(i).updateGraphics());
+                mapViewGroup.getChildren().add(drawItem.updateGraphics());
             } catch (FileNotFoundException e) {
                 //TODO log/popup
                 System.err.println(e.getMessage());

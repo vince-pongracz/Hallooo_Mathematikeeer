@@ -2,7 +2,6 @@ package org.asteroidapp.VIEW.drawables;
 
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
@@ -23,7 +22,7 @@ public class GateGraphic extends Drawable{
     }
 
     @Override
-    protected String getImagePath() {
+    protected Image getLocalImage() {
         return MapView.portalGif;
     }
 
