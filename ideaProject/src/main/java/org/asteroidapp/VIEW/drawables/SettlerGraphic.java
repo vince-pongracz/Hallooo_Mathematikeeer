@@ -1,5 +1,7 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.entities.Settler;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
@@ -21,6 +23,11 @@ public class SettlerGraphic extends Drawable {
     @Override
     protected String getImagePath() {
         return MapView.spaceshipGif;
+    }
+
+    @Override
+    public Image getRemoteImage() {
+        return MapView.ship;
     }
 
     @Override

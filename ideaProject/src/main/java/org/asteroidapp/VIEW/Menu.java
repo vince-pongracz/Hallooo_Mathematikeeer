@@ -106,9 +106,11 @@ public class Menu {
 
                 HBox hbox = new HBox();
                 VBox vBox = rightView.getVBox();
-                Group root = mapView.getMapViewGroup();
-
-                hbox.getChildren().add(root);
+                Group g = mapView.getMapViewGroup();
+                g.setVisible(true);
+                g.setLayoutX(0);
+                g.setLayoutY(0);
+                hbox.getChildren().add(g);
                 hbox.getChildren().add(vBox);
 
                 Scene sc = new Scene(hbox, 1500, 900);
