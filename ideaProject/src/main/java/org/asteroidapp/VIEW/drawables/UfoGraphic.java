@@ -1,10 +1,12 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.entities.Ufo;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
 
-public class UfoGraphic  extends Drawable {
+public class UfoGraphic extends Drawable {
     private final Ufo ufo;
 
     public UfoGraphic(Ufo ufoObj) {
@@ -26,5 +28,10 @@ public class UfoGraphic  extends Drawable {
     @Override
     public String getName() {
         return ufo.getName();
+    }
+
+    @Override
+    public Image getRemoteImage() {
+        return MapView.ufo;
     }
 }

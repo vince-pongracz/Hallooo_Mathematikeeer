@@ -359,5 +359,9 @@ public class Settler extends Entity implements Drill, Mine {
             case FLAIRWARN -> notifyFlairDanger();
         }
     }
+
+    public int getGateNum(){
+        return createdGates.size();
+    }
 }
 

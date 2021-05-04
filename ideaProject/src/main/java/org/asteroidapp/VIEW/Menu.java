@@ -10,12 +10,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.asteroidapp.CONTROLLER.CommandInterpreter;
 import org.asteroidapp.util.InitMessage;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -58,7 +62,9 @@ public class Menu {
         enterNames.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                names.clear();
                 try {
+
                     Integer.parseInt(textArea.getText());
                 } catch (NumberFormatException exception) {
                     System.out.println("Invalid number format");
@@ -87,7 +93,10 @@ public class Menu {
 
                 String[] namesString = names.toArray(new String[0]);
 
-                InitMessage initMessage = new InitMessage().setPlayerNum(Integer.parseInt(textArea.getText())).setNames(namesString).setAsteroidNum(30).setHomeCapacity(6).setMaxRound(50).setSettlerCapacity(4).setSettlerNum(2).setSunFlairInEveryXRound(5).setUfoNum(3);
+                InitMessage initMessage = new InitMessage().setPlayerNum(Integer.parseInt(textArea.getText()))
+                        .setNames(namesString).setAsteroidNum(30).setHomeCapacity(6)
+                        .setMaxRound(50).setSettlerCapacity(4).setSettlerNum(2).setSunFlairInEveryXRound(5).setUfoNum(3);
+
                 CommandInterpreter.getInstance().initGame(initMessage);
 
                 RightView rightView = null;
@@ -101,12 +110,14 @@ public class Menu {
 
                 HBox hbox = new HBox();
                 VBox vBox = rightView.getVBox();
-                Group root = mapView.getMapViewGroup();
-
-                hbox.getChildren().add(root);
+                Group g = mapView.getMapViewGroup();
+                g.setVisible(true);
+                g.setLayoutX(0);
+                g.setLayoutY(0);
+                hbox.getChildren().add(g);
                 hbox.getChildren().add(vBox);
 
-                Scene sc = new Scene(hbox, 1500, 900);
+                Scene sc = new Scene(hbox, 1790, 900);
                 sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=VT323&display=swap");
                 sc.getStylesheets().add(this.getClass().getResource("/style.css").toExternalForm());
                 stage.setScene(sc);

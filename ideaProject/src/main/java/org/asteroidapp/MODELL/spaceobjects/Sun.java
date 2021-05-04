@@ -7,6 +7,7 @@ import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.interfaces.Observable;
 import org.asteroidapp.MODELL.interfaces.Observer;
+import org.asteroidapp.VIEW.drawables.SunGraphic;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.HashSet;
@@ -43,6 +44,8 @@ public class Sun implements Observable {
         } else {
             log.log(Level.FATAL, "Wrong position! (position is null)");
         }
+
+        this.checkIn(new SunGraphic(this));
 
         CallStackViewer.getInstance().methodReturns();
     }
