@@ -40,7 +40,6 @@ public class MapView {
             robotPng = new Image(new FileInputStream("src/main/resources/images/Robot.png"));
             spaceshipGif = new Image(new FileInputStream("src/main/resources/images/Spaceship.gif"));
             sunGif = new Image(new FileInputStream("src/main/resources/images/Sun.gif"));
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -97,8 +96,7 @@ public class MapView {
         Tooltip.install(imBackground, new Tooltip("Zone"));
 
         pane.getChildren().clear();
-        pane.setLayoutX(0);
-        pane.setLayoutY(0);
+
         pane.getChildren().add(imBackground);
         for (var item : drawables) {
             try {
@@ -108,9 +106,6 @@ public class MapView {
                 System.err.println(e.getMessage());
             }
         }
-
-
-
     }
 
     public Pane getMapViewPane() {
