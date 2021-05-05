@@ -114,14 +114,4 @@ public class ConsoleUI {
             log.log(Level.INFO, "No message (list is null)");
         }
     }
-
-    public void sendMap(Map<Object, Object> map) {
-        if (map != null) {
-            map.forEach((K, V) -> {
-                System.out.println(K + " : " + V);
-            });
-        } else {
-            log.log(Level.WARN, "map is null");
-        }
-    }
 }

@@ -1,10 +1,29 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'org.openjfx:javafx-plugin:0.0.9'
+    }
+}
+
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
+
+apply plugin: 'org.openjfx.javafxplugin'
+
 run {
     standardInput(System.in)
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
 }
 
 group 'org.example'
@@ -39,4 +58,4 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
-mainClassName = 'org.asteroidapp.AppController'
+mainClassName = 'org.asteroidapp.CONTROLLER.AppController'

@@ -1,0 +1,23 @@
+.buttonRight {
+    -fx-font-family: VT323;
+    -fx-font-size: 22;
+    -fx-background-color: transparent;
+    -fx-border-width: 500%;
+    -fx-border-color: linear-gradient(from 15% 15% to 100% 100%, #12acba, #1852b4, #3b1d7b, #5C1780);
+    -fx-border-radius: 180px;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+    -fx-background-radius: 180px;
+}
+
+.labelRightFont {
+    -fx-font-family: VT323;
+    -fx-font-size: 22;
+    -fx-text-fill: white;
+}
+
+.buttonRight:hover {
+    -fx-background-color: #2e2e34;
+    -fx-opacity: 1;
+    -fx-effect: dropshadow(three-pass-box , rgba(18, 99, 187, 0.8), 50, 0, 0, 0);
+}

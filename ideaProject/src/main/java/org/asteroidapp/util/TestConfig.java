@@ -4,12 +4,12 @@ import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.AsteroidZone;
-import org.asteroidapp.GameController;
-import org.asteroidapp.entities.Settler;
-import org.asteroidapp.spaceobjects.HomeAsteroid;
-import org.asteroidapp.spaceobjects.Position;
-import org.asteroidapp.spaceobjects.Sun;
+import org.asteroidapp.CONTROLLER.AsteroidZone;
+import org.asteroidapp.CONTROLLER.GameController;
+import org.asteroidapp.MODELL.entities.Settler;
+import org.asteroidapp.MODELL.spaceobjects.HomeAsteroid;
+import org.asteroidapp.MODELL.spaceobjects.Position;
+import org.asteroidapp.MODELL.spaceobjects.Sun;
 
 import java.io.File;
 import java.io.IOException;
