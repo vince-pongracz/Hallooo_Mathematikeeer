@@ -28,7 +28,7 @@ public class AIRobotGraphic extends Drawable {
 
     @Override
     public Image getRemoteImage() {
-        return MapView.robot;
+        return MapView.robotRemote;
     }
 
     @Override

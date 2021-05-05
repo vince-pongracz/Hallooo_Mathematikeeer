@@ -28,7 +28,7 @@ public class SettlerGraphic extends Drawable {
 
     @Override
     public Image getRemoteImage() {
-        return MapView.ship;
+        return MapView.shipRemote;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class GateGraphic extends Drawable{
 
     @Override
     public Image getRemoteImage() {
-        return MapView.portal;
+        return MapView.portalRemote;
     }
 
     @Override

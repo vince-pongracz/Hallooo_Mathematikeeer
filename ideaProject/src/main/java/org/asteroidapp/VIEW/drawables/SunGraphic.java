@@ -32,6 +32,6 @@ public class SunGraphic extends Drawable {
     }
     @Override
     public Image getRemoteImage() {
-        return MapView.sun;
+        return MapView.sunRemote;
     }
 }

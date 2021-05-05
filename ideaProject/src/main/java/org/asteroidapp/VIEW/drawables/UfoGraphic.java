@@ -33,6 +33,6 @@ public class UfoGraphic extends Drawable {
 
     @Override
     public Image getRemoteImage() {
-        return MapView.ufo;
+        return MapView.ufoRemote;
     }
 }

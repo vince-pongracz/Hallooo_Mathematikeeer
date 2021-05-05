@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW;
 
+import javafx.event.Event;
 import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -15,16 +16,16 @@ import java.util.List;
 
 public class MapView {
 
-    public static Image ufo = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Alien.png");
-    public static Image asteroid = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Asteroid_01.gif");
-    public static Image portal = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Portal.gif");
-    public static Image robot = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Robot.png");
-    public static Image ship = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Spaceship.gif");
-    public static Image sun = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Sun.gif");
-    public static Image background = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/asteroid_game.gif");
+    public static Image ufoRemote = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Alien.png");
+    public static Image asteroidRemote = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Asteroid_01.gif");
+    public static Image portalRemote = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Portal.gif");
+    public static Image robotRemote = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Robot.png");
+    public static Image shipRemote = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Spaceship.gif");
+    public static Image sunRemote = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Sun.gif");
+    public static Image backgroundRemote = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/asteroid_game.gif");
 
     public static final Image alienPng = new Image("file:src/main/resources/images/Alien.png");
-    public static final Image asteroidGif = new Image("file:src/main/resources/images/asteroid_game.gif");
+    public static final Image asteroidGif = new Image("file:src/main/resources/images/Asteroid_01.png");
     public static final Image portalGif = new Image("file:src/main/resources/images/Portal.gif");
     public static final Image robotPng = new Image("file:src/main/resources/images/Robot.png");
     public static final Image spaceshipGif = new Image("file:src/resources/images/Spaceship.gif");
@@ -95,10 +96,11 @@ public class MapView {
             }
         }
 
-        /* pane try
+        //pane try
         pane.getChildren().clear();
-        pane.setLayoutX(1200);
-        pane.setLayoutY(900);
+        pane.setLayoutX(0);
+        pane.setLayoutY(0);
+        pane.getChildren().add(imBackground);
         for (var item : drawables) {
             try {
                 pane.getChildren().add(item.updateGraphics());
@@ -107,7 +109,7 @@ public class MapView {
                 System.err.println(e.getMessage());
             }
         }
-        */
+
 
 
     }

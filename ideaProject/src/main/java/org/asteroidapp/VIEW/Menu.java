@@ -114,7 +114,13 @@ public class Menu {
                 g.setVisible(true);
                 g.setLayoutX(0);
                 g.setLayoutY(0);
-                hbox.getChildren().add(g);
+                //hbox.getChildren().add(g);
+
+                Pane p = mapView.getMapViewPane();
+                p.setVisible(true);
+                p.setLayoutX(0);
+                p.setLayoutY(0);
+                hbox.getChildren().add(p);
                 hbox.getChildren().add(vBox);
 
                 hbox.setOnMouseClicked(new EventHandler<MouseEvent>() {

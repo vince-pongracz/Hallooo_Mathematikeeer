@@ -28,7 +28,7 @@ public class AsteroidGraphic extends Drawable {
 
     @Override
     public Image getRemoteImage() {
-        return MapView.asteroid;
+        return MapView.asteroidRemote;
     }
 
     @Override

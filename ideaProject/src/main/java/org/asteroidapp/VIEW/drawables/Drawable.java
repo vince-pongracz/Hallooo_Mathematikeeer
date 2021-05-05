@@ -22,14 +22,12 @@ public abstract class Drawable extends ImageView implements Observer {
         this.setVisible(true);
 
         if (isVisible()) {
-            //Image image = new Image(new FileInputStream(getImagePath()));
+            this.setImage(getLocalImage());
+            this.relocate(getPosition().getX(), getPosition().getY());
+            this.setX(getPosition().getX());
+            this.setY(getPosition().getY());
 
-            this.setImage(getImage());
-
-            setX(getPosition().getX());
-            setY(getPosition().getY());
-
-            this.setPreserveRatio(true);
+            //this.setPreserveRatio(true);
 
             return (ImageView) this;
             //Setting the preserve ratio of the image view
