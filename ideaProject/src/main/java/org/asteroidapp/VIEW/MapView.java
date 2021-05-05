@@ -1,6 +1,5 @@
 package org.asteroidapp.VIEW;
 
-import javafx.event.Event;
 import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -8,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.asteroidapp.VIEW.drawables.Drawable;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,14 +24,29 @@ public class MapView {
     public static Image sunRemote = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/Sun.gif");
     public static Image backgroundRemote = new Image("https://github.com/vince-pongracz/Hallooo_Mathematikeeer/blob/beta-plans/ideaProject/src/main/resources/images/asteroid_game.gif");
 
-    public static final Image alienPng = new Image("file:src/main/resources/images/Alien.png");
-    public static final Image asteroidGif = new Image("file:src/main/resources/images/Asteroid_01.png");
-    public static final Image portalGif = new Image("file:src/main/resources/images/Portal.gif");
-    public static final Image robotPng = new Image("file:src/main/resources/images/Robot.png");
-    public static final Image spaceshipGif = new Image("file:src/resources/images/Spaceship.gif");
-    public static final Image sunGif = new Image("file:src/main/resources/images/Sun.gif");
+    public static Image alienPng = null;
+    public static Image asteroidGif = null;
+    public static Image portalGif = null;
+    public static Image robotPng = null;
+    public static Image spaceshipGif = null;
+    public static Image sunGif = null;
+    public static Image backgroundImage = null;
 
-    Image backgroundImage = new Image("file:src/main/resources/images/asteroid_game.gif");
+    static {
+        try {
+            backgroundImage = new Image(new FileInputStream("src/main/resources/images/asteroid_game.gif"));
+            alienPng = new Image(new FileInputStream("src/main/resources/images/Alien.png"));
+            asteroidGif = new Image(new FileInputStream("src/main/resources/images/Asteroid_01.png"));
+            portalGif = new Image(new FileInputStream("src/main/resources/images/Portal.gif"));
+            robotPng = new Image(new FileInputStream("src/main/resources/images/Robot.png"));
+            spaceshipGif = new Image(new FileInputStream("src/main/resources/images/Spaceship.gif"));
+            sunGif = new Image(new FileInputStream("src/main/resources/images/Sun.gif"));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     ImageView imBackground = new ImageView(backgroundImage);
     List<Drawable> drawables = new ArrayList<>();
     Group mapViewGroup = new Group();
