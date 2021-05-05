@@ -164,9 +164,10 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
     @Override
     public String getInfo() {
         //TODO write some valuable information here
-        ConsoleUI.getInstance().sendMessageToConsole("name: " + name + ", layer: " + layer.getThickness() + ", core: " + core.getCoreInfo() + ", isCloseToSun: " + closeToSun +
-                ", position: x=" + position.getX() + " y=" + position.getY());
-        return "exampleInfo";
+        String info = "name: " + name + ", layer: " + layer.getThickness() + ", core: " + core.getCoreInfo() + ", isCloseToSun: " + closeToSun +
+                ", position: x=" + position.getX() + " y=" + position.getY();
+        ConsoleUI.getInstance().sendMessageToConsole(info);
+        return info;
     }
 
     @Override
