@@ -1,6 +1,5 @@
 package org.asteroidapp.VIEW;
 
-import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -95,7 +94,7 @@ public class MapView {
         });
         imBackground.setX(0);
         imBackground.setY(0);
-        Tooltip.install(imBackground, new Tooltip("BackGround"));
+        Tooltip.install(imBackground, new Tooltip("Zone"));
 
         pane.getChildren().clear();
         pane.setLayoutX(0);

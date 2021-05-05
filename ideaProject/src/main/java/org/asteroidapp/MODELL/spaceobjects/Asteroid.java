@@ -39,11 +39,10 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
 
         closeToSun = position.distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) < AsteroidZone.defOfCloseToSun;
 
-        this.checkIn(new AsteroidGraphic(this));
-
         log.log(Level.TRACE, "new Asteroid created");
         this.name = "";
         setName(name);
+        this.checkIn(new AsteroidGraphic(this));
         CallStackViewer.getInstance().methodReturns();
     }
 
