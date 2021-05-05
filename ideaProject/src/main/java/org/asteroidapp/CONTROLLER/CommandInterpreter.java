@@ -54,7 +54,6 @@ public class CommandInterpreter {
 
             if (str.equals("move") && command.has("target")) {
 
-                //OPTION choose
                 boolean hasPositionField = command.get("target").getAsJsonObject().has("targetX") &&
                         command.get("target").getAsJsonObject().has("targetY");
                 if (hasPositionField) {
