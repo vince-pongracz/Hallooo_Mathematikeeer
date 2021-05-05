@@ -1,6 +1,5 @@
 package org.asteroidapp.VIEW;
 
-import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,7 +48,6 @@ public class MapView {
 
     ImageView imBackground = new ImageView(backgroundImage);
     List<Drawable> drawables = new ArrayList<>();
-    Group mapViewGroup = new Group();
     Pane pane = new Pane();
 
     private static MapView instance = null;
@@ -94,24 +92,10 @@ public class MapView {
                 return 0;
             }
         });
-        mapViewGroup.getChildren().clear();
         imBackground.setX(0);
         imBackground.setY(0);
-        mapViewGroup = null;
-        mapViewGroup = new Group();
-        mapViewGroup.getChildren().add(imBackground);
-        Tooltip.install(imBackground, new Tooltip("BackGround"));
+        Tooltip.install(imBackground, new Tooltip("Zone"));
 
-        for (var drawItem : drawables) {
-            try {
-                mapViewGroup.getChildren().add(drawItem.updateGraphics());
-            } catch (FileNotFoundException e) {
-                //TODO log/popup
-                System.err.println(e.getMessage());
-            }
-        }
-
-        //pane try
         pane.getChildren().clear();
         pane.setLayoutX(0);
         pane.setLayoutY(0);
@@ -127,11 +111,6 @@ public class MapView {
 
 
 
-    }
-
-
-    public Group getMapViewGroup() {
-        return mapViewGroup;
     }
 
     public Pane getMapViewPane() {

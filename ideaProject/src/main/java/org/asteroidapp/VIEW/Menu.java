@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -110,12 +109,6 @@ public class Menu {
 
                 HBox hbox = new HBox();
                 VBox vBox = rightView.getVBox();
-                Group g = mapView.getMapViewGroup();
-                g.setVisible(true);
-                g.setLayoutX(0);
-                g.setLayoutY(0);
-                //hbox.getChildren().add(g);
-
                 Pane p = mapView.getMapViewPane();
                 p.setVisible(true);
                 p.setLayoutX(0);
