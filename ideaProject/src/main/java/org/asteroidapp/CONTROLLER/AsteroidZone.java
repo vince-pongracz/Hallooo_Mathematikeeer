@@ -86,21 +86,20 @@ public class AsteroidZone {
         spaceObjects.add(homeAsteroid);
 
         //numOfTiles must be rows * columns and the numOfAsteroids must be lower than the numOfTiles
-        int numOfTiles = 42;
+        int numOfTiles = 35;
         int columns = 7;
         int rows = 6;
         int count = 0;
 
         while (count < numOfAsteroids) {
-            int n = random.nextInt(numOfTiles);
-            int i = n % columns;
-            int j = n / columns;
+            int i = count % columns;
+            int j = count / columns;
 
             int x = i * (1500 / columns) + random.nextInt(1500 / columns - 80);
             int y = j * (900 / rows) + random.nextInt(900 / rows - 80);
             Position position = new Position(x, y);
 
-            if (canPlaceAsteroid(position)) {
+
                 position.setRadius(5);
                 resource = generateRandomResource();
                 //Layer is between 3 and 6
@@ -109,7 +108,7 @@ public class AsteroidZone {
                 this.addSpaceObject(new Asteroid("temp" + count, position, resource, layer));
                 log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}", (int) position.getX(), (int) position.getY(), resource.getName(), layer);
                 count++;
-            }
+
         }
 
         CallStackViewer.getInstance().methodReturns();

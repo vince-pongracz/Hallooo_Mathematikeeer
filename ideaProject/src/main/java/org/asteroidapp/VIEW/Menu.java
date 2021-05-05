@@ -93,7 +93,7 @@ public class Menu {
                 String[] namesString = names.toArray(new String[0]);
 
                 InitMessage initMessage = new InitMessage().setPlayerNum(Integer.parseInt(textArea.getText()))
-                        .setNames(namesString).setAsteroidNum(30).setHomeCapacity(6)
+                        .setNames(namesString).setAsteroidNum(42).setHomeCapacity(6)
                         .setMaxRound(50).setSettlerCapacity(4).setSettlerNum(2).setSunFlairInEveryXRound(5).setUfoNum(3);
 
                 CommandInterpreter.getInstance().initGame(initMessage);
