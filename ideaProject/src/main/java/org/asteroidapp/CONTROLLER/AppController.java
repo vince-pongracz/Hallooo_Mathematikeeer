@@ -25,8 +25,8 @@ public class AppController extends Application {
         Menu menu = new Menu(primaryStage);
         VBox hbox = menu.getVBox();
 
-        Scene sc = new Scene(hbox, 1500, 900);
-        sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+        Scene sc = new Scene(hbox, 500, 700);
+        sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
         sc.getStylesheets().add(this.getClass().getResource("/style.css").toExternalForm());
 
         primaryStage.setScene(sc);

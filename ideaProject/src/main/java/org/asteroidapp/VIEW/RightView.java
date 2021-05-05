@@ -27,15 +27,13 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class RightView {
-    VBox vbox = new VBox(15);
+    VBox vbox = new VBox(23);
     ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(new Button(" Move "), new Button(" Drill "), new Button(" Mine "), new Button(" Create gate "), new Button(" Build Gate "), new Button(" Create Robot "), new Button(" Deploy Resource "), new Button(" Skip Round ")));
     ArrayList<Label> labels = new ArrayList<>(Arrays.asList(
-            new Label("Gate: 0"),
-            new Label(" Iron: 0"),
-            new Label(" Coal: 0"),
-            new Label(" Uran: 0"),
+            new Label(" Gate: 0\t Iron: 0"),
+            new Label(" Coal: 0\t Uran: 0"),
             new Label(" Frozen water: 0"),
-            new Label("-------------------------------\n   Aron's Settler2's round \n   Sunflair is coming in 3 rounds")));
+            new Label("Aron's Settler2's round \n   Sunflair is coming in 3 rounds")));
     ArrayList<ImageView> images = new ArrayList<>();
 
     //TODO method define actionListeners
@@ -43,7 +41,7 @@ public class RightView {
     public RightView() throws FileNotFoundException {
         vbox.setAlignment(Pos.CENTER);
 
-        vbox.setMinWidth(320);
+        vbox.setMinWidth(400);
 
         vbox.setBackground(new Background(new BackgroundFill(Color.rgb(40, 40, 40), CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -82,7 +80,7 @@ public class RightView {
 
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).setGraphic(images.get(i));
-            buttons.get(i).setMinWidth(250);
+            buttons.get(i).setMinWidth(300);
             buttons.get(i).setMinHeight(50);
             buttons.get(i).setContentDisplay(ContentDisplay.LEFT);
             buttons.get(i).getStyleClass().add("buttonRight");
@@ -229,13 +227,10 @@ public class RightView {
             vbox.getChildren().removeAll(labels);
             labels.clear();
             labels = new ArrayList<>(Arrays.asList(
-                    new Label(" Gate: " + settler.getGateNum()),
-                    new Label(" Iron: " + storage.countOf(new Iron())),
-                    new Label(" Coal: " + storage.countOf(new Coal())),
-                    new Label(" Uran: " + storage.countOf(new Uran())),
+                    new Label(" Gate: " + settler.getGateNum() + "\t Iron: " +  storage.countOf(new Iron())),
+                    new Label(" Coal: " + storage.countOf(new Coal()) + "\t Uran: " + storage.countOf(new Uran())),
                     new Label(" FrozenWater: " + storage.countOf(new FrozenWater())),
-                    new Label(" -------------------------------\n "
-                            + settler.getName() + "'s round\n Sunflair is coming in " + GameController.getInstance().getRound() % Sun.sunFlairInEveryXRound + " rounds")));
+                    new Label(" " + settler.getName() + "'s round\n Sunflair is coming in " + GameController.getInstance().getRound() % Sun.sunFlairInEveryXRound + " rounds")));
             for (var labelItem : labels) {
                 labelItem.getStyleClass().add("labelRightFont");
             }
