@@ -235,7 +235,7 @@ public class RightView {
                     new Label(" Uran: " + storage.countOf(new Uran())),
                     new Label(" FrozenWater: " + storage.countOf(new FrozenWater())),
                     new Label(" -------------------------------\n "
-                            + settler.getName() + "'s round\n Sunflair is coming in " + GameController.getInstance().getRound() % Sun.sunFlairInEveryXRound + " rounds")));
+                            + settler.getName() + "'s round\n Sunflair is coming in " + (Sun.sunFlairInEveryXRound - GameController.getInstance().getRound() % Sun.sunFlairInEveryXRound) + " rounds")));
             for (var labelItem : labels) {
                 labelItem.getStyleClass().add("labelRightFont");
             }
