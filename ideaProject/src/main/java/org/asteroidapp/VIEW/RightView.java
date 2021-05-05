@@ -27,8 +27,8 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class RightView {
-    VBox vbox = new VBox(20);
-    ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(new Button(" Move "), new Button(" Drill "), new Button(" Mine "), new Button(" Create gate "), new Button(" Build Gate "), new Button(" Create Robot "), new Button(" Deploy Resource ")));
+    VBox vbox = new VBox(15);
+    ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(new Button(" Move "), new Button(" Drill "), new Button(" Mine "), new Button(" Create gate "), new Button(" Build Gate "), new Button(" Create Robot "), new Button(" Deploy Resource "), new Button(" Skip Round ")));
     ArrayList<Label> labels = new ArrayList<>(Arrays.asList(
             new Label("Gate: 0"),
             new Label(" Iron: 0"),
@@ -42,6 +42,8 @@ public class RightView {
 
     public RightView() throws FileNotFoundException {
         vbox.setAlignment(Pos.CENTER);
+
+        vbox.setMinWidth(320);
 
         vbox.setBackground(new Background(new BackgroundFill(Color.rgb(40, 40, 40), CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -73,10 +75,14 @@ public class RightView {
         images.get(6).setPreserveRatio(true);
         images.get(6).setFitHeight(35);
 
+        images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Spaceship.gif"))));
+        images.get(7).setPreserveRatio(true);
+        images.get(7).setFitHeight(35);
+
 
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).setGraphic(images.get(i));
-            buttons.get(i).setMinWidth(200);
+            buttons.get(i).setMinWidth(250);
             buttons.get(i).setMinHeight(50);
             buttons.get(i).setContentDisplay(ContentDisplay.LEFT);
             buttons.get(i).getStyleClass().add("buttonRight");
@@ -194,6 +200,18 @@ public class RightView {
                 jsonCmd.addProperty("command", "deploy");
                 jsonCmd.addProperty("resource", chosenResource);
 
+                var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
+                reactToActionResponse(response);
+            }
+        });
+
+        //skip round
+        buttons.get(7).setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                //send command create robot
+                JsonObject jsonCmd = new JsonObject();
+                jsonCmd.addProperty("command", "next");
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
                 reactToActionResponse(response);
             }

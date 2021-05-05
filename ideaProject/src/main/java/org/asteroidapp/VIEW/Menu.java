@@ -123,7 +123,7 @@ public class Menu {
                     }
                 });
 
-                Scene sc = new Scene(hbox, 1790, 900);
+                Scene sc = new Scene(hbox, 1820, 900);
                 sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=VT323&display=swap");
                 sc.getStylesheets().add(this.getClass().getResource("/style.css").toExternalForm());
                 stage.setScene(sc);
