@@ -34,7 +34,6 @@ public class MapView {
     Image backgroundImage = new Image("file:src/main/resources/images/asteroid_game.gif");
     ImageView imBackground = new ImageView(backgroundImage);
     List<Drawable> drawables = new ArrayList<>();
-    Group mapViewGroup = new Group();
     Pane pane = new Pane();
 
     private static MapView instance = null;
@@ -79,24 +78,10 @@ public class MapView {
                 return 0;
             }
         });
-        mapViewGroup.getChildren().clear();
         imBackground.setX(0);
         imBackground.setY(0);
-        mapViewGroup = null;
-        mapViewGroup = new Group();
-        mapViewGroup.getChildren().add(imBackground);
         Tooltip.install(imBackground, new Tooltip("BackGround"));
 
-        for (var drawItem : drawables) {
-            try {
-                mapViewGroup.getChildren().add(drawItem.updateGraphics());
-            } catch (FileNotFoundException e) {
-                //TODO log/popup
-                System.err.println(e.getMessage());
-            }
-        }
-
-        //pane try
         pane.getChildren().clear();
         pane.setLayoutX(0);
         pane.setLayoutY(0);
@@ -112,11 +97,6 @@ public class MapView {
 
 
 
-    }
-
-
-    public Group getMapViewGroup() {
-        return mapViewGroup;
     }
 
     public Pane getMapViewPane() {

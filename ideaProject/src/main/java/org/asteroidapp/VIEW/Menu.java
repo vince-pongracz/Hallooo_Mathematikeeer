@@ -110,12 +110,6 @@ public class Menu {
 
                 HBox hbox = new HBox();
                 VBox vBox = rightView.getVBox();
-                Group g = mapView.getMapViewGroup();
-                g.setVisible(true);
-                g.setLayoutX(0);
-                g.setLayoutY(0);
-                //hbox.getChildren().add(g);
-
                 Pane p = mapView.getMapViewPane();
                 p.setVisible(true);
                 p.setLayoutX(0);
