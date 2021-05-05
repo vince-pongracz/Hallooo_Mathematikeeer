@@ -133,8 +133,8 @@ public class Menu {
                     stage.setScene(sc);
 
                     stage.setResizable(false);
-                    stage.setX(10);
-                    stage.setY(70);
+                    stage.setX(5);
+                    stage.setY(65);
 
                     stage.show();
                 }

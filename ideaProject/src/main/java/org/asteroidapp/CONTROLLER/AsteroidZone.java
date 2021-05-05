@@ -75,7 +75,6 @@ public class AsteroidZone {
     public void createZone() {
         CallStackViewer.getInstance().methodStartsLogCall("createZone() called");
 
-        Resource resource = new Empty();
         int layer = 0;
 
         //TODO The sun and the homeasteroid can't have that kind of fix position because they are going to collide with other asteroids
@@ -98,16 +97,15 @@ public class AsteroidZone {
             int x = i * (1500 / columns) + random.nextInt(1500 / columns - 80);
             int y = j * (900 / rows) + random.nextInt(900 / rows - 80);
             Position position = new Position(x, y);
+            
+            position.setRadius(5);
+            var resource = generateRandomResource();
+            //Layer is between 3 and 6
+            layer = random.nextInt(3) + 3;
 
-
-                position.setRadius(5);
-                resource = generateRandomResource();
-                //Layer is between 3 and 6
-                layer = random.nextInt(3) + 3;
-
-                this.addSpaceObject(new Asteroid("temp" + count, position, resource, layer));
-                log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}", (int) position.getX(), (int) position.getY(), resource.getName(), layer);
-                count++;
+            this.addSpaceObject(new Asteroid("temp" + count, position, resource, layer));
+            log.log(Level.TRACE, "Asteroid created at x={} y={} with a core of {} with layer={}", (int) position.getX(), (int) position.getY(), resource.getName(), layer);
+            count++;
 
         }
 
@@ -223,10 +221,10 @@ public class AsteroidZone {
 
     public SteppableSpaceObject getNearestObject(Position position) {
         double minDistance = Double.MAX_VALUE;
-        SteppableSpaceObject returnedObject = spaceObjects.iterator().next();
-        for (var objectItem :   spaceObjects) {
+        SteppableSpaceObject returnedObject = null;
+        for (var objectItem : spaceObjects) {
             var actualDistance = position.distanceFrom(objectItem.getPosition());
-            if(actualDistance < minDistance){
+            if (actualDistance < minDistance) {
                 minDistance = actualDistance;
                 returnedObject = objectItem;
             }

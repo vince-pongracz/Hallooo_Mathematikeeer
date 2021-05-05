@@ -52,7 +52,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     @Override
     public String getName() {
         log.log(Level.TRACE, "Gate's getName called: returns gate");
-        if (this.gatePair != null) {
+        if (this.getTarget() != null) {
             return "Gate to " + this.getTarget().getName() + " from " + this.currentAsteroid.getName();
         } else {
             return "Gate on " + currentAsteroid.getName();

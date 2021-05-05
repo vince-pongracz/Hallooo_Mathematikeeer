@@ -230,7 +230,7 @@ public class RightView {
                     new Label(" Gate: " + settler.getGateNum() + "\t Iron: " +  storage.countOf(new Iron())),
                     new Label(" Coal: " + storage.countOf(new Coal()) + "\t Uran: " + storage.countOf(new Uran())),
                     new Label(" FrozenWater: " + storage.countOf(new FrozenWater())),
-                    new Label(" " + settler.getName() + "'s round\n Sunflair is coming in " + GameController.getInstance().getRound() % Sun.sunFlairInEveryXRound + " rounds")));
+                    new Label(" " + settler.getName() + "'s round\n Sunflair is coming in " + (Sun.sunFlairInEveryXRound - GameController.getInstance().getRound() % Sun.sunFlairInEveryXRound) + " rounds")));
             for (var labelItem : labels) {
                 labelItem.getStyleClass().add("labelRightFont");
             }

@@ -316,11 +316,11 @@ public class Settler extends Entity implements Drill, Mine {
         if (createdGates.size() != 0) {     /////////////// SIZE CHECK INSTEAD OF NULL CHECK
             Gate gate = createdGates.remove(0);
 
-            gate.checkIn(new GateGraphic(gate));
             gate.setMyAsteroid(this.onAsteroid);
             onAsteroid.checkIn(gate);
 
             AsteroidZone.getInstance().addSpaceObject(gate);
+            gate.checkIn(new GateGraphic(gate));
             gate.signalizeUpdate(EventType.REFRESH);
             success = true;
         } else {
