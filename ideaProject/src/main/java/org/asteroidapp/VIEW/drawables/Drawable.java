@@ -23,7 +23,6 @@ public abstract class Drawable extends ImageView implements Observer {
 
         if (isVisible()) {
             this.setImage(getLocalImage());
-            this.relocate(getPosition().getX(), getPosition().getY());
             this.setX(getPosition().getX());
             this.setY(getPosition().getY());
 
