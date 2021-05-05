@@ -102,7 +102,7 @@ public class RightView {
 
                 JsonObject jsonCmd2 = new JsonObject();
                 jsonCmd2.addProperty("targetX", nextAsteroid.getPosition().getX());
-                jsonCmd2.addProperty("targetY", nextAsteroid.getPosition().getX());
+                jsonCmd2.addProperty("targetY", nextAsteroid.getPosition().getY());
                 jsonCmd.add("target", jsonCmd2);
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
                 reactToActionResponse(response);

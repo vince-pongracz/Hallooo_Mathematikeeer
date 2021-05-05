@@ -75,7 +75,6 @@ public class AsteroidZone {
     public void createZone() {
         CallStackViewer.getInstance().methodStartsLogCall("createZone() called");
 
-        Resource resource = new Empty();
         int layer = 0;
 
         //TODO The sun and the homeasteroid can't have that kind of fix position because they are going to collide with other asteroids
@@ -102,7 +101,7 @@ public class AsteroidZone {
 
             if (canPlaceAsteroid(position)) {
                 position.setRadius(5);
-                resource = generateRandomResource();
+                var resource = generateRandomResource();
                 //Layer is between 3 and 6
                 layer = random.nextInt(3) + 3;
 
@@ -224,10 +223,10 @@ public class AsteroidZone {
 
     public SteppableSpaceObject getNearestObject(Position position) {
         double minDistance = Double.MAX_VALUE;
-        SteppableSpaceObject returnedObject = spaceObjects.iterator().next();
-        for (var objectItem :   spaceObjects) {
+        SteppableSpaceObject returnedObject = null;
+        for (var objectItem : spaceObjects) {
             var actualDistance = position.distanceFrom(objectItem.getPosition());
-            if(actualDistance < minDistance){
+            if (actualDistance < minDistance) {
                 minDistance = actualDistance;
                 returnedObject = objectItem;
             }

@@ -108,9 +108,6 @@ public class MapView {
                 System.err.println(e.getMessage());
             }
         }
-
-
-
     }
 
     public Pane getMapViewPane() {
