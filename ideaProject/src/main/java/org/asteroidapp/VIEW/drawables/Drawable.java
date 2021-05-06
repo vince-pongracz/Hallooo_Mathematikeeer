@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.EventType;
@@ -13,6 +14,7 @@ import java.io.FileNotFoundException;
  */
 public abstract class Drawable extends ImageView implements Observer {
     protected int prior;
+    protected Tooltip infoTip = new Tooltip("Default Drawable Tooltip");
 
     public int getPrior() {
         return prior;
@@ -25,6 +27,7 @@ public abstract class Drawable extends ImageView implements Observer {
             this.setImage(getLocalImage());
             this.setX(getPosition().getX());
             this.setY(getPosition().getY());
+            this.refreshTooltip();
 
             //this.setPreserveRatio(true);
 
@@ -39,6 +42,8 @@ public abstract class Drawable extends ImageView implements Observer {
     protected abstract Position getPosition();
 
     protected abstract Image getLocalImage();
+
+    protected abstract void refreshTooltip();
 
     public abstract Image getRemoteImage();
 

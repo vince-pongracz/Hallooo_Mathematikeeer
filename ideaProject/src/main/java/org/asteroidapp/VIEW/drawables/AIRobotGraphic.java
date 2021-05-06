@@ -12,7 +12,7 @@ public class AIRobotGraphic extends Drawable {
     public AIRobotGraphic(AIRobot robotObj) {
         prior = 2;
         aiRobot = robotObj;
-        Tooltip.install(this,new Tooltip(aiRobot.getName()));
+        refreshTooltip();
         MapView.getInstance().addDrawable(this);
     }
 
@@ -24,6 +24,13 @@ public class AIRobotGraphic extends Drawable {
     @Override
     protected Image getLocalImage() {
         return MapView.robotPng;
+    }
+
+    @Override
+    protected void refreshTooltip() {
+        Tooltip.uninstall(this,infoTip);
+        this.infoTip = new Tooltip(aiRobot.getName());
+        Tooltip.install(this,infoTip);
     }
 
     @Override

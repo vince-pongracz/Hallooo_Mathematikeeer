@@ -12,7 +12,7 @@ public class GateGraphic extends Drawable{
     public GateGraphic(Gate gateObj) {
         prior = 2;
         gate = gateObj;
-        Tooltip.install(this,new Tooltip(getName()));
+        refreshTooltip();
         MapView.getInstance().addDrawable(this);
     }
 
@@ -24,6 +24,13 @@ public class GateGraphic extends Drawable{
     @Override
     protected Image getLocalImage() {
         return MapView.portalGif;
+    }
+
+    @Override
+    protected void refreshTooltip() {
+        Tooltip.uninstall(this,infoTip);
+        this.infoTip = new Tooltip(gate.getName() + " A: " + gate.isActive());
+        Tooltip.install(this,infoTip);
     }
 
     @Override

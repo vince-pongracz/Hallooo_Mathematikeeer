@@ -94,7 +94,7 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
             core.popResource();
             core.pushResource(new Empty());
         }
-
+        signalizeUpdate(EventType.REFRESH);
         CallStackViewer.getInstance().methodReturns();
         //return the actual thickness
 

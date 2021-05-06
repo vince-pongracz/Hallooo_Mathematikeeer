@@ -12,7 +12,7 @@ public class SettlerGraphic extends Drawable {
     public SettlerGraphic(Settler SettlerObj) {
         prior = 2;
         settler = SettlerObj;
-        Tooltip.install(this,new Tooltip(getName()));
+        refreshTooltip();
         MapView.getInstance().addDrawable(this);
     }
 
@@ -24,6 +24,13 @@ public class SettlerGraphic extends Drawable {
     @Override
     protected Image getLocalImage() {
         return MapView.spaceshipGif;
+    }
+
+    @Override
+    protected void refreshTooltip() {
+        Tooltip.uninstall(this,infoTip);
+        this.infoTip = new Tooltip(settler.getName());
+        Tooltip.install(this,infoTip);
     }
 
     @Override

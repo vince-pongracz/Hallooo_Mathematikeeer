@@ -12,7 +12,7 @@ public class UfoGraphic extends Drawable {
     public UfoGraphic(Ufo ufoObj) {
         prior = 2;
         ufo = ufoObj;
-        Tooltip.install(this,new Tooltip(getName()));
+        refreshTooltip();
         MapView.getInstance().addDrawable(this);
     }
 
@@ -24,6 +24,13 @@ public class UfoGraphic extends Drawable {
     @Override
     protected Image getLocalImage() {
         return MapView.alienPng;
+    }
+
+    @Override
+    protected void refreshTooltip() {
+        Tooltip.uninstall(this,infoTip);
+        this.infoTip = new Tooltip(ufo.getName());
+        Tooltip.install(this,infoTip);
     }
 
     @Override
