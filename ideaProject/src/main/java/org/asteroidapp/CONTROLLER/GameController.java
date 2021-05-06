@@ -211,6 +211,7 @@ public class GameController {
         AsteroidZone.numOfAsteroids = initConfig.getAsteroidNum();
         AsteroidZone.defOfCloseToSun = initConfig.getDefOfCloseToSun();
         AsteroidZone.getInstance().createZone();
+        Sun.sunFlairInEveryXRound = initConfig.getSunFlairInEveryXRound();
 
         //create and place settlers and ufos on the Zone
         GameController.getInstance().dropSettlers();
