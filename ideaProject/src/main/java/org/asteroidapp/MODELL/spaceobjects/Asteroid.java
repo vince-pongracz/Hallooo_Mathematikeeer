@@ -131,6 +131,7 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
         }
 
         CallStackViewer.getInstance().methodReturns();
+        this.signalizeUpdate(EventType.REFRESH);
         return ret;
     }
 
@@ -163,11 +164,18 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
 
     @Override
     public String getInfo() {
-        //TODO write some valuable information here
-        String info = "name: " + name + ", layer: " + layer.getThickness() + ", core: " + core.getCoreInfo() + ", isCloseToSun: " + closeToSun +
-                ", position: x=" + position.getX() + " y=" + position.getY();
-        ConsoleUI.getInstance().sendMessageToConsole(info);
-        return info;
+        StringBuilder infoBuilder = new StringBuilder();
+
+        infoBuilder.append(getName()).append("\n");
+        infoBuilder.append("L: ").append(getLayerThickness());
+
+        if (getLayerThickness() == 0) {
+            infoBuilder.append(this.core.getCoreInfo());
+        }
+
+        infoBuilder.append("\nclose: ").append(closeToSun);
+        ConsoleUI.getInstance().sendMessageToConsole(infoBuilder.toString());
+        return infoBuilder.toString();
     }
 
     @Override

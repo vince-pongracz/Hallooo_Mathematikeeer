@@ -2,9 +2,12 @@ package org.asteroidapp.VIEW.drawables;
 
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.entities.Ufo;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
+
+import java.io.FileNotFoundException;
 
 public class UfoGraphic extends Drawable {
     private final Ufo ufo;
@@ -19,7 +22,7 @@ public class UfoGraphic extends Drawable {
     @Override
     protected Position getPosition() {
         Position old = ufo.getMySpaceObject().getPosition();
-        return new Position(old.getX() + 30, old.getY() + 20);
+        return new Position(old.getX() + 5, old.getY() - 20);
     }
 
     @Override
@@ -29,9 +32,9 @@ public class UfoGraphic extends Drawable {
 
     @Override
     protected void refreshTooltip() {
-        Tooltip.uninstall(this,infoTip);
+        Tooltip.uninstall(this, infoTip);
         this.infoTip = new Tooltip(ufo.getName());
-        Tooltip.install(this,infoTip);
+        Tooltip.install(this, infoTip);
     }
 
     @Override
@@ -42,5 +45,14 @@ public class UfoGraphic extends Drawable {
     @Override
     public Image getRemoteImage() {
         return MapView.ufoRemote;
+    }
+
+    @Override
+    public ImageView updateGraphics() throws FileNotFoundException {
+        super.updateGraphics();
+        this.setFitHeight(56);
+        this.setFitWidth(56);
+        this.setPreserveRatio(true);
+        return this;
     }
 }

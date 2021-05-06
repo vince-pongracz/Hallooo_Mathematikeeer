@@ -29,11 +29,7 @@ public abstract class Drawable extends ImageView implements Observer {
             this.setY(getPosition().getY());
             this.refreshTooltip();
 
-            //this.setPreserveRatio(true);
-
-            return (ImageView) this;
-            //Setting the preserve ratio of the image view
-            //imageView.setPreserveRatio(true);     lehet kell példában volt
+            return this;
         } else {
             throw new FileNotFoundException("This GUI element is not allowed (not visible)");
         }

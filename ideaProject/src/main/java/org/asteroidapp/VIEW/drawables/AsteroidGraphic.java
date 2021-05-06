@@ -29,7 +29,7 @@ public class AsteroidGraphic extends Drawable {
     @Override
     protected void refreshTooltip() {
         Tooltip.uninstall(this,infoTip);
-        this.infoTip = new Tooltip(asteroid.getName() + " L: "+asteroid.getLayerThickness());
+        this.infoTip = new Tooltip(asteroid.getInfo());
         Tooltip.install(this,infoTip);
     }
 

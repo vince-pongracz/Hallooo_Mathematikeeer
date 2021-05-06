@@ -67,10 +67,19 @@ public class HomeAsteroid extends Asteroid {
         for (int i = 0; i < homeCapacity; i++) {
             var tmp = core.popResource();
             core.pushResource(tmp);
-            if (!tmp.equals(new Empty())){
+            if (!tmp.equals(new Empty())) {
                 tmpRes.add(tmp);
             }
         }
         return tmpRes;
+    }
+
+    @Override
+    public String getInfo() {
+        var list = getResourcesWithoutTakeThem();
+        StringBuilder infoBuilder = new StringBuilder("name: ").append(this.getName());
+        infoBuilder.append(this.core.getCoreInfo());
+
+        return infoBuilder.toString();
     }
 }
