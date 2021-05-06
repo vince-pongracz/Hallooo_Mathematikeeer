@@ -366,18 +366,5 @@ public class Settler extends Entity implements Drill, Mine {
     public int getGateNum() {
         return createdGates.size();
     }
-
-    public Set<SteppableSpaceObject> listMyNeighbours(Position pos) {
-        var neighbours = super.listMyNeighbours();
-        var iter = AsteroidZone.getInstance().getIterOnSpaceObjects();
-        while (iter.hasNext()) {
-            var targetSuspect = iter.next();
-            if (targetSuspect.getTarget().getPosition().distanceFrom(pos) < 60) {
-                neighbours.add(targetSuspect);
-            }
-        }
-
-        return neighbours;
-    }
 }
 

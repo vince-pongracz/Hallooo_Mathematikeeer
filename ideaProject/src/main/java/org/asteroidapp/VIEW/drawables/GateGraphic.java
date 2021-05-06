@@ -9,7 +9,7 @@ import org.asteroidapp.VIEW.MapView;
 
 import java.io.FileNotFoundException;
 
-public class GateGraphic extends Drawable{
+public class GateGraphic extends Drawable {
     private final Gate gate;
 
     public GateGraphic(Gate gateObj) {
@@ -21,8 +21,7 @@ public class GateGraphic extends Drawable{
 
     @Override
     protected Position getPosition() {
-        Position old = gate.getPosition();
-        return new Position(old.getX() - 10, old.getY() - 65);
+        return gate.getPosition();
     }
 
     @Override
@@ -32,9 +31,9 @@ public class GateGraphic extends Drawable{
 
     @Override
     protected void refreshTooltip() {
-        Tooltip.uninstall(this,infoTip);
+        Tooltip.uninstall(this, infoTip);
         this.infoTip = new Tooltip(gate.getName() + " A: " + gate.isActive());
-        Tooltip.install(this,infoTip);
+        Tooltip.install(this, infoTip);
     }
 
     @Override
