@@ -1,9 +1,11 @@
 package org.asteroidapp.VIEW;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.VIEW.drawables.Drawable;
 
 import java.io.FileInputStream;
@@ -80,6 +82,15 @@ public class MapView {
 
     public void refreshMap() {
         //TODO refactor
+
+        if(GameController.getPlayerNUm() == 0){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Asteroid Game - Information Dialog");
+            alert.setHeaderText("Game Over");
+            alert.setContentText("You lost because there is no player who has any settler alive");
+            alert.showAndWait();
+            System.exit(0);
+        }
 
         Collections.sort(drawables, new Comparator<Drawable>() {
             @Override
