@@ -18,7 +18,8 @@ public class SettlerGraphic extends Drawable {
 
     @Override
     protected Position getPosition() {
-        return settler.getMySpaceObject().getPosition();
+        Position old = settler.getMySpaceObject().getPosition();
+        return new Position(old.getX() + 30, old.getY() - 25);
     }
 
     @Override

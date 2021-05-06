@@ -30,8 +30,8 @@ public class RightView {
     VBox vbox = new VBox(23);
     ArrayList<Button> buttons = new ArrayList<>(Arrays.asList(new Button(" Move "), new Button(" Drill "), new Button(" Mine "), new Button(" Create gate "), new Button(" Build Gate "), new Button(" Create Robot "), new Button(" Deploy Resource "), new Button(" Skip Round ")));
     ArrayList<Label> labels = new ArrayList<>(Arrays.asList(
-            new Label(" Gate: 0\t Iron: 0"),
-            new Label(" Coal: 0\t Uran: 0"),
+            new Label(" Gate: 0\t\t Iron: 0"),
+            new Label(" Coal: 0\t\t Uran: 0"),
             new Label(" Frozen water: 0"),
             new Label("Aron's Settler2's round \n   Sunflair is coming in 3 rounds")));
     ArrayList<ImageView> images = new ArrayList<>();
@@ -227,8 +227,8 @@ public class RightView {
             vbox.getChildren().removeAll(labels);
             labels.clear();
             labels = new ArrayList<>(Arrays.asList(
-                    new Label(" Gate: " + settler.getGateNum() + "\t Iron: " +  storage.countOf(new Iron())),
-                    new Label(" Coal: " + storage.countOf(new Coal()) + "\t Uran: " + storage.countOf(new Uran())),
+                    new Label(" Gate: " + settler.getGateNum() + "\t\t Iron: " +  storage.countOf(new Iron())),
+                    new Label(" Coal: " + storage.countOf(new Coal()) + "\t\t Uran: " + storage.countOf(new Uran())),
                     new Label(" FrozenWater: " + storage.countOf(new FrozenWater())),
                     new Label(" " + settler.getName() + "'s round\n Sunflair is coming in " + (Sun.sunFlairInEveryXRound - GameController.getInstance().getRound() % Sun.sunFlairInEveryXRound) + " rounds")));
             for (var labelItem : labels) {

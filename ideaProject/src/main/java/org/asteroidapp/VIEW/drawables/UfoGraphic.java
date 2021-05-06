@@ -18,7 +18,8 @@ public class UfoGraphic extends Drawable {
 
     @Override
     protected Position getPosition() {
-        return ufo.getMySpaceObject().getPosition();
+        Position old = ufo.getMySpaceObject().getPosition();
+        return new Position(old.getX() + 30, old.getY() + 20);
     }
 
     @Override
