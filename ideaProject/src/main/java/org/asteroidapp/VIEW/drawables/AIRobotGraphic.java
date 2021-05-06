@@ -18,7 +18,8 @@ public class AIRobotGraphic extends Drawable {
 
     @Override
     protected Position getPosition() {
-        return aiRobot.getMySpaceObject().getPosition();
+        Position old = aiRobot.getMySpaceObject().getPosition();
+        return new Position(old.getX() - 5, old.getY());
     }
 
     @Override

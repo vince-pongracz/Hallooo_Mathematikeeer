@@ -31,6 +31,8 @@ public class GameController {
 
     public static ActionResponse response = null;
 
+    public static boolean playerHasWon = false;
+
     /**
      * Default constructor
      */
@@ -104,12 +106,16 @@ public class GameController {
     /**
      * collection for players
      */
-    private transient List<Player> players;
+    private static transient List<Player> players;
 
     /**
      * collection for ufos
      */
     private transient Set<Ufo> ufos;
+
+    public static int getPlayerNUm(){
+        return players.size();
+    }
 
     private void createUfos() {
         for (int i = 0; i < ufosNum; i++) {
@@ -374,7 +380,7 @@ public class GameController {
 
             if (win) {
                 log.log(Level.INFO, "Players win");
-                //TODO send response;
+                playerHasWon = win;
             }
         }
 

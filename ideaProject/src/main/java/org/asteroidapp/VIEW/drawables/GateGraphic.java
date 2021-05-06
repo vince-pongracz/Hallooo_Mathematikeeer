@@ -21,7 +21,8 @@ public class GateGraphic extends Drawable{
 
     @Override
     protected Position getPosition() {
-        return gate.getPosition();
+        Position old = gate.getPosition();
+        return new Position(old.getX() - 10, old.getY() - 65);
     }
 
     @Override
