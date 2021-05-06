@@ -87,7 +87,16 @@ public class MapView {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Asteroid Game - Information Dialog");
             alert.setHeaderText("Game Over");
-            alert.setContentText("You lost because there is no player who has any settler alive");
+            alert.setContentText("You lost because there is no player who has any settler alive.");
+            alert.showAndWait();
+            System.exit(0);
+        }
+
+        if(GameController.playerHasWon){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Asteroid Game - Information Dialog");
+            alert.setHeaderText("You Win");
+            alert.setContentText("You collected all the needed resources to build a space base. Congratulations, you win. :)");
             alert.showAndWait();
             System.exit(0);
         }

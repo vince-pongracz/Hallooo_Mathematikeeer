@@ -31,6 +31,8 @@ public class GameController {
 
     public static ActionResponse response = null;
 
+    public static boolean playerHasWon = false;
+
     /**
      * Default constructor
      */
@@ -378,7 +380,7 @@ public class GameController {
 
             if (win) {
                 log.log(Level.INFO, "Players win");
-                //TODO send response;
+                playerHasWon = win;
             }
         }
 
