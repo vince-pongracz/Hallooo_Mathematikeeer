@@ -2,9 +2,12 @@ package org.asteroidapp.VIEW.drawables;
 
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
+
+import java.io.FileNotFoundException;
 
 public class GateGraphic extends Drawable{
     private final Gate gate;
@@ -41,5 +44,14 @@ public class GateGraphic extends Drawable{
     @Override
     public String getName() {
         return gate.getName();
+    }
+
+    @Override
+    public ImageView updateGraphics() throws FileNotFoundException {
+        super.updateGraphics();
+        this.setFitHeight(56);
+        this.setFitWidth(56);
+        this.setPreserveRatio(true);
+        return this;
     }
 }

@@ -1,5 +1,6 @@
 package org.asteroidapp.MODELL.entities;
 
+import javafx.geometry.Pos;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import org.asteroidapp.MODELL.interfaces.Mine;
 import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
 import org.asteroidapp.CONTROLLER.Player;
+import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.VIEW.drawables.GateGraphic;
 import org.asteroidapp.VIEW.drawables.SettlerGraphic;
@@ -129,8 +131,9 @@ public class Settler extends Entity implements Drill, Mine {
 
         boolean settlerIsFarFromSun = onAsteroid.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun;
 
-        //TODO refactor: one Asteroid can hide just one entity..
-        if (onAsteroid.getLayerThickness() == 0 && onAsteroid.mineResource().equals(new Empty()) || settlerIsFarFromSun) {
+        if (onAsteroid.getLayerThickness() == 0 && onAsteroid.mineResource().equals(new Empty())
+                || settlerIsFarFromSun
+                || this.onAsteroid.equals(AsteroidZone.getInstance().findHome())) {
             log.log(Level.INFO, "You were hidden in an asteroid during the sunflair or you were far away from the sun, so you survived");
         } else {
             log.log(Level.INFO, "You were not hidden in an asteroid during the sunflair so you died");
@@ -360,8 +363,21 @@ public class Settler extends Entity implements Drill, Mine {
         }
     }
 
-    public int getGateNum(){
+    public int getGateNum() {
         return createdGates.size();
+    }
+
+    public Set<SteppableSpaceObject> listMyNeighbours(Position pos) {
+        var neighbours = super.listMyNeighbours();
+        var iter = AsteroidZone.getInstance().getIterOnSpaceObjects();
+        while (iter.hasNext()) {
+            var targetSuspect = iter.next();
+            if (targetSuspect.getTarget().getPosition().distanceFrom(pos) < 60) {
+                neighbours.add(targetSuspect);
+            }
+        }
+
+        return neighbours;
     }
 }
 

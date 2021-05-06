@@ -93,14 +93,17 @@ public class RightView {
         buttons.get(0).setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                //---crop out
                 SteppableSpaceObject nextAsteroid = AsteroidZone.getInstance().getNearestObject(Menu.mousePosition);
                 System.out.println(nextAsteroid.getName() + ", " + nextAsteroid.getPosition().getX() + ", " + nextAsteroid.getPosition().getY());
+                //
+
                 JsonObject jsonCmd = new JsonObject();
                 jsonCmd.addProperty("command", "move");
 
                 JsonObject jsonCmd2 = new JsonObject();
-                jsonCmd2.addProperty("targetX", nextAsteroid.getPosition().getX());
-                jsonCmd2.addProperty("targetY", nextAsteroid.getPosition().getY());
+                jsonCmd2.addProperty("targetX", Menu.mousePosition.getX());
+                jsonCmd2.addProperty("targetY", Menu.mousePosition.getY());
                 jsonCmd.add("target", jsonCmd2);
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
                 reactToActionResponse(response);

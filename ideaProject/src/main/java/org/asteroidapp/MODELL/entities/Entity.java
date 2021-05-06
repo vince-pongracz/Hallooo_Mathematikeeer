@@ -94,11 +94,9 @@ public abstract class Entity implements MoveableObserver, Observable {
         Set<SteppableSpaceObject> neighbours = new HashSet<>();
 
         var iter = AsteroidZone.getInstance().getIterOnSpaceObjects();
-        //Position sun = AsteroidZone.getInstance().getSun().getPosition();
-        SteppableSpaceObject temp = null;
 
         while (iter.hasNext()) {
-            temp = iter.next();
+            var temp = iter.next();
             if (temp.isActive() && temp.getPosition() != this.onAsteroid.getPosition()) {
                 double distance = temp.getPosition().distanceFrom(onAsteroid.getPosition());
                 if (distance < Position.getMaximalNeighbourDistance() && !temp.getName().equals(onAsteroid.getName())) {
@@ -174,7 +172,7 @@ public abstract class Entity implements MoveableObserver, Observable {
 
     @Override
     public void signalizeUpdate(EventType event) {
-        for (var obs:observers) {
+        for (var obs : observers) {
             obs.notify(event);
         }
     }
