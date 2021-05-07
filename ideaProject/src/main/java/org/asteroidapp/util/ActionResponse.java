@@ -34,7 +34,12 @@ public class ActionResponse {
     }
 
     public ActionResponse setDefaultMessage() {
-        this.message = (success && message.equals("Default")) ? "Successed" : "Invalid or wrong operation";
+        if (success && message.equals("Default")) {
+            this.message = "Successed";
+        }
+        if (!success && !message.equals("Default")) {
+            this.message = "Invalid or wrong operation";
+        }
         return this;
     }
 }

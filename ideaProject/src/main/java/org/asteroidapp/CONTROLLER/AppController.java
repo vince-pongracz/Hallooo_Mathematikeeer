@@ -3,14 +3,12 @@ package org.asteroidapp.CONTROLLER;
 import javafx.application.Application;
 
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.VIEW.Menu;
-import org.asteroidapp.VIEW.RightView;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.io.FileNotFoundException;
@@ -95,8 +93,9 @@ public class AppController extends Application {
     public static void main(String[] args) {
         CallStackViewer.getInstance().methodStartsLogCall("___CALLSTACK:___");
 
-        AppController app = new AppController();
+        //System.out.println("\uD83D\uDE00");
 
+        AppController app = new AppController();
         //app.consoleDemo();
 
         launch(args);

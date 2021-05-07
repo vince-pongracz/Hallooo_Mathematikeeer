@@ -77,7 +77,7 @@ public class Core {
         StringBuilder coreInfoBuilder = new StringBuilder();
 
         if (irons > 0) {
-            coreInfoBuilder.append("Iron: ").append(irons);
+            coreInfoBuilder.append("\n").append("Iron: ").append(irons);
         }
         if (coals > 0) {
             coreInfoBuilder.append("\n").append("Coal: ").append(coals);

@@ -16,6 +16,7 @@ import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.VIEW.drawables.GateGraphic;
 import org.asteroidapp.VIEW.drawables.SettlerGraphic;
+import org.asteroidapp.util.ActionResponse;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
@@ -78,15 +79,18 @@ public class Settler extends Entity implements Drill, Mine {
         log.log(Level.INFO, "Settler tried to drill an object");
 
         int oldThickness = onAsteroid.getLayerThickness();
+
         onAsteroid.drillLayer();
         boolean ret = false;
 
-        if (oldThickness > 1) {
+        if (oldThickness >= 1) {
             log.log(Level.INFO, "Drill was successful");
+            GameController.response.setMessage("Drilled!");
             ret = true;
-        } else if (oldThickness == 0) {
+        } else if (onAsteroid.getLayerThickness() == 0) {
             log.log(Level.INFO, "SpaceObject is already drilled: mineable");
-            ret = true;
+            GameController.response.setMessage("Already drilled through!");
+            ret = false;
         } else {
             log.log(Level.INFO, "Drill was not successful");
             ret = false;
@@ -227,6 +231,7 @@ public class Settler extends Entity implements Drill, Mine {
             if (!res.equals(new Empty())) {
                 this.resources.pushResource(res);
                 log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
+                GameController.response.setMessage(res.getName() + " mined");
                 mineSuccess = true;
             } else {
                 //but can't mine "Empty", so it will be denied
