@@ -154,6 +154,7 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
         }
 
         CallStackViewer.getInstance().methodReturns();
+        this.signalizeUpdate(EventType.REFRESH);
         return success;
     }
 

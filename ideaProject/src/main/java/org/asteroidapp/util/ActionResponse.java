@@ -37,7 +37,7 @@ public class ActionResponse {
         if (success && message.equals("Default")) {
             this.message = "Successed";
         }
-        if (!success && !message.equals("Default")) {
+        if (!success && message.equals("Default")) {
             this.message = "Invalid or wrong operation";
         }
         return this;
