@@ -1,6 +1,5 @@
 package org.asteroidapp.MODELL.entities;
 
-import javafx.geometry.Pos;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,11 +11,9 @@ import org.asteroidapp.MODELL.interfaces.Mine;
 import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Gate;
 import org.asteroidapp.CONTROLLER.Player;
-import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.VIEW.drawables.GateGraphic;
 import org.asteroidapp.VIEW.drawables.SettlerGraphic;
-import org.asteroidapp.util.ActionResponse;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
@@ -95,6 +92,7 @@ public class Settler extends Entity implements Drill, Mine {
             log.log(Level.INFO, "Drill was not successful");
             ret = false;
         }
+        this.signalizeUpdate(EventType.REFRESH);
 
         CallStackViewer.getInstance().methodReturns();
         return ret;
@@ -135,7 +133,9 @@ public class Settler extends Entity implements Drill, Mine {
 
         boolean settlerIsFarFromSun = onAsteroid.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun;
 
-        if (onAsteroid.getLayerThickness() == 0 && onAsteroid.mineResource().equals(new Empty())
+        var tmpRes = onAsteroid.mineResource();
+        onAsteroid.addResourceToCore(tmpRes);
+        if (onAsteroid.getLayerThickness() == 0 && tmpRes.equals(new Empty())
                 || settlerIsFarFromSun
                 || this.onAsteroid.equals(AsteroidZone.getInstance().findHome())) {
             log.log(Level.INFO, "You were hidden in an asteroid during the sunflair or you were far away from the sun, so you survived");
@@ -143,6 +143,7 @@ public class Settler extends Entity implements Drill, Mine {
             log.log(Level.INFO, "You were not hidden in an asteroid during the sunflair so you died");
             die();
         }
+
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -242,6 +243,7 @@ public class Settler extends Entity implements Drill, Mine {
         } else {
             //unsuccessful mining
             log.log(Level.INFO, "Settler could not mine a resource because the layer is not drilled trough");
+            onAsteroid.addResourceToCore(res);
             mineSuccess = false;
         }
 
