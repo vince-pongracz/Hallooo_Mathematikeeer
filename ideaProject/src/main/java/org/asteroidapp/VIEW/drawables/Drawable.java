@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,7 +61,21 @@ public abstract class Drawable extends ImageView implements Observer {
                     MapView.getInstance().removeDrawable(this);
                 }
             }
-            case DELETE -> MapView.getInstance().removeDrawable(this);
+            case DELETE ->
+                    {
+                    reactToActionResponse();
+                    MapView.getInstance().removeDrawable(this);
+                }
+            }
         }
+
+
+    public void reactToActionResponse() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.isShowing();
+        alert.setTitle("Asteroid Game - Information Dialog");
+        alert.setHeaderText(getName() + " " + "SETTLER MEGHALT");
+        // alert.setContentText("Settler meghalt");
+        alert.showAndWait();
     }
 }
