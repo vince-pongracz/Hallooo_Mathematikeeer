@@ -45,6 +45,10 @@ dependencies {
     //log4j
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+
+    //controlsfx
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: '8.0.5'
+
 }
 
 task runJsonTests {

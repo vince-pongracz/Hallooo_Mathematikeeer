@@ -1,10 +1,15 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
+import org.asteroidapp.CONTROLLER.GameController;
+import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.entities.Settler;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
+import org.controlsfx.control.Notifications;
 
 public class SettlerGraphic extends Drawable {
     private final Settler settler;
@@ -29,9 +34,9 @@ public class SettlerGraphic extends Drawable {
 
     @Override
     protected void refreshTooltip() {
-        Tooltip.uninstall(this,infoTip);
+        Tooltip.uninstall(this, infoTip);
         this.infoTip = new Tooltip(settler.getName());
-        Tooltip.install(this,infoTip);
+        Tooltip.install(this, infoTip);
     }
 
     @Override
@@ -42,5 +47,21 @@ public class SettlerGraphic extends Drawable {
     @Override
     public String getName() {
         return settler.getName();
+    }
+
+    @Override
+    public void notify(EventType eventType) {
+        super.notify(eventType);
+        //Sajni még nem megy, valószínűleg GUI thread blokkolás van (bár nem értem hogy), ezért nem jelenik meg :(
+        if (eventType == EventType.DELETE) {
+            var dead = Character.UnicodeScript.valueOf("☠").name();
+            Notifications.create()
+                    .title("Notification")
+                    .text("You are dead! " + dead)
+                    .hideAfter(Duration.seconds(2))
+                    .position(Pos.CENTER)
+                    .darkStyle()
+                    .showInformation();
+        }
     }
 }

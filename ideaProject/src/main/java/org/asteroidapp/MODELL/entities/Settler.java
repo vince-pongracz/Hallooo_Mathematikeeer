@@ -16,6 +16,7 @@ import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.MODELL.spaceobjects.SteppableSpaceObject;
 import org.asteroidapp.VIEW.drawables.GateGraphic;
 import org.asteroidapp.VIEW.drawables.SettlerGraphic;
+import org.asteroidapp.util.ActionResponse;
 import org.asteroidapp.util.CallStackViewer;
 
 import java.util.*;
@@ -78,15 +79,18 @@ public class Settler extends Entity implements Drill, Mine {
         log.log(Level.INFO, "Settler tried to drill an object");
 
         int oldThickness = onAsteroid.getLayerThickness();
+
         onAsteroid.drillLayer();
         boolean ret = false;
 
-        if (oldThickness > 1) {
+        if (oldThickness >= 1) {
             log.log(Level.INFO, "Drill was successful");
+            GameController.response.setMessage("Drilled!");
             ret = true;
-        } else if (oldThickness == 0) {
+        } else if (onAsteroid.getLayerThickness() == 0) {
             log.log(Level.INFO, "SpaceObject is already drilled: mineable");
-            ret = true;
+            GameController.response.setMessage("Already drilled through!");
+            ret = false;
         } else {
             log.log(Level.INFO, "Drill was not successful");
             ret = false;
@@ -224,13 +228,15 @@ public class Settler extends Entity implements Drill, Mine {
 
         //mining is successful
         if (res != null) {
-            if (!res.equals(new Empty())) {
-                this.resources.pushResource(res);
+            //push res when: res is not Empty AND settler has enough place to take it.
+            if (!res.equals(new Empty()) && this.resources.pushResource(res)) {
                 log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
+                GameController.response.setMessage(res.getName() + " mined");
                 mineSuccess = true;
             } else {
-                //but can't mine "Empty", so it will be denied
-                log.log(Level.INFO, "Settler could not mine a resource because it is empty");
+                //when res is Empty or storage is full
+                log.log(Level.INFO, "Settler could not mine a resource because it is empty, or storage is full");
+                onAsteroid.addResourceToCore(res);
                 mineSuccess = false;
             }
         } else {
@@ -290,6 +296,7 @@ public class Settler extends Entity implements Drill, Mine {
         log.log(Level.INFO, "DeployResource called");
         CallStackViewer.getInstance().methodStartsLogCall("deployResource() called (Settler)");
 
+        boolean deploySuccess = false;
         var resourceIterator = resources.getResourceList().iterator();
         while (resourceIterator.hasNext()) {
             var tmp = resourceIterator.next();
@@ -297,15 +304,19 @@ public class Settler extends Entity implements Drill, Mine {
                 if (onAsteroid.addResourceToCore(resources.popResource(tmp))) {
                     log.log(Level.INFO, "The selected resource can be chosen");
                     tmp.isRadioActive(onAsteroid.getPosition());
-                    return true;
+                    deploySuccess = false;
+                    continue;
+                } else {
+                    resources.pushResource(tmp);
+                    deploySuccess = true;
+                    continue;
                 }
-                //TODO optimalize
             }
         }
         log.log(Level.INFO, "The selected resource can not be chosen");
         CallStackViewer.getInstance().methodReturns();
         this.signalizeUpdate(EventType.REFRESH);
-        return false;
+        return deploySuccess;
     }
 
     /**

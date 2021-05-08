@@ -2,6 +2,7 @@ package org.asteroidapp.MODELL.spaceobjects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.resources.Empty;
 import org.asteroidapp.MODELL.resources.Resource;
 import org.asteroidapp.MODELL.spaceobjects.asteroid.Core;
@@ -44,6 +45,7 @@ public class HomeAsteroid extends Asteroid {
     public boolean drillLayer() {
         CallStackViewer.getInstance().methodStartsLogCall("drillLayer() called (HomeAsteroid)");
         CallStackViewer.getInstance().methodReturns();
+        this.signalizeUpdate(EventType.REFRESH);
         return false;
     }
 
@@ -54,6 +56,7 @@ public class HomeAsteroid extends Asteroid {
         Resource temp = core.popResource();
 
         CallStackViewer.getInstance().methodReturns();
+        this.signalizeUpdate(EventType.REFRESH);
         return temp;
     }
 

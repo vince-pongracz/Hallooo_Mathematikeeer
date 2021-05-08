@@ -3,10 +3,11 @@ package org.asteroidapp.MODELL.resources;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 //TODO kellene egy async garbage collector, ami az emptyket eltakarítja, ha bekerülnek...
 public class ResourceStorage {
-    private List<Resource> resourceList = new ArrayList<>();
+    private List<Resource> resourceList = new CopyOnWriteArrayList<>();
 
     public ResourceStorage() {
     }
