@@ -1,21 +1,11 @@
 package org.asteroidapp.VIEW.drawables;
 
-import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.asteroidapp.CONTROLLER.AppController;
 import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.entities.Settler;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
-import org.asteroidapp.VIEW.Menu;
-import org.asteroidapp.VIEW.RightView;
-import org.controlsfx.control.Notifications;
-
-import java.util.Map;
 
 public class SettlerGraphic extends Drawable {
     private final Settler settler;

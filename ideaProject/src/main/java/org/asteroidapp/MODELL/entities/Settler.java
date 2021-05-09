@@ -306,11 +306,11 @@ public class Settler extends Entity implements Drill, Mine {
                 if (onAsteroid.addResourceToCore(resources.popResource(tmp))) {
                     log.log(Level.INFO, "The selected resource can be chosen");
                     tmp.isRadioActive(onAsteroid.getPosition());
-                    deploySuccess = false;
+                    deploySuccess = true;
                     continue;
                 } else {
                     resources.pushResource(tmp);
-                    deploySuccess = true;
+                    deploySuccess = false;
                     continue;
                 }
             }
