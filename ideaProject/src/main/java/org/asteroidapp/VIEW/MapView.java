@@ -47,8 +47,8 @@ public class MapView {
         }
     }
 
+    public static List<Drawable> drawables = new ArrayList<>();
     ImageView imBackground = new ImageView(backgroundImage);
-    List<Drawable> drawables = new ArrayList<>();
     Pane pane = new Pane();
 
     private static MapView instance = null;
@@ -65,7 +65,7 @@ public class MapView {
         return instance;
     }
 
-    public void addDrawable(Drawable newDrawable) {
+    public void addDrawable(Drawable newDrawable)  {
         drawables.add(newDrawable);
         refreshMap();
     }
