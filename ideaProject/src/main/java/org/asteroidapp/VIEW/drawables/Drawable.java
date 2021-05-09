@@ -8,6 +8,7 @@ import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
+
 import java.io.FileNotFoundException;
 
 /**
@@ -61,13 +62,12 @@ public abstract class Drawable extends ImageView implements Observer {
                     MapView.getInstance().removeDrawable(this);
                 }
             }
-            case DELETE ->
-                    {
-                    reactToActionResponse();
-                    MapView.getInstance().removeDrawable(this);
-                }
+            case DELETE -> {
+                MapView.getInstance().removeDrawable(this);
+                reactToActionResponse();
             }
         }
+    }
 
 
     public void reactToActionResponse() {

@@ -53,6 +53,7 @@ public class SettlerGraphic extends Drawable {
     public void notify(EventType eventType) {
         super.notify(eventType);
         //Sajni még nem megy, valószínűleg GUI thread blokkolás van (bár nem értem hogy), ezért nem jelenik meg :(
+
         /*if (eventType == EventType.DELETE) {
             var dead = Character.UnicodeScript.valueOf("☠").name();
             Notifications.create()
@@ -62,6 +63,7 @@ public class SettlerGraphic extends Drawable {
                     .position(Pos.CENTER)
                     .darkStyle()
                     .showInformation();
+
         }*/
     }
 }
