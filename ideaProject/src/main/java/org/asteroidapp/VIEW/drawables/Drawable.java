@@ -1,9 +1,11 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.animation.TranslateTransition;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Position;
@@ -24,12 +26,26 @@ public abstract class Drawable extends ImageView implements Observer {
 
     public ImageView updateGraphics() throws FileNotFoundException {
         this.setVisible(true);
+        Position old = new Position(this.getX(), this.getY());
 
         if (isVisible()) {
             this.setImage(getLocalImage());
             this.setX(getPosition().getX());
             this.setY(getPosition().getY());
             this.refreshTooltip();
+
+            if(prior == 2) {
+                this.setX(old.getX());
+                this.setY(old.getY());
+                TranslateTransition transition = new TranslateTransition(Duration.seconds(2), this);
+                Position v = new Position(getPosition().getX() - old.getX(), getPosition().getY() - old.getY());
+                /*transition.setFromX(old.getX()); //
+                transition.setFromY(old.getY());*/
+                transition.setToX(v.getX());
+                transition.setToY(v.getY());
+                transition.playFromStart();
+            }
+
 
             return this;
         } else {

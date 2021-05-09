@@ -8,5 +8,5 @@ public enum EventType {
     FLAIRWARN,
     EXPLOSION,
     DELETE,
-    REFRESH;
+    REFRESH
 }

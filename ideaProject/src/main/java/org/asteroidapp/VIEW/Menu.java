@@ -19,6 +19,7 @@ import org.asteroidapp.util.InitMessage;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Menu {
     VBox vbox;
@@ -129,7 +130,7 @@ public class Menu {
 
                     Scene sc = new Scene(hbox, 1900, 900);
                     sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
-                    sc.getStylesheets().add(this.getClass().getResource("/style.css").toExternalForm());
+                    sc.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("/style.css")).toExternalForm());
                     stage.setScene(sc);
 
                     stage.setResizable(false);

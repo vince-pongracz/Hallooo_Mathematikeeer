@@ -1,7 +1,6 @@
 package org.asteroidapp.CONTROLLER;
 
-import com.google.gson.*;
-import javafx.geometry.Pos;
+import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.MODELL.spaceobjects.Position;
@@ -24,7 +23,6 @@ public class CommandInterpreter {
     }
 
     private ActionResponse initActionResponse(ActionResponse response) {
-        response = null;
         response = new ActionResponse();
         response.setSuccess(false);
         return response;

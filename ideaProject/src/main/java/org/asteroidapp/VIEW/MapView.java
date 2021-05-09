@@ -47,8 +47,8 @@ public class MapView {
         }
     }
 
+    public static List<Drawable> drawables = new ArrayList<>();
     ImageView imBackground = new ImageView(backgroundImage);
-    List<Drawable> drawables = new ArrayList<>();
     Pane pane = new Pane();
 
     private static MapView instance = null;
@@ -65,7 +65,7 @@ public class MapView {
         return instance;
     }
 
-    public void addDrawable(Drawable newDrawable) {
+    public void addDrawable(Drawable newDrawable)  {
         drawables.add(newDrawable);
         refreshMap();
     }
@@ -92,7 +92,7 @@ public class MapView {
             System.exit(0);
         }
 
-        Collections.sort(drawables, new Comparator<Drawable>() {
+        drawables.sort(new Comparator<Drawable>() {
             @Override
             public int compare(Drawable d1, Drawable d2) {
                 if (d1.getPrior() < d2.getPrior())

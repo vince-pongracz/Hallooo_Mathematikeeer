@@ -431,7 +431,7 @@ public class GameController {
     public boolean removeAutoEntity(AIRobot bot) {
         log.log(Level.TRACE, "removeBot called");
 
-        Boolean retValue = false;
+        boolean retValue = false;
         if (bot != null) {
             retValue = robots.remove(bot);
             bot.signalizeUpdate(DELETE);
@@ -439,7 +439,7 @@ public class GameController {
             retValue = false;
         }
 
-        log.log(Level.TRACE, "bot removed: {}", retValue.toString());
+        log.log(Level.TRACE, "bot removed: {}", Boolean.toString(retValue));
 
         return retValue;
     }

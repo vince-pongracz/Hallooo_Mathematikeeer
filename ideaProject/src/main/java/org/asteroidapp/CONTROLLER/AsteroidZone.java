@@ -16,8 +16,6 @@ import java.util.*;
  */
 public class AsteroidZone {
 
-    private final int asteroidSize = 80;
-
     //only one random per class should exist otherwise it would give the same result (Position, Resource) for every asteroid
     private final Random random = new Random(999); //seed: 999 is good for testing uran explosion
 
@@ -85,7 +83,6 @@ public class AsteroidZone {
         spaceObjects.add(homeAsteroid);
 
         //numOfTiles must be rows * columns and the numOfAsteroids must be lower than the numOfTiles
-        int numOfTiles = 35;
         int columns = 7;
         int rows = 6;
         int count = 0;
@@ -110,17 +107,6 @@ public class AsteroidZone {
         }
 
         CallStackViewer.getInstance().methodReturns();
-    }
-
-    private boolean canPlaceAsteroid(Position pos) {
-        boolean result = true;
-        for (SteppableSpaceObject elem : spaceObjects) {
-            if (elem.getPosition().equals(pos)) {
-                result = false;
-                break;
-            }
-        }
-        return result;
     }
 
     /**
@@ -178,24 +164,14 @@ public class AsteroidZone {
     public Resource generateRandomResource() {
         //TODO solve: 5 of each Resources should not be near to the sun
         int randNum = random.nextInt(5);
-        Resource result;
+        Resource result = switch (randNum) {
+            case (0) -> new Coal();
+            case (1) -> new Uran();
+            case (2) -> new FrozenWater();
+            case (3) -> new Iron();
+            default -> new Empty();
+        };
 
-        switch (randNum) {
-            case (0):
-                result = new Coal();
-                break;
-            case (1):
-                result = new Uran();
-                break;
-            case (2):
-                result = new FrozenWater();
-                break;
-            case (3):
-                result = new Iron();
-                break;
-            default:
-                result = new Empty();
-        }
         return result;
     }
 
@@ -209,9 +185,7 @@ public class AsteroidZone {
     }
 
     public SteppableSpaceObject getObjectByName(String name) {
-        var iter = spaceObjects.iterator();
-        while (iter.hasNext()) {
-            var suspect = iter.next();
+        for (SteppableSpaceObject suspect : spaceObjects) {
             if (suspect.getName().equals(name)) {
                 return suspect;
             }
