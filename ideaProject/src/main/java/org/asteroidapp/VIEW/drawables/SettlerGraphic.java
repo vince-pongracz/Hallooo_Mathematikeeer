@@ -55,7 +55,7 @@ public class SettlerGraphic extends Drawable {
         //Sajni még nem megy, valószínűleg GUI thread blokkolás van (bár nem értem hogy), ezért nem jelenik meg :(
 
         /*if (eventType == EventType.DELETE) {
-            var dead = Character.UnicodeScript.valueOf("☠").name();
+            var dead = Character.UnicodeScript.valueOf().name();
             Notifications.create()
                     .title("Notification")
                     .text("You are dead! " + dead)

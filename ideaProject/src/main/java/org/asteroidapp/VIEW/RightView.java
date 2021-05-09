@@ -243,6 +243,8 @@ public class RightView {
         } else {
             System.out.println("Settler was null");
         }
+
+        checkWin();
     }
 
     public void reactToActionResponse(ActionResponse response) {
@@ -256,5 +258,16 @@ public class RightView {
         alert.showAndWait();
 
         refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler());
+    }
+
+    public void checkWin(){
+        if(GameController.playerHasWon){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Asteroid Game - Information Dialog");
+            alert.setHeaderText("You Win");
+            alert.setContentText("You collected all the needed resources to build a space base. Congratulations, you win. :)");
+            alert.showAndWait();
+            System.exit(0);
+        }
     }
 }
