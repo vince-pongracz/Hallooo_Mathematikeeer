@@ -92,7 +92,7 @@ public class MapView {
             System.exit(0);
         }
 
-        Collections.sort(drawables, new Comparator<Drawable>() {
+        drawables.sort(new Comparator<Drawable>() {
             @Override
             public int compare(Drawable d1, Drawable d2) {
                 if (d1.getPrior() < d2.getPrior())

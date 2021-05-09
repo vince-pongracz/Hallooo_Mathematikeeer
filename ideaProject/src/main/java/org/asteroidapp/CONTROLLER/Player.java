@@ -115,8 +115,7 @@ public class Player {
     private int actual = 0;
 
     public Settler getActualSettler(){
-        var returnedSettler = mySettlers.get(actual);
-        return returnedSettler;
+        return mySettlers.get(actual);
     }
 
     public void nextSettler(){

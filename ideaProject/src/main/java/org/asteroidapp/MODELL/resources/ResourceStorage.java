@@ -1,6 +1,5 @@
 package org.asteroidapp.MODELL.resources;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -24,11 +23,7 @@ public class ResourceStorage {
     private int allCapacity = 1;
 
     private boolean storageIsFull() {
-        if (allCapacity == (resourceList.size() - countOf(new Empty()))) {
-            return true;
-        } else {
-            return false;
-        }
+        return allCapacity == (resourceList.size() - countOf(new Empty()));
     }
 
     /**

@@ -1,23 +1,21 @@
 package org.asteroidapp.CONTROLLER;
 
 import javafx.application.Application;
-
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asteroidapp.VIEW.Menu;
 import org.asteroidapp.util.CallStackViewer;
 
-import java.io.FileNotFoundException;
+import java.util.Objects;
 
 
 public class AppController extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws FileNotFoundException {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Asteroid 1.0 - HalloMath");
 
         Menu menu = new Menu(primaryStage);
@@ -25,31 +23,10 @@ public class AppController extends Application {
 
         Scene sc = new Scene(hbox, 500, 700);
         sc.getStylesheets().add("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
-        sc.getStylesheets().add(this.getClass().getResource("/style.css").toExternalForm());
+        sc.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("/style.css")).toExternalForm());
 
         primaryStage.setScene(sc);
         primaryStage.show();
-    }
-
-
-    //TODO is it necessary?
-    //questionable method...
-    private void startGame() {
-        log.log(Level.TRACE, "Start game");
-    }
-
-    /*
-     *
-     */
-    public void quitGame() {
-        log.log(Level.TRACE, "Game quit");
-    }
-
-    /*
-     *
-     */
-    public void pauseAndResumeGame() {
-        log.log(Level.TRACE, "Game is paused / resumed");
     }
 
     /**

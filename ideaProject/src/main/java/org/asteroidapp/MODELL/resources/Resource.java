@@ -32,7 +32,7 @@ public abstract class Resource implements Comparable<Resource> {
     @Override
     public boolean equals(Object obj) {
 
-        if (obj != null && obj instanceof Resource) {
+        if (obj instanceof Resource) {
             //if the names are equals
             return this.getName().equals(((Resource) obj).getName());
         } else {

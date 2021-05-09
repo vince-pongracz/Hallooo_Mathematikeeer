@@ -1,7 +1,5 @@
 package org.asteroidapp.util;
 
-import java.util.ArrayList;
-
 public class InitMessage {
     private int playerNum = 0;
     private int settlerNum = 0;
