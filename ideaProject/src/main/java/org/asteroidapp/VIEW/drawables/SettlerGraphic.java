@@ -1,5 +1,6 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -10,6 +11,8 @@ import org.asteroidapp.MODELL.entities.Settler;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
 import org.controlsfx.control.Notifications;
+
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class SettlerGraphic extends Drawable {
     private final Settler settler;
@@ -55,15 +58,16 @@ public class SettlerGraphic extends Drawable {
         //Sajni még nem megy, valószínűleg GUI thread blokkolás van (bár nem értem hogy), ezért nem jelenik meg :(
         /*
         if (eventType == EventType.DELETE) {
-            var dead = Character.UnicodeScript.valueOf("☠").name();
-            Notifications.create()
+
+            var notification = Notifications.create()
                     .title("Notification")
-                    .text("You are dead! " + dead)
+                    .text("You are dead! ")
                     .hideAfter(Duration.seconds(2))
                     .position(Pos.CENTER)
-                    .darkStyle()
-                    .showInformation();
+                    .darkStyle();
+            
+
         }
-        */
+         */
     }
 }
