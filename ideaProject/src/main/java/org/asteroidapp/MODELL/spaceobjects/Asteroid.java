@@ -168,13 +168,14 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
         StringBuilder infoBuilder = new StringBuilder();
 
         infoBuilder.append(getName()).append("\n");
-        infoBuilder.append("L: ").append(getLayerThickness());
+        infoBuilder.append("Layer: ").append(getLayerThickness());
 
         if (getLayerThickness() == 0) {
             infoBuilder.append(this.core.getCoreInfo());
         }
 
-        infoBuilder.append("\nclose: ").append(closeToSun);
+        infoBuilder.append("\ncloseToSun: ").append(closeToSun);
+        infoBuilder.append("\nCore: ").append(core.getCoreInfo());
         ConsoleUI.getInstance().sendMessageToConsole(infoBuilder.toString());
         return infoBuilder.toString();
     }
