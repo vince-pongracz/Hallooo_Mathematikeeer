@@ -16,9 +16,12 @@ import java.io.FileNotFoundException;
 
 public class AppController extends Application {
 
+    public static Stage thisStage;
+
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
         primaryStage.setTitle("Asteroid 1.0 - HalloMath");
+        thisStage = primaryStage;
 
         Menu menu = new Menu(primaryStage);
         VBox hbox = menu.getVBox();

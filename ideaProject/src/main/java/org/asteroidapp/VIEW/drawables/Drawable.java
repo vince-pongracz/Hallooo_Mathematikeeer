@@ -74,8 +74,8 @@ public abstract class Drawable extends ImageView implements Observer {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.isShowing();
         alert.setTitle("Asteroid Game - Information Dialog");
-        alert.setHeaderText(getName() + " " + "SETTLER MEGHALT");
-        // alert.setContentText("Settler meghalt");
+        alert.setHeaderText(getName() + "  died");
+        alert.setContentText("Settler died in a solarflair or explosion");
         alert.showAndWait();
     }
 }

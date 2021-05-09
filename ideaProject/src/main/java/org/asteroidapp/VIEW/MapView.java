@@ -92,15 +92,6 @@ public class MapView {
             System.exit(0);
         }
 
-        if(GameController.playerHasWon){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Asteroid Game - Information Dialog");
-            alert.setHeaderText("You Win");
-            alert.setContentText("You collected all the needed resources to build a space base. Congratulations, you win. :)");
-            alert.showAndWait();
-            System.exit(0);
-        }
-
         Collections.sort(drawables, new Comparator<Drawable>() {
             @Override
             public int compare(Drawable d1, Drawable d2) {

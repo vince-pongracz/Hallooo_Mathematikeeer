@@ -1,18 +1,21 @@
 package org.asteroidapp.VIEW.drawables;
 
-import javafx.application.Platform;
+import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.asteroidapp.CONTROLLER.GameController;
+import org.asteroidapp.CONTROLLER.AppController;
 import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.entities.Settler;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
+import org.asteroidapp.VIEW.Menu;
+import org.asteroidapp.VIEW.RightView;
 import org.controlsfx.control.Notifications;
 
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.Map;
 
 public class SettlerGraphic extends Drawable {
     private final Settler settler;
@@ -56,18 +59,26 @@ public class SettlerGraphic extends Drawable {
     public void notify(EventType eventType) {
         super.notify(eventType);
         //Sajni még nem megy, valószínűleg GUI thread blokkolás van (bár nem értem hogy), ezért nem jelenik meg :(
-        /*
+
         if (eventType == EventType.DELETE) {
 
-            var notification = Notifications.create()
-                    .title("Notification")
-                    .text("You are dead! ")
-                    .hideAfter(Duration.seconds(2))
-                    .position(Pos.CENTER)
-                    .darkStyle();
-            
-
+            /*
+            Elvileg kellene neki vmi stage... :/
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    AppController.thisStage.requestFocus();
+                    AppController.thisStage.show();
+                    var notification = Notifications.create()
+                            .title("Notification")
+                            .text("You are dead! ")
+                            .hideAfter(Duration.seconds(2))
+                            .position(Pos.CENTER)
+                            .darkStyle();
+                    notification.show();
+                }
+            }).start();
+             */
         }
-         */
     }
 }
