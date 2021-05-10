@@ -241,7 +241,7 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
         switch (event) {
             //explode sent appropriate notifications for observers
             case EXPLOSION -> explode();
-            default -> {
+            case DELETE, REFRESH -> {
                 for (var obs : observers) {
                     obs.notify(event);
                 }
