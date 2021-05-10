@@ -109,9 +109,10 @@ public class RightView {
                 jsonCmd2.addProperty("targetY", Menu.mousePosition.getY());
                 jsonCmd.add("target", jsonCmd2);
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     reactToActionResponse(response);
                 }
+                refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler());
             }
         });
 
@@ -123,7 +124,10 @@ public class RightView {
                 JsonObject jsonCmd = new JsonObject();
                 jsonCmd.addProperty("command", "drill");
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
-                reactToActionResponse(response);
+                if (!response.isSuccessful()) {
+                    reactToActionResponse(response);
+                }
+                refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler());
             }
         });
 
@@ -158,9 +162,10 @@ public class RightView {
                 JsonObject jsonCmd = new JsonObject();
                 jsonCmd.addProperty("command", "buildGate");
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     reactToActionResponse(response);
                 }
+                refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler());
             }
         });
 
@@ -172,9 +177,10 @@ public class RightView {
                 JsonObject jsonCmd = new JsonObject();
                 jsonCmd.addProperty("command", "createBot");
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     reactToActionResponse(response);
                 }
+                refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler());
             }
         });
 
@@ -240,15 +246,19 @@ public class RightView {
             vbox.getChildren().removeAll(labels);
             labels.clear();
             labels = new ArrayList<>(Arrays.asList(
-                    new Label(" Gate: " + settler.getGateNum() + "\t\t Iron: " +  storage.countOf(new Iron())),
+                    new Label(" Gate: " + settler.getGateNum() + "\t\t Iron: " + storage.countOf(new Iron())),
                     new Label(" Coal: " + storage.countOf(new Coal()) + "\t\t Uran: " + storage.countOf(new Uran())),
                     new Label(" FrozenWater: " + storage.countOf(new FrozenWater())),
-                    new Label(" " + settler.getName() + "'s round\n Sunflair is coming in " + (Sun.sunFlairInEveryXRound - GameController.getInstance().getRound() % Sun.sunFlairInEveryXRound) + " rounds")));
+                    new Label(" " + settler.getName() + "'s round\n Sunflair is coming in " +
+                            (Sun.sunFlairInEveryXRound - GameController.getInstance().getRound() % Sun.sunFlairInEveryXRound) + " rounds"),
+                    new Label("#rounds: " + GameController.getInstance().getRound()))
+            );
             for (var labelItem : labels) {
                 labelItem.getStyleClass().add("labelRightFont");
             }
             vbox.getChildren().addAll(labels);
         } else {
+            //TODO log
             System.out.println("Settler was null");
         }
 
@@ -269,8 +279,8 @@ public class RightView {
         refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler());
     }
 
-    public void checkWin(){
-        if(GameController.playerHasWon){
+    public void checkWin() {
+        if (GameController.playerHasWon) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Asteroid Game - Information Dialog");
             alert.setHeaderText("You Win");
@@ -280,13 +290,13 @@ public class RightView {
         }
     }
 
-    public static void setDialogAndButtonStyle(Dialog alert){
+    public static void setDialogAndButtonStyle(Dialog alert) {
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(Objects.requireNonNull(MapView.getInstance().getClass().getResource("/style.css")).toExternalForm());
         dialogPane.getStyleClass().add("myDialog");
 
-        ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
-        buttonBar.getButtons().forEach(b->b.setStyle("""
+        ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+        buttonBar.getButtons().forEach(b -> b.setStyle("""
                 -fx-font-family: 'Zen Dots', cursive;
                     -fx-font-weight: 100;
                     -fx-font-size: 17;
