@@ -80,8 +80,9 @@ public abstract class Drawable extends ImageView implements Observer {
                 }
             }
             case DELETE -> {
-                MapView.getInstance().removeDrawable(this);
-                reactToActionResponse();
+                if(MapView.getInstance().removeDrawable(this)){
+                    reactToActionResponse();
+                }
             }
         }
     }

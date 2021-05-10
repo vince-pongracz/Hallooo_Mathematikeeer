@@ -70,13 +70,10 @@ public class MapView {
         refreshMap();
     }
 
-    public void removeDrawable(Drawable removeDrawable) {
-        for (int i = 0; i < drawables.size(); i++) {
-            if (drawables.get(i).getName().equals(removeDrawable.getName())) {
-                drawables.remove(i);
-            }
-        }
+    public boolean removeDrawable(Drawable removeDrawable) {
+        var removed = drawables.remove(removeDrawable);
         refreshMap();
+        return removed;
     }
 
 
