@@ -109,7 +109,9 @@ public class RightView {
                 jsonCmd2.addProperty("targetY", Menu.mousePosition.getY());
                 jsonCmd.add("target", jsonCmd2);
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
-                reactToActionResponse(response);
+                if(!response.isSuccessful()){
+                    reactToActionResponse(response);
+                }
             }
         });
 
@@ -156,7 +158,9 @@ public class RightView {
                 JsonObject jsonCmd = new JsonObject();
                 jsonCmd.addProperty("command", "buildGate");
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
-                reactToActionResponse(response);
+                if(!response.isSuccessful()){
+                    reactToActionResponse(response);
+                }
             }
         });
 
@@ -168,7 +172,9 @@ public class RightView {
                 JsonObject jsonCmd = new JsonObject();
                 jsonCmd.addProperty("command", "createBot");
                 var response = CommandInterpreter.getInstance().sendCommandToModell(jsonCmd);
-                reactToActionResponse(response);
+                if(!response.isSuccessful()){
+                    reactToActionResponse(response);
+                }
             }
         });
 
