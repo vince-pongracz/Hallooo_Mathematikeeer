@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 public class RightView {
@@ -45,7 +46,7 @@ public class RightView {
 
         vbox.setMinWidth(400);
 
-        vbox.setBackground(new Background(new BackgroundFill(Color.rgb(40, 40, 40), CornerRadii.EMPTY, Insets.EMPTY)));
+        vbox.setBackground(new Background(new BackgroundFill(Color.rgb(27, 27, 36), CornerRadii.EMPTY, Insets.EMPTY)));
 
         images.add(new ImageView(new Image(new FileInputStream("src/main/resources/images/Spaceship.gif"))));
         images.get(0).setPreserveRatio(true);
@@ -188,6 +189,7 @@ public class RightView {
                 ButtonType frozenWaterBT = new ButtonType("Frozen Water");
 
                 alert.getButtonTypes().setAll(ironBT, coalBT, uranBT, frozenWaterBT);
+                setDialogAndButtonStyle(alert);
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ironBT) {
@@ -255,6 +257,7 @@ public class RightView {
         else
             alert.setHeaderText("Action unsuccessful");
         alert.setContentText(response.getMessage());
+        setDialogAndButtonStyle(alert);
         alert.showAndWait();
 
         refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler());
@@ -269,5 +272,24 @@ public class RightView {
             alert.showAndWait();
             System.exit(0);
         }
+    }
+
+    public static void setDialogAndButtonStyle(Dialog alert){
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(Objects.requireNonNull(MapView.getInstance().getClass().getResource("/style.css")).toExternalForm());
+        dialogPane.getStyleClass().add("myDialog");
+
+        ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+        buttonBar.getButtons().forEach(b->b.setStyle("""
+                -fx-font-family: 'Zen Dots', cursive;
+                    -fx-font-weight: 100;
+                    -fx-font-size: 17;
+                    -fx-background-color: transparent;
+                    -fx-border-width: 500%;
+                    -fx-border-color: linear-gradient(from 15% 15% to 100% 100%, #12acba, #1852b4, #3b1d7b, #5C1780);
+                    -fx-border-radius: 180px;
+                    -fx-cursor: hand;
+                    -fx-text-fill: white;
+                    -fx-background-radius: 180px;"""));
     }
 }

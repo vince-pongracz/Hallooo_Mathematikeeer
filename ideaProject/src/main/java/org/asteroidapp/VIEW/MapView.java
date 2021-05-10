@@ -84,6 +84,7 @@ public class MapView {
             alert.setTitle("Asteroid Game - Information Dialog");
             alert.setHeaderText("Game Over");
             alert.setContentText("You lost because there is no player who has any settler alive.");
+            RightView.setDialogAndButtonStyle(alert);
             alert.showAndWait();
             System.exit(0);
         }

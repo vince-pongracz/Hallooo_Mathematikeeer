@@ -10,6 +10,7 @@ import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
+import org.asteroidapp.VIEW.RightView;
 
 import java.io.FileNotFoundException;
 
@@ -93,6 +94,7 @@ public abstract class Drawable extends ImageView implements Observer {
         alert.setTitle("Asteroid Game - Information Dialog");
         alert.setHeaderText(getName() + "  died");
         alert.setContentText("Settler died in a solarflair or explosion");
+        RightView.setDialogAndButtonStyle(alert);
         alert.showAndWait();
     }
 }

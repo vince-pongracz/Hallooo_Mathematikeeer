@@ -37,7 +37,7 @@ public class Menu {
         vbox = new VBox(35);
         vbox.setAlignment(Pos.CENTER);
         label = new Label("Enter the number of the players");
-        vbox.setBackground(new Background(new BackgroundFill(Color.rgb(40, 40, 40), CornerRadii.EMPTY, Insets.EMPTY)));
+        vbox.setBackground(new Background(new BackgroundFill(Color.rgb(27, 27, 36), CornerRadii.EMPTY, Insets.EMPTY)));
 
         start = new Button("Start");
         start.setMinWidth(180);
@@ -48,6 +48,8 @@ public class Menu {
         textArea = new TextArea();
         textArea.setMaxHeight(20);
         textArea.setMaxWidth(80);
+        textArea.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("/style.css")).toExternalForm());
+        textArea.getStyleClass().add("textArea");
 
         start.getStyleClass().add("buttonRight");
         exit.getStyleClass().add("buttonRight");
@@ -61,7 +63,7 @@ public class Menu {
         vbox.getChildren().add(exit);
 
         TextInputDialog td = new TextInputDialog("");
-
+        RightView.setDialogAndButtonStyle(td);
 
         enterNames.setOnAction(new EventHandler<>() {
             @Override
