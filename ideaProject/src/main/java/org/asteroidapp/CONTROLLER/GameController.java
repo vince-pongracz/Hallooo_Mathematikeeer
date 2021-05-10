@@ -12,6 +12,7 @@ import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Sun;
 import org.asteroidapp.util.ActionResponse;
 import org.asteroidapp.util.CallStackViewer;
+import org.asteroidapp.util.GameState;
 import org.asteroidapp.util.InitMessage;
 
 import java.util.*;
@@ -493,17 +494,12 @@ public class GameController {
             currentRound++;
 
             if (getRound() > maxRound) {
-                endGame();
+                GameController.response.setGameState(GameState.LOSE);
             }
         }
     }
 
     public Player getActualPlayer() {
         return players.get(actual);
-    }
-
-    //TODO endgame, add message to response...
-    private void endGame() {
-
     }
 }

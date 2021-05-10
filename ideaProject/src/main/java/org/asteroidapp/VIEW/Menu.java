@@ -63,7 +63,7 @@ public class Menu {
         TextInputDialog td = new TextInputDialog("");
 
 
-        enterNames.setOnAction(new EventHandler<ActionEvent>() {
+        enterNames.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
                 names.clear();
@@ -83,18 +83,18 @@ public class Menu {
             }
         });
 
-        exit.setOnAction(new EventHandler<ActionEvent>() {
+        exit.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
                 System.exit(0);
             }
         });
 
-        start.setOnAction(new EventHandler<ActionEvent>() {
+        start.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
 
-                if(canBeStarted[0]) {
+                if (canBeStarted[0]) {
                     String[] namesString = names.toArray(new String[0]);
 
                     InitMessage initMessage = new InitMessage().setPlayerNum(Integer.parseInt(textArea.getText()))
@@ -121,7 +121,7 @@ public class Menu {
                     hbox.getChildren().add(p);
                     hbox.getChildren().add(vBox);
 
-                    hbox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    hbox.setOnMouseClicked(new EventHandler<>() {
                         @Override
                         public void handle(MouseEvent event) {
                             mousePosition = new Position(event.getSceneX(), event.getSceneY());

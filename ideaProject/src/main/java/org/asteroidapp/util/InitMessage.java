@@ -23,7 +23,7 @@ public class InitMessage {
     private String[] names;
 
     public boolean check() {
-        if (playerNum > 0
+        return (playerNum > 0
                 && settlerNum > 0
                 && asteroidNum >= 20
                 && asteroidNum <= 90
@@ -38,11 +38,7 @@ public class InitMessage {
                 && settlerCapacity > 3
                 && settlerCapacity < 20
                 && defOfCloseToSun > 0
-                && names.length == playerNum) {
-            return true;
-        } else {
-            return false;
-        }
+                && names.length == playerNum);
     }
 
     public int getPlayerNum() {

@@ -34,9 +34,8 @@ public class ResourceStorage {
         if (whatYouWant != null) {
             for (var res : resourceList) {
                 if (res.equals(whatYouWant)) {
-                    var retResource = res;
-                    resourceList.remove(retResource);
-                    return retResource;
+                    resourceList.remove(res);
+                    return res;
                 }
             }
         }

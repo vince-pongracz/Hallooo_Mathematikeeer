@@ -166,7 +166,7 @@ public abstract class Entity implements MoveableObserver, Observable {
     @Override
     public void checkOut(Observer leavingObserver) {
         observers.remove(leavingObserver);
-        //sztem ey nem kell, eleg ha csak checkIn-re küldönk siganlt..?
+        //sztem ez nem kell, eleg ha csak checkIn-re küldönk signalt..?
         //leavingObserver.notify(EventType.REFRESH);
     }
 

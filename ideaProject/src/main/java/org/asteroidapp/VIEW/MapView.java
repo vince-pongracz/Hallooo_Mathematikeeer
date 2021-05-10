@@ -11,7 +11,6 @@ import org.asteroidapp.VIEW.drawables.Drawable;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -47,9 +46,9 @@ public class MapView {
         }
     }
 
-    public static List<Drawable> drawables = new ArrayList<>();
-    ImageView imBackground = new ImageView(backgroundImage);
-    Pane pane = new Pane();
+    private static List<Drawable> drawables = new ArrayList<>();
+    private ImageView imBackground = new ImageView(backgroundImage);
+    private Pane pane = new Pane();
 
     private static MapView instance = null;
 
@@ -89,7 +88,7 @@ public class MapView {
             System.exit(0);
         }
 
-        drawables.sort(new Comparator<Drawable>() {
+        drawables.sort(new Comparator<>() {
             @Override
             public int compare(Drawable d1, Drawable d2) {
                 if (d1.getPrior() < d2.getPrior())

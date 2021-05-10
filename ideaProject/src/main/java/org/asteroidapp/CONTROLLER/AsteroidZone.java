@@ -19,7 +19,6 @@ public class AsteroidZone {
     //only one random per class should exist otherwise it would give the same result (Position, Resource) for every asteroid
     private final Random random = new Random(999); //seed: 999 is good for testing uran explosion
 
-
     /**
      * logger for AsteroidZone
      */
@@ -28,8 +27,7 @@ public class AsteroidZone {
     /**
      * Default constructor
      */
-    private AsteroidZone() {
-    }
+    private AsteroidZone() { }
 
     private static AsteroidZone instance = null;
 
@@ -164,15 +162,14 @@ public class AsteroidZone {
     public Resource generateRandomResource() {
         //TODO solve: 5 of each Resources should not be near to the sun
         int randNum = random.nextInt(5);
-        Resource result = switch (randNum) {
+
+        return switch (randNum) {
             case (0) -> new Coal();
             case (1) -> new Uran();
             case (2) -> new FrozenWater();
             case (3) -> new Iron();
             default -> new Empty();
         };
-
-        return result;
     }
 
     /**
@@ -182,15 +179,6 @@ public class AsteroidZone {
      */
     public HomeAsteroid findHome() {
         return homeAsteroid;
-    }
-
-    public SteppableSpaceObject getObjectByName(String name) {
-        for (SteppableSpaceObject suspect : spaceObjects) {
-            if (suspect.getName().equals(name)) {
-                return suspect;
-            }
-        }
-        return null;
     }
 
     public SteppableSpaceObject getNearestObject(Position position) {

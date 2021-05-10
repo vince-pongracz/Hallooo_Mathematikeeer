@@ -299,9 +299,7 @@ public class Settler extends Entity implements Drill, Mine {
         CallStackViewer.getInstance().methodStartsLogCall("deployResource() called (Settler)");
 
         boolean deploySuccess = false;
-        var resourceIterator = resources.getResourceList().iterator();
-        while (resourceIterator.hasNext()) {
-            var tmp = resourceIterator.next();
+        for (Resource tmp : resources.getResourceList()) {
             if (tmp.getName().equals(resource)) {
                 deploySuccess = onAsteroid.addResourceToCore(resources.popResource(tmp));
                 if (deploySuccess) {

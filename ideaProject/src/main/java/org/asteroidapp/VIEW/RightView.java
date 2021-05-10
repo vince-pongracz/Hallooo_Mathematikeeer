@@ -92,7 +92,7 @@ public class RightView {
         refreshRightView(GameController.getInstance().getActualPlayer().getActualSettler());
 
         //move
-        buttons.get(0).setOnAction(new EventHandler<ActionEvent>() {
+        buttons.get(0).setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
                 //---crop out
@@ -113,7 +113,7 @@ public class RightView {
         });
 
         //drill
-        buttons.get(1).setOnAction(new EventHandler<ActionEvent>() {
+        buttons.get(1).setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
                 //send command drill
@@ -125,7 +125,7 @@ public class RightView {
         });
 
         //mine
-        buttons.get(2).setOnAction(new EventHandler<ActionEvent>() {
+        buttons.get(2).setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
                 JsonObject jsonCmd = new JsonObject();
@@ -136,7 +136,7 @@ public class RightView {
         });
 
         //create gate
-        buttons.get(3).setOnAction(new EventHandler<ActionEvent>() {
+        buttons.get(3).setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
                 //send command create gate
@@ -148,7 +148,7 @@ public class RightView {
         });
 
         //build gate
-        buttons.get(4).setOnAction(new EventHandler<ActionEvent>() {
+        buttons.get(4).setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
                 //send command build gate
@@ -160,7 +160,7 @@ public class RightView {
         });
 
         //create robot
-        buttons.get(5).setOnAction(new EventHandler<ActionEvent>() {
+        buttons.get(5).setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
                 //send command create robot
@@ -172,7 +172,7 @@ public class RightView {
         });
 
         //deploy resource
-        buttons.get(6).setOnAction(new EventHandler<ActionEvent>() {
+        buttons.get(6).setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
 
@@ -209,7 +209,7 @@ public class RightView {
         });
 
         //skip round
-        buttons.get(7).setOnAction(new EventHandler<ActionEvent>() {
+        buttons.get(7).setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
                 //send command create robot
