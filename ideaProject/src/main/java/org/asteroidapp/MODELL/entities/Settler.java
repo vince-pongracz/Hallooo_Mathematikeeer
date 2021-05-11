@@ -55,10 +55,10 @@ public class Settler extends Entity implements Drill, Mine {
         resources.setAllCapacity(settlerCapacity);
 
         //Fot the testing the create bot and portal functions
-        resources.pushMore(2, new Coal());
-        resources.pushMore(2, new Uran());
-        resources.pushMore(2, new FrozenWater());
-        resources.pushMore(3, new Iron());
+        resources.pushMore(1, new Coal());
+        resources.pushMore(1, new Uran());
+        resources.pushMore(1, new FrozenWater());
+        resources.pushMore(1, new Iron());
 
         this.checkIn(new SettlerGraphic(this));
 

@@ -79,7 +79,12 @@ public class Menu {
                 for (int i = 0; i < Integer.parseInt(textArea.getText()); i++) {
                     td.getEditor().setText("");
                     td.showAndWait();
-                    names.add(td.getEditor().getText());
+                    var nameSuspect = td.getEditor().getText();
+                    if (nameSuspect == null || nameSuspect.equals("")) {
+                        i--;
+                    } else {
+                        names.add(td.getEditor().getText());
+                    }
                 }
                 canBeStarted[0] = true;
             }

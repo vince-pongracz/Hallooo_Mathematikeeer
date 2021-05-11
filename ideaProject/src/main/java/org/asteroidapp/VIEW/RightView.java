@@ -284,7 +284,8 @@ public class RightView {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Asteroid Game - Information Dialog");
             alert.setHeaderText("You Win");
-            alert.setContentText("You collected all the needed resources to build a space base. Congratulations, you win. :)");
+            alert.setContentText("You collected all the needed resources to build a space base. \nCongratulations, you win. :)");
+            setDialogAndButtonStyle(alert);
             alert.showAndWait();
             System.exit(0);
         }

@@ -176,7 +176,7 @@ public class Asteroid extends SteppableSpaceObject implements Observable {
         }
 
         infoBuilder.append("\ncloseToSun: ").append(closeToSun);
-        infoBuilder.append("\nCore: ").append(core.getCoreInfo());
+        //infoBuilder.append("\nCore: ").append(core.getCoreInfo());
         ConsoleUI.getInstance().sendMessageToConsole(infoBuilder.toString());
         return infoBuilder.toString();
     }
