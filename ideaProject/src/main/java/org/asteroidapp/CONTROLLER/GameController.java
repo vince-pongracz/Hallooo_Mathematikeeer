@@ -16,6 +16,7 @@ import org.asteroidapp.util.GameState;
 import org.asteroidapp.util.InitMessage;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.asteroidapp.MODELL.EventType.DELETE;
 import static org.asteroidapp.MODELL.EventType.REFRESH;
@@ -53,7 +54,7 @@ public class GameController {
         log.log(Level.INFO, "\nDefault config set:\n{}", gsonBuilder.setPrettyPrinting().create().toJson(this));
 
         robots = new HashSet<>();
-        players = new ArrayList<>();
+        players = new CopyOnWriteArrayList<>();
         ufos = new HashSet<>();
 
         log.log(Level.TRACE, "robots has their collection");
