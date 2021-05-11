@@ -1,6 +1,11 @@
+/******************************
+*    MapView and RightView    *
+*******************************/
+
 .buttonRight {
-    -fx-font-family: VT323;
-    -fx-font-size: 22;
+    -fx-font-family: 'Zen Dots', cursive;
+    -fx-font-weight: 100;
+    -fx-font-size: 20;
     -fx-background-color: transparent;
     -fx-border-width: 500%;
     -fx-border-color: linear-gradient(from 15% 15% to 100% 100%, #12acba, #1852b4, #3b1d7b, #5C1780);
@@ -11,13 +16,68 @@
 }
 
 .labelRightFont {
-    -fx-font-family: VT323;
-    -fx-font-size: 22;
+    -fx-font-family: 'Zen Dots', cursive;
+    -fx-font-weight: 100;
+    -fx-font-size: 18;
     -fx-text-fill: white;
 }
 
 .buttonRight:hover {
-    -fx-background-color: #2e2e34;
+    -fx-background-color: #2c2c40;
     -fx-opacity: 1;
-    -fx-effect: dropshadow(three-pass-box , rgba(18, 99, 187, 0.8), 50, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box , rgba(18, 99, 187, 0.8), 40, 0, 0, 0);
+}
+
+.text-area {
+    -fx-font-family: 'Zen Dots', cursive;
+    -fx-font-weight: 100;
+    -fx-font-size: 15;
+    -fx-cursor: hand;
+}
+
+
+/*************************
+*     Dialog Styling     *
+**************************/
+
+.myDialog{
+    -fx-font-family: 'Zen Dots', cursive;
+    -fx-font-weight: 100;
+    -fx-font-size: 17;
+    -fx-background-color: #1b1b24;
+
+    -fx-text-fill: white;
+    -fx-color-label-visible: false;
+
+    -fx-border-width: 500%;
+    -fx-border-color: linear-gradient(from 15% 15% to 100% 100%, #12acba, #1852b4, #3b1d7b, #5C1780);
+}
+
+.myDialog > *.button-bar > *.container{
+    -fx-text-fill: white;
+}
+
+.myDialog > *.label.content{
+    -fx-text-fill: white;
+}
+
+.myDialog:header *.header-panel{ /* Ezeket a header-eket valszeg alahuzza pirossal, de csak az IDEA nem ismeri, amugy jol mukodik*/
+    -fx-text-fill: white;
+    -fx-background-color: #232331;
+}
+
+.myDialog:header *.header-panel *.label{
+    -fx-font-size: 19px;
+    -fx-font-style: italic;
+    -fx-text-fill: white;
+}
+
+.myDialog > .button-bar > .container > .details-button {
+    -fx-alignment: baseline-left;
+    -fx-focus-traversable: false;
+    -fx-padding: 0.416em; /* 5px */
+}
+
+.myDialog > .button-bar > .container > .details-button:hover {
+    -fx-underline: true;
 }

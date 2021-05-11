@@ -1,11 +1,17 @@
 package org.asteroidapp.VIEW.drawables;
 
+import javafx.animation.TranslateTransition;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import org.asteroidapp.MODELL.EventType;
 import org.asteroidapp.MODELL.interfaces.Observer;
 import org.asteroidapp.MODELL.spaceobjects.Position;
 import org.asteroidapp.VIEW.MapView;
+import org.asteroidapp.VIEW.RightView;
+
 import java.io.FileNotFoundException;
 
 /**
@@ -13,6 +19,7 @@ import java.io.FileNotFoundException;
  */
 public abstract class Drawable extends ImageView implements Observer {
     protected int prior;
+    protected Tooltip infoTip = new Tooltip("Default Drawable Tooltip");
 
     public int getPrior() {
         return prior;
@@ -20,18 +27,28 @@ public abstract class Drawable extends ImageView implements Observer {
 
     public ImageView updateGraphics() throws FileNotFoundException {
         this.setVisible(true);
+        Position old = new Position(this.getX(), this.getY());
 
         if (isVisible()) {
             this.setImage(getLocalImage());
-            this.relocate(getPosition().getX(), getPosition().getY());
             this.setX(getPosition().getX());
             this.setY(getPosition().getY());
+            this.refreshTooltip();
 
-            //this.setPreserveRatio(true);
+            if(prior == 2) {
+                this.setX(old.getX());
+                this.setY(old.getY());
+                TranslateTransition transition = new TranslateTransition(Duration.seconds(2), this);
+                Position v = new Position(getPosition().getX() - old.getX(), getPosition().getY() - old.getY());
+                /*transition.setFromX(old.getX()); //
+                transition.setFromY(old.getY());*/
+                transition.setToX(v.getX());
+                transition.setToY(v.getY());
+                transition.playFromStart();
+            }
 
-            return (ImageView) this;
-            //Setting the preserve ratio of the image view
-            //imageView.setPreserveRatio(true);     lehet kell példában volt
+
+            return this;
         } else {
             throw new FileNotFoundException("This GUI element is not allowed (not visible)");
         }
@@ -40,6 +57,8 @@ public abstract class Drawable extends ImageView implements Observer {
     protected abstract Position getPosition();
 
     protected abstract Image getLocalImage();
+
+    protected abstract void refreshTooltip();
 
     public abstract Image getRemoteImage();
 
@@ -60,7 +79,22 @@ public abstract class Drawable extends ImageView implements Observer {
                     MapView.getInstance().removeDrawable(this);
                 }
             }
-            case DELETE -> MapView.getInstance().removeDrawable(this);
+            case DELETE -> {
+                if(MapView.getInstance().removeDrawable(this)){
+                    reactToActionResponse();
+                }
+            }
         }
+    }
+
+
+    public void reactToActionResponse() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.isShowing();
+        alert.setTitle("Asteroid Game - Information Dialog");
+        alert.setHeaderText(getName() + "  died");
+        alert.setContentText("Settler died in a solarflair or explosion");
+        RightView.setDialogAndButtonStyle(alert);
+        alert.showAndWait();
     }
 }

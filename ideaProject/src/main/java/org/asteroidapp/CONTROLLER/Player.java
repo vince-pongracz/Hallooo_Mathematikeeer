@@ -31,9 +31,6 @@ public class Player {
         this.setName(name);
 
         log.log(Level.TRACE, "Player created with name: {}", this.name);
-
-        this.mySettlers = new CopyOnWriteArrayList<>();
-        log.log(Level.TRACE, "List created for settlers");
     }
 
     /**
@@ -62,7 +59,7 @@ public class Player {
     /**
      *
      */
-    private List<Settler> mySettlers = null;
+    private List<Settler> mySettlers = new CopyOnWriteArrayList<>();
 
     /**
      * @return
@@ -115,8 +112,7 @@ public class Player {
     private int actual = 0;
 
     public Settler getActualSettler(){
-        var returnedSettler = mySettlers.get(actual);
-        return returnedSettler;
+        return mySettlers.get(actual);
     }
 
     public void nextSettler(){

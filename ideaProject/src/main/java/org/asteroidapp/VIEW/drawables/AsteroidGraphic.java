@@ -12,7 +12,7 @@ public class AsteroidGraphic extends Drawable {
     public AsteroidGraphic(Asteroid asteroidObj) {
         prior = 1;
         asteroid = asteroidObj;
-        Tooltip.install(this, new Tooltip(asteroid.getInfo()));
+        refreshTooltip();
         MapView.getInstance().addDrawable(this);
     }
 
@@ -24,6 +24,13 @@ public class AsteroidGraphic extends Drawable {
     @Override
     protected Image getLocalImage() {
         return MapView.asteroidGif;
+    }
+
+    @Override
+    protected void refreshTooltip() {
+        Tooltip.uninstall(this,infoTip);
+        this.infoTip = new Tooltip(asteroid.getInfo());
+        Tooltip.install(this,infoTip);
     }
 
     @Override

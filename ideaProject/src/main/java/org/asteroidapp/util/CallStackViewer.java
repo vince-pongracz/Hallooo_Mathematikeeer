@@ -78,14 +78,10 @@ public class CallStackViewer {
      * @return String indentation
      */
     private String printIndentation() {
-        StringBuilder builder = new StringBuilder();
 
-        for (int i = 0; i < intendWith; i++) {
-            builder.append("    ");
-        }
         intendWith++;
 
-        return builder.toString();
+        return "    ".repeat(Math.max(0, intendWith));
     }
 
     /**

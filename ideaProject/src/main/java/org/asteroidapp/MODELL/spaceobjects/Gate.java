@@ -67,7 +67,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
     public void setMyAsteroid(Asteroid asteroid) {
         log.log(Level.TRACE, "Gate's setMyAsteroid called");
         this.currentAsteroid = asteroid;
-        this.position = asteroid.position;
+        this.position = new Position(40 + asteroid.position.getX(), 40 + asteroid.position.getY());
         this.signalizeUpdate(EventType.REFRESH);
     }
 
@@ -118,7 +118,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
 
     @Override
     public Asteroid getTarget() {
-        if (this.gatePair != null) {
+        if (isActive() && this.gatePair != null && this.gatePair.isActive()) {
             return this.gatePair.getCurrentAsteroid();
         } else {
             return this.getCurrentAsteroid();
@@ -142,7 +142,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
         while (target.getTarget() == this.getCurrentAsteroid());
 
         currentAsteroid.checkOut(this);
-        currentAsteroid = target.getTarget();
+        setMyAsteroid(target.getTarget());
         currentAsteroid.checkIn(this);
         this.signalizeUpdate(EventType.REFRESH);
     }
@@ -178,7 +178,7 @@ public class Gate extends SteppableSpaceObject implements MoveableObserver {
 
     @Override
     public void signalizeUpdate(EventType event) {
-        for (var obs: observers) {
+        for (var obs : observers) {
             obs.notify(event);
         }
     }

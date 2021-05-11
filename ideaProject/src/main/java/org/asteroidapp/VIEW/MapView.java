@@ -1,15 +1,16 @@
 package org.asteroidapp.VIEW;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import org.asteroidapp.CONTROLLER.GameController;
 import org.asteroidapp.VIEW.drawables.Drawable;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -40,15 +41,14 @@ public class MapView {
             robotPng = new Image(new FileInputStream("src/main/resources/images/Robot.png"));
             spaceshipGif = new Image(new FileInputStream("src/main/resources/images/Spaceship.gif"));
             sunGif = new Image(new FileInputStream("src/main/resources/images/Sun.gif"));
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    ImageView imBackground = new ImageView(backgroundImage);
-    List<Drawable> drawables = new ArrayList<>();
-    Pane pane = new Pane();
+    private static List<Drawable> drawables = new ArrayList<>();
+    private ImageView imBackground = new ImageView(backgroundImage);
+    private Pane pane = new Pane();
 
     private static MapView instance = null;
 
@@ -64,25 +64,32 @@ public class MapView {
         return instance;
     }
 
-    public void addDrawable(Drawable newDrawable) {
+    public void addDrawable(Drawable newDrawable)  {
         drawables.add(newDrawable);
         refreshMap();
     }
 
-    public void removeDrawable(Drawable removeDrawable) {
-        for (int i = 0; i < drawables.size(); i++) {
-            if (drawables.get(i).getName().equals(removeDrawable.getName())) {
-                drawables.remove(i);
-            }
-        }
+    public boolean removeDrawable(Drawable removeDrawable) {
+        var removed = drawables.remove(removeDrawable);
         refreshMap();
+        return removed;
     }
 
 
     public void refreshMap() {
         //TODO refactor
 
-        Collections.sort(drawables, new Comparator<Drawable>() {
+        if(GameController.getPlayerNUm() == 0){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Asteroid Game - Information Dialog");
+            alert.setHeaderText("Game Over");
+            alert.setContentText("You lost because there is no player who has any settler alive.");
+            RightView.setDialogAndButtonStyle(alert);
+            alert.showAndWait();
+            System.exit(0);
+        }
+
+        drawables.sort(new Comparator<>() {
             @Override
             public int compare(Drawable d1, Drawable d2) {
                 if (d1.getPrior() < d2.getPrior())
@@ -97,8 +104,7 @@ public class MapView {
         Tooltip.install(imBackground, new Tooltip("Zone"));
 
         pane.getChildren().clear();
-        pane.setLayoutX(0);
-        pane.setLayoutY(0);
+
         pane.getChildren().add(imBackground);
         for (var item : drawables) {
             try {

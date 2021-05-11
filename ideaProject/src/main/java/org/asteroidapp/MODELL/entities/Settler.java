@@ -55,10 +55,10 @@ public class Settler extends Entity implements Drill, Mine {
         resources.setAllCapacity(settlerCapacity);
 
         //Fot the testing the create bot and portal functions
-        resources.pushMore(2, new Coal());
-        resources.pushMore(2, new Uran());
-        resources.pushMore(2, new FrozenWater());
-        resources.pushMore(3, new Iron());
+        resources.pushMore(1, new Coal());
+        resources.pushMore(1, new Uran());
+        resources.pushMore(1, new FrozenWater());
+        resources.pushMore(1, new Iron());
 
         this.checkIn(new SettlerGraphic(this));
 
@@ -76,19 +76,23 @@ public class Settler extends Entity implements Drill, Mine {
         log.log(Level.INFO, "Settler tried to drill an object");
 
         int oldThickness = onAsteroid.getLayerThickness();
+
         onAsteroid.drillLayer();
         boolean ret = false;
 
-        if (oldThickness > 1) {
+        if (oldThickness >= 1) {
             log.log(Level.INFO, "Drill was successful");
+            GameController.response.setMessage("Drilled!");
             ret = true;
-        } else if (oldThickness == 0) {
+        } else if (onAsteroid.getLayerThickness() == 0) {
             log.log(Level.INFO, "SpaceObject is already drilled: mineable");
-            ret = true;
+            GameController.response.setMessage("Already drilled through!");
+            ret = false;
         } else {
             log.log(Level.INFO, "Drill was not successful");
             ret = false;
         }
+        this.signalizeUpdate(EventType.REFRESH);
 
         CallStackViewer.getInstance().methodReturns();
         return ret;
@@ -129,13 +133,17 @@ public class Settler extends Entity implements Drill, Mine {
 
         boolean settlerIsFarFromSun = onAsteroid.getPosition().distanceFrom(AsteroidZone.getInstance().getSun().getPosition()) >= AsteroidZone.defOfCloseToSun;
 
-        //TODO refactor: one Asteroid can hide just one entity..
-        if (onAsteroid.getLayerThickness() == 0 && onAsteroid.mineResource().equals(new Empty()) || settlerIsFarFromSun) {
+        var tmpRes = onAsteroid.mineResource();
+        onAsteroid.addResourceToCore(tmpRes);
+        if (onAsteroid.getLayerThickness() == 0 && tmpRes.equals(new Empty())
+                || settlerIsFarFromSun
+                || this.onAsteroid.equals(AsteroidZone.getInstance().findHome())) {
             log.log(Level.INFO, "You were hidden in an asteroid during the sunflair or you were far away from the sun, so you survived");
         } else {
             log.log(Level.INFO, "You were not hidden in an asteroid during the sunflair so you died");
             die();
         }
+
 
         CallStackViewer.getInstance().methodReturns();
     }
@@ -221,18 +229,21 @@ public class Settler extends Entity implements Drill, Mine {
 
         //mining is successful
         if (res != null) {
-            if (!res.equals(new Empty())) {
-                this.resources.pushResource(res);
+            //push res when: res is not Empty AND settler has enough place to take it.
+            if (!res.equals(new Empty()) && this.resources.pushResource(res)) {
                 log.log(Level.INFO, "Settler mined a(n) {}", res.getName());
+                GameController.response.setMessage(res.getName() + " mined");
                 mineSuccess = true;
             } else {
-                //but can't mine "Empty", so it will be denied
-                log.log(Level.INFO, "Settler could not mine a resource because it is empty");
+                //when res is Empty or storage is full
+                log.log(Level.INFO, "Settler could not mine a resource because it is empty, or storage is full");
+                onAsteroid.addResourceToCore(res);
                 mineSuccess = false;
             }
         } else {
             //unsuccessful mining
             log.log(Level.INFO, "Settler could not mine a resource because the layer is not drilled trough");
+            onAsteroid.addResourceToCore(res);
             mineSuccess = false;
         }
 
@@ -287,22 +298,25 @@ public class Settler extends Entity implements Drill, Mine {
         log.log(Level.INFO, "DeployResource called");
         CallStackViewer.getInstance().methodStartsLogCall("deployResource() called (Settler)");
 
-        var resourceIterator = resources.getResourceList().iterator();
-        while (resourceIterator.hasNext()) {
-            var tmp = resourceIterator.next();
+        boolean deploySuccess = false;
+        for (Resource tmp : resources.getResourceList()) {
             if (tmp.getName().equals(resource)) {
-                if (onAsteroid.addResourceToCore(resources.popResource(tmp))) {
+                deploySuccess = onAsteroid.addResourceToCore(resources.popResource(tmp));
+                if (deploySuccess) {
                     log.log(Level.INFO, "The selected resource can be chosen");
                     tmp.isRadioActive(onAsteroid.getPosition());
-                    return true;
+                    break;
+                } else {
+                    resources.pushResource(tmp);
+                    deploySuccess = false;
+                    continue;
                 }
-                //TODO optimalize
             }
         }
         log.log(Level.INFO, "The selected resource can not be chosen");
         CallStackViewer.getInstance().methodReturns();
         this.signalizeUpdate(EventType.REFRESH);
-        return false;
+        return deploySuccess;
     }
 
     /**
@@ -360,7 +374,7 @@ public class Settler extends Entity implements Drill, Mine {
         }
     }
 
-    public int getGateNum(){
+    public int getGateNum() {
         return createdGates.size();
     }
 }

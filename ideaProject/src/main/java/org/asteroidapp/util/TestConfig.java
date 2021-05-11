@@ -105,7 +105,7 @@ public class TestConfig {
         ConsoleUI.getInstance().sendMessageToConsole("EVAL TEST : " + testname);
         ConsoleUI.getInstance().sendMessageToConsole("---------------------------------------");
 
-        enableCompare = (expectedOut.length > 0) ? true : false;
+        enableCompare = expectedOut.length > 0;
         boolean checkExpectedV = checkExpected();
 
         if (enableCompare && checkExpectedV) {

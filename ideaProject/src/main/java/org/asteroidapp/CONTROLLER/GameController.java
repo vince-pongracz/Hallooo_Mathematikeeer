@@ -12,6 +12,7 @@ import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.MODELL.spaceobjects.Sun;
 import org.asteroidapp.util.ActionResponse;
 import org.asteroidapp.util.CallStackViewer;
+import org.asteroidapp.util.GameState;
 import org.asteroidapp.util.InitMessage;
 
 import java.util.*;
@@ -30,6 +31,8 @@ public class GameController {
     private static final Logger log = LogManager.getLogger(GameController.class.getSimpleName());
 
     public static ActionResponse response = null;
+
+    public static boolean playerHasWon = false;
 
     /**
      * Default constructor
@@ -104,12 +107,16 @@ public class GameController {
     /**
      * collection for players
      */
-    private transient List<Player> players;
+    private static transient List<Player> players;
 
     /**
      * collection for ufos
      */
     private transient Set<Ufo> ufos;
+
+    public static int getPlayerNUm(){
+        return players.size();
+    }
 
     private void createUfos() {
         for (int i = 0; i < ufosNum; i++) {
@@ -211,6 +218,7 @@ public class GameController {
         AsteroidZone.numOfAsteroids = initConfig.getAsteroidNum();
         AsteroidZone.defOfCloseToSun = initConfig.getDefOfCloseToSun();
         AsteroidZone.getInstance().createZone();
+        Sun.sunFlairInEveryXRound = initConfig.getSunFlairInEveryXRound();
 
         //create and place settlers and ufos on the Zone
         GameController.getInstance().dropSettlers();
@@ -373,7 +381,7 @@ public class GameController {
 
             if (win) {
                 log.log(Level.INFO, "Players win");
-                //TODO send response;
+                playerHasWon = win;
             }
         }
 
@@ -424,7 +432,7 @@ public class GameController {
     public boolean removeAutoEntity(AIRobot bot) {
         log.log(Level.TRACE, "removeBot called");
 
-        Boolean retValue = false;
+        boolean retValue = false;
         if (bot != null) {
             retValue = robots.remove(bot);
             bot.signalizeUpdate(DELETE);
@@ -432,7 +440,7 @@ public class GameController {
             retValue = false;
         }
 
-        log.log(Level.TRACE, "bot removed: {}", retValue.toString());
+        log.log(Level.TRACE, "bot removed: {}", Boolean.toString(retValue));
 
         return retValue;
     }
@@ -486,17 +494,12 @@ public class GameController {
             currentRound++;
 
             if (getRound() > maxRound) {
-                endGame();
+                GameController.response.setGameState(GameState.LOSE);
             }
         }
     }
 
     public Player getActualPlayer() {
         return players.get(actual);
-    }
-
-    //TODO endgame, add message to response...
-    private void endGame() {
-
     }
 }

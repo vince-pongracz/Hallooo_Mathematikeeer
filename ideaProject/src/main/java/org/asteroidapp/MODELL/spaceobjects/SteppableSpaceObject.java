@@ -49,7 +49,7 @@ public abstract class SteppableSpaceObject implements Observable {
     /**
      * set of entities
      */
-    protected Set<Observer> observers = new HashSet<>();;
+    protected Set<Observer> observers = new HashSet<>();
 
     /**
      * SpaceObject's position
@@ -90,8 +90,8 @@ public abstract class SteppableSpaceObject implements Observable {
         CallStackViewer.getInstance().methodStartsLogCall("checkOut() called");
 
         if (leavingObserver != null) {
-            Boolean temp = observers.remove(leavingObserver);
-            log.log(Level.TRACE, "Entity removed: {}", temp.toString());
+            boolean temp = observers.remove(leavingObserver);
+            log.log(Level.TRACE, "Entity removed: {}", Boolean.toString(temp));
         } else {
             //NOP
         }
@@ -109,8 +109,8 @@ public abstract class SteppableSpaceObject implements Observable {
         CallStackViewer.getInstance().methodStartsLogCall("checkIn() called");
 
         if (newObserver != null) {
-            Boolean temp = observers.add(newObserver);
-            log.log(Level.TRACE, "Entity added: {}", temp.toString());
+            boolean temp = observers.add(newObserver);
+            log.log(Level.TRACE, "Entity added: {}", Boolean.toString(temp));
             newObserver.notify(EventType.REFRESH);
         } else {
             //NOP

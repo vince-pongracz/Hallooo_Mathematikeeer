@@ -3,8 +3,7 @@ package org.asteroidapp.MODELL.spaceobjects.asteroid;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asteroidapp.MODELL.resources.Resource;
-import org.asteroidapp.MODELL.resources.ResourceStorage;
+import org.asteroidapp.MODELL.resources.*;
 import org.asteroidapp.util.CallStackViewer;
 
 
@@ -70,9 +69,30 @@ public class Core {
     }
 
     public String getCoreInfo() {
-        var res = resources.popRandomResource();
-        resources.pushResource(res);
-        return res.getName();
+        var irons = this.resources.countOf(new Iron());
+        var coals = this.resources.countOf(new Coal());
+        var urans = this.resources.countOf(new Uran());
+        var frozens = this.resources.countOf(new FrozenWater());
+
+        StringBuilder coreInfoBuilder = new StringBuilder();
+
+        if (irons > 0) {
+            coreInfoBuilder.append("\n").append("Iron: ").append(irons);
+        }
+        if (coals > 0) {
+            coreInfoBuilder.append("\n").append("Coal: ").append(coals);
+        }
+        if (urans > 0) {
+            coreInfoBuilder.append("\n").append("Uran: ").append(urans);
+        }
+        if (frozens > 0) {
+            coreInfoBuilder.append("\n").append("FrozenW: ").append(frozens);
+        }
+        if (frozens == 0 && urans == 0 && coals == 0 && irons == 0) {
+            coreInfoBuilder.append("\nEmpty core");
+        }
+
+        return coreInfoBuilder.toString();
     }
 
 }

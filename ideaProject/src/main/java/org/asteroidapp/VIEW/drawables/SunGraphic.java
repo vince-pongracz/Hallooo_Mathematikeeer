@@ -12,7 +12,7 @@ public class SunGraphic extends Drawable {
     public SunGraphic(Sun sunObj) {
         prior = 0;
         sun = sunObj;
-        Tooltip.install(this,new Tooltip(getName()));
+        refreshTooltip();
         MapView.getInstance().addDrawable(this);
     }
 
@@ -24,6 +24,13 @@ public class SunGraphic extends Drawable {
     @Override
     protected Image getLocalImage() {
         return MapView.sunGif;
+    }
+
+    @Override
+    protected void refreshTooltip() {
+        Tooltip.uninstall(this,infoTip);
+        this.infoTip = new Tooltip(sun.getName());
+        Tooltip.install(this,infoTip);
     }
 
     @Override
