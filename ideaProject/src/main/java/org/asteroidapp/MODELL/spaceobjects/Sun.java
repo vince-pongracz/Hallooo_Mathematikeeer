@@ -77,18 +77,8 @@ public class Sun implements Observable {
             var settlerIterator = playerOn.getIterOnMySettlers();
 
             while (settlerIterator.hasNext()) {
-
                 var settlerItem = settlerIterator.next();
                 settlerItem.notify(EventType.FLAIREVENT);
-            }
-
-            //if playerOn has empty collection
-            //-> returns an emptyIterator, which has not next element
-            //-> hasNext() returns 'false'
-            if (!playerOn.getIterOnMySettlers().hasNext()) {
-                //if player has no settlers -> the player must die
-                //so kill him/her
-                playerOn.killPlayer();
             }
         }
 

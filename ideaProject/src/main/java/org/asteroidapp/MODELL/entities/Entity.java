@@ -35,6 +35,7 @@ public abstract class Entity implements MoveableObserver, Observable {
         this.name = name;
         onAsteroid = droppingPlace.getTarget();
         onAsteroid.checkIn(this);
+        AsteroidZone.getInstance().getSun().checkIn(this);
     }
 
     /**
