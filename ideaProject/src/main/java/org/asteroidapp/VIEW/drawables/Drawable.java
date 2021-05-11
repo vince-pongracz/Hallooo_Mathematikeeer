@@ -47,7 +47,6 @@ public abstract class Drawable extends ImageView implements Observer {
                 transition.playFromStart();
             }
 
-
             return this;
         } else {
             throw new FileNotFoundException("This GUI element is not allowed (not visible)");
